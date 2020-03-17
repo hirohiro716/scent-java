@@ -1,0 +1,273 @@
+package com.hirohiro716.filesystem;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import com.hirohiro716.StringObject;
+
+/**
+ * ファイルシステム上のファイルクラス。
+ * 
+ * @author hiro
+ *
+ */
+public class File extends FilesystemItem {
+
+    /**
+     * コンストラクタ。<br>
+     * 指定されたjava.io.Fileから新しいインスタンスを作成する。
+     * 
+     * @param file
+     */
+    public File(java.io.File file) {
+        super(file);
+        if (this.toJavaIoFile().exists() && this.isFile() == false) {
+            throw new IllegalArgumentException("Argument must be file:" + this.getPath());
+        }
+    }
+
+    /**
+     * コンストラクタ。<br>
+     * 指定されたパスで新しいインスタンスを作成する。
+     * 
+     * @param location
+     */
+    public File(String location) {
+        this(new java.io.File(location));
+    }
+
+    /**
+     * コンストラクタ。<br>
+     * 指定されたファイルのURIで新しいインスタンスを作成する。
+     * 
+     * @param uri
+     */
+    public File(URI uri) {
+        this(new java.io.File(uri));
+    }
+    
+    @Override
+    public boolean isExist() {
+        return this.toJavaIoFile().exists() && this.isFile();
+    }
+
+    @Override
+    public void create() throws IOException {
+        Files.createFile(this.toJavaIoFile().toPath());
+    }
+
+    @Override
+    public void delete() throws IOException {
+        Files.delete(this.toJavaIoFile().toPath());
+    }
+
+    @Override
+    public void move(String moveTo) throws IOException {
+        Files.move(this.toJavaIoFile().toPath(), Paths.get(moveTo));
+    }
+
+    @Override
+    public void copy(String copyTo) throws IOException {
+        Files.copy(this.toJavaIoFile().toPath(), Paths.get(copyTo));
+    }
+    
+    /**
+     * このファイルの内容を指定されたcharsetを使用して読み込む。
+     * 
+     * @param readCharacterCallback 読み込んだファイルの一文字を処理するコールバック。
+     * @param charsetName 
+     * @throws IOException
+     */
+    public void read(ReadCharacterCallback readCharacterCallback, String charsetName) throws IOException {
+        Charset charset = Charset.defaultCharset();
+        try {
+            if (charsetName != null && charsetName.length() > 0) {
+                charset = Charset.forName(charsetName);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        try (FileInputStream stream = new FileInputStream(this.toJavaIoFile())) {
+            try (InputStreamReader streamReader = new InputStreamReader(stream, charset)) {
+                try (BufferedReader bufferedReader = new BufferedReader(streamReader)) {
+                    int character = bufferedReader.read();
+                    while (character > -1) {
+                        readCharacterCallback.call((char) character, bufferedReader);
+                        character = bufferedReader.read();
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * このファイルの内容をデフォルトのcharsetを使用して読み込む。
+     * 
+     * @param readCharacterCallback 読み込んだファイルの一文字を処理するコールバック。
+     * @throws IOException
+     */
+    public void read(ReadCharacterCallback readCharacterCallback) throws IOException {
+        this.read(readCharacterCallback, null);
+    }
+    
+    /**
+     * 読み込んだファイルの一文字を処理するコールバック。
+     * 
+     * @author hiro
+     *
+     */
+    public interface ReadCharacterCallback {
+        
+        /**
+         * ファイルの一文字を読み込んだ際に呼び出される。
+         * 
+         * @param character
+         * @param bufferedReader 読み込みに使用しているBufferedReaderインスタンス。
+         * @throws IOException 
+         */
+        public abstract void call(char character, BufferedReader bufferedReader) throws IOException;
+    }
+    
+    /**
+     * このファイルの内容を指定されたcharsetを使用して読み込む。
+     * 
+     * @param readLineCallback 読み込んだ一行を処理するコールバック。
+     * @param charsetName 
+     * @throws IOException
+     */
+    public void read(ReadLineCallback readLineCallback, String charsetName) throws IOException {
+        Charset charset = Charset.defaultCharset();
+        try {
+            if (charsetName != null && charsetName.length() > 0) {
+                charset = Charset.forName(charsetName);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        try (FileInputStream stream = new FileInputStream(this.toJavaIoFile())) {
+            try (InputStreamReader streamReader = new InputStreamReader(stream, charset)) {
+                try (BufferedReader bufferedReader = new BufferedReader(streamReader)) {
+                    String line = bufferedReader.readLine();
+                    while (line != null) {
+                        readLineCallback.call(line, bufferedReader);
+                        line = bufferedReader.readLine();
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * このファイルの内容をデフォルトのcharsetを使用して読み込む。
+     * 
+     * @param readLineCallback 読み込んだ一行を処理するコールバック。
+     * @throws IOException
+     */
+    public void read(ReadLineCallback readLineCallback) throws IOException {
+        this.read(readLineCallback, null);
+    }
+    
+    /**
+     * 読み込んだファイルの一行を処理するコールバック。
+     * 
+     * @author hiro
+     *
+     */
+    public interface ReadLineCallback {
+        
+        /**
+         * ファイルの一行を読み込んだ際に呼び出される。
+         * 
+         * @param line
+         * @param bufferedReader 読み込みに使用しているBufferedReaderインスタンス。
+         * @throws IOException 
+         */
+        public abstract void call(String line, BufferedReader bufferedReader) throws IOException;
+    }
+    
+    /**
+     * このファイルに指定されたcharsetを使用して文字列を書き込む。既存の内容は上書きされる。
+     * 
+     * @param writeCallback 書き込み処理するコールバック。
+     * @param charsetName 
+     * @throws IOException
+     */
+    public void write(WriteCallback writeCallback, String charsetName) throws IOException {
+        Charset charset = Charset.defaultCharset();
+        try {
+            if (charsetName != null && charsetName.length() > 0) {
+                charset = Charset.forName(charsetName);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        try (FileOutputStream stream = new FileOutputStream(this.toJavaIoFile())) {
+            try (OutputStreamWriter writer = new OutputStreamWriter(stream, charset)) {
+                writeCallback.call(writer);
+            }
+        }
+    }
+
+    /**
+     * このファイルに指定されたcharsetを使用して文字列を書き込む。既存の内容は上書きされる。
+     * 
+     * @param writeCallback 書き込み処理するコールバック。
+     * @throws IOException
+     */
+    public void write(WriteCallback writeCallback) throws IOException {
+        this.write(writeCallback, null);
+    }
+    
+    /**
+     * 書き込み処理するコールバック。
+     * 
+     * @author hiro
+     *
+     */
+    public static interface WriteCallback {
+        
+        /**
+         * ファイルに文字列を書き込む際に呼び出される。
+         * 
+         * @param writer 書き込み対象のOutputStreamWriter。
+         * @throws IOException
+         */
+        public abstract void call(OutputStreamWriter writer) throws IOException;
+    }
+    
+    /**
+     * 指定されたクラスのクラスファイルを取得する。<br>
+     * もしクラスファイルがjarファイルに含まれる場合はjarファイルを取得する。
+     * 
+     * @param clazz
+     * @return クラスファイル(*.class *.jar)
+     * @throws URISyntaxException
+     */
+    public static File findClassFile(Class<?> clazz) throws URISyntaxException {
+        StringObject path = new StringObject();
+        StringObject classURL = new StringObject(clazz.getResource(clazz.getSimpleName() + ".class").toExternalForm());
+        classURL.replace("jar:", "");
+        for (String part: classURL.split(FilesystemItem.getFileSeparator())) {
+            if (path.length() > 0) {
+                path.append(FilesystemItem.getFileSeparator());
+            }
+            if (path.length() > 0 || part.equals("file:")) {
+                if (part.endsWith("!")) {
+                    path.append(part.substring(0, part.length() - 1));
+                    break;
+                }
+                path.append(part);
+            }
+        }
+        return new File(new URI(path.toString()));
+    }
+}

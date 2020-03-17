@@ -1,0 +1,275 @@
+package com.hirohiro716.database;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import com.hirohiro716.DynamicArray;
+import com.hirohiro716.StringObject;
+
+/**
+ * データベースのレコードとオブジェクトをマップするための抽象クラス。
+ * 
+ * @author hiro
+ * 
+ * @param <C> カラムの型。
+ */
+public abstract class RecordMapper<C extends ColumnInterface> {
+    
+    /**
+     * コンストラクタ。
+     * 
+     * @param database
+     */
+    public RecordMapper(Database database) {
+        this.database = database;
+    }
+    
+    private Database database;
+    
+    /**
+     * コンストラクタで指定したDatabaseインスタンスを取得する。
+     * 
+     * @return 結果。
+     */
+    public Database getDatabase() {
+        return this.database;
+    }
+    
+    /**
+     * レコードが保存されているテーブルを取得する。
+     * 
+     * @param <T>
+     * @return 結果。
+     */
+    public abstract <T extends TableInterface> T getTable();
+    
+    /**
+     * レコードが保存されているテーブルを取得する。
+     * 
+     * @param <M>
+     * @param <D>
+     * @param recordMapperClass
+     * @param databaseClass
+     * @return 結果。
+     */
+    public static <M extends RecordMapper<?>, D extends Database> TableInterface getTable(Class<M> recordMapperClass, Class<D> databaseClass) {
+        try {
+            Database database = null;
+            M instance = recordMapperClass.getConstructor(databaseClass).newInstance(database);
+            return instance.getTable();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    
+    /**
+     * レコードに含まれるすべてのカラムを取得する。
+     * 
+     * @return 結果。
+     */
+    public C[] getColumns() {
+        return this.getTable().getColumns();
+    }
+    
+    /**
+     * 初期値が入力されたレコードの配列を作成する。
+     * 
+     * @return 結果。
+     */
+    public DynamicArray<C> createDefaultRecord() {
+        DynamicArray<C> record = new DynamicArray<>();
+        for (C column: this.getColumns()) {
+            record.put(column, column.getDefaultValue());
+        }
+        return record;
+    }
+    
+    private WhereSet whereSet = null;
+    
+    /**
+     * マップするレコードを特定するための検索条件を取得する。
+     * 
+     * @return WhereSet
+     */
+    public WhereSet getWhereSet() {
+        return this.whereSet;
+    }
+    
+    /**
+     * マップするレコードを特定するための検索条件をセットする。
+     * 
+     * @param whereSet
+     */
+    public void setWhereSet(WhereSet whereSet) {
+        this.whereSet = whereSet;
+    }
+    
+    private List<DynamicArray<C>> editingRecords = new ArrayList<>();
+    
+    /**
+     * このインスタンスにマップされているレコードを取得する。
+     * 
+     * @return 結果。
+     */
+    @SuppressWarnings("unchecked")
+    public DynamicArray<C>[] getRecords() {
+        return this.editingRecords.toArray(new DynamicArray[] {});
+    }
+    
+    /**
+     * このインスタンスにマップされているレコードに、指定されたレコードを追加する。
+     * 
+     * @param record
+     */
+    public void addRecord(DynamicArray<C> record) {
+        this.editingRecords.add(record);
+    }
+    
+    /**
+     * このインスタンスにマップされているレコードを、指定されたレコードに置き換える。
+     * 
+     * @param records
+     */
+    public void setRecords(Collection<DynamicArray<C>> records) {
+        this.editingRecords.clear();
+        this.editingRecords.addAll(records);
+    }
+    
+    /**
+     * このインスタンスにマップされているレコードを、指定されたレコードに置き換える。
+     * 
+     * @param records
+     */
+    public void setRecords(DynamicArray<C>[] records) {
+        this.editingRecords.clear();
+        DynamicArray<Integer> arrayRecords = new DynamicArray<>(records);
+        this.setRecords(arrayRecords.getValues());
+    }
+    
+    /**
+     * このインスタンスにマップされているレコードから、指定されたレコードを削除する。
+     * 
+     * @param record
+     */
+    public void removeRecord(DynamicArray<C> record) {
+        this.editingRecords.remove(record);
+    }
+    
+    /**
+     * このインスタンスにマップされているレコードをクリアする。
+     */
+    public void clearRecords() {
+        this.editingRecords.clear();
+    }
+
+    /**
+     * マップするレコードの並び順を定義する、カラム文字列の配列を取得する。<br>
+     * このメソッドを呼び出すと、次のような値と同じ形式の配列を返す。<br>
+     * new String[] {"column_name1", "column_name2 ASC", "column_name3 DESC"}
+     * 
+     * @return 結果。
+     */
+    protected abstract String[] getOrderByColumnsForEdit();
+    
+    /**
+     * マップするレコードを排他制御を行ってから連想配列で取得する。
+     * 
+     * @param orderByColumnsForEdit "column_name1 ASC" や "column_name2 DESC" などのレコードの並び順を定義するカラム文字列の配列。またはnull。
+     * @return 結果。
+     * @throws SQLException
+     */
+    protected abstract DynamicArray<String>[] fetchRecordsForEdit(String[] orderByColumnsForEdit) throws SQLException;
+    
+    /**
+     * データベースからレコードを、排他制御を行ってから、このインスタンスにマップする。
+     * 
+     * @throws SQLException
+     */
+    public void edit() throws SQLException {
+        List<DynamicArray<C>> records = new ArrayList<>();
+        for (DynamicArray<String> fetchedRecord : this.fetchRecordsForEdit(this.getOrderByColumnsForEdit())) {
+            DynamicArray<C> record = new DynamicArray<>();
+            for (String key : fetchedRecord.getKeys()) {
+                C column = this.getTable().find(key);
+                if (column != null) {
+                    record.put(column, fetchedRecord.get(key));
+                }
+            }
+            records.add(record);
+        }
+        this.setRecords(records);
+    }
+    
+    /**
+     * 編集、削除するレコードを特定するための検索条件が未指定の場合でも、更新を許可している場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public abstract boolean isPermittedUpdateWhenEmptySearchCondition();
+    
+    /**
+     * データベースのレコードを、このインスタンスにマップされている連想配列の内容に置き換える。
+     * 
+     * @throws SQLException
+     */
+    public void update() throws SQLException {
+        StringObject sql = new StringObject("DELETE FROM ");
+        sql.append(this.getTable().getPhysicalName());
+        if (this.getWhereSet() == null) {
+            if (this.isPermittedUpdateWhenEmptySearchCondition() == false) {
+                throw new SQLException("Search condition for updating has not been specified.");
+            }
+            sql.append(";");
+            this.getDatabase().execute(sql.toString());
+        } else {
+            sql.append(" WHERE ");
+            sql.append(this.getWhereSet().buildPlaceholderClause());
+            sql.append(";");
+            this.getDatabase().execute(sql.toString(), this.getWhereSet().buildParameters());
+        }
+        for (DynamicArray<C> record : this.getRecords()) {
+            this.getDatabase().insert(record, this.getTable());
+        }
+    }
+    
+    /**
+     * マップ対象を特定するための検索条件に該当するレコードが、データベースに存在する場合はtrueを返す。
+     * 
+     * @return 結果。
+     * @throws SQLException
+     */
+    public boolean isExist() throws SQLException {
+        StringObject sql = new StringObject("SELECT COUNT(*) FROM ");
+        sql.append(this.getTable().getPhysicalName());
+        sql.append(" WHERE ");
+        sql.append(this.getWhereSet().buildPlaceholderClause());
+        sql.append(";");
+        try {
+            int numberOfRecord = this.getDatabase().fetchField(sql.toString(), this.getWhereSet().buildParameters());
+            if (numberOfRecord > 0) {
+                return true;
+            }
+        } catch (Exception exception) {
+            throw new SQLException(exception);
+        }
+        return false;
+    }
+    
+    /**
+     * マップされているレコードが有効か検証する。
+     * 
+     * @throws ValidationException
+     * @throws Exception
+     */
+    public abstract void validate() throws ValidationException, Exception;
+    
+    /**
+     * マップされているレコードの値を標準化する。
+     * 
+     * @throws Exception
+     */
+    public abstract void normalize() throws Exception;
+}
