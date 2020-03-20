@@ -6,6 +6,7 @@ import javax.xml.transform.TransformerException;
 
 import com.hirohiro716.DynamicArray;
 import com.hirohiro716.property.PropertyInterface;
+import com.hirohiro716.property.ValidationException;
 
 /**
  * XMLとオブジェクトをマップするための抽象クラス。

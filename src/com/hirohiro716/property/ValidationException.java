@@ -15,7 +15,7 @@ import com.hirohiro716.StringObject;
 @SuppressWarnings("serial")
 public class ValidationException extends Exception {
     
-    private final static String MESSAGE = "値の検証に失敗しました。";
+    private final static String MESSAGE = "プロパティの検証に失敗しました。";
 
     /**
      * 初期の例外メッセージを持つ新規例外を構築する。
@@ -52,6 +52,15 @@ public class ValidationException extends Exception {
      */
     public PropertyInterface[] getCauseProperties() {
         return this.errorMessages.keySet().toArray(new PropertyInterface[] {});
+    }
+    
+    /**
+     * 検証に失敗した原因の数を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getNumberOfCauseProperties() {
+        return this.errorMessages.size();
     }
     
     @Override
