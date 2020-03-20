@@ -96,7 +96,11 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
      */
     public void write(String encoding) throws IOException, TransformerException  {
         for (P property : this.getValues().getKeys()) {
-            this.propertyXML.entry(property, this.getValues().getString(property));
+            Object value = this.getValues().get(property);
+            if (value == null) {
+                value = "";
+            }
+            this.propertyXML.entry(property, value.toString());
         }
         this.propertyXML.write(encoding);
     }
