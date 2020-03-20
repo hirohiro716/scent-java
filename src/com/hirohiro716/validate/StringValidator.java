@@ -169,12 +169,12 @@ public class StringValidator {
                 }
                 break;
             case INTEGER:
-                if (value.toString().matches("(\\-|)[0-9]{1,}") == false) {
+                if (value.length() > 0 && value.toString().matches("(\\-|)[0-9]{1,}") == false) {
                     throw createValidationException(pattern);
                 }
                 break;
             case DECIMAL:
-                if (value.toDouble() == null) {
+                if (value.length() > 0 && value.toDouble() == null) {
                     throw createValidationException(pattern);
                 }
                 break;
