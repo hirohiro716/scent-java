@@ -70,6 +70,15 @@ public class ValidationException extends Exception {
     public ColumnInterface[] getCauseColumns() {
         return this.errorMessages.keySet().toArray(new ColumnInterface[] {});
     }
+
+    /**
+     * 検証に失敗した原因の数を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getNumberOfCauseColumns() {
+        return this.errorMessages.size();
+    }
     
     @Override
     public String getMessage() {
