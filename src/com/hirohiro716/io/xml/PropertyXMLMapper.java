@@ -20,10 +20,10 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
     /**
      * コンストラクタ。
      * 
-     * @param propertyXML
+     * @throws IOException 
      */
-    public PropertyXMLMapper(PropertyXML propertyXML) {
-        this.propertyXML = propertyXML;
+    public PropertyXMLMapper() throws IOException {
+        this.propertyXML = this.createPropertyXML();
         this.propertyValues = new DynamicArray<>();
         for (P property : this.getProperties()) {
             String value = this.propertyXML.get(property);
@@ -34,6 +34,14 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
             }
         }
     }
+    
+    /**
+     * このインスタンスにマップするXMLを作成する。
+     * 
+     * @return 結果。
+     * @throws IOException 
+     */
+    protected abstract PropertyXML createPropertyXML() throws IOException;
     
     private PropertyXML propertyXML;
     
