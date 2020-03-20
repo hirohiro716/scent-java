@@ -104,7 +104,7 @@ public class Encrypter {
      * 暗号化されたbyte配列を復号化する。
      * 
      * @param encrypted
-     * @param iv 暗号化する際に使用された初期ベクトル。
+     * @param iv 暗号化する際に使用された初期ベクトル。nullを指定可能。
      * @return 結果。
      * @throws InvalidKeyException
      * @throws InvalidAlgorithmParameterException
