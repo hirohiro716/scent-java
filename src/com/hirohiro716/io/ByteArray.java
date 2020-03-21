@@ -59,6 +59,17 @@ public class ByteArray {
             this.bytes = stream.readAllBytes();
         }
     }
+
+    /**
+     * コンストラクタ。<br>
+     * ファイルをbyte配列として読み込む。
+     * 
+     * @param file
+     * @throws IOException
+     */
+    public ByteArray(com.hirohiro716.filesystem.File file) throws IOException {
+        this(file.toJavaIoFile());
+    }
     
     /**
      * コンストラクタ。<br>
