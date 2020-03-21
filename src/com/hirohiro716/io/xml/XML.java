@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,15 +63,25 @@ public class XML {
         return this.root;
     }
     
-    private boolean isEnableIndent = true;
-    
     /**
-     * このインスタンスからソースを作る際のインデントを有効にする場合はtrueをセットする。初期値はtrue。
+     * 指定されたエンコーディングを使用して、XMLソースを変換する。
      * 
-     * @param isEnableIndent
+     * @param streamResult
+     * @param encoding
+     * @throws TransformerException
      */
-    public void setEnableIndent(boolean isEnableIndent) {
-        this.isEnableIndent = isEnableIndent;
+    private void transform(StreamResult streamResult, String encoding) throws TransformerException {
+        DOMSource domSource = new DOMSource(this.root.getInnerInstance());
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        if (encoding != null) {
+            Document document = (Document) this.root.getInnerInstance();
+            if (Charset.forName(encoding).equals(Charset.forName(document.getXmlEncoding())) == false) {
+                throw new TransformerException("The encoding specified in the file cannot be changed.");
+            }
+            transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
+        }
+        transformer.transform(domSource, streamResult);
     }
     
     /**
@@ -81,18 +92,8 @@ public class XML {
      * @throws TransformerException
      */
     public String buildSource(String encoding) throws TransformerException {
-        DOMSource domSource = new DOMSource(this.root.getInnerInstance());
         StringWriter stringWriter = new StringWriter();
-        StreamResult streamResult = new StreamResult(stringWriter);
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
-        if (this.isEnableIndent) {
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        } else {
-            transformer.setOutputProperty(OutputKeys.INDENT, "no");
-        }
-        transformer.transform(domSource, streamResult);
+        this.transform(new StreamResult(stringWriter), encoding);
         return stringWriter.toString();
     }
 
@@ -103,7 +104,7 @@ public class XML {
      * @throws TransformerException
      */
     public String buildSource() throws TransformerException {
-        return buildSource("UTF-8");
+        return buildSource(null);
     }
     
     /**
@@ -116,17 +117,7 @@ public class XML {
      */
     public void exportToFile(File file, String encoding) throws IOException, TransformerException {
         try (FileOutputStream outputStream = new FileOutputStream(file.toJavaIoFile())) {
-            DOMSource domSource = new DOMSource(this.root.getInnerInstance());
-            StreamResult streamResult = new StreamResult(outputStream);
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.ENCODING, encoding);
-            if (this.isEnableIndent) {
-                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            } else {
-                transformer.setOutputProperty(OutputKeys.INDENT, "no");
-            }
-            transformer.transform(domSource, streamResult);
+            this.transform(new StreamResult(outputStream), encoding);
         }
     }
 
@@ -138,30 +129,26 @@ public class XML {
      * @throws TransformerException
      */
     public void exportToFile(File file) throws IOException, TransformerException {
-        this.exportToFile(file, "UTF-8");
+        this.exportToFile(file, null);
     }
     
     /**
-     * 指定されたエンコーディングを使用して、このインスタンスにソースの内容をインポートする。
-     * 
-     * @param source
-     * @param encoding
-     * @throws IOException
-     * @throws SAXException
-     */
-    public void importFromSource(String source, String encoding) throws IOException, SAXException {
-        this.root = new XMLNode(this.documentBuilder.parse(new ByteArrayInputStream(source.getBytes(encoding))));
-    }
-    
-    /**
-     * UTF-8のエンコーディングを使用して、このインスタンスにソースの内容をインポートする。
+     * 指定されたソースの内容を、このインスタンスにインポートする。
      * 
      * @param source
      * @throws IOException
      * @throws SAXException
      */
     public void importFromSource(String source) throws IOException, SAXException {
-        this.importFromSource(source, "UTF-8");
+        StringObject encodingObject = new StringObject(source);
+        encodingObject.extract("encoding=\"[^\"]{1,}\"");
+        String encoding;
+        if (encodingObject.length() > 0) {
+            encoding = encodingObject.split("\"")[1];
+        } else {
+            encoding = "UTF-8";
+        }
+        this.root = new XMLNode(this.documentBuilder.parse(new ByteArrayInputStream(source.getBytes(encoding))));
     }
     
     /**

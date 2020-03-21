@@ -27,9 +27,12 @@ public class PropertyXML {
      * @throws IOException 
      */
     public PropertyXML(File file) throws IOException {
-        this.xml = new XML();
+        if (file.isExist() == false) {
+            file.create();
+        }
         this.file = file;
         try {
+            this.xml = new XML();
             this.xml.importFromFile(file);
         } catch (SAXException exception) {
         }
