@@ -74,8 +74,8 @@ public class XML {
         DOMSource domSource = new DOMSource(this.root.getInnerInstance());
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
-        if (encoding != null) {
-            Document document = (Document) this.root.getInnerInstance();
+        Document document = (Document) this.root.getInnerInstance();
+        if (encoding != null && document.getXmlEncoding() != null) {
             if (Charset.forName(encoding).equals(Charset.forName(document.getXmlEncoding())) == false) {
                 throw new TransformerException("The encoding specified in the file cannot be changed.");
             }
