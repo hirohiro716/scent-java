@@ -20,6 +20,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
      */
     public JSONObject() {
         super();
+        this.set(new LinkedHashMap<>());
     }
     
     /**

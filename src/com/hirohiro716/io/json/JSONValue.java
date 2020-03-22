@@ -60,7 +60,7 @@ public abstract class JSONValue<T> {
     }
 
     /**
-     * JSONの値解析の元となったデータ定義文を取得する。
+     * JSONのデータ定義文を取得する。
      * 
      * @return 結果。
      */

@@ -21,6 +21,7 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
      */
     public JSONArray() {
         super();
+        this.set(new ArrayList<>());
     }
     
     /**
