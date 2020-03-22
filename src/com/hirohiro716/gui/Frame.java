@@ -50,6 +50,12 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public abstract void setTitle(String title);
     
     @Override
+    public void setDisabled(boolean isDisabled) {
+        super.setDisabled(isDisabled);
+        this.getPane().setDisabled(isDisabled);
+    }
+
+    @Override
     public abstract Dimension getMaximumSize();
     
     @Override

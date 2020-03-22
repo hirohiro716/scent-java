@@ -2,7 +2,9 @@ package com.hirohiro716.gui.control;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -74,6 +76,28 @@ public class TabPane extends Control {
     @Override
     protected ChangeListener<Dimension> createBugFixChangeListener() {
         return null;
+    }
+    
+    private Map<Pane, Boolean> mapTabPaneDisabled = new HashMap<>();
+    
+    @Override
+    public void setDisabled(boolean isDisabled) {
+        if (isDisabled == this.isDisabled()) {
+            return;
+        }
+        if (isDisabled) {
+            super.setDisabled(isDisabled);
+            this.mapTabPaneDisabled.clear();
+            for (Tab tab : this.tabs) {
+                this.mapTabPaneDisabled.put(tab.getPane(), tab.getPane().isDisabled());
+                tab.getPane().setDisabled(true);
+            }
+        } else {
+            super.setDisabled(isDisabled);
+            for (Tab tab : this.tabs) {
+                tab.getPane().setDisabled(this.mapTabPaneDisabled.get(tab.getPane()));
+            }
+        }
     }
     
     private Collection<Tab> tabs = new Collection<>();
