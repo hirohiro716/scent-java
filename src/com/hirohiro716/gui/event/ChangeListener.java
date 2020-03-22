@@ -54,7 +54,11 @@ public abstract class ChangeListener<T> {
      * @return 結果。
      */
     public Object[] getInnerInstances(Component<?> component) {
-        return this.mapInnerInstanceList.get(component).toArray();
+        List<Object> list = this.mapInnerInstanceList.get(component);
+        if (list == null) {
+            return new Object[] {};
+        }
+        return list.toArray();
     }
     
     private T valueBeforeChange = null;
