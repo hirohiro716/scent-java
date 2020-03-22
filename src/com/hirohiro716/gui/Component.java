@@ -403,6 +403,41 @@ public abstract class Component<T extends java.awt.Component> {
         this.setMaximumSize(this.getMaximumWidth(), height);
     }
     
+    private Bounds bounds = new Bounds();
+    
+    /**
+     * このコンポーネントの位置とサイズを取得する。
+     * 
+     * @return 結果。
+     */
+    public Bounds getBounds() {
+        this.bounds.setX(this.getX());
+        this.bounds.setY(this.getY());
+        this.bounds.setWidth(this.getWidth());
+        this.bounds.setHeight(this.getHeight());
+        return this.bounds;
+    }
+    
+    /**
+     * このコンポーネントの位置とサイズをBoundsインスタンスから取り込む。
+     */
+    private void importFromBounds() {
+        this.setX(this.bounds.getX());
+        this.setY(this.bounds.getY());
+        this.setWidth(this.bounds.getWidth());
+        this.setHeight(this.bounds.getHeight());
+    }
+    
+    /**
+     * このコンポーネントの位置とサイズをセットする。
+     * 
+     * @param bounds
+     */
+    public void setBounds(Bounds bounds) {
+        this.bounds = bounds;
+        this.importFromBounds();
+    }
+
     /**
      * このコンポーネントの位置とサイズをセットする。
      * 
@@ -412,8 +447,11 @@ public abstract class Component<T extends java.awt.Component> {
      * @param height
      */
     public void setBounds(int x, int y, int width, int height) {
-        this.setLocation(x, y);
-        this.setSize(width, height);
+        this.bounds.setX(x);
+        this.bounds.setY(y);
+        this.bounds.setWidth(width);
+        this.bounds.setHeight(height);
+        this.importFromBounds();
     }
     
     /**
