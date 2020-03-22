@@ -18,7 +18,7 @@ import com.hirohiro716.gui.control.VerticalPane;
 import com.hirohiro716.gui.event.ChangeListener;
 
 /**
- * タイトル付きダイアログの根底クラス。
+ * タイトル付きダイアログの抽象クラス。
  * 
  * @author hiro
  * 

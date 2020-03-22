@@ -11,7 +11,7 @@ import com.hirohiro716.gui.VerticalAlignment;
 import com.hirohiro716.gui.event.ChangeListener;
 
 /**
- * GUIのすべてのラベル付きコントロールの根底クラス。
+ * GUIのすべてのラベル付きコントロールの抽象クラス。
  * 
  * @author hiro
  *

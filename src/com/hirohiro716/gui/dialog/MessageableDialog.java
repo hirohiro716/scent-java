@@ -12,7 +12,7 @@ import com.hirohiro716.gui.control.FlowPane;
 import com.hirohiro716.gui.control.Label;
 
 /**
- * メッセージダイアログの根底クラス。
+ * メッセージダイアログの抽象クラス。
  * 
  * @author hiro
  * 

@@ -15,7 +15,7 @@ import com.hirohiro716.image.Image;
 import com.hirohiro716.image.Image.ImageFormatName;
 
 /**
- * GUIのすべてのコンポーネントの根底クラス。
+ * GUIのすべてのコンポーネントの抽象クラス。
  * 
  * @author hiro
  * 

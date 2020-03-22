@@ -8,7 +8,7 @@ import java.util.Map;
 import com.hirohiro716.gui.Component;
 
 /**
- * コントロールの値やプロパティの変更を検知するリスナーの根底クラス。
+ * コントロールの値やプロパティの変更を検知するリスナーの抽象クラス。
  * 
  * @author hiro
  *

@@ -3,7 +3,7 @@ package com.hirohiro716.gui.event;
 import com.hirohiro716.gui.control.Control;
 
 /**
- * GUIのすべての入力イベントの根底クラス。
+ * GUIのすべての入力イベントの抽象クラス。
  * 
  * @author hiro
  *

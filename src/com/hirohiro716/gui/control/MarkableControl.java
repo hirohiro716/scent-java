@@ -13,7 +13,7 @@ import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.InnerInstanceCreator;
 
 /**
- * GUIのすべてのマーク可能なコントロールの根底クラス。
+ * GUIのすべてのマーク可能なコントロールの抽象クラス。
  * 
  * @author hiro
  *

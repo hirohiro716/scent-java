@@ -22,7 +22,7 @@ import com.hirohiro716.gui.event.MouseEvent;
 import com.hirohiro716.gui.event.MouseEvent.MouseButton;
 
 /**
- * GUIのダイアログ根底クラス。
+ * GUIのダイアログ抽象クラス。
  * 
  * @author hiro
  *

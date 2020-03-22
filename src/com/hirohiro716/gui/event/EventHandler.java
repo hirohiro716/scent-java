@@ -8,7 +8,7 @@ import java.util.Map;
 import com.hirohiro716.gui.Component;
 
 /**
- * コントロールのイベントを処理するハンドラーの根底クラス。
+ * コントロールのイベントを処理するハンドラーの抽象クラス。
  * 
  * @author hiro
  *

@@ -5,7 +5,7 @@ import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.control.Control;
 
 /**
- * GUIのすべてのイベントの根底クラス。
+ * GUIのすべてのイベントの抽象クラス。
  * 
  * @author hiro
  * 

@@ -29,7 +29,7 @@ import com.hirohiro716.gui.event.MouseEvent;
 import com.hirohiro716.gui.event.MouseEvent.MouseButton;
 
 /**
- * GUIのすべてのコントロールの根底クラス。
+ * GUIのすべてのコントロールの抽象クラス。
  * 
  * @author hiro
  *

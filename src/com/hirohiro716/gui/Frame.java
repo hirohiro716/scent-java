@@ -10,7 +10,7 @@ import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;
 
 /**
- * GUIのウィンドウやダイアログなどの根底クラス。
+ * GUIのウィンドウやダイアログなどの抽象クラス。
  * 
  * @author hiro
  * 
