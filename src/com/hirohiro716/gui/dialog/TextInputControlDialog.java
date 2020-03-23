@@ -33,7 +33,8 @@ public abstract class TextInputControlDialog<C extends TextInputControl> extends
     }
     
     /**
-     * このダイアログに表示するテキスト入力コントロールを作成する。
+     * このダイアログに表示するテキスト入力コントロールを作成する。<br>
+     * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
      * 
      * @return 結果。
      */
@@ -108,12 +109,20 @@ public abstract class TextInputControlDialog<C extends TextInputControl> extends
         return this.control;
     }
     
-    private String result = null;
+    @Override
+    protected void processBeforeShow() {
+        super.processBeforeShow();
+        this.control.setText(this.defaultValue);
+    }
+    
+    private String defaultValue = null;
     
     @Override
     public void setDefaultValue(String defaultResultValue) {
-        this.result = defaultResultValue;
+        this.defaultValue = defaultResultValue;
     }
+
+    private String result = null;
     
     @Override
     public String getDialogResult() {

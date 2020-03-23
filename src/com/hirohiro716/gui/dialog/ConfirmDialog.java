@@ -68,8 +68,8 @@ public class ConfirmDialog extends MessageableDialog<ResultButton> {
 
     @Override
     protected Control getInitialFocusControl() {
-        if (this.result != null) {
-            switch (this.result) {
+        if (this.defaultValue != null) {
+            switch (this.defaultValue) {
             case OK:
                 return this.buttonOfOK;
             case CANCEL:
@@ -80,12 +80,14 @@ public class ConfirmDialog extends MessageableDialog<ResultButton> {
         return this.buttonOfCancel;
     }
     
-    private ResultButton result = null;
+    private ResultButton defaultValue = null;
     
     @Override
     public void setDefaultValue(ResultButton value) {
-        this.result = value;
+        this.defaultValue = value;
     }
+
+    private ResultButton result = null;
     
     @Override
     public ResultButton getDialogResult() {

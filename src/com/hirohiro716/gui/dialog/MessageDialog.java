@@ -58,13 +58,12 @@ public class MessageDialog extends MessageableDialog<ResultButton> {
     protected Control getInitialFocusControl() {
         return this.button;
     }
-    
-    private ResultButton result = null;
-    
+
     @Override
     public void setDefaultValue(ResultButton value) {
-        this.result = value;
     }
+
+    private ResultButton result = null;
     
     @Override
     public ResultButton getDialogResult() {

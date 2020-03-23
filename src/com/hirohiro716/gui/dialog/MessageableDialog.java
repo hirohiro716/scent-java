@@ -55,6 +55,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
         }
         // Buttons
         FlowPane flowPaneButton = new FlowPane();
+        flowPaneButton.setHorizontalSpacing(5);
         Button[] buttons = this.createButtons();
         for (Button button : buttons) {
             flowPaneButton.getChildren().add(button);

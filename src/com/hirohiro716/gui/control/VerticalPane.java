@@ -33,14 +33,14 @@ public class VerticalPane extends Pane {
 
             @Override
             protected void added(Control added, int positionIndex) {
-                pane.updateChildLayout(added, pane.getChildren().indexOf(added));
+                pane.updateAllChildLayout();
             }
         });
         this.growableControls.addListener(new RemoveListener<Control>() {
 
             @Override
             protected void removed(Control removed) {
-                pane.updateChildLayout(removed, pane.getChildren().indexOf(removed));
+                pane.updateAllChildLayout();
             }
         });
     }
@@ -163,10 +163,11 @@ public class VerticalPane extends Pane {
         case RIGHT:
             constraints.anchor = GridBagConstraints.EAST;
             break;
-        
         }
         this.layout.setConstraints(control.getInnerInstanceForLayout(), constraints);
     }
+
+    private JPanel spacer = new JPanel();
     
     /**
      * すべての子要素のレイアウトを最新の状態にする。
@@ -175,6 +176,18 @@ public class VerticalPane extends Pane {
         for (int index = 0; index < this.getChildren().size(); index++) {
             Control control = this.getChildren().get(index);
             this.updateChildLayout(control, index);
+        }
+        this.getInnerInstance().remove(this.spacer);
+        if (this.growableControls.size() == 0) {
+            this.getInnerInstance().add(this.spacer);
+            this.layout.removeLayoutComponent(this.spacer);
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = this.getChildren().size();
+            constraints.weightx = 1;
+            constraints.weighty = 1;
+            constraints.fill = GridBagConstraints.BOTH;
+            this.layout.setConstraints(this.spacer, constraints);
         }
     }
 }

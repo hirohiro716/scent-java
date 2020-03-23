@@ -312,8 +312,6 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
         this.getVerticalPaneOfControls().getGrowableControls().add(this.scrollPane);
     }
     
-    private Array<T> result = null;
-    
     @Override
     public void setDefaultValue(Array<T> defaultResultValue) {
         List<T> items = new ArrayList<>();
@@ -327,6 +325,8 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
             this.sortableItems.add(value);
         }
     }
+
+    private Array<T> result = null;
     
     @Override
     public Array<T> getDialogResult() {

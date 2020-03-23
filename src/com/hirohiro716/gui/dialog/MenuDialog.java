@@ -82,10 +82,10 @@ public class MenuDialog extends TitledDialog<Button> {
     
     @Override
     protected Control getInitialFocusControl() {
-        if (this.result == null) {
+        if (this.defaultValue == null) {
             return this.flowPane;
         }
-        return this.result;
+        return this.defaultValue;
     }
 
     @Override
@@ -113,12 +113,14 @@ public class MenuDialog extends TitledDialog<Button> {
         super.close();
     }
 
-    private Button result = null;
+    private Button defaultValue = null;
     
     @Override
     public void setDefaultValue(Button defaultResultValue) {
-        this.result = defaultResultValue;
+        this.defaultValue = defaultResultValue;
     }
+
+    private Button result = null;
     
     @Override
     public Button getDialogResult() {
