@@ -47,9 +47,13 @@ public class Datetime implements Cloneable {
      * 指定されたjava.util.Dateの日時を初期値とする。
      * 
      * @param date
+     * @throws NullPointerException 
      */
-    public Datetime(Date date) {
+    public Datetime(Date date) throws NullPointerException {
         this();
+        if (date == null) {
+            throw new NullPointerException();
+        }
         this.set(date);
     }
     

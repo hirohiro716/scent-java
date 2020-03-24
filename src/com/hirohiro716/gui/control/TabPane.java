@@ -121,6 +121,15 @@ public class TabPane extends Control {
         this.tabs.add(new Tab(title, pane));
     }
     
+    /**
+     * このタブペインで選択されているタブを取得する。
+     * 
+     * @return 結果。
+     */
+    public Tab getSelectedTab() {
+        return this.tabs.get(this.getInnerInstance().getModel().getSelectedIndex());
+    }
+    
     private List<ChangeListener<Tab>> selectedTabChangeListeners = new ArrayList<>();
 
     /**

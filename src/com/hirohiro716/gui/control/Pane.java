@@ -15,6 +15,7 @@ import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.collection.RemoveListener;
+import com.hirohiro716.gui.control.TabPane.Tab;
 import com.hirohiro716.gui.event.ChangeListener;
 
 /**
@@ -212,9 +213,24 @@ public class Pane extends Control {
                 if (name.equals(control.getName())) {
                     finded.add(control);
                 }
+                List<Pane> nextPanes = new ArrayList<>();
                 if (control instanceof Pane) {
-                    Pane pane = (Pane) control;
-                    finded.addAll(pane.getChildren().findControlsByNameAsList(name));
+                    nextPanes.add((Pane) control);
+                }
+                if (control instanceof ScrollPane) {
+                    ScrollPane scrollPane = (ScrollPane) control;
+                    if (scrollPane.getContent() instanceof Pane) {
+                        nextPanes.add(scrollPane.getContent());
+                    }
+                }
+                if (control instanceof TabPane) {
+                    TabPane tabPane = (TabPane) control;
+                    for (Tab tab : tabPane.getTabs()) {
+                        nextPanes.add(tab.getPane());
+                    }
+                }
+                for (Pane nextPane : nextPanes) {
+                    finded.addAll(nextPane.getChildren().findControlsByNameAsList(name));
                 }
             }
             return finded;
@@ -245,12 +261,63 @@ public class Pane extends Control {
                 if (control.getClass().getName().equals(controlClass.getName())) {
                     finded.add((T) control);
                 }
+                List<Pane> nextPanes = new ArrayList<>();
                 if (control instanceof Pane) {
-                    Pane pane = (Pane) control;
-                    finded.addAll(pane.getChildren().findControlsByClassAsList(controlClass));
+                    nextPanes.add((Pane) control);
+                }
+                if (control instanceof ScrollPane) {
+                    ScrollPane scrollPane = (ScrollPane) control;
+                    if (scrollPane.getContent() instanceof Pane) {
+                        nextPanes.add(scrollPane.getContent());
+                    }
+                }
+                if (control instanceof TabPane) {
+                    TabPane tabPane = (TabPane) control;
+                    for (Tab tab : tabPane.getTabs()) {
+                        nextPanes.add(tab.getPane());
+                    }
+                }
+                for (Pane nextPane : nextPanes) {
+                    finded.addAll(nextPane.getChildren().findControlsByClassAsList(controlClass));
                 }
             }
             return finded;
+        }
+
+        /**
+         * 指定された名前かつ、指定されたクラスのバイナリ名に完全に一致するコントロールを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param <C> 検索するコントロールの型。
+         * @param name
+         * @param controlClass
+         * @return 結果。
+         */
+        @SuppressWarnings("unchecked")
+        public <C extends Control> C findControlByNameAndClass(String name, String controlClass) {
+            try {
+                return (C) this.findControlsByNameAndClass(name, controlClass).get(0);
+            } catch (Exception exception) {
+                return null;
+            }
+        }
+        
+        /**
+         * 指定された名前かつ、指定されたクラスのバイナリ名に完全に一致するコントロールを検索する。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @param controlClass
+         * @return 結果。
+         */
+        public Array<Control> findControlsByNameAndClass(String name, String controlClass) {
+            List<Control> findedByName = this.findControlsByNameAsList(name);
+            for (Control control : findedByName.toArray(new Control[] {})) {
+                if (control.getClass().getName().equals(controlClass) == false) {
+                    findedByName.remove(control);
+                }
+            }
+            return new Array<>(findedByName);
         }
         
         /**
@@ -266,13 +333,27 @@ public class Pane extends Control {
         public <C extends Control> C findControlByPoint(int x, int y) {
             for (Control control : this) {
                 if (control.getX() <= x && control.getX() + control.getWidth() >= x && control.getY() <= y && control.getY() + control.getHeight() >= y) {
+                    Pane nextPane = null;
                     if (control instanceof Pane) {
-                        Pane pane = (Pane) control;
-                        Control finded = pane.getChildren().findControlByPoint(x - pane.getX(), y - pane.getY());
-                        if (finded == null) {
-                            return (C) pane;
+                        nextPane = (Pane) control;
+                    }
+                    if (control instanceof ScrollPane) {
+                        ScrollPane scrollPane = (ScrollPane) control;
+                        if (scrollPane.getContent() instanceof Pane) {
+                            nextPane = scrollPane.getContent();
                         }
-                        return pane.getChildren().findControlByPoint(x - pane.getX(), y - pane.getY());
+                    }
+                    if (control instanceof TabPane) {
+                        TabPane tabPane = (TabPane) control;
+                        nextPane = tabPane.getSelectedTab().getPane();
+                    }
+                    if (nextPane != null) {
+                        Control finded = nextPane.getChildren().findControlByPoint(x - nextPane.getX(), y - nextPane.getY());
+                        if (finded == null) {
+                            return (C) nextPane;
+                        }
+                        return nextPane.getChildren().findControlByPoint(x - nextPane.getX(), y - nextPane.getY());
+                        
                     }
                     return (C) control;
                 }
