@@ -48,7 +48,7 @@ public class GridPane extends Pane {
                 pane.updateAllChildLayout();
             }
         };
-        this.horizontalGrowableControls.addListener(addListener);
+        this.horizontalGrowableControls.addListener(removeListener);
         this.verticalGrowableControls.addListener(removeListener);
     }
     
@@ -147,6 +147,7 @@ public class GridPane extends Pane {
         this.mapGridY.put(control, gridY);
         this.mapGridWidth.put(control, gridWidth);
         this.mapGridHeight.put(control, gridHeight);
+        this.updateAllChildLayout();
     }
 
     /**
