@@ -107,7 +107,7 @@ public class GridPane extends Pane {
     private int verticalSpacing = 0;
     
     /**
-     * このペインに配置されている子要素間のスペースを取得する。
+     * このペインに配置されている子要素間の垂直方向スペースを取得する。
      * 
      * @return 結果。
      */
@@ -116,12 +116,24 @@ public class GridPane extends Pane {
     }
     
     /**
-     * このペインに配置されている子要素間のスペースを指定する。
+     * このペインに配置されている子要素間の垂直方向スペースを指定する。
      * 
      * @param spacing
      */
     public void setVerticalSpacing(int spacing) {
         this.verticalSpacing = spacing;
+        this.updateAllChildLayout();
+    }
+    
+    /**
+     * このペインに配置されている子要素間のスペースを指定する。
+     * 
+     * @param horizontalSpacing 水平方向のスペース。
+     * @param verticalSpacing 垂直方向のスペース。
+     */
+    public void setSpacing(int horizontalSpacing, int verticalSpacing) {
+        this.horizontalSpacing = horizontalSpacing;
+        this.verticalSpacing = verticalSpacing;
         this.updateAllChildLayout();
     }
     
