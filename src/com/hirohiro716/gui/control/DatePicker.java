@@ -527,9 +527,8 @@ public class DatePicker extends TextField {
         private GridPane createCalendarGridPane() {
             DatePicker control = DatePicker.this;
             GridPane gridPane = new GridPane();
-            gridPane.setNumberOfColumns(7);
-            gridPane.setNumberOfRows(0);
             gridPane.setBorder(Border.createLine(this.borderColor, 1));
+            int columnIndex = 0;
             for (DayOfWeek week : DayOfWeek.values()) {
                 Label label = new Label(week.getName().substring(0, 1));
                 label.setPadding(this.baseSize / 2);
@@ -540,6 +539,10 @@ public class DatePicker extends TextField {
                     label.setBorder(Border.createLine(this.borderColor, 0, 0, 0, 1));
                 }
                 gridPane.getChildren().add(label);
+                gridPane.setGridLayout(label, columnIndex, 0);
+                gridPane.getHorizontalGrowableControls().add(label);
+                gridPane.getVerticalGrowableControls().add(label);
+                columnIndex++;
             }
             return gridPane;
         }
@@ -594,6 +597,9 @@ public class DatePicker extends TextField {
                     label.addMouseExitedEventHandler(this.mouseExitedEventHandler);
                     label.addMouseClickedEventHandler(MouseButton.BUTTON1, this.mouseClickedEventHandler);
                     this.gridPane.getChildren().add(label);
+                    this.gridPane.setGridLayout(label, columnNumber, rowNumber + 1);
+                    this.gridPane.getHorizontalGrowableControls().add(label);
+                    this.gridPane.getVerticalGrowableControls().add(label);
                     datetime.addDay(1);
                 }
             }

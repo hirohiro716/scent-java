@@ -28,6 +28,7 @@ public class HorizontalPane extends Pane {
     protected HorizontalPane(JPanel innerInstance) {
         super(innerInstance);
         this.getChildren().addListener(this.addListener);
+        this.getChildren().addListener(this.removeListener);
         this.getInnerInstance().setLayout(this.layout);
         HorizontalPane pane = HorizontalPane.this;
         this.growableControls.addListener(new AddListener<Control>() {
@@ -121,6 +122,16 @@ public class HorizontalPane extends Pane {
         }
     };
     
+    private RemoveListener<Control> removeListener = new RemoveListener<Control>() {
+
+        @Override
+        protected void removed(Control removed) {
+            HorizontalPane pane = HorizontalPane.this;
+            pane.growableControls.remove(removed);
+            pane.updateAllChildLayout();
+        }
+    };
+    
     private Collection<Control> growableControls = new Collection<>();
     
     /**
@@ -178,10 +189,10 @@ public class HorizontalPane extends Pane {
             Control control = this.getChildren().get(index);
             this.updateChildLayout(control, index);
         }
+        this.layout.removeLayoutComponent(this.spacer);
         this.getInnerInstance().remove(this.spacer);
         if (this.growableControls.size() == 0) {
             this.getInnerInstance().add(this.spacer);
-            this.layout.removeLayoutComponent(this.spacer);
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = this.getChildren().size();
             constraints.gridy = 0;

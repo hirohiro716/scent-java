@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -39,17 +41,40 @@ public class AnchorPane extends Pane {
     }
     
     private GridBagLayout gridBagLayout = new GridBagLayout();
+
+    private Map<Control, Boolean> mapControlVisible = new HashMap<>();
+    
+    private AddListener<Control> addListener = new AddListener<Control>() {
+        
+        @Override
+        protected void added(Control added, int positionIndex) {
+            AnchorPane pane = AnchorPane.this;
+            pane.mapControlVisible.put(added, added.isVisible());
+            if (pane.layoutedControls.contains(added) == false) {
+                added.setVisible(false);
+            }
+        }
+    };
+    
+    private RemoveListener<Control> removeListener = new RemoveListener<Control>() {
+
+        @Override
+        protected void removed(Control removed) {
+            AnchorPane pane = AnchorPane.this;
+            pane.layoutedControls.remove(removed);
+        }
+    };
     
     private ArrayList<Control> layoutedControls = new ArrayList<>();
     
     /**
      * このペインに配置したコントロールのアンカーポイントを設定する。
      * 
-     * @param control
-     * @param top
-     * @param right
-     * @param bottom
-     * @param left
+     * @param control 対象のコントロール。
+     * @param top 上位置。
+     * @param right 右位置。
+     * @param bottom 下位置。
+     * @param left 左位置。
      */
     public void setAnchor(Control control, Integer top, Integer right, Integer bottom, Integer left) {
         this.gridBagLayout.removeLayoutComponent(control.getInnerInstanceForLayout());
@@ -104,7 +129,7 @@ public class AnchorPane extends Pane {
         }
         this.gridBagLayout.setConstraints(control.getInnerInstance(), constraints);
         if (this.layoutedControls.contains(control) == false) {
-            control.setVisible(true);
+            control.setVisible(this.mapControlVisible.get(control));
             this.layoutedControls.add(control);
         }
     }
@@ -121,24 +146,4 @@ public class AnchorPane extends Pane {
     public void setAnchor(Control control, int top, int right, int bottom, int left) {
         this.setAnchor(control, (Integer) top, (Integer) right, (Integer) bottom, (Integer) left);
     }
-    
-    private AddListener<Control> addListener = new AddListener<Control>() {
-        
-        @Override
-        protected void added(Control added, int positionIndex) {
-            AnchorPane pane = AnchorPane.this;
-            if (pane.layoutedControls.contains(added) == false) {
-                added.setVisible(false);
-            }
-        }
-    };
-    
-    private RemoveListener<Control> removeListener = new RemoveListener<Control>() {
-
-        @Override
-        protected void removed(Control removed) {
-            AnchorPane pane = AnchorPane.this;
-            pane.layoutedControls.remove(removed);
-        }
-    };
 }
