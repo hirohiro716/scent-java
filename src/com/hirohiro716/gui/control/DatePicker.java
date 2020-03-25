@@ -419,7 +419,7 @@ public class DatePicker extends TextField {
             this.focusedForeground = new Color(control.getInnerInstance().getSelectedTextColor().getRGB());
             this.inactiveForeground = new Color(control.getInnerInstance().getDisabledTextColor().getRGB());
             // Pane settings
-            this.setFillChildWidth(true);
+            this.setFillChildToPaneWidth(true);
             this.setBorder(Border.createLine(Color.DARK_GRAY, 1));
             this.setPadding(this.baseSize);
             HorizontalPane yearAndMonthPane = new HorizontalPane(VerticalAlignment.CENTER);

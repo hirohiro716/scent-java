@@ -176,7 +176,7 @@ public class AutocompleteTextField extends TextField {
             }
         });
         this.paneOfPopup = new VerticalPane(HorizontalAlignment.LEFT);
-        this.paneOfPopup.setFillChildWidth(true);
+        this.paneOfPopup.setFillChildToPaneWidth(true);
         this.paneOfPopup.setBorder(Border.createLine(Color.DARK_GRAY, 1));
         this.paneOfPopup.setPadding(1);
         this.popup.getChildren().add(this.paneOfPopup);

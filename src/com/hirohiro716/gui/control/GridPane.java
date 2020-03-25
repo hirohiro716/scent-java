@@ -155,6 +155,39 @@ public class GridPane extends Pane {
     
     private Map<Control, Integer> mapGridHeight = new HashMap<>();
     
+    private Map<Control, CellLayout> mapCellLayout = new HashMap<>();
+    
+    /**
+     * このペインに配置したコントロールのレイアウトを設定する。
+     * 
+     * @param control 対象のコントロール。
+     * @param gridX 水平方向表示位置。
+     * @param gridY 垂直方向表示位置。
+     * @param gridWidth 表示に使用するカラム数。
+     * @param gridHeight 表示に使用する行数。
+     * @param cellLayout セル内のコントロール配置方法。
+     */
+    public void setGridLayout(Control control, int gridX, int gridY, int gridWidth, int gridHeight, CellLayout cellLayout) {
+        this.mapGridX.put(control, gridX);
+        this.mapGridY.put(control, gridY);
+        this.mapGridWidth.put(control, gridWidth);
+        this.mapGridHeight.put(control, gridHeight);
+        this.mapCellLayout.put(control, cellLayout);
+        this.updateAllChildLayout();
+    }
+
+    /**
+     * このペインに配置したコントロールのレイアウトを設定する。
+     * 
+     * @param control 対象のコントロール。
+     * @param gridX 水平方向表示位置。
+     * @param gridY 垂直方向表示位置。
+     * @param cellLayout セル内のコントロール配置方法。
+     */
+    public void setGridLayout(Control control, int gridX, int gridY, CellLayout cellLayout) {
+        this.setGridLayout(control, gridX, gridY, 1, 1, cellLayout);
+    }
+
     /**
      * このペインに配置したコントロールのレイアウトを設定する。
      * 
@@ -165,13 +198,9 @@ public class GridPane extends Pane {
      * @param gridHeight 表示に使用する行数。
      */
     public void setGridLayout(Control control, int gridX, int gridY, int gridWidth, int gridHeight) {
-        this.mapGridX.put(control, gridX);
-        this.mapGridY.put(control, gridY);
-        this.mapGridWidth.put(control, gridWidth);
-        this.mapGridHeight.put(control, gridHeight);
-        this.updateAllChildLayout();
+        this.setGridLayout(control, gridX, gridY, 1, 1, CellLayout.FILL);
     }
-
+    
     /**
      * このペインに配置したコントロールのレイアウトを設定する。
      * 
@@ -180,7 +209,7 @@ public class GridPane extends Pane {
      * @param gridY 垂直方向表示位置。
      */
     public void setGridLayout(Control control, int gridX, int gridY) {
-        this.setGridLayout(control, gridX, gridY, 1, 1);
+        this.setGridLayout(control, gridX, gridY, 1, 1, CellLayout.FILL);
     }
     
     private Collection<Control> horizontalGrowableControls = new Collection<>();
@@ -246,7 +275,38 @@ public class GridPane extends Pane {
             verticalSpacing = 0;
         }
         constraints.insets = new Insets(verticalSpacing, horizontalSpacing, 0, 0);
-        constraints.fill = GridBagConstraints.BOTH;
+        switch (this.mapCellLayout.get(control)) {
+        case FILL:
+            constraints.fill = GridBagConstraints.BOTH;
+            break;
+        case TOP:
+            constraints.anchor = GridBagConstraints.NORTH;
+            break;
+        case TOP_LEFT:
+            constraints.anchor = GridBagConstraints.NORTHWEST;
+            break;
+        case TOP_RIGHT:
+            constraints.anchor = GridBagConstraints.NORTHEAST;
+            break;
+        case BOTTOM:
+            constraints.anchor = GridBagConstraints.SOUTH;
+            break;
+        case BOTTOM_LEFT:
+            constraints.anchor = GridBagConstraints.SOUTHWEST;
+            break;
+        case BOTTOM_RIGHT:
+            constraints.anchor = GridBagConstraints.SOUTHEAST;
+            break;
+        case CENTER:
+            constraints.anchor = GridBagConstraints.CENTER;
+            break;
+        case LEFT:
+            constraints.anchor = GridBagConstraints.WEST;
+            break;
+        case RIGHT:
+            constraints.anchor = GridBagConstraints.EAST;
+            break;
+        }
         this.layout.setConstraints(control.getInnerInstanceForLayout(), constraints);
     }
     
@@ -294,5 +354,54 @@ public class GridPane extends Pane {
         }
         verticalConstraints.fill = GridBagConstraints.BOTH;
         this.layout.setConstraints(this.verticalSpacer, verticalConstraints);
+    }
+    
+    /**
+     * グリッドペインセルのコントロール表示方法の列挙型。
+     * 
+     * @author hiro
+     *
+     */
+    public enum CellLayout {
+        /**
+         * セルいっぱいに表示。
+         */
+        FILL,
+        /**
+         * 垂直方向が上、水平方向が中央に表示。
+         */
+        TOP,
+        /**
+         * 垂直方向が上、水平方向が左に表示。
+         */
+        TOP_LEFT,
+        /**
+         * 垂直方向が上、水平方向が右に表示。
+         */
+        TOP_RIGHT,
+        /**
+         * 垂直方向、水平方向が中央に表示。
+         */
+        CENTER,
+        /**
+         * 垂直方向が中央、水平方向が左に表示。
+         */
+        LEFT,
+        /**
+         * 垂直方向が中央、水平方向が右に表示。
+         */
+        RIGHT,
+        /**
+         * 垂直方向が下、水平方向が中央に表示。
+         */
+        BOTTOM,
+        /**
+         * 垂直方向が下、水平方向が左に表示。
+         */
+        BOTTOM_LEFT,
+        /**
+         * 垂直方向が下、水平方向が右に表示。
+         */
+        BOTTOM_RIGHT,
     }
 }

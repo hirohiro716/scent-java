@@ -62,6 +62,19 @@ public class GUI {
     }
     
     /**
+     * 利用できるフォント名の配列を取得する。
+     * 
+     * @return 結果。
+     */
+    public static String[] getAvailableFontNames() {
+        List<String> list = new ArrayList<>();
+        for (Font font : getAvailableFonts()) {
+            list.add(font.getFontName());
+        }
+        return list.toArray(new String[] {});
+    }
+    
+    /**
      * 指定されたフォントをベースに新しいサイズのフォントを作成する。
      * 
      * @param baseFont

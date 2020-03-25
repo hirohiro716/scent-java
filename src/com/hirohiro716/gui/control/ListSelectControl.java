@@ -66,9 +66,11 @@ public abstract class ListSelectControl<T> extends Control {
                 if (control.getMapForDisplayTextAndItem() != null && control.getMapForDisplayTextAndItem().containsKey(value)) {
                     label.setText(control.getMapForDisplayTextAndItem().get(value));
                 }
-                int height = (int) (control.getFont().getSize2D() * 2.6);
+                int height = (int) (control.getFont().getSize2D() * 2.2);
                 label.setMaximumWidth(control.getWidth());
                 label.setHeight(height);
+                int padding = (int) (control.getFont().getSize2D() * 0.6);
+                label.setPadding(0, padding);
                 label.setTextHorizontalAlignment(control.getTextHorizontalAlignment());
                 label.setParent(control);
                 control.itemLabelCallback(label, (T) value, index, isSelected);

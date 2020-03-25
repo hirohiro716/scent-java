@@ -77,24 +77,24 @@ public class HorizontalPane extends Pane {
     
     private VerticalAlignment verticalAlignment = VerticalAlignment.TOP;
     
-    private boolean isFillChildHeight = false;
+    private boolean isFillChildToPaneHeight = false;
     
     /**
      * 子要素がペインの高さまで拡大される場合はtrueを返す。
      * 
      * @return 結果。
      */
-    public boolean isFillChildHeight() {
-        return this.isFillChildHeight;
+    public boolean isFillChildToPaneHeight() {
+        return this.isFillChildToPaneHeight;
     }
     
     /**
      * 子要素をペインの高さまで拡大する場合はtrueをセットする。初期値はfalse。
      * 
-     * @param isFillChildHeight
+     * @param isFillChildToPaneHeight
      */
-    public void setFillChildHeight(boolean isFillChildHeight) {
-        this.isFillChildHeight = isFillChildHeight;
+    public void setFillChildToPaneHeight(boolean isFillChildToPaneHeight) {
+        this.isFillChildToPaneHeight = isFillChildToPaneHeight;
         this.updateAllChildLayout();
     }
     
@@ -164,7 +164,7 @@ public class HorizontalPane extends Pane {
             constraints.insets = new Insets(0, this.spacing, 0, 0);
         }
         constraints.weighty = 1;
-        if (this.isFillChildHeight) {
+        if (this.isFillChildToPaneHeight) {
             constraints.fill = GridBagConstraints.VERTICAL;
         }
         if (this.growableControls.contains(control)) {
