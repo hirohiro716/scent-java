@@ -70,6 +70,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
                 control.getInnerInstance().setSelectedIndex(index);
             }
         });
+        this.bugFix();
     }
     
     /**
@@ -102,10 +103,6 @@ public class DropDownList<T> extends ListSelectControl<T> {
     }
     
     @Override
-    protected void itemLabelCallback(Label label, T value, int index, boolean isSelected) {
-    }
-    
-    @Override
     @SuppressWarnings("unchecked")
     public JComboBox<T> getInnerInstance() {
         return (JComboBox<T>) super.getInnerInstance();
@@ -122,22 +119,27 @@ public class DropDownList<T> extends ListSelectControl<T> {
             }
         };
     }
-    
-    private int minimumWidthForBugFix = 0;
-    
-    private int minimumHeightForBugFix = 0;
 
+    private int baseWidth = 0;
+    
+    @Override
+    protected void itemLabelCallback(Label label, T value, int index, boolean isSelected) {
+        if (this.baseWidth < label.getWidth()) {
+            this.baseWidth = label.getWidth();
+        }
+    }
+    
+    private boolean isSizeInitialized = false;
+    
     /**
      * このGUIライブラリにはドロップダウンリストの最小幅をアイテムの文字幅に合わせて無限に拡大するバグがある。
      */
     private void bugFix() {
-        if (this.minimumHeightForBugFix == 0) {
-            int defaultSize = (int) (this.getFont().getSize2D() * 2.6);
-            this.minimumWidthForBugFix = defaultSize;
-            this.minimumHeightForBugFix = defaultSize;
-            this.getInnerInstance().setSize(defaultSize, defaultSize);
+        if (this.isSizeInitialized == false && this.baseWidth > 0) {
+            this.isSizeInitialized = true;
+            super.setMinimumHeight(this.getItemHeight());
+            super.setSize(this.baseWidth, this.getItemHeight());
         }
-        this.getInnerInstance().setMinimumSize(new Dimension(this.minimumWidthForBugFix, this.minimumHeightForBugFix));
         if (this.getWidth() < this.getMinimumWidth() && this.getMinimumWidth() < this.getMaximumWidth()) {
             this.setWidth(this.getMinimumWidth());
             return;
@@ -178,22 +180,18 @@ public class DropDownList<T> extends ListSelectControl<T> {
     @Override
     public void setMinimumSize(int width, int height) {
         super.setMinimumSize(width, height);
-        this.minimumWidthForBugFix = width;
-        this.minimumHeightForBugFix = height;
         this.bugFix();
     }
     
     @Override
     public void setMinimumWidth(int width) {
         super.setMinimumWidth(width);
-        this.minimumWidthForBugFix = width;
         this.bugFix();
     }
     
     @Override
     public void setMinimumHeight(int height) {
         super.setMinimumHeight(height);
-        this.minimumHeightForBugFix = height;
         this.bugFix();
     }
 

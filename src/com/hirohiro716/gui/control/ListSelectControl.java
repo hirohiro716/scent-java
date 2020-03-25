@@ -48,6 +48,15 @@ public abstract class ListSelectControl<T> extends Control {
     }
     
     /**
+     * このコントロールのリストアイテムの高さを取得する。
+     * 
+     * @return 結果。
+     */
+    protected int getItemHeight() {
+        return (int) (this.getFont().getSize2D() * 2.4);
+    }
+    
+    /**
      * このコントロールのリストアイテムの表示を更新する。
      */
     protected void updateItemDisplay() {
@@ -66,11 +75,9 @@ public abstract class ListSelectControl<T> extends Control {
                 if (control.getMapForDisplayTextAndItem() != null && control.getMapForDisplayTextAndItem().containsKey(value)) {
                     label.setText(control.getMapForDisplayTextAndItem().get(value));
                 }
-                int height = (int) (control.getFont().getSize2D() * 2.2);
                 label.setMaximumWidth(control.getWidth());
+                int height = control.getItemHeight();
                 label.setHeight(height);
-                int padding = (int) (control.getFont().getSize2D() * 0.6);
-                label.setPadding(0, padding);
                 label.setTextHorizontalAlignment(control.getTextHorizontalAlignment());
                 label.setParent(control);
                 control.itemLabelCallback(label, (T) value, index, isSelected);
