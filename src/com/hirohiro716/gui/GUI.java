@@ -15,6 +15,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.hirohiro716.StringObject;
+
 /**
  * GUIのグローバルな静的関数のクラス。
  * 
@@ -145,6 +147,37 @@ public class GUI {
      */
     public static void setFontSizeToAdd(int fontSizeToAdd) {
         GUI.FONT_SIZE_TO_ADD = fontSizeToAdd;
+    }
+
+    /**
+     * 指定されたHTMLやCSSで使用する "#000000" や "#fff" のような形式の色を作成する。
+     * 
+     * @param webColor
+     * @return 結果。
+     */
+    public static Color createColor(String webColor) {
+        StringObject colorString = new StringObject(webColor);
+        if (colorString.toString().indexOf("#") == 0) {
+            try {
+                int red;
+                int green;
+                int blue;
+                switch (colorString.length()) {
+                case 4:
+                    red = Integer.parseInt(colorString.clone().extract(1, 2).repeat(2).toString(), 16);
+                    green = Integer.parseInt(colorString.clone().extract(2, 3).repeat(2).toString(), 16);
+                    blue = Integer.parseInt(colorString.clone().extract(3, 4).repeat(2).toString(), 16);
+                    return new Color(red, green, blue);
+                case 7:
+                    red = Integer.parseInt(colorString.clone().extract(1, 3).toString(), 16);
+                    green = Integer.parseInt(colorString.clone().extract(3, 5).toString(), 16);
+                    blue = Integer.parseInt(colorString.clone().extract(5, 7).toString(), 16);
+                    return new Color(red, green, blue);
+                }
+            } catch (Exception exception) {
+            }
+        }
+        return createAlphaColor(Color.BLACK, 0);
     }
     
     /**

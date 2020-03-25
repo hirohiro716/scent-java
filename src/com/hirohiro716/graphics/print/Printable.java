@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.hirohiro716.StringObject;
 import com.hirohiro716.graphics.GraphicalString;
 import com.hirohiro716.graphics.NW7Writer;
+import com.hirohiro716.gui.GUI;
 import com.hirohiro716.graphics.GraphicalString.HorizontalPosition;
 import com.hirohiro716.graphics.GraphicalString.VerticalPosition;
 import com.hirohiro716.graphics.JAN13Writer;
@@ -87,29 +87,9 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param webColor
      */
     protected void setWebColor(String webColor) {
-        StringObject colorString = new StringObject(webColor);
-        if (colorString.toString().indexOf("#") == -1) {
-            return;
-        }
-        try {
-            int red;
-            int green;
-            int blue;
-            switch (colorString.length()) {
-            case 4:
-                red = Integer.parseInt(colorString.clone().extract(1, 2).repeat(2).toString(), 16);
-                green = Integer.parseInt(colorString.clone().extract(2, 3).repeat(2).toString(), 16);
-                blue = Integer.parseInt(colorString.clone().extract(3, 4).repeat(2).toString(), 16);
-                this.graphics2D.setColor(new Color(red, green, blue));
-                break;
-            case 7:
-                red = Integer.parseInt(colorString.clone().extract(1, 3).toString(), 16);
-                green = Integer.parseInt(colorString.clone().extract(3, 5).toString(), 16);
-                blue = Integer.parseInt(colorString.clone().extract(5, 7).toString(), 16);
-                this.graphics2D.setColor(new Color(red, green, blue));
-                break;
-            }
-        } catch (Exception exception) {
+        Color color = GUI.createColor(webColor);
+        if (color.getAlpha() > 0) {
+            this.graphics2D.setColor(color);
         }
     }
     
