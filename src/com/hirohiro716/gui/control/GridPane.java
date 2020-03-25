@@ -198,7 +198,7 @@ public class GridPane extends Pane {
      * @param gridHeight 表示に使用する行数。
      */
     public void setGridLayout(Control control, int gridX, int gridY, int gridWidth, int gridHeight) {
-        this.setGridLayout(control, gridX, gridY, 1, 1, CellLayout.FILL);
+        this.setGridLayout(control, gridX, gridY, gridWidth, gridHeight, CellLayout.FILL);
     }
     
     /**
