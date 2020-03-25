@@ -146,6 +146,15 @@ public class GridPane extends Pane {
         this.verticalSpacing = verticalSpacing;
         this.updateAllChildLayout();
     }
+
+    /**
+     * このペインに配置されている子要素間のスペースを指定する。
+     * 
+     * @param spacing
+     */
+    public void setSpacing(int spacing) {
+        this.setSpacing(spacing, spacing);
+    }
     
     private Map<Control, Integer> mapGridX = new HashMap<>();
     
