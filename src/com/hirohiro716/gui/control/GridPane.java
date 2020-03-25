@@ -1,5 +1,6 @@
 package com.hirohiro716.gui.control;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -50,6 +51,15 @@ public class GridPane extends Pane {
         };
         this.horizontalGrowableControls.addListener(removeListener);
         this.verticalGrowableControls.addListener(removeListener);
+        Dimension zero = new Dimension(0, 0);
+        this.horizontalSpacer.setPreferredSize(zero);
+        this.horizontalSpacer.setMinimumSize(zero);
+        this.horizontalSpacer.setOpaque(false);
+        this.getInnerInstance().add(this.horizontalSpacer);
+        this.verticalSpacer.setPreferredSize(zero);
+        this.verticalSpacer.setMinimumSize(zero);
+        this.verticalSpacer.setOpaque(false);
+        this.getInnerInstance().add(this.verticalSpacer);
     }
     
     /**
@@ -252,39 +262,37 @@ public class GridPane extends Pane {
             Control control = this.getChildren().get(index);
             this.updateChildLayout(control, index);
         }
+        // Horizontal spacer
         this.layout.removeLayoutComponent(this.horizontalSpacer);
-        this.getInnerInstance().remove(this.horizontalSpacer);
+        GridBagConstraints horizontalConstraints = new GridBagConstraints();
+        int maxGridX = 0;
+        for (Integer gridX : this.mapGridX.values()) {
+            if (gridX != null && gridX > maxGridX) {
+                maxGridX = gridX;
+            }
+        }
+        horizontalConstraints.gridx = maxGridX + 1;
+        horizontalConstraints.gridy = 0;
         if (this.horizontalGrowableControls.size() == 0) {
-            this.getInnerInstance().add(this.horizontalSpacer);
-            GridBagConstraints horizontalConstraints = new GridBagConstraints();
-            int maxGridX = 0;
-            for (Integer gridX : this.mapGridX.values()) {
-                if (gridX != null && gridX > maxGridX) {
-                    maxGridX = gridX;
-                }
-            }
-            horizontalConstraints.gridx = maxGridX + 1;
-            horizontalConstraints.gridy = 0;
             horizontalConstraints.weightx = 1;
-            horizontalConstraints.fill = GridBagConstraints.BOTH;
-            this.layout.setConstraints(this.horizontalSpacer, horizontalConstraints);
         }
+        horizontalConstraints.fill = GridBagConstraints.BOTH;
+        this.layout.setConstraints(this.horizontalSpacer, horizontalConstraints);
+        // Vertical spacer
         this.layout.removeLayoutComponent(this.verticalSpacer);
-        this.getInnerInstance().remove(this.verticalSpacer);
-        if (this.verticalGrowableControls.size() == 0) {
-            this.getInnerInstance().add(this.verticalSpacer);
-            GridBagConstraints verticalConstraints = new GridBagConstraints();
-            int maxGridY = 0;
-            for (Integer gridY : this.mapGridY.values()) {
-                if (gridY != null && gridY > maxGridY) {
-                    maxGridY = gridY;
-                }
+        GridBagConstraints verticalConstraints = new GridBagConstraints();
+        int maxGridY = 0;
+        for (Integer gridY : this.mapGridY.values()) {
+            if (gridY != null && gridY > maxGridY) {
+                maxGridY = gridY;
             }
-            verticalConstraints.gridx = 0;
-            verticalConstraints.gridy = maxGridY + 1;
-            verticalConstraints.weighty = 1;
-            verticalConstraints.fill = GridBagConstraints.BOTH;
-            this.layout.setConstraints(this.verticalSpacer, verticalConstraints);
         }
+        verticalConstraints.gridx = 0;
+        verticalConstraints.gridy = maxGridY + 1;
+        if (this.verticalGrowableControls.size() == 0) {
+            verticalConstraints.weighty = 1;
+        }
+        verticalConstraints.fill = GridBagConstraints.BOTH;
+        this.layout.setConstraints(this.verticalSpacer, verticalConstraints);
     }
 }

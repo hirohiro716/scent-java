@@ -1,5 +1,6 @@
 package com.hirohiro716.gui.control;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -45,6 +46,11 @@ public class HorizontalPane extends Pane {
                 pane.updateAllChildLayout();
             }
         });
+        Dimension zero = new Dimension(0, 0);
+        this.spacer.setPreferredSize(zero);
+        this.spacer.setMinimumSize(zero);
+        this.spacer.setOpaque(false);
+        this.getInnerInstance().add(this.spacer);
     }
     
     private GridBagLayout layout = new GridBagLayout();
@@ -190,16 +196,13 @@ public class HorizontalPane extends Pane {
             this.updateChildLayout(control, index);
         }
         this.layout.removeLayoutComponent(this.spacer);
-        this.getInnerInstance().remove(this.spacer);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = this.getChildren().size();
+        constraints.gridy = 0;
         if (this.growableControls.size() == 0) {
-            this.getInnerInstance().add(this.spacer);
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = this.getChildren().size();
-            constraints.gridy = 0;
-            constraints.weighty = 1;
             constraints.weightx = 1;
-            constraints.fill = GridBagConstraints.BOTH;
-            this.layout.setConstraints(this.spacer, constraints);
         }
+        constraints.fill = GridBagConstraints.BOTH;
+        this.layout.setConstraints(this.spacer, constraints);
     }
 }

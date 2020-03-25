@@ -1,8 +1,10 @@
 package com.hirohiro716.gui.control;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+
 import javax.swing.JPanel;
 
 import com.hirohiro716.gui.HorizontalAlignment;
@@ -31,19 +33,24 @@ public class VerticalPane extends Pane {
         this.getInnerInstance().setLayout(this.layout);
         VerticalPane pane = VerticalPane.this;
         this.growableControls.addListener(new AddListener<Control>() {
-
+            
             @Override
             protected void added(Control added, int positionIndex) {
                 pane.updateAllChildLayout();
             }
         });
         this.growableControls.addListener(new RemoveListener<Control>() {
-
+            
             @Override
             protected void removed(Control removed) {
                 pane.updateAllChildLayout();
             }
         });
+        Dimension zero = new Dimension(0, 0);
+        this.spacer.setPreferredSize(zero);
+        this.spacer.setMinimumSize(zero);
+        this.spacer.setOpaque(false);
+        this.getInnerInstance().add(this.spacer);
     }
     
     private GridBagLayout layout = new GridBagLayout();
@@ -52,7 +59,7 @@ public class VerticalPane extends Pane {
      * コンストラクタ。<br>
      * このペイン内での水平方向配置基準を指定する。
      * 
-     * @param horizontalAlignment 
+     * @param horizontalAlignment
      */
     public VerticalPane(HorizontalAlignment horizontalAlignment) {
         this(new JPanel());
@@ -90,7 +97,7 @@ public class VerticalPane extends Pane {
         this.isFillChildWidth = isFillChildWidth;
         this.updateAllChildLayout();
     }
-
+    
     private int spacing = 0;
     
     /**
@@ -120,9 +127,9 @@ public class VerticalPane extends Pane {
             pane.updateAllChildLayout();
         }
     };
-
+    
     private RemoveListener<Control> removeListener = new RemoveListener<Control>() {
-
+        
         @Override
         protected void removed(Control removed) {
             VerticalPane pane = VerticalPane.this;
@@ -177,7 +184,7 @@ public class VerticalPane extends Pane {
         }
         this.layout.setConstraints(control.getInnerInstanceForLayout(), constraints);
     }
-
+    
     private JPanel spacer = new JPanel();
     
     /**
@@ -189,16 +196,14 @@ public class VerticalPane extends Pane {
             this.updateChildLayout(control, index);
         }
         this.layout.removeLayoutComponent(this.spacer);
-        this.getInnerInstance().remove(this.spacer);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = this.getChildren().size();
         if (this.growableControls.size() == 0) {
-            this.getInnerInstance().add(this.spacer);
-            GridBagConstraints constraints = new GridBagConstraints();
-            constraints.gridx = 0;
-            constraints.gridy = this.getChildren().size();
             constraints.weightx = 1;
             constraints.weighty = 1;
-            constraints.fill = GridBagConstraints.BOTH;
-            this.layout.setConstraints(this.spacer, constraints);
         }
+        constraints.fill = GridBagConstraints.BOTH;
+        this.layout.setConstraints(this.spacer, constraints);
     }
 }
