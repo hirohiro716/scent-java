@@ -78,6 +78,7 @@ public abstract class ListSelectControl<T> extends Control {
                 label.setMaximumWidth(control.getWidth());
                 int height = control.getItemHeight();
                 label.setHeight(height);
+                label.setPadding(0, (height - this.getFont().getSize()) / 2);
                 label.setTextHorizontalAlignment(control.getTextHorizontalAlignment());
                 label.setParent(control);
                 control.itemLabelCallback(label, (T) value, index, isSelected);
