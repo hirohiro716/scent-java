@@ -65,7 +65,7 @@ public class FlowPane extends Pane {
     }
 
     /**
-     * コンポーネント間の水平方向間隔をセットする。
+     * コンポーネント間の水平方向スペースをセットする。
      * 
      * @param spacing
      */
@@ -75,13 +75,34 @@ public class FlowPane extends Pane {
     }
     
     /**
-     * コンポーネント間の垂直方向間隔をセットする。
+     * コンポーネント間の垂直方向スペースをセットする。
      * 
      * @param spacing
      */
     public void setVerticalSpacing(int spacing) {
         this.layout.setVgap(spacing);
         this.adjustPadding();
+    }
+
+    /**
+     * コンポーネント間のスペースを指定する。
+     * 
+     * @param horizontalSpacing 水平方向のスペース。
+     * @param verticalSpacing 垂直方向のスペース。
+     */
+    public void setSpacing(int horizontalSpacing, int verticalSpacing) {
+        this.layout.setHgap(horizontalSpacing);
+        this.layout.setVgap(verticalSpacing);
+        this.adjustPadding();
+    }
+
+    /**
+     * このペインに配置されている子要素間のスペースを指定する。
+     * 
+     * @param spacing
+     */
+    public void setSpacing(int spacing) {
+        this.setSpacing(spacing, spacing);
     }
     
     private int paddingTop = 0;
