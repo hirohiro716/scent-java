@@ -29,6 +29,16 @@ public class Label extends LabeledControl {
         super(innerInstance);
         innerInstance.setFocusable(false);
     }
+
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param innerInstance GUIライブラリに依存したインスタンス。
+     * @return 新しいインスタンス。
+     */
+    public static Label newInstance(JLabel innerInstance) {
+        return new Label(innerInstance);
+    }
     
     /**
      * コンストラクタ。<br>

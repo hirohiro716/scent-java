@@ -8,7 +8,7 @@ import com.hirohiro716.gui.VerticalAlignment;
 import com.hirohiro716.gui.control.AnchorPane;
 import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.Control;
-import com.hirohiro716.gui.control.FlowPane;
+import com.hirohiro716.gui.control.HorizontalPane;
 import com.hirohiro716.gui.control.Label;
 
 /**
@@ -54,15 +54,15 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
             controls.add(inputControl);
         }
         // Buttons
-        FlowPane flowPaneButton = new FlowPane();
-        flowPaneButton.setHorizontalSpacing(5);
+        HorizontalPane paneButton = new HorizontalPane();
+        paneButton.setSpacing(5);
         Button[] buttons = this.createButtons();
         for (Button button : buttons) {
-            flowPaneButton.getChildren().add(button);
+            paneButton.getChildren().add(button);
         }
         AnchorPane anchorPaneButton = new AnchorPane();
-        anchorPaneButton.getChildren().add(flowPaneButton);
-        anchorPaneButton.setAnchor(flowPaneButton, null, 0, null, null);
+        anchorPaneButton.getChildren().add(paneButton);
+        anchorPaneButton.setAnchor(paneButton, null, 0, null, null);
         controls.add(anchorPaneButton);
         return controls.toArray(new Control[] {});
     }

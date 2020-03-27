@@ -56,7 +56,7 @@ public abstract class EditableTable<C, R> extends Control {
         super(new JPanel());
         EditableTable<C, R> editableTable = this;
         // Root pane
-        this.root.setInnerInstance(this.getInnerInstance());
+        this.root = Pane.newInstance(this.getInnerInstance());
         this.root.setParent(this);
         GridBagLayout layout = new GridBagLayout();
         this.root.getInnerInstance().setLayout(layout);
@@ -137,7 +137,7 @@ public abstract class EditableTable<C, R> extends Control {
     
     private Color activatedBackgroundColor = new Color(UIManager.getColor("textHighlight").getRGB());
     
-    private Pane root = new Pane();
+    private Pane root;
     
     private Pane headerPane = new Pane();
     

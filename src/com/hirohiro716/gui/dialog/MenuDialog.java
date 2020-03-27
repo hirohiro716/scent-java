@@ -97,8 +97,7 @@ public class MenuDialog extends TitledDialog<Button> {
     @Override
     protected void processAfterShow() {
         Font font = this.getPane().getFont();
-        this.flowPane.setHorizontalSpacing(font.getSize());
-        this.flowPane.setVerticalSpacing(font.getSize());
+        this.flowPane.setSpacing(font.getSize());
         for (Button button : this.getButtons()) {
             this.flowPane.getChildren().add(button);
         }
@@ -125,6 +124,11 @@ public class MenuDialog extends TitledDialog<Button> {
     @Override
     public Button getDialogResult() {
         return this.result;
+    }
+
+    @Override
+    protected void setDialogResult(Button result) {
+        this.result = result;
     }
     
 }

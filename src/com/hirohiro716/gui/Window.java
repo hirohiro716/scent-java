@@ -1,6 +1,5 @@
 package com.hirohiro716.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import javax.swing.JFrame;
@@ -24,8 +23,7 @@ public class Window extends Frame<JFrame> {
     protected Window(JFrame jFrame) {
         super(jFrame);
         this.setCloseOperation(CloseOperation.DISPOSE);
-        this.pane = new Pane();
-        this.pane.setInnerInstance((JPanel) this.getInnerInstance().getContentPane());
+        this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
         this.pane.setParent(this);
     }
     
@@ -86,11 +84,6 @@ public class Window extends Frame<JFrame> {
         this.getInnerInstance().setUndecorated(isUndecorated);
     }
     
-    @Override
-    public void setBackgroundColor(Color color) {
-        this.getPane().setBackgroundColor(color);
-    }
-
     /**
      * このウィンドウを最大化する。
      */

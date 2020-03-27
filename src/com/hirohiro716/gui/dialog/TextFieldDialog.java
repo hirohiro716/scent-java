@@ -36,7 +36,7 @@ public class TextFieldDialog extends TextInputControlDialog<TextField> {
             @Override
             protected void handle(KeyEvent event) {
                 if (event.getKeyCode() == KeyCode.ENTER && control.getText().length() > 0) {
-                    dialog.setDefaultValue(control.getText());
+                    dialog.setDialogResult(control.getText());
                     dialog.close();
                 }
             }

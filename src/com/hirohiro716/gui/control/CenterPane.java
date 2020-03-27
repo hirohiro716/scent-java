@@ -26,6 +26,16 @@ public class CenterPane extends Pane {
         this.getChildren().addListener(this.addListener);
         this.getInnerInstance().setLayout(this.layout);
     }
+
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param innerInstance GUIライブラリに依存したインスタンス。
+     * @return 新しいインスタンス。
+     */
+    public static CenterPane newInstance(JPanel innerInstance) {
+        return new CenterPane(innerInstance);
+    }
     
     /**
      * コンストラクタ。
@@ -51,6 +61,7 @@ public class CenterPane extends Pane {
         constraints.anchor = GridBagConstraints.CENTER;
         this.getChildren().add(control);
         this.layout.setConstraints(control.getInnerInstance(), constraints);
+        // doLayout not required
     }
     
     private AddListener<Control> addListener = new AddListener<Control>() {

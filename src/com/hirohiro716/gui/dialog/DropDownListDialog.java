@@ -139,4 +139,9 @@ public class DropDownListDialog<T> extends MessageableDialog<T> {
     public T getDialogResult() {
         return this.result;
     }
+
+    @Override
+    protected void setDialogResult(T result) {
+        this.result = result;
+    }
 }

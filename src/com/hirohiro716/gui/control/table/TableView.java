@@ -614,8 +614,7 @@ public abstract class TableView<C, R> extends Control {
             C columnInstance = tableView.columnInstances.get(column);
             TableColumn tableColumn = tableView.mapTableColumns.get(columnInstance);
             JLabel jLabel = (JLabel) this.defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            Label label = new Label();
-            label.setInnerInstance(jLabel);
+            Label label = Label.newInstance(jLabel);
             label.setFont(tableView.getFont());
             label.setTextHorizontalAlignment(tableColumn.getHeaderHorizontalAlignment());
             return label.getInnerInstance();
@@ -636,8 +635,7 @@ public abstract class TableView<C, R> extends Control {
             TableView<C, R> tableView = TableView.this;
             C columnInstance = tableView.columnInstances.get(column);
             JLabel jLabel = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            Label label = new Label();
-            label.setInnerInstance(jLabel);
+            Label label = Label.newInstance(jLabel);
             if (tableView.mapColumnHorizontalAlignment.containsKey(columnInstance)) {
                 label.setTextHorizontalAlignment(tableView.mapColumnHorizontalAlignment.get(columnInstance));
             }

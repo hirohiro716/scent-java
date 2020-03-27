@@ -132,6 +132,7 @@ public class AnchorPane extends Pane {
             control.setVisible(this.mapControlVisible.get(control));
             this.layoutedControls.add(control);
         }
+        this.getInnerInstance().doLayout();
     }
 
     /**

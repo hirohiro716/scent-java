@@ -200,10 +200,10 @@ public class VerticalPane extends Pane {
         constraints.gridx = 0;
         constraints.gridy = this.getChildren().size();
         if (this.growableControls.size() == 0) {
-            constraints.weightx = 1;
             constraints.weighty = 1;
         }
         constraints.fill = GridBagConstraints.BOTH;
         this.layout.setConstraints(this.spacer, constraints);
+        this.getInnerInstance().doLayout();
     }
 }

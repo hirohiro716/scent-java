@@ -125,4 +125,9 @@ public class QuestionDialog extends MessageableDialog<ResultButton> {
     public ResultButton getDialogResult() {
         return this.result;
     }
+    
+    @Override
+    protected void setDialogResult(ResultButton result) {
+        this.result = result;
+    }
 }

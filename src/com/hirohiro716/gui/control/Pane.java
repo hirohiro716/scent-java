@@ -44,6 +44,16 @@ public class Pane extends Control {
         this(new JPanel());
     }
     
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param innerInstance GUIライブラリに依存したインスタンス。
+     * @return 新しいインスタンス。
+     */
+    public static Pane newInstance(JPanel innerInstance) {
+        return new Pane(innerInstance);
+    }
+    
     @Override
     public JPanel getInnerInstance() {
         return (JPanel) super.getInnerInstance();
@@ -136,8 +146,8 @@ public class Pane extends Control {
         public void setInitialFocusControl(Control control) {
             this.initialFocusControl = control;
         }
-
-        private Map<Component, Control> hashMap = new HashMap<>();
+        
+        private Map<Component, Control> mapInnerInstance = new HashMap<>();
         
         private AddListener<Control> addListener = new AddListener<Control>() {
             
@@ -147,7 +157,7 @@ public class Pane extends Control {
                 Children instance = Children.this;
                 pane.getInnerInstance().add(added.getInnerInstanceForLayout(), positionIndex);
                 added.setParent(pane);
-                instance.hashMap.put(added.getInnerInstanceForLayout(), added);
+                instance.mapInnerInstance.put(added.getInnerInstanceForLayout(), added);
                 if (instance.initialFocusControl == null) {
                     instance.initialFocusControl = added;
                 }
@@ -162,7 +172,7 @@ public class Pane extends Control {
                 Children instance = Children.this;
                 pane.getInnerInstance().remove(removed.getInnerInstanceForLayout());
                 removed.setParent(null);
-                instance.hashMap.remove(removed.getInnerInstanceForLayout());
+                instance.mapInnerInstance.remove(removed.getInnerInstanceForLayout());
                 if (instance.initialFocusControl == removed) {
                     instance.initialFocusControl = null;
                     if (instance.size() > 0) {
@@ -243,7 +253,7 @@ public class Pane extends Control {
          * @param controlClass
          * @return 結果。
          */
-        public <T extends Control> Array<T> findControlsByClass(Class<T> controlClass) {
+        public <C extends Control> Array<C> findControlsByClass(Class<C> controlClass) {
             return new Array<>(this.findControlsByClassAsList(controlClass));
         }
         
@@ -255,11 +265,11 @@ public class Pane extends Control {
          * @return 結果。
          */
         @SuppressWarnings("unchecked")
-        private <T extends Control> List<T> findControlsByClassAsList(Class<T> controlClass) {
-            List<T> finded = new ArrayList<>();
+        private <C extends Control> List<C> findControlsByClassAsList(Class<C> controlClass) {
+            List<C> finded = new ArrayList<>();
             for (Control control : this) {
                 if (control.getClass().getName().equals(controlClass.getName())) {
-                    finded.add((T) control);
+                    finded.add((C) control);
                 }
                 List<Pane> nextPanes = new ArrayList<>();
                 if (control instanceof Pane) {
@@ -294,7 +304,7 @@ public class Pane extends Control {
          * @return 結果。
          */
         @SuppressWarnings("unchecked")
-        public <C extends Control> C findControlByNameAndClass(String name, String controlClass) {
+        public <C extends Control> C findControlByNameAndClass(String name, Class<C> controlClass) {
             try {
                 return (C) this.findControlsByNameAndClass(name, controlClass).get(0);
             } catch (Exception exception) {
@@ -310,10 +320,10 @@ public class Pane extends Control {
          * @param controlClass
          * @return 結果。
          */
-        public Array<Control> findControlsByNameAndClass(String name, String controlClass) {
+        public <C extends Control> Array<Control> findControlsByNameAndClass(String name, Class<C> controlClass) {
             List<Control> findedByName = this.findControlsByNameAsList(name);
             for (Control control : findedByName.toArray(new Control[] {})) {
-                if (control.getClass().getName().equals(controlClass) == false) {
+                if (control.getClass().getName().equals(controlClass.getName()) == false) {
                     findedByName.remove(control);
                 }
             }

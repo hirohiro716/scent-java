@@ -128,4 +128,9 @@ public abstract class TextInputControlDialog<C extends TextInputControl> extends
     public String getDialogResult() {
         return this.result;
     }
+    
+    @Override
+    protected void setDialogResult(String result) {
+        this.result = result;
+    }
 }

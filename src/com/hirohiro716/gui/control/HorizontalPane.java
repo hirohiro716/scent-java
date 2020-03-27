@@ -204,5 +204,6 @@ public class HorizontalPane extends Pane {
         }
         constraints.fill = GridBagConstraints.BOTH;
         this.layout.setConstraints(this.spacer, constraints);
+        this.getInnerInstance().doLayout();
     }
 }

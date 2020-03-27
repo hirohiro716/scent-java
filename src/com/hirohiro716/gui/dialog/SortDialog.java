@@ -332,5 +332,9 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
     public Array<T> getDialogResult() {
         return this.result;
     }
-    
+
+    @Override
+    protected void setDialogResult(Array<T> result) {
+        this.result = result;
+    }
 }

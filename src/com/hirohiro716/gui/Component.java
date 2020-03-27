@@ -48,27 +48,6 @@ public abstract class Component<T extends java.awt.Component> {
         return this.innerInstance;
     }
     
-    /**
-     * このコンポーネントがラップする、GUIライブラリに依存したインスタンスをセットする。
-     * 
-     * @param innerInstance
-     */
-    public void setInnerInstance(T innerInstance) {
-        this.innerInstance = innerInstance;
-        this.innerInstanceForLayout = innerInstance;
-    }
-
-    /**
-     * このコンポーネントがラップする、GUIライブラリに依存したインスタンスをセットする。
-     * 
-     * @param innerInstance
-     * @param innerInstanceForLayout 
-     */
-    public void setInnerInstance(T innerInstance, java.awt.Component innerInstanceForLayout) {
-        this.innerInstance = innerInstance;
-        this.innerInstanceForLayout = innerInstanceForLayout;
-    }
-    
     private java.awt.Component innerInstanceForLayout;
     
     /**

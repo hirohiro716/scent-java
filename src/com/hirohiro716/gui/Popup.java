@@ -27,8 +27,8 @@ public class Popup extends Component<JWindow> {
      */
     protected Popup(JWindow innerInstance) {
         super(innerInstance, innerInstance);
-        this.pane = new Pane();
-        this.pane.setInnerInstance((JPanel) this.getInnerInstance().getContentPane());
+        this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
+        this.pane.setParent(this);
         this.getInnerInstance().addWindowListener(this.windowListener);
     }
     

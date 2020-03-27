@@ -186,6 +186,11 @@ public class WaitCircleDialog<R> extends MessageableDialog<R> {
         return this.result;
     }
 
+    @Override
+    protected void setDialogResult(R result) {
+        this.result = result;
+    }
+    
     private Exception exception = null;
     
     /**

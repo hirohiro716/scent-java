@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 
 import com.hirohiro716.filesystem.Directory;
 import com.hirohiro716.filesystem.File;
@@ -37,8 +38,7 @@ public abstract class FileChooser extends Control implements DialogInterface {
     public FileChooser(Frame<?> owner) {
         super(new JFileChooser());
         this.owner = owner;
-        this.pane = new Pane();
-        this.pane.setInnerInstance(this.getInnerInstance().getRootPane());
+        this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getRootPane().getContentPane());
         this.setListenerOfFileFilter();
     }
     

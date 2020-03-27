@@ -194,6 +194,11 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
         return this.result;
     }
 
+    @Override
+    protected void setDialogResult(R result) {
+        this.result = result;
+    }
+    
     private Exception exception = null;
     
     /**
@@ -204,4 +209,5 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     public Exception getException() {
         return this.exception;
     }
+    
 }

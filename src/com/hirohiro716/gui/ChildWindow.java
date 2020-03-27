@@ -25,8 +25,7 @@ public class ChildWindow extends Frame<JDialog> {
     protected ChildWindow(JDialog jDialog) {
         super(jDialog);
         this.getInnerInstance().setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        this.pane = new Pane();
-        this.pane.setInnerInstance((JPanel) this.getInnerInstance().getContentPane());
+        this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
         this.pane.setParent(this);
     }
     

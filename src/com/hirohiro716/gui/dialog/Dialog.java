@@ -149,6 +149,13 @@ public abstract class Dialog<R> implements DialogInterface {
      * @return 結果。
      */
     public abstract R getDialogResult();
+    
+    /**
+     * このダイアログの表示結果をセットする。
+     * 
+     * @param result
+     */
+    protected abstract void setDialogResult(R result);
 
     private ProcessAfterClose<R> processAfterClose = null;
     
@@ -239,6 +246,29 @@ public abstract class Dialog<R> implements DialogInterface {
     private BufferedImage backgroundImage = null;
     
     /**
+     * ダイアログの背景を表示するパネルのクラス。
+     * 
+     * @author hiro
+     *
+     */
+    @SuppressWarnings("serial")
+    private class InnerBackgroundPanel extends JPanel {
+        
+        @Override
+        protected void paintComponent(Graphics graphics) {
+            super.paintComponent(graphics);
+            Dialog<R> dialog = Dialog.this;
+            if (this.getWidth() == dialog.backgroundImage.getWidth() && this.getHeight() == dialog.backgroundImage.getHeight()) {
+                graphics.drawImage(dialog.backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
+            } else {
+                dialog.restoreOwnerChildVisibleStatuses();
+            }
+            graphics.setColor(new Color(50, 50, 50, 200));
+            graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
+        }
+    }
+    
+    /**
      * ダイアログの背景を表示するペインのクラス。
      * 
      * @author hiro
@@ -249,24 +279,8 @@ public abstract class Dialog<R> implements DialogInterface {
         /**
          * コンストラクタ。
          */
-        @SuppressWarnings("serial")
         private BackgroundPane() {
-            super();
-            this.setInnerInstance(new JPanel(this.getInnerInstance().getLayout()) {
-                
-                @Override
-                protected void paintComponent(Graphics graphics) {
-                    super.paintComponent(graphics);
-                    Dialog<R> dialog = Dialog.this;
-                    if (this.getWidth() == dialog.backgroundImage.getWidth() && this.getHeight() == dialog.backgroundImage.getHeight()) {
-                        graphics.drawImage(dialog.backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
-                    } else {
-                        dialog.restoreOwnerChildVisibleStatuses();
-                    }
-                    graphics.setColor(new Color(50, 50, 50, 200));
-                    graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
-                }
-            });
+            super(new InnerBackgroundPanel());
             this.getInnerInstance().setOpaque(false);
         }
     }
