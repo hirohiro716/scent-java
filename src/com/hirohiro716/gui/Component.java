@@ -382,6 +382,18 @@ public abstract class Component<T extends java.awt.Component> {
         this.setMaximumSize(this.getMaximumWidth(), height);
     }
     
+    /**
+     * 最大サイズ、最小サイズをセットして、このコンポーネントのサイズを固定する。
+     * 
+     * @param width
+     * @param height
+     */
+    public void setFixedSize(int width, int height) {
+        this.setMinimumSize(width, height);
+        this.setMaximumSize(width, height);
+        this.setSize(width, height);
+    }
+    
     private Bounds bounds = new Bounds();
     
     /**
