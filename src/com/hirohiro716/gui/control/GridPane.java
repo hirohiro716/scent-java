@@ -363,6 +363,7 @@ public class GridPane extends Pane {
         }
         verticalConstraints.fill = GridBagConstraints.BOTH;
         this.layout.setConstraints(this.verticalSpacer, verticalConstraints);
+        this.getInnerInstanceForLayout().doLayout();
     }
     
     /**

@@ -30,7 +30,7 @@ public class AnchorPane extends Pane {
         super(innerInstance);
         this.getChildren().addListener(this.addListener);
         this.getChildren().addListener(this.removeListener);
-        this.getInnerInstance().setLayout(this.gridBagLayout);
+        this.getInnerInstance().setLayout(this.layout);
     }
     
     /**
@@ -40,7 +40,7 @@ public class AnchorPane extends Pane {
         this(new JPanel());
     }
     
-    private GridBagLayout gridBagLayout = new GridBagLayout();
+    private GridBagLayout layout = new GridBagLayout();
 
     private Map<Control, Boolean> mapControlVisible = new HashMap<>();
     
@@ -77,7 +77,7 @@ public class AnchorPane extends Pane {
      * @param left 左位置。
      */
     public void setAnchor(Control control, Integer top, Integer right, Integer bottom, Integer left) {
-        this.gridBagLayout.removeLayoutComponent(control.getInnerInstanceForLayout());
+        this.layout.removeLayoutComponent(control.getInnerInstanceForLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -127,12 +127,12 @@ public class AnchorPane extends Pane {
             int intLeft = (left == null) ? 0 : left;
             constraints.insets = new Insets(intTop, intLeft, intBottom, intRight);
         }
-        this.gridBagLayout.setConstraints(control.getInnerInstance(), constraints);
+        this.layout.setConstraints(control.getInnerInstance(), constraints);
         if (this.layoutedControls.contains(control) == false) {
             control.setVisible(this.mapControlVisible.get(control));
             this.layoutedControls.add(control);
         }
-        this.getInnerInstance().doLayout();
+        this.getInnerInstanceForLayout().doLayout();
     }
 
     /**
