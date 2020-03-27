@@ -38,7 +38,6 @@ public abstract class FileChooser extends Control implements DialogInterface {
     public FileChooser(Frame<?> owner) {
         super(new JFileChooser());
         this.owner = owner;
-        this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getRootPane().getContentPane());
         this.setListenerOfFileFilter();
     }
     
@@ -69,11 +68,17 @@ public abstract class FileChooser extends Control implements DialogInterface {
         return this.owner;
     }
     
-    private Pane pane;
+    private Pane pane = null;
     
     @Override
     @SuppressWarnings("unchecked")
     public Pane getPane() {
+        if (this.getInnerInstance().getRootPane() == null) {
+            return null;
+        }
+        if (this.pane == null) {
+            this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getRootPane().getComponent(0));
+        }
         return this.pane;
     }
     
