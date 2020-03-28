@@ -24,6 +24,7 @@ public class TextArea extends TextInputControl {
     protected TextArea(JTextArea innerInstance) {
         super(innerInstance, new JScrollPane(innerInstance));
         this.setTabInputAllow(false);
+        this.scrollPane = new ScrollPane((JScrollPane) this.getInnerInstanceForLayout());
     }
 
     /**
@@ -47,6 +48,17 @@ public class TextArea extends TextInputControl {
     @Override
     public JTextArea getInnerInstance() {
         return (JTextArea) super.getInnerInstance();
+    }
+
+    private ScrollPane scrollPane;
+    
+    /**
+     * このテキストエリアのスクロールペインを取得する。
+     * 
+     * @return 結果。
+     */
+    public ScrollPane getScrollPane() {
+        return this.scrollPane;
     }
     
     @Override
