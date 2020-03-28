@@ -58,7 +58,7 @@ public class Pane extends Control {
     public JPanel getInnerInstance() {
         return (JPanel) super.getInnerInstance();
     }
-
+    
     @Override
     protected ChangeListener<Dimension> createBugFixChangeListener() {
         return null;
@@ -183,154 +183,6 @@ public class Pane extends Control {
         };
         
         /**
-         * 指定された名前のコントロールを検索する。見つからなかった場合はnullを返す。<br>
-         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
-         * 
-         * @param <C> 検索するコントロールの型。
-         * @param name
-         * @return 結果。
-         */
-        @SuppressWarnings("unchecked")
-        public <C extends Control> C findControlByName(String name) {
-            try {
-                return (C) this.findControlsByName(name).get(0);
-            } catch (Exception exception) {
-                return null;
-            }
-        }
-        
-        /**
-         * 指定された名前に一致するコントロールを検索する。<br>
-         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
-         * 
-         * @param name
-         * @return 結果。
-         */
-        public Array<Control> findControlsByName(String name) {
-            return new Array<>(this.findControlsByNameAsList(name));
-        }
-        
-        /**
-         * 指定された名前に一致するコントロールのリストを作成する。<br>
-         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
-         * 
-         * @param name
-         * @return 結果。
-         */
-        private List<Control> findControlsByNameAsList(String name) {
-            List<Control> finded = new ArrayList<>();
-            for (Control control : this) {
-                if (name.equals(control.getName())) {
-                    finded.add(control);
-                }
-                List<Pane> nextPanes = new ArrayList<>();
-                if (control instanceof Pane) {
-                    nextPanes.add((Pane) control);
-                }
-                if (control instanceof ScrollPane) {
-                    ScrollPane scrollPane = (ScrollPane) control;
-                    if (scrollPane.getContent() instanceof Pane) {
-                        nextPanes.add(scrollPane.getContent());
-                    }
-                }
-                if (control instanceof TabPane) {
-                    TabPane tabPane = (TabPane) control;
-                    for (Tab tab : tabPane.getTabs()) {
-                        nextPanes.add(tab.getPane());
-                    }
-                }
-                for (Pane nextPane : nextPanes) {
-                    finded.addAll(nextPane.getChildren().findControlsByNameAsList(name));
-                }
-            }
-            return finded;
-        }
-
-        /**
-         * 指定されたクラスのバイナリ名に完全に一致するコントロールを検索する。<br>
-         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
-         * 
-         * @param controlClass
-         * @return 結果。
-         */
-        public <C extends Control> Array<C> findControlsByClass(Class<C> controlClass) {
-            return new Array<>(this.findControlsByClassAsList(controlClass));
-        }
-        
-        /**
-         * 指定されたクラスのバイナリ名に完全に一致するコントロールのリストを作成する。<br>
-         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
-         * 
-         * @param controlClass
-         * @return 結果。
-         */
-        @SuppressWarnings("unchecked")
-        private <C extends Control> List<C> findControlsByClassAsList(Class<C> controlClass) {
-            List<C> finded = new ArrayList<>();
-            for (Control control : this) {
-                if (control.getClass().getName().equals(controlClass.getName())) {
-                    finded.add((C) control);
-                }
-                List<Pane> nextPanes = new ArrayList<>();
-                if (control instanceof Pane) {
-                    nextPanes.add((Pane) control);
-                }
-                if (control instanceof ScrollPane) {
-                    ScrollPane scrollPane = (ScrollPane) control;
-                    if (scrollPane.getContent() instanceof Pane) {
-                        nextPanes.add(scrollPane.getContent());
-                    }
-                }
-                if (control instanceof TabPane) {
-                    TabPane tabPane = (TabPane) control;
-                    for (Tab tab : tabPane.getTabs()) {
-                        nextPanes.add(tab.getPane());
-                    }
-                }
-                for (Pane nextPane : nextPanes) {
-                    finded.addAll(nextPane.getChildren().findControlsByClassAsList(controlClass));
-                }
-            }
-            return finded;
-        }
-
-        /**
-         * 指定された名前かつ、指定されたクラスのバイナリ名に完全に一致するコントロールを検索する。見つからなかった場合はnullを返す。<br>
-         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
-         * 
-         * @param <C> 検索するコントロールの型。
-         * @param name
-         * @param controlClass
-         * @return 結果。
-         */
-        @SuppressWarnings("unchecked")
-        public <C extends Control> C findControlByNameAndClass(String name, Class<C> controlClass) {
-            try {
-                return (C) this.findControlsByNameAndClass(name, controlClass).get(0);
-            } catch (Exception exception) {
-                return null;
-            }
-        }
-        
-        /**
-         * 指定された名前かつ、指定されたクラスのバイナリ名に完全に一致するコントロールを検索する。<br>
-         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
-         * 
-         * @param name
-         * @param controlClass
-         * @return 結果。
-         */
-        public <C extends Control> Array<Control> findControlsByNameAndClass(String name, Class<C> controlClass) {
-            List<Control> findedByName = this.findControlsByNameAsList(name);
-            for (Control control : findedByName.toArray(new Control[] {})) {
-                if (control.getClass().getName().equals(controlClass.getName()) == false) {
-                    findedByName.remove(control);
-                }
-            }
-            return new Array<>(findedByName);
-        }
-        
-        /**
          * 指定されたポイントに位置するコントロールを検索する。見つからなかった場合はnullを返す。<br>
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
@@ -369,6 +221,261 @@ public class Pane extends Control {
                 }
             }
             return null;
+        }
+        
+        /**
+         * 指定された名前に一致するコントロールのリストを作成する。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        private List<Control> findControlsByNameAsList(String name) {
+            List<Control> finded = new ArrayList<>();
+            for (Control control : this) {
+                if (name.equals(control.getName())) {
+                    finded.add(control);
+                }
+                List<Pane> nextPanes = new ArrayList<>();
+                if (control instanceof Pane) {
+                    nextPanes.add((Pane) control);
+                }
+                if (control instanceof ScrollPane) {
+                    ScrollPane scrollPane = (ScrollPane) control;
+                    if (scrollPane.getContent() instanceof Pane) {
+                        nextPanes.add(scrollPane.getContent());
+                    }
+                }
+                if (control instanceof TabPane) {
+                    TabPane tabPane = (TabPane) control;
+                    for (Tab tab : tabPane.getTabs()) {
+                        nextPanes.add(tab.getPane());
+                    }
+                }
+                for (Pane nextPane : nextPanes) {
+                    finded.addAll(nextPane.getChildren().findControlsByNameAsList(name));
+                }
+            }
+            return finded;
+        }
+        
+        /**
+         * 指定された名前に一致するコントロールを検索する。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public Array<Control> findControlsByName(String name) {
+            return new Array<>(this.findControlsByNameAsList(name));
+        }
+        
+        /**
+         * 指定されたクラスのバイナリ名に完全に一致するコントロールのリストを作成する。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param controlClass
+         * @return 結果。
+         */
+        @SuppressWarnings("unchecked")
+        private <C extends Control> List<C> findControlsByClassAsList(Class<C> controlClass) {
+            List<C> finded = new ArrayList<>();
+            for (Control control : this) {
+                if (control.getClass().getName().equals(controlClass.getName())) {
+                    finded.add((C) control);
+                }
+                List<Pane> nextPanes = new ArrayList<>();
+                if (control instanceof Pane) {
+                    nextPanes.add((Pane) control);
+                }
+                if (control instanceof ScrollPane) {
+                    ScrollPane scrollPane = (ScrollPane) control;
+                    if (scrollPane.getContent() instanceof Pane) {
+                        nextPanes.add(scrollPane.getContent());
+                    }
+                }
+                if (control instanceof TabPane) {
+                    TabPane tabPane = (TabPane) control;
+                    for (Tab tab : tabPane.getTabs()) {
+                        nextPanes.add(tab.getPane());
+                    }
+                }
+                for (Pane nextPane : nextPanes) {
+                    finded.addAll(nextPane.getChildren().findControlsByClassAsList(controlClass));
+                }
+            }
+            return finded;
+        }
+        
+        /**
+         * 指定されたクラスのバイナリ名に完全に一致するコントロールを検索する。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param controlClass
+         * @return 結果。
+         */
+        public <C extends Control> Array<C> findControlsByClass(Class<C> controlClass) {
+            return new Array<>(this.findControlsByClassAsList(controlClass));
+        }
+        
+        /**
+         * 指定された名前かつ、指定されたクラスのバイナリ名に完全に一致するコントロールを検索する。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @param controlClass
+         * @return 結果。
+         */
+        public <C extends Control> Array<Control> findControlsByNameAndClass(String name, Class<C> controlClass) {
+            List<Control> findedByName = this.findControlsByNameAsList(name);
+            for (Control control : findedByName.toArray(new Control[] {})) {
+                if (control.getClass().getName().equals(controlClass.getName()) == false) {
+                    findedByName.remove(control);
+                }
+            }
+            return new Array<>(findedByName);
+        }
+        
+        /**
+         * 指定された名前のコントロールを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param <C> 検索するコントロールの型。
+         * @param name
+         * @return 結果。
+         */
+        @SuppressWarnings("unchecked")
+        public <C extends Control> C findControlByName(String name) {
+            for (Control control : this.findControlsByName(name)) {
+                try {
+                    return (C) control;
+                } catch (Exception exception) {
+                }
+            }
+            return null;
+        }
+        
+        /**
+         * 指定された名前のラベルを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public Label findLabelByName(String name) {
+            return this.findControlByName(name);
+        }
+        
+        /**
+         * 指定された名前のテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public TextField findTextFieldByName(String name) {
+            return this.findControlByName(name);
+        }
+        
+        /**
+         * 指定された名前のオートコンプリート機能付きテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public AutocompleteTextField findAutocompleteTextFieldByName(String name) {
+            return this.findControlByName(name);
+        }
+        
+        /**
+         * 指定された名前のパスワードフィールドを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public PasswordField findPasswordFieldByName(String name) {
+            return this.findControlByName(name);
+        }
+        
+        /**
+         * 指定された名前の日付の入力に特化したテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public DatePicker findDatePickerByName(String name) {
+            return this.findControlByName(name);
+        }
+        
+        /**
+         * 指定された名前のテキストエリアを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public TextArea findTextAreaByName(String name) {
+            return this.findControlByName(name);
+        }
+        
+        /**
+         * 指定された名前のチェックボックスを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public CheckBox findCheckBoxByName(String name) {
+            return this.findControlByName(name);
+        }
+        
+        /**
+         * 指定された名前のラジオボタンを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public RadioButton findRadioButtonByName(String name) {
+            return this.findControlByName(name);
+        }
+        
+        /**
+         * 指定された名前のトグルボタンを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public ToggleButton findToggleButtonByName(String name) {
+            return this.findControlByName(name);
+        }
+        
+        /**
+         * 指定された名前のリストビューを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param <T> リストアイテムの型。
+         * @param name
+         * @return 結果。
+         */
+        public <T> ListView<T> findListViewByName(String name) {
+            return this.findControlByName(name);
+        }
+        
+        /**
+         * 指定された名前のドロップダウンリストを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param <T> リストアイテムの型。
+         * @param name
+         * @return 結果。
+         */
+        public <T> DropDownList<T> findDropDownListByName(String name) {
+            return this.findControlByName(name);
         }
     }
 }
