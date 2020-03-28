@@ -431,6 +431,17 @@ public class Pane extends Control {
         public CheckBox findCheckBoxByName(String name) {
             return this.findControlByName(name);
         }
+
+        /**
+         * 指定された名前のボタンを検索する。見つからなかった場合はnullを返す。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @param name
+         * @return 結果。
+         */
+        public Button findButtonByName(String name) {
+            return this.findControlByName(name);
+        }
         
         /**
          * 指定された名前のラジオボタンを検索する。見つからなかった場合はnullを返す。<br>
