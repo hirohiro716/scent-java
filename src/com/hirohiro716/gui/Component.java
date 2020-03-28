@@ -59,15 +59,6 @@ public abstract class Component<T extends java.awt.Component> {
         return this.innerInstanceForLayout;
     }
     
-    /**
-     * このコンポーネントのレイアウトに使用する、GUIライブラリに依存したインスタンスをセットする。
-     * 
-     * @param innerInstanceForLayout
-     */
-    public void setInnerInstanceForLayout(java.awt.Component innerInstanceForLayout) {
-        this.innerInstanceForLayout = innerInstanceForLayout;
-    }
-    
     @Override
     public String toString() {
         return this.getInnerInstance().toString();
