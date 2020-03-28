@@ -130,6 +130,17 @@ public class TabPane extends Control {
         return this.tabs.get(this.getInnerInstance().getModel().getSelectedIndex());
     }
     
+    /**
+     * このタブペインのタブを選択状態にする。
+     * 
+     * @param tab
+     */
+    public void setSelectedTab(Tab tab) {
+        if (this.tabs.contains(tab)) {
+            this.getInnerInstance().getModel().setSelectedIndex(this.tabs.indexOf(tab));
+        }
+    }
+    
     private List<ChangeListener<Tab>> selectedTabChangeListeners = new ArrayList<>();
 
     /**
