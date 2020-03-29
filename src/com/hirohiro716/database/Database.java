@@ -3,7 +3,6 @@ package com.hirohiro716.database;
 import java.io.Closeable;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -59,9 +58,9 @@ public abstract class Database implements Closeable {
      * JDBCドライバのURLを取得する。
      * 
      * @return 結果。
-     * @throws MalformedURLException 
+     * @throws Exception 
      */
-    public abstract URL getJDBCDriverURL() throws MalformedURLException;
+    public abstract URL getJDBCDriverURL() throws Exception;
     
     /**
      * JDBCドライバのバイナリ名を取得する。
