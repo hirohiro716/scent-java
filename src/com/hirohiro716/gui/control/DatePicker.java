@@ -603,7 +603,6 @@ public class DatePicker extends TextField {
                     datetime.addDay(1);
                 }
             }
-            this.gridPane.updateDisplay();
         }
         
         private EventHandler<MouseEvent> mouseWheelEventHandler = new EventHandler<MouseEvent>() {

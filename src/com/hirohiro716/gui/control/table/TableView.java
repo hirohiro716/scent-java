@@ -419,6 +419,13 @@ public abstract class TableView<C, R> extends Control {
             }
         }
     }
+
+    @Override
+    public void updateLayout() {
+        super.updateLayout();
+        this.tableModel.updateRows();
+        this.tableModel.updateStructure();
+    }
     
     @Override
     public void updateDisplay() {
@@ -479,7 +486,7 @@ public abstract class TableView<C, R> extends Control {
             this.fireTableStructureChanged();
             TableView<C, R> tableView = TableView.this;
             for (TableColumn tableColumn : tableView.mapTableColumns.values()) {
-                tableColumn.updateDisplay();
+                tableColumn.updateLayoutAndDisplay();
             }
         }
         
@@ -1105,9 +1112,9 @@ public abstract class TableView<C, R> extends Control {
         }
         
         /**
-         * このコンポーネントの表示を更新する。
+         * このコンポーネントのレイアウトと表示を更新する。
          */
-        public void updateDisplay() {
+        public void updateLayoutAndDisplay() {
             javax.swing.table.TableColumn innerInstance = this.getInnerInstance();
             if (this.width != null) {
                 innerInstance.setWidth(this.width);

@@ -191,8 +191,24 @@ public abstract class EditableTable<C, R> extends Control {
     }
     
     @Override
+    public void updateLayout() {
+        super.updateLayout();
+        if (this.displayedLeadingIndex == null) {
+            return;
+        }
+        Integer leadingIndex = this.displayedLeadingIndex;
+        this.displayedLeadingIndex = null;
+        this.displayRowControls(leadingIndex);
+        this.headerPane.updateLayout();
+        this.rowsPane.updateLayout();
+    }
+
+    @Override
     public void updateDisplay() {
         super.updateDisplay();
+        if (this.displayedLeadingIndex == null) {
+            return;
+        }
         Integer leadingIndex = this.displayedLeadingIndex;
         this.displayedLeadingIndex = null;
         this.displayRowControls(leadingIndex);
@@ -724,7 +740,7 @@ public abstract class EditableTable<C, R> extends Control {
                 Control control = mapRowControl.get(columnInstance);
                 this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
             }
-            this.mapRowControlPanes.put(rowInstance, controlPane);            
+            this.mapRowControlPanes.put(rowInstance, controlPane);
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
             constraints.gridy = index;

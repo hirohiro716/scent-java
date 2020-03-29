@@ -437,15 +437,21 @@ public abstract class Component<T extends java.awt.Component> {
     }
     
     /**
-     * このコンポーネントの表示を更新する。
+     * このコンポーネントのレイアウトを更新する。
+     */
+    public void updateLayout() {
+        this.getInnerInstance().revalidate();
+        if (this.getInnerInstance() != this.getInnerInstanceForLayout()) {
+            this.getInnerInstanceForLayout().revalidate();
+        }
+    }
+    
+    /**
+     * このコンポーネントの描画を更新する。
      */
     public void updateDisplay() {
-        this.getInnerInstance().doLayout();
-        this.getInnerInstance().revalidate();
         this.getInnerInstance().repaint();
         if (this.getInnerInstance() != this.getInnerInstanceForLayout()) {
-            this.getInnerInstanceForLayout().doLayout();
-            this.getInnerInstanceForLayout().revalidate();
             this.getInnerInstanceForLayout().repaint();
         }
     }

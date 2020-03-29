@@ -106,7 +106,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
                 int padding2 = padding * 2;
                 int padding4 = padding * 4;
                 pane.setAnchor(dialog.verticalPane, dialog.labelOfTitle.getHeight() + padding4, padding2, padding2, padding2);
-                pane.updateDisplay();
+                pane.updateLayout();
             }
         };
         this.labelOfTitle.addSizeChangeListener(sizeChangeListener);

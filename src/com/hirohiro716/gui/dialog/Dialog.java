@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
+import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.control.CenterPane;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
@@ -225,8 +226,15 @@ public abstract class Dialog<R> implements DialogInterface {
         this.backgroundPane.setSize(this.owner.getPane().getSize());
         this.processBeforeShow();
         this.owner.getPane().getChildren().add(this.backgroundPane, 0);
-        this.owner.getPane().updateDisplay();
         this.processAfterShow();
+        GUI.executeLater(5, new Runnable() {
+            
+            @Override
+            public void run() {
+                Dialog<R> dialog = Dialog.this;
+                dialog.owner.getPane().updateDisplay();
+            }
+        });
     }
     
     /**
