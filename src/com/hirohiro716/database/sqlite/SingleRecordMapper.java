@@ -2,7 +2,6 @@ package com.hirohiro716.database.sqlite;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 
 import com.hirohiro716.DynamicArray;
@@ -45,13 +44,53 @@ public abstract class SingleRecordMapper<C extends ColumnInterface> extends com.
         return this.getDatabase().fetchRecord(sql.toString(), this.getWhereSet().buildParameters());
     }
 
+    /**
+     * マップしようとしているレコードが、ほかで編集中かどうかを判定するメソッド。<br>
+     * このメソッドはスーパークラスの編集処理時に自動的に呼び出され、編集できるかの判定に使用される。
+     * 
+     * @param sqlite 分離レベルEXCLUSIVEでトランザクションが開始されたSQLite。
+     * @return ほかで編集中の場合trueを返す。
+     * @throws SQLException 
+     */
+    public abstract boolean isEditingByOther(SQLite sqlite) throws SQLException;
+    
+    /**
+     * マップしたレコードをSQLiteデータベース上で編集中としてマークし、ほかのインスタンスからの編集を拒否する。<br>
+     * このメソッドはスーパークラスの編集処理時に自動的に呼び出される。
+     * 
+     * @param sqlite 分離レベルEXCLUSIVEでトランザクションが開始されたSQLite。
+     * @throws SQLException 
+     * @throws DataNotFoundException 
+     */
+    protected abstract void updateToEditing(SQLite sqlite) throws SQLException, DataNotFoundException;
+    
+    /**
+     * マップしたレコードのSQLiteデータベース上での編集中マークを解除する。<br>
+     * このメソッドはスーパークラスの閉じる処理で自動的に呼び出される。
+     * 
+     * @param sqlite 分離レベルEXCLUSIVEでトランザクションが開始されたSQLite。
+     * @throws SQLException
+     * @throws DataNotFoundException 
+     */
+    protected abstract void updateToEditingFinish(SQLite sqlite) throws SQLException, DataNotFoundException;
+
+    /**
+     * データベースに対して排他処理を行うための新しいデータベースインスタンスを作成する。<br>
+     * 接続処理はスーパークラスで自動的に行われる。
+     * 
+     * @return 結果。
+     */
+    public abstract SQLite createDatabaseForEditing();
+    
+    private boolean isEditing = false;
+    
     @Override
     public void edit() throws SQLException {
         if (this.isEditing) {
             return;
         }
         super.edit();
-        try (SQLite sqlite = new SQLite(this.getDatabase().getJDBCDriverURL())) {
+        try (SQLite sqlite = this.createDatabaseForEditing()) {
             sqlite.connect(this.getDatabase().getDatabaseFile());
             sqlite.begin(IsolationLevel.EXCLUSIVE);
             if (this.isEditingByOther(sqlite)) {
@@ -63,46 +102,13 @@ public abstract class SingleRecordMapper<C extends ColumnInterface> extends com.
         }
     }
     
-    /**
-     * マップしようとしているレコードが、ほかで編集中かどうかを判定するメソッド。<br>
-     * このメソッドは編集処理時に自動的に呼び出され、編集できるかの判定に使用される。
-     * 
-     * @param sqlite 分離レベルEXCLUSIVEでトランザクションが開始されたSQLite。
-     * @return ほかで編集中の場合trueを返す。
-     * @throws SQLException 
-     */
-    public abstract boolean isEditingByOther(SQLite sqlite) throws SQLException;
-    
-    /**
-     * マップしたレコードをSQLiteデータベース上で編集中としてマークし、ほかのインスタンスからの編集を拒否する。<br>
-     * このメソッドは編集処理時に自動的に呼び出される。
-     * 
-     * @param sqlite 分離レベルEXCLUSIVEでトランザクションが開始されたSQLite。
-     * @throws SQLException 
-     * @throws DataNotFoundException 
-     */
-    protected abstract void updateToEditing(SQLite sqlite) throws SQLException, DataNotFoundException;
-    
-    /**
-     * マップしたレコードのSQLiteデータベース上での編集中マークを解除する。<br>
-     * このメソッドはclose()メソッドから自動的に呼び出される。
-     * 
-     * @param sqlite 分離レベルEXCLUSIVEでトランザクションが開始されたSQLite。
-     * @throws SQLException
-     * @throws DataNotFoundException 
-     */
-    protected abstract void updateToEditingFinish(SQLite sqlite) throws SQLException, DataNotFoundException;
-    
-    private boolean isEditing = false;
-    
     @Override
     public void close() throws IOException {
         try {
             if (this.isEditing) {
-                URL jdbcDriverURL = this.getDatabase().getJDBCDriverURL();
                 File databaseFile = this.getDatabase().getDatabaseFile();
                 this.getDatabase().close();
-                try (SQLite sqlite = new SQLite(jdbcDriverURL)) {
+                try (SQLite sqlite = this.createDatabaseForEditing()) {
                     sqlite.connect(databaseFile);
                     sqlite.begin(IsolationLevel.EXCLUSIVE);
                     this.updateToEditingFinish(sqlite);

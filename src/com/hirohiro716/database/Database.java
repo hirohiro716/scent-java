@@ -3,6 +3,7 @@ package com.hirohiro716.database;
 import java.io.Closeable;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -53,26 +54,14 @@ public abstract class Database implements Closeable {
      * トランザクションが必須な状況で、トランザクションが開始されていない場合のユーザーインターフェース向けのメッセージ。
      */
     public static final String ERROR_MESSAGE_TRANSACTION_NOT_BEGUN = "トランザクションが開始されていません。";
-    
+        
     /**
-     * コンストラクタ。
-     * 
-     * @param jdbcDriverURL JDBCドライバのURL。
-     */
-    public Database(URL jdbcDriverURL) {
-        this.jdbcDriverURL = jdbcDriverURL;
-    }
-    
-    private URL jdbcDriverURL;
-    
-    /**
-     * コンストラクタで指定したJDBCドライバのURLを取得する。
+     * JDBCドライバのURLを取得する。
      * 
      * @return 結果。
+     * @throws MalformedURLException 
      */
-    public URL getJDBCDriverURL() {
-        return this.jdbcDriverURL;
-    }
+    public abstract URL getJDBCDriverURL() throws MalformedURLException;
     
     /**
      * JDBCドライバのバイナリ名を取得する。
@@ -90,7 +79,7 @@ public abstract class Database implements Closeable {
     protected void connect(String connectionString) throws SQLException {
         try {
             this.connect(this.getJDBCDriverURL(), this.getJDBCDriverBinaryName(), connectionString);
-        } catch (ReflectiveOperationException | RuntimeException exception) {
+        } catch (Exception exception) {
             throw new SQLException(exception);
         }
     }

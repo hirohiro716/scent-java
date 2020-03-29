@@ -1,6 +1,5 @@
 package com.hirohiro716.database.postgresql;
 
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -14,17 +13,8 @@ import com.hirohiro716.database.TableInterface;
  * @author hiro
  *
  */
-public class PostgreSQL extends Database {
+public abstract class PostgreSQL extends Database {
     
-    /**
-     * コンストラクタ。
-     * 
-     * @param jdbcDriverURL PostgreSQLのJDBCドライバURL。
-     */
-    public PostgreSQL(URL jdbcDriverURL) {
-        super(jdbcDriverURL);
-    }
-
     @Override
     protected String getJDBCDriverBinaryName() {
         return "org.postgresql.Driver";

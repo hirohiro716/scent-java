@@ -1,6 +1,5 @@
 package com.hirohiro716.database.sqlite;
 
-import java.net.URL;
 import java.sql.SQLException;
 
 import com.hirohiro716.StringObject;
@@ -14,17 +13,8 @@ import com.hirohiro716.filesystem.File;
  * @author hiro
  *
  */
-public class SQLite extends Database {
+public abstract class SQLite extends Database {
     
-    /**
-     * コンストラクタ。
-     * 
-     * @param jdbcDriverURL SQLiteのJDBCドライバURL。
-     */
-    public SQLite(URL jdbcDriverURL) {
-        super(jdbcDriverURL);
-    }
-
     @Override
     protected String getJDBCDriverBinaryName() {
         return "org.sqlite.JDBC";

@@ -2,7 +2,6 @@ package com.hirohiro716.database.sqlite;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
 
 import com.hirohiro716.DynamicArray;
@@ -64,7 +63,7 @@ public abstract class RecordMapper<C extends ColumnInterface> extends com.hirohi
     
     /**
      * マップしようとしているレコードが、ほかで編集中かどうかを判定するメソッド。<br>
-     * このメソッドは編集処理時に自動的に呼び出され、編集できるかの判定に使用される。
+     * このメソッドはスーパークラスの編集処理時に自動的に呼び出され、編集できるかの判定に使用される。
      * 
      * @param sqlite 分離レベルEXCLUSIVEでトランザクションが開始されたSQLite。
      * @return ほかで編集中の場合trueを返す。
@@ -74,7 +73,7 @@ public abstract class RecordMapper<C extends ColumnInterface> extends com.hirohi
     
     /**
      * マップしたレコードをSQLiteデータベース上で編集中としてマークし、ほかのインスタンスからの編集を拒否する。<br>
-     * このメソッドは編集処理時に自動的に呼び出される。
+     * このメソッドはスーパークラスの編集処理時に自動的に呼び出される。
      * 
      * @param sqlite 分離レベルEXCLUSIVEでトランザクションが開始されたSQLite。
      * @throws SQLException 
@@ -83,13 +82,21 @@ public abstract class RecordMapper<C extends ColumnInterface> extends com.hirohi
     
     /**
      * マップしたレコードのSQLiteデータベース上での編集中マークを解除する。<br>
-     * このメソッドはclose()メソッドから自動的に呼び出される。
+     * このメソッドはスーパークラスの閉じる処理で自動的に呼び出される。
      * 
      * @param sqlite 分離レベルEXCLUSIVEでトランザクションが開始されたSQLite。
      * @throws SQLException
      */
     protected abstract void updateToEditingFinish(SQLite sqlite) throws SQLException;
     
+    /**
+     * データベースに対して排他処理を行うための新しいデータベースインスタンスを作成する。<br>
+     * 接続処理はスーパークラスで自動的に行われる。
+     * 
+     * @return 結果。
+     */
+    public abstract SQLite createDatabaseForEditing();
+
     private boolean isEditing = false;
     
     /**
@@ -102,7 +109,7 @@ public abstract class RecordMapper<C extends ColumnInterface> extends com.hirohi
             return;
         }
         super.edit();
-        try (SQLite sqlite = new SQLite(this.getDatabase().getJDBCDriverURL())) {
+        try (SQLite sqlite = this.createDatabaseForEditing()) {
             sqlite.connect(this.getDatabase().getDatabaseFile());
             sqlite.begin(IsolationLevel.EXCLUSIVE);
             if (this.isEditingByOther(sqlite)) {
@@ -118,10 +125,9 @@ public abstract class RecordMapper<C extends ColumnInterface> extends com.hirohi
     public void close() throws IOException {
         try {
             if (this.isEditing) {
-                URL jdbcDriverURL = this.getDatabase().getJDBCDriverURL();
                 File databaseFile = this.getDatabase().getDatabaseFile();
                 this.getDatabase().close();
-                try (SQLite sqlite = new SQLite(jdbcDriverURL)) {
+                try (SQLite sqlite = this.createDatabaseForEditing()) {
                     sqlite.connect(databaseFile);
                     sqlite.begin(IsolationLevel.EXCLUSIVE);
                     this.updateToEditingFinish(sqlite);
