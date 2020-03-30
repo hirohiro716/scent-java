@@ -4,10 +4,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.hirohiro716.gui.collection.AddListener;
+import com.hirohiro716.gui.collection.Collection;
+import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.control.Pane;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;
+import com.hirohiro716.image.Image;
 
 /**
  * GUIのウィンドウやダイアログなどの抽象クラス。
@@ -26,6 +35,46 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      */
     protected Frame(T window) {
         super(window, window);
+        Frame<T> frame = this;
+        this.iconImages.addListener(new AddListener<>() {
+            
+            @Override
+            protected void added(Image added, int positionIndex) {
+                try {
+                    java.awt.Image image = added.createBufferedImage();
+                    frame.mapIconImage.put(added, image);
+                    frame.innerIconImages.add(image);
+                    frame.getInnerInstance().setIconImages(frame.innerIconImages);
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+        this.iconImages.addListener(new RemoveListener<>() {
+            
+            @Override
+            protected void removed(Image removed) {
+                java.awt.Image image = frame.mapIconImage.get(removed);
+                frame.mapIconImage.remove(removed);
+                frame.innerIconImages.remove(image);
+                frame.getInnerInstance().setIconImages(frame.innerIconImages);
+            }
+        });
+    }
+    
+    private Map<Image, java.awt.Image> mapIconImage = new HashMap<>();
+    
+    private List<java.awt.Image> innerIconImages = new ArrayList<>();
+    
+    private Collection<Image> iconImages = new Collection<>();
+    
+    /**
+     * このフレームで使用するアイコンのコレクションを取得する。
+     * 
+     * @return 結果。
+     */
+    public Collection<Image> getIconImages() {
+        return this.iconImages;
     }
     
     /**
