@@ -12,8 +12,8 @@ import com.hirohiro716.Array;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.datetime.Datetime;
 import com.hirohiro716.filesystem.Directory;
-import com.hirohiro716.reflect.DynamicClass;
-import com.hirohiro716.reflect.Method;
+import com.hirohiro716.reflection.DynamicClass;
+import com.hirohiro716.reflection.Method;
 
 /**
  * HTML5、CSS3、JavaScriptをサポートするWebBrowserのクラス。

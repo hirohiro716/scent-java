@@ -1,4 +1,4 @@
-package com.hirohiro716.reflect;
+package com.hirohiro716.reflection;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hirohiro716.io.ByteArray;
-import com.hirohiro716.reflect.Method;
+import com.hirohiro716.reflection.Method;
 
 /**
  * 動的な配列のクラス。<br>

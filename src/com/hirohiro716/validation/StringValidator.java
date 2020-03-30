@@ -1,4 +1,4 @@
-package com.hirohiro716.validate;
+package com.hirohiro716.validation;
 
 import com.hirohiro716.DynamicArray;
 import com.hirohiro716.StringObject;

@@ -1,4 +1,4 @@
-package com.hirohiro716.validate;
+package com.hirohiro716.validation;
 
 /**
  * 検証に失敗した場合に発生する例外クラス。

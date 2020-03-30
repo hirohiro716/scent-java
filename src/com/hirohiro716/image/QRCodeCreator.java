@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.hirohiro716.filesystem.Directory;
-import com.hirohiro716.reflect.DynamicClass;
-import com.hirohiro716.reflect.Method;
+import com.hirohiro716.reflection.DynamicClass;
+import com.hirohiro716.reflection.Method;
 
 /**
  * QRコードの画像を作成するクラス。
