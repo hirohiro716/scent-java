@@ -13,6 +13,7 @@ import com.hirohiro716.filesystem.Directory;
 import com.hirohiro716.filesystem.File;
 import com.hirohiro716.filesystem.FilesystemItem;
 import com.hirohiro716.gui.Component;
+import com.hirohiro716.gui.DialogInterface;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;

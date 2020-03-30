@@ -19,7 +19,6 @@ import com.hirohiro716.gui.control.TextField;
 import com.hirohiro716.gui.control.ToggleButton;
 import com.hirohiro716.gui.dialog.ConfirmDialog;
 import com.hirohiro716.gui.dialog.MessageDialog;
-import com.hirohiro716.gui.dialog.ProcessAfterClose;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;
@@ -27,7 +26,7 @@ import com.hirohiro716.property.PropertyInterface;
 import com.hirohiro716.property.ValidationException;
 
 /**
- * GUIのエディターの抽象クラス。
+ * GUIエディターの抽象クラス。
  * 
  * @author hiro
  * 
@@ -156,13 +155,13 @@ public abstract class Editor<T> {
      * バリデーションに失敗した場合のメッセージを表示する。
      * 
      * @param exception 発生した例外。
-     * @param processAfterClose ダイアログを閉じた後の処理。
+     * @param processAfterDialogClose ダイアログを閉じた後の処理。
      */
-    protected void showValidationException(ValidationException exception, ProcessAfterClose<ResultButton> processAfterClose) {
+    protected void showValidationException(ValidationException exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
         MessageDialog dialog = new MessageDialog(this.window);
         dialog.setTitle("バリデーションに失敗");
         dialog.setMessage(exception.getMessage());
-        dialog.setProcessAfterClose(processAfterClose);
+        dialog.setProcessAfterClose(processAfterDialogClose);
         dialog.show();
     }
 
@@ -179,13 +178,13 @@ public abstract class Editor<T> {
      * 例外が発生した場合のメッセージを表示する。
      * 
      * @param exception 発生した例外。
-     * @param processAfterClose ダイアログを閉じた後の処理。
+     * @param processAfterDialogClose ダイアログを閉じた後の処理。
      */
-    protected void showException(Exception exception, ProcessAfterClose<ResultButton> processAfterClose) {
+    protected void showException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
         MessageDialog dialog = new MessageDialog(this.window);
         dialog.setTitle("例外の発生");
         dialog.setMessage(exception.getMessage());
-        dialog.setProcessAfterClose(processAfterClose);
+        dialog.setProcessAfterClose(processAfterDialogClose);
         dialog.show();
     }
 
@@ -234,7 +233,7 @@ public abstract class Editor<T> {
                 this.dialog.setTitle(DIALOG_TITLE);
                 this.dialog.setMessage(DIALOG_MESSAGE);
                 this.dialog.setDefaultValue(ResultButton.OK);
-                this.dialog.setProcessAfterClose(new ProcessAfterClose<>() {
+                this.dialog.setProcessAfterClose(new ProcessAfterDialogClose<>() {
                     
                     @Override
                     public void execute(ResultButton dialogResult) {

@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
+import com.hirohiro716.gui.Dialog;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.control.AnchorPane;

@@ -1,4 +1,4 @@
-package com.hirohiro716.gui.dialog;
+package com.hirohiro716.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,10 +10,6 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import com.hirohiro716.gui.Border;
-import com.hirohiro716.gui.Component;
-import com.hirohiro716.gui.Frame;
-import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.control.CenterPane;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
@@ -158,15 +154,15 @@ public abstract class Dialog<R> implements DialogInterface {
      */
     protected abstract void setDialogResult(R result);
 
-    private ProcessAfterClose<R> processAfterClose = null;
+    private ProcessAfterDialogClose<R> processAfterDialogClose = null;
     
     /**
      * このダイアログを閉じた際に実行される処理をセットする。
      * 
-     * @param processAfterClose
+     * @param processAfterDialogClose
      */
-    public void setProcessAfterClose(ProcessAfterClose<R> processAfterClose) {
-        this.processAfterClose = processAfterClose;
+    public void setProcessAfterClose(ProcessAfterDialogClose<R> processAfterDialogClose) {
+        this.processAfterDialogClose = processAfterDialogClose;
     }
     
     private Map<Control, Boolean> mapVisibleStatuses = new HashMap<>();
@@ -246,8 +242,8 @@ public abstract class Dialog<R> implements DialogInterface {
         this.restoreOwnerChildDisableStatuses();
         this.owner.removeChangeListener(this.sizeChangeListener);
         this.owner.getPane().updateDisplay();
-        if (this.processAfterClose != null) {
-            this.processAfterClose.execute(this.getDialogResult());
+        if (this.processAfterDialogClose != null) {
+            this.processAfterDialogClose.execute(this.getDialogResult());
         }
     }
     
