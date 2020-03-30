@@ -36,13 +36,15 @@ public abstract class Editor<T> {
     
     /**
      * コンストラクタ。<br>
-     * 表示するウィンドウの幅と高さを指定する。
+     * 表示するウィンドウのタイトル、幅、高さを指定する。
      * 
+     * @param title 
      * @param width 
      * @param height 
      */
-    public Editor(int width, int height) {
+    public Editor(String title, int width, int height) {
         this.window = new Window();
+        this.window.setTitle(title);
         this.window.setSize(width, height);
         this.window.addClosingEventHandler(new CloseEventHandler());
     }
