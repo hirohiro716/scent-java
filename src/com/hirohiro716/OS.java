@@ -22,7 +22,7 @@ public enum OS {
      */
     MACOS,
     /**
-     * 不明なOS。
+     * 不明。
      */
     UNKNOWN,
     ;
