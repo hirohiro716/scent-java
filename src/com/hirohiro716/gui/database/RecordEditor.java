@@ -24,13 +24,14 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper<?>
     
     /**
      * コンストラクタ。<br>
-     * 表示するウィンドウの幅と高さを指定する。
+     * 表示するウィンドウのタイトル、幅、高さを指定する。
      * 
+     * @param title 
      * @param width
      * @param height
      */
-    public RecordEditor(int width, int height) {
-        super(width, height);
+    public RecordEditor(String title, int width, int height) {
+        super(title, width, height);
     }
     
     private D database;
