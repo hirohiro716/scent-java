@@ -82,14 +82,17 @@ public abstract class RecordSearcher {
         StringObject where = new StringObject();
         List<Object> parameters = new ArrayList<>();
         if (whereSets.length > 0) {
-            where.append(" WHERE ");
             for (WhereSet whereSet : whereSets) {
-                if (where.length() > 7) {
-                    where.append(" OR ");
-                }
-                where.append(whereSet.buildPlaceholderClause());
-                for (Object parameter : whereSet.buildParameters()) {
-                    parameters.add(parameter);
+                if (whereSet.getWheres().size() > 0) {
+                    if (where.length() == 0) {
+                        where.append(" WHERE ");
+                    } else {
+                        where.append(" OR ");
+                    }
+                    where.append(whereSet.buildPlaceholderClause());
+                    for (Object parameter : whereSet.buildParameters()) {
+                        parameters.add(parameter);
+                    }
                 }
             }
         }

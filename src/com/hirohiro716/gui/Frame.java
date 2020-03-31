@@ -10,10 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hirohiro716.ExceptionMessenger;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.control.Pane;
+import com.hirohiro716.gui.dialog.MessageDialog;
+import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;
 import com.hirohiro716.image.Image;
@@ -257,6 +260,50 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         if (this.fullscreenGraphicsDevice != null && this.fullscreenGraphicsDevice.getFullScreenWindow().equals(this.getInnerInstance())) {
             this.fullscreenGraphicsDevice.setFullScreenWindow(null);
         }
+    }
+    
+    /**
+     * 例外が発生した場合のメッセージを表示する。
+     * 
+     * @param message メッセージ。
+     * @param exception 発生した例外。
+     * @param processAfterDialogClose ダイアログを閉じた後の処理。
+     */
+    public void showException(String message, Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
+        MessageDialog dialog = new MessageDialog(this);
+        dialog.setTitle("例外の発生");
+        dialog.setMessage(ExceptionMessenger.newInstance(exception).make(message));
+        dialog.setProcessAfterClose(processAfterDialogClose);
+        dialog.show();
+    }
+    
+    /**
+     * 例外が発生した場合のメッセージを表示する。
+     * 
+     * @param exception 発生した例外。
+     * @param processAfterDialogClose ダイアログを閉じた後の処理。
+     */
+    public void showException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
+        this.showException(null, exception, processAfterDialogClose);
+    }
+
+    /**
+     * 例外が発生した場合のメッセージを表示する。
+     * 
+     * @param message メッセージ。
+     * @param exception 発生した例外。
+     */
+    public void showException(String message, Exception exception) {
+        this.showException(message, exception, null);
+    }
+    
+    /**
+     * 例外が発生した場合のメッセージを表示する。
+     * 
+     * @param exception 発生した例外。
+     */
+    public void showException(Exception exception) {
+        this.showException(null, exception, null);
     }
     
     /**

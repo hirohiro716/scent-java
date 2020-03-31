@@ -175,6 +175,17 @@ public abstract class Editor<T> {
     protected void showValidationException(ValidationException exception) {
         this.showValidationException(exception, null);
     }
+
+    /**
+     * 例外が発生した場合のメッセージを表示する。
+     * 
+     * @param message メッセージ。
+     * @param exception 発生した例外。
+     * @param processAfterDialogClose ダイアログを閉じた後の処理。
+     */
+    protected void showException(String message, Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
+        this.window.showException(message, exception, processAfterDialogClose);
+    }
     
     /**
      * 例外が発生した場合のメッセージを表示する。
@@ -183,22 +194,28 @@ public abstract class Editor<T> {
      * @param processAfterDialogClose ダイアログを閉じた後の処理。
      */
     protected void showException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
-        MessageDialog dialog = new MessageDialog(this.window);
-        dialog.setTitle("例外の発生");
-        dialog.setMessage(exception.getMessage());
-        dialog.setProcessAfterClose(processAfterDialogClose);
-        dialog.show();
+        this.showException(null, exception, processAfterDialogClose);
     }
 
+    /**
+     * 例外が発生した場合のメッセージを表示する。
+     * 
+     * @param message メッセージ。
+     * @param exception 発生した例外。
+     */
+    protected void showException(String message, Exception exception) {
+        this.window.showException(message, exception, null);
+    }
+    
     /**
      * 例外が発生した場合のメッセージを表示する。
      * 
      * @param exception 発生した例外。
      */
     protected void showException(Exception exception) {
-        this.showException(exception, null);
+        this.window.showException(null, exception, null);
     }
-
+    
     /**
      * このエディターを閉じる。
      */

@@ -185,7 +185,7 @@ public class DatePicker extends TextField {
         Datetime datetime = this.toDatetime();
         if (datetime == null && this.datetimeBeforeChange != null || datetime != null && datetime.equals(this.datetimeBeforeChange) == false) {
             for (EventHandler<ActionEvent> eventHandler : this.actionEventHandlers) {
-                eventHandler.executeWhenControlEnabled(new ActionEvent(this, null));
+                eventHandler.executeWhenControlEnabled(new ActionEvent(this, (java.awt.event.ActionEvent) null));
             }
             this.datetimeBeforeChange = datetime;
         }
