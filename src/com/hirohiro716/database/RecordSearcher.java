@@ -73,12 +73,18 @@ public abstract class RecordSearcher {
      */
     public DynamicArray<String>[] search(String selectSQL, String partAfterWhere, WhereSet... whereSets) throws SQLException {
         StringObject sql = new StringObject(selectSQL);
+        if (selectSQL != null && selectSQL.trim().length() > 0) {
+            sql.append(selectSQL);
+        } else {
+            sql.append("SELECT * FROM ");
+            sql.append(this.getTable().getPhysicalName());
+        }
         StringObject where = new StringObject();
         List<Object> parameters = new ArrayList<>();
         if (whereSets.length > 0) {
             where.append(" WHERE ");
             for (WhereSet whereSet : whereSets) {
-                if (where.length() > 0) {
+                if (where.length() > 7) {
                     where.append(" OR ");
                 }
                 where.append(whereSet.buildPlaceholderClause());
@@ -103,9 +109,7 @@ public abstract class RecordSearcher {
      * @throws SQLException
      */
     public DynamicArray<String>[] search(String partAfterWhere, WhereSet... whereSets) throws SQLException {
-        StringObject selectSQL = new StringObject("SELECT * FROM ");
-        selectSQL.append(this.getTable().getPhysicalName());
-        return this.search(selectSQL.toString(), partAfterWhere, whereSets);
+        return this.search(null, partAfterWhere, whereSets);
     }
     
     /**

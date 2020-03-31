@@ -13,7 +13,7 @@ import com.hirohiro716.gui.dialog.QuestionDialog;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 
 /**
- * GUIデータベースレコードエディターの抽象クラス。
+ * GUIデータベースレコード編集ウィンドウの抽象クラス。
  * 
  * @author hiro
  * 
