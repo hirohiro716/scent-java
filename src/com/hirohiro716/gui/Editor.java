@@ -220,7 +220,6 @@ public abstract class Editor<T> {
      * このエディターを閉じる。
      */
     public void close() {
-        this.setShowConfirmationBeforeClose(false);
         this.window.close();
     }
 

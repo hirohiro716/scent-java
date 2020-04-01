@@ -227,6 +227,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * このフレームを閉じる。
      */
     public void close() {
+        this.setClosable(true);
         this.getInnerInstance().dispatchEvent(new WindowEvent(this.getInnerInstance(), WindowEvent.WINDOW_CLOSING));
     }
     

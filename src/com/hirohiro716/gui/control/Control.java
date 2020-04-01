@@ -62,23 +62,14 @@ public abstract class Control extends Component<JComponent> {
 
                 @Override
                 protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
-                    if (changedValue.width < component.getMinimumWidth() && component.getMinimumWidth() < component.getMaximumWidth()) {
-                        component.setWidth(component.getMinimumWidth());
-                        return;
+                    Control control = Control.this;
+                    if (control.isSizeInitialized == false) {
+                        if (control.defaultMinimumSize != null && changedValue.width == control.defaultMinimumSize.width && changedValue.height == control.defaultMinimumSize.height) {
+                            control.setMinimumSize(control.defaultMinimumSize.width, control.defaultMinimumSize.height);
+                            control.isSizeInitialized = true;
+                        }
                     }
-                    if (changedValue.height < component.getMinimumHeight() && component.getMinimumHeight() < component.getMaximumHeight()) {
-                        component.setHeight(component.getMinimumHeight());
-                        return;
-                    }
-                    
-                    if (changedValue.width > component.getMaximumWidth() && component.getMinimumWidth() < component.getMaximumWidth()) {
-                        component.setWidth(component.getMaximumWidth());
-                        return;
-                    }
-                    if (changedValue.height > component.getMaximumHeight() && component.getMinimumHeight() < component.getMaximumHeight()) {
-                        component.setHeight(component.getMaximumHeight());
-                        return;
-                    }
+                    control.adjustSize();
                 }
             };
         }
@@ -145,6 +136,112 @@ public abstract class Control extends Component<JComponent> {
             }
         }
         return null;
+    }
+
+    private boolean isSizeInitialized = false;
+    
+    private Dimension defaultMinimumSize = null;
+    
+    /**
+     * このコンポーネントがGUIライブラリによって自動調整されたサイズを更に調整する。
+     */
+    private void adjustSize() {
+        if (this.getWidth() < this.getMinimumWidth() && this.getMinimumWidth() < this.getMaximumWidth()) {
+            this.setWidth(this.getMinimumWidth());
+            return;
+        }
+        if (this.getHeight() < this.getMinimumHeight() && this.getMinimumHeight() < this.getMaximumHeight()) {
+            this.setHeight(this.getMinimumHeight());
+            return;
+        }
+        
+        if (this.getWidth() > this.getMaximumWidth() && this.getMinimumWidth() < this.getMaximumWidth()) {
+            this.setWidth(this.getMaximumWidth());
+            return;
+        }
+        if (this.getHeight() > this.getMaximumHeight() && this.getMinimumHeight() < this.getMaximumHeight()) {
+            this.setHeight(this.getMaximumHeight());
+            return;
+        }
+    }
+    
+    @Override
+    public void setSize(Dimension dimension) {
+        if (this.isSizeInitialized == false) {
+            this.defaultMinimumSize = this.getMinimumSize();
+            super.setMinimumSize(dimension.width, dimension.height);
+        }
+        super.setSize(dimension);
+        this.adjustSize();
+    }
+    
+    @Override
+    public void setSize(int width, int height) {
+        if (this.isSizeInitialized == false) {
+            this.defaultMinimumSize = this.getMinimumSize();
+            super.setMinimumSize(width, height);
+        }
+        super.setSize(width, height);
+        this.adjustSize();
+    }
+    
+    @Override
+    public void setWidth(int width) {
+        if (this.isSizeInitialized == false) {
+            this.defaultMinimumSize = this.getMinimumSize();
+            super.setMinimumWidth(width);
+        }
+        super.setWidth(width);
+        this.adjustSize();
+    }
+    
+    @Override
+    public void setHeight(int height) {
+        if (this.isSizeInitialized == false) {
+            this.defaultMinimumSize = this.getMinimumSize();
+            super.setMinimumHeight(height);
+        }
+        super.setHeight(height);
+        this.adjustSize();
+    }
+
+    @Override
+    public void setMinimumSize(int width, int height) {
+        this.isSizeInitialized = true;
+        super.setMinimumSize(width, height);
+        this.adjustSize();
+    }
+    
+    @Override
+    public void setMinimumWidth(int width) {
+        this.isSizeInitialized = true;
+        super.setMinimumWidth(width);
+        this.adjustSize();
+    }
+    
+    @Override
+    public void setMinimumHeight(int height) {
+        this.isSizeInitialized = true;
+        super.setMinimumHeight(height);
+        this.adjustSize();
+    }
+
+    @Override
+    public void setMaximumSize(int width, int height) {
+        super.setMaximumSize(width, height);
+        this.adjustSize();
+    }
+
+    @Override
+    public void setMaximumWidth(int width) {
+        super.setMaximumWidth(width);
+        this.adjustSize();
+    }
+
+    @Override
+    public void setMaximumHeight(int height) {
+        super.setMaximumHeight(height);
+        this.adjustSize();
     }
 
     /**

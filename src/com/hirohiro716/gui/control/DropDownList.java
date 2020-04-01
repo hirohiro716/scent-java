@@ -70,7 +70,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
                 control.getInnerInstance().setSelectedIndex(index);
             }
         });
-        this.bugFix();
+        this.adjustSize();
     }
     
     /**
@@ -115,7 +115,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
             
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
-                control.bugFix();
+                control.adjustSize();
             }
         };
     }
@@ -134,7 +134,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
     /**
      * このGUIライブラリにはドロップダウンリストの最小幅をアイテムの文字幅に合わせて無限に拡大するバグがある。
      */
-    private void bugFix() {
+    private void adjustSize() {
         if (this.isSizeInitialized == false && this.baseWidth > 0) {
             this.isSizeInitialized = true;
             super.setMinimumHeight(this.getItemHeight());
@@ -162,49 +162,49 @@ public class DropDownList<T> extends ListSelectControl<T> {
     @Override
     public void setSize(Dimension dimension) {
         super.setSize(dimension);
-        this.bugFix();
+        this.adjustSize();
     }
     
     @Override
     public void setSize(int width, int height) {
         super.setSize(width, height);
-        this.bugFix();
+        this.adjustSize();
     }
     
     @Override
     public void setWidth(int width) {
         super.setWidth(width);
-        this.bugFix();
+        this.adjustSize();
     }
     
     @Override
     public void setMinimumSize(int width, int height) {
         super.setMinimumSize(width, height);
-        this.bugFix();
+        this.adjustSize();
     }
     
     @Override
     public void setMinimumWidth(int width) {
         super.setMinimumWidth(width);
-        this.bugFix();
+        this.adjustSize();
     }
     
     @Override
     public void setMinimumHeight(int height) {
         super.setMinimumHeight(height);
-        this.bugFix();
+        this.adjustSize();
     }
 
     @Override
     public void setMaximumSize(int width, int height) {
         super.setMaximumSize(width, height);
-        this.bugFix();
+        this.adjustSize();
     }
 
     @Override
     public void setMaximumWidth(int width) {
         super.setMaximumWidth(width);
-        this.bugFix();
+        this.adjustSize();
     }
     
     @Override
