@@ -94,7 +94,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @throws ClassCastException 
      */
     @SuppressWarnings("unchecked")
-    public void forciblyPut(Object key, Object value) throws ClassCastException {
+    public final void forciblyPut(Object key, Object value) throws ClassCastException {
         this.put((K) key, value);
     }
 
@@ -123,7 +123,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 
      * @param value
      */
-    public void add(Object value) {
+    public final void add(Object value) {
         this.add(new Object[] {value});
     }
     
@@ -132,7 +132,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 
      * @param values
      */
-    public void add(Collection<?> values) {
+    public final void add(Collection<?> values) {
         this.add(values.toArray(new Object[] {}));
     }
     
@@ -199,7 +199,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param key
      * @return 結果。
      */
-    public Boolean getBoolean(K key) {
+    public final Boolean getBoolean(K key) {
         return this.get(key, Boolean.class);
     }
     
@@ -209,7 +209,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param key
      * @return 結果。
      */
-    public Integer getInteger(K key) {
+    public final Integer getInteger(K key) {
         return this.get(key, Integer.class);
     }
     
@@ -219,7 +219,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param key
      * @return 結果。
      */
-    public Long getLong(K key) {
+    public final Long getLong(K key) {
         return this.get(key, Long.class);
     }
     
@@ -229,7 +229,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param key
      * @return 結果。
      */
-    public Float getFloat(K key) {
+    public final Float getFloat(K key) {
         return this.get(key, Float.class);
     }
     
@@ -239,7 +239,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param key
      * @return 結果。
      */
-    public Double getDouble(K key) {
+    public final Double getDouble(K key) {
         return this.get(key, Double.class);
     }
 
@@ -249,7 +249,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param key
      * @return 結果。
      */
-    public String getString(K key) {
+    public final String getString(K key) {
         return this.get(key, String.class);
     }
     
