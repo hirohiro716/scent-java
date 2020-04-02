@@ -1,6 +1,5 @@
 package com.hirohiro716.gui.control;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,11 +72,6 @@ public class TabPane extends Control {
         return (JTabbedPane) super.getInnerInstance();
     }
 
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
-    }
-    
     private Map<Pane, Boolean> mapTabPaneDisabled = new HashMap<>();
     
     @Override

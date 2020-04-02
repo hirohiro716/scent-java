@@ -1,10 +1,6 @@
 package com.hirohiro716.gui.control;
 
-import java.awt.Dimension;
-
 import javax.swing.JProgressBar;
-
-import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * プログレスバーのクラス。
@@ -47,11 +43,6 @@ public class ProgressBar extends Control {
         return (JProgressBar) super.getInnerInstance();
     }
 
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
-    }
-    
     /**
      * このプログレスバーの最小進捗を取得する。
      * 

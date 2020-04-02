@@ -1,6 +1,5 @@
 package com.hirohiro716.gui.dialog;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +11,6 @@ import javax.swing.JPanel;
 import com.hirohiro716.filesystem.Directory;
 import com.hirohiro716.filesystem.File;
 import com.hirohiro716.filesystem.FilesystemItem;
-import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.DialogInterface;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.collection.AddListener;
@@ -20,7 +18,6 @@ import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
-import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * ファイル選択ダイアログの抽象クラス。
@@ -52,16 +49,10 @@ public abstract class FileChooser extends Control implements DialogInterface {
     }
 
     @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return new ChangeListener<Dimension>() {
-
-            @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
-                // nop
-            }
-        };
+    protected void adjustSize() {
+        // nop
     }
-    
+
     private Frame<?> owner;
     
     @Override

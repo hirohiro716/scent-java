@@ -157,11 +157,6 @@ public abstract class EditableTable<C, R> extends Control {
     }
 
     @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
-    }
-    
-    @Override
     public void setDisabled(boolean isDisabled) {
         super.setDisabled(isDisabled);
         this.headerPane.setDisabled(isDisabled);

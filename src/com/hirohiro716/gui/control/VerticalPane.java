@@ -204,6 +204,5 @@ public class VerticalPane extends Pane {
         }
         constraints.fill = GridBagConstraints.BOTH;
         this.layout.setConstraints(this.spacer, constraints);
-        this.getInnerInstanceForLayout().doLayout();
     }
 }

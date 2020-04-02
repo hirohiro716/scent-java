@@ -40,6 +40,17 @@ public class WhereSet {
     public void add(ColumnInterface column, Comparison comparison, Object value) {
         this.add(false, column.getFullPhysicalName(), comparison, value);
     }
+
+    /**
+     * 新しい検索条件を追加する。
+     * 
+     * @param column
+     * @param comparison
+     * @param value
+     */
+    public void add(String column, Comparison comparison, Object value) {
+        this.add(false, column, comparison, value);
+    }
     
     /**
      * 新しい検索条件をNOT演算子で追加する。
@@ -50,6 +61,17 @@ public class WhereSet {
      */
     public void addNegate(ColumnInterface column, Comparison comparison, Object value) {
         this.add(true, column.getFullPhysicalName(), comparison, value);
+    }
+    
+    /**
+     * 新しい検索条件をNOT演算子で追加する。
+     * 
+     * @param column
+     * @param comparison
+     * @param value
+     */
+    public void addNegate(String column, Comparison comparison, Object value) {
+        this.add(true, column, comparison, value);
     }
     
     /**
@@ -76,6 +98,17 @@ public class WhereSet {
     public void addBetween(ColumnInterface column, Object value1, Object value2) {
         this.addBetween(false, column.getFullPhysicalName(), value1, value2);
     }
+
+    /**
+     * 新しい検索条件をBETWEEN演算子で追加する。
+     * 
+     * @param column
+     * @param value1
+     * @param value2
+     */
+    public void addBetween(String column, Object value1, Object value2) {
+        this.addBetween(false, column, value1, value2);
+    }
     
     /**
      * 新しい検索条件をNOT演算子＋BETWEEN演算子で追加する。
@@ -84,8 +117,19 @@ public class WhereSet {
      * @param value1
      * @param value2
      */
-    public void addNotBetween(ColumnInterface column, Object value1, Object value2) {
+    public void addBetweenNegate(ColumnInterface column, Object value1, Object value2) {
         this.addBetween(true, column.getFullPhysicalName(), value1, value2);
+    }
+
+    /**
+     * 新しい検索条件をNOT演算子＋BETWEEN演算子で追加する。
+     * 
+     * @param column
+     * @param value1
+     * @param value2
+     */
+    public void addBetweenNegate(String column, Object value1, Object value2) {
+        this.addBetween(true, column, value1, value2);
     }
     
     /**
@@ -110,6 +154,16 @@ public class WhereSet {
     public void addIn(ColumnInterface column, Object... values) {
         this.addIn(false, column.getFullPhysicalName(), values);
     }
+
+    /**
+     * 新しい検索条件をIN演算子で追加する。
+     * 
+     * @param column
+     * @param values
+     */
+    public void addIn(String column, Object... values) {
+        this.addIn(false, column, values);
+    }
     
     /**
      * 新しい検索条件をNOT演算子＋IN演算子で追加する。
@@ -117,8 +171,18 @@ public class WhereSet {
      * @param column
      * @param values
      */
-    public void addNotIn(ColumnInterface column, Object... values) {
+    public void addInNegate(ColumnInterface column, Object... values) {
         this.addIn(true, column.getFullPhysicalName(), values);
+    }
+
+    /**
+     * 新しい検索条件をNOT演算子＋IN演算子で追加する。
+     * 
+     * @param column
+     * @param values
+     */
+    public void addInNegate(String column, Object... values) {
+        this.addIn(true, column, values);
     }
     
     /**
@@ -141,14 +205,32 @@ public class WhereSet {
     public void addIsNull(ColumnInterface column) {
         this.addIsNull(false, column.getFullPhysicalName());
     }
+
+    /**
+     * 新しい検索条件をIS NULL演算子で追加する。
+     * 
+     * @param column
+     */
+    public void addIsNull(String column) {
+        this.addIsNull(false, column);
+    }
     
     /**
      * 新しい検索条件をNOT演算子＋IS NULL演算子で追加する。
      * 
      * @param column
      */
-    public void addNotIsNull(ColumnInterface column) {
+    public void addIsNullNegate(ColumnInterface column) {
         this.addIsNull(true, column.getFullPhysicalName());
+    }
+
+    /**
+     * 新しい検索条件をNOT演算子＋IS NULL演算子で追加する。
+     * 
+     * @param column
+     */
+    public void addIsNullNegate(String column) {
+        this.addIsNull(true, column);
     }
     
     private List<Where> wheres = new ArrayList<>();

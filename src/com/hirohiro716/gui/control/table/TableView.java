@@ -96,11 +96,6 @@ public abstract class TableView<C, R> extends Control {
     }
 
     @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
-    }
-    
-    @Override
     public void setFont(Font font) {
         super.setFont(font);
         this.adjustRowHeight();

@@ -111,7 +111,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public abstract Dimension getMaximumSize();
     
     @Override
-    public abstract void setMaximumSize(int width, int height);
+    public abstract void setMaximumSize(Dimension dimension);
     
     /**
      * このフレームがリサイズ可能な場合はtrueを返す。

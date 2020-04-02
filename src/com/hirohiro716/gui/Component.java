@@ -192,6 +192,7 @@ public abstract class Component<T extends java.awt.Component> {
      */
     public void setSize(Dimension dimension) {
         this.getInnerInstanceForLayout().setSize(dimension);
+        this.getInnerInstanceForLayout().setPreferredSize(dimension);
     }
     
     /**
@@ -200,10 +201,9 @@ public abstract class Component<T extends java.awt.Component> {
      * @param width
      * @param height
      */
-    public void setSize(int width, int height) {
+    public final void setSize(int width, int height) {
         Dimension dimension = new Dimension(width, height);
-        this.getInnerInstanceForLayout().setSize(dimension);
-        this.getInnerInstanceForLayout().setPreferredSize(dimension);
+        this.setSize(dimension);
     }
     
     /**
@@ -211,7 +211,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @return 結果。
      */
-    public int getWidth() {
+    public final int getWidth() {
         return (int) this.getSize().getWidth();
     }
     
@@ -220,7 +220,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @param width
      */
-    public void setWidth(int width) {
+    public final void setWidth(int width) {
         int height = this.getInnerInstance().getPreferredSize().height;
         if (height < this.getInnerInstance().getSize().getHeight()) {
             height = this.getInnerInstance().getSize().height;
@@ -233,7 +233,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @return 結果。
      */
-    public int getHeight() {
+    public final int getHeight() {
         return (int) this.getSize().getHeight();
     }
     
@@ -242,12 +242,42 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @param height
      */
-    public void setHeight(int height) {
+    public final void setHeight(int height) {
         int width = this.getInnerInstance().getPreferredSize().width;
         if (width < this.getInnerInstance().getSize().getWidth()) {
             width = this.getInnerInstance().getSize().width;
         }
         this.setSize(width, height);
+    }
+    
+    /**
+     * このコンポーネントがラップする、GUIライブラリに依存したインスタンスの幅をセットする。
+     * 
+     * @param width
+     */
+    protected final void setWidthToInnerInstance(int width) {
+        int height = this.getInnerInstance().getPreferredSize().height;
+        if (height < this.getInnerInstance().getSize().getHeight()) {
+            height = this.getInnerInstance().getSize().height;
+        }
+        Dimension dimension = new Dimension(width, height);
+        this.getInnerInstanceForLayout().setSize(dimension);
+        this.getInnerInstanceForLayout().setPreferredSize(dimension);
+    }
+
+    /**
+     * このコンポーネントがラップする、GUIライブラリに依存したインスタンスの高さをセットする。
+     * 
+     * @param height
+     */
+    protected final void setHeightToInnerInstance(int height) {
+        int width = this.getInnerInstance().getPreferredSize().width;
+        if (width < this.getInnerInstance().getSize().getWidth()) {
+            width = this.getInnerInstance().getSize().width;
+        }
+        Dimension dimension = new Dimension(width, height);
+        this.getInnerInstanceForLayout().setSize(dimension);
+        this.getInnerInstanceForLayout().setPreferredSize(dimension);
     }
     
     private Dimension minimumSize = null;
@@ -261,8 +291,17 @@ public abstract class Component<T extends java.awt.Component> {
         if (this.minimumSize == null) {
             this.minimumSize = this.getInnerInstanceForLayout().getMinimumSize();
         }
-
         return this.minimumSize;
+    }
+
+    /**
+     * このコンポーネントの最小サイズをセットする。初期値は無制限。
+     * 
+     * @param dimension
+     */
+    public void setMinimumSize(Dimension dimension) {
+        this.minimumSize = dimension;
+        this.getInnerInstanceForLayout().setMinimumSize(this.minimumSize);
     }
     
     /**
@@ -271,9 +310,8 @@ public abstract class Component<T extends java.awt.Component> {
      * @param width
      * @param height
      */
-    public void setMinimumSize(int width, int height) {
-        this.minimumSize = new Dimension(width, height);
-        this.getInnerInstanceForLayout().setMinimumSize(this.minimumSize);
+    public final void setMinimumSize(int width, int height) {
+        this.setMinimumSize(new Dimension(width, height));
     }
     
     /**
@@ -281,7 +319,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @return 結果。
      */
-    public int getMinimumWidth() {
+    public final int getMinimumWidth() {
         return this.getMinimumSize().width;
     }
     
@@ -290,7 +328,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @param width
      */
-    public void setMinimumWidth(int width) {
+    public final void setMinimumWidth(int width) {
         this.setMinimumSize(width, this.getMinimumHeight());
     }
     
@@ -299,7 +337,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @return 結果。
      */
-    public int getMinimumHeight() {
+    public final int getMinimumHeight() {
         return this.getMinimumSize().height;
     }
     
@@ -308,7 +346,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @param height
      */
-    public void setMinimumHeight(int height) {
+    public final void setMinimumHeight(int height) {
         this.setMinimumSize(this.getMinimumWidth(), height);
     }
 
@@ -325,6 +363,16 @@ public abstract class Component<T extends java.awt.Component> {
         }
         return this.maximumSize;
     }
+
+    /**
+     * このコンポーネントの最大サイズをセットする。初期値は無制限。
+     * 
+     * @param dimension
+     */
+    public void setMaximumSize(Dimension dimension) {
+        this.maximumSize = dimension;
+        this.getInnerInstanceForLayout().setMaximumSize(this.maximumSize);
+    }
     
     /**
      * このコンポーネントの最大サイズをセットする。初期値は無制限。
@@ -332,9 +380,8 @@ public abstract class Component<T extends java.awt.Component> {
      * @param width
      * @param height
      */
-    public void setMaximumSize(int width, int height) {
-        this.maximumSize = new Dimension(width, height);
-        this.getInnerInstanceForLayout().setMaximumSize(this.maximumSize);
+    public final void setMaximumSize(int width, int height) {
+        this.setMaximumSize(new Dimension(width, height));
     }
 
     /**
@@ -342,7 +389,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @return 結果。
      */
-    public int getMaximumWidth() {
+    public final int getMaximumWidth() {
         return this.getMaximumSize().width;
     }
     
@@ -351,7 +398,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @param width
      */
-    public void setMaximumWidth(int width) {
+    public final void setMaximumWidth(int width) {
         this.setMaximumSize(width, this.getMaximumHeight());
     }
     
@@ -360,7 +407,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @return 結果。
      */
-    public int getMaximumHeight() {
+    public final int getMaximumHeight() {
         return this.getMaximumSize().height;
     }
     
@@ -369,7 +416,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @param height
      */
-    public void setMaximumHeight(int height) {
+    public final void setMaximumHeight(int height) {
         this.setMaximumSize(this.getMaximumWidth(), height);
     }
     
@@ -379,7 +426,7 @@ public abstract class Component<T extends java.awt.Component> {
      * @param width
      * @param height
      */
-    public void setFixedSize(int width, int height) {
+    public final void setFixedSize(int width, int height) {
         this.setMinimumSize(width, height);
         this.setMaximumSize(width, height);
         this.setSize(width, height);
@@ -415,7 +462,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @param bounds
      */
-    public void setBounds(Bounds bounds) {
+    public final void setBounds(Bounds bounds) {
         this.bounds = bounds;
         this.importFromBounds();
     }
@@ -428,7 +475,7 @@ public abstract class Component<T extends java.awt.Component> {
      * @param width
      * @param height
      */
-    public void setBounds(int x, int y, int width, int height) {
+    public final void setBounds(int x, int y, int width, int height) {
         this.bounds.setX(x);
         this.bounds.setY(y);
         this.bounds.setWidth(width);

@@ -60,8 +60,8 @@ public class Window extends Frame<JFrame> {
     }
 
     @Override
-    public void setMaximumSize(int width, int height) {
-        this.getInnerInstance().setMaximizedBounds(new Rectangle(width, height));
+    public void setMaximumSize(Dimension dimension) {
+        this.getInnerInstance().setMaximizedBounds(new Rectangle(dimension));
     }
     
     @Override

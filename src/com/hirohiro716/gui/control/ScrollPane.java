@@ -1,12 +1,9 @@
 package com.hirohiro716.gui.control;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-
-import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * スクロールバーを表示するペインのクラス。
@@ -55,11 +52,6 @@ public class ScrollPane extends Control {
         return (JScrollPane) super.getInnerInstance();
     }
 
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
-    }
-    
     @Override
     public void setDisabled(boolean isDisabled) {
         super.setDisabled(isDisabled);

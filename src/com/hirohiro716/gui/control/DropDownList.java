@@ -1,13 +1,11 @@
 package com.hirohiro716.gui.control;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import com.hirohiro716.Array;
-import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.event.ChangeListener;
@@ -107,19 +105,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
     public JComboBox<T> getInnerInstance() {
         return (JComboBox<T>) super.getInnerInstance();
     }
-
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        DropDownList<T> control = this;
-        return new ChangeListener<Dimension>() {
-            
-            @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
-                control.adjustSize();
-            }
-        };
-    }
-
+    
     private int baseWidth = 0;
     
     @Override
@@ -134,77 +120,14 @@ public class DropDownList<T> extends ListSelectControl<T> {
     /**
      * このGUIライブラリにはドロップダウンリストの最小幅をアイテムの文字幅に合わせて無限に拡大するバグがある。
      */
-    private void adjustSize() {
+    protected void adjustSize() {
         if (this.isSizeInitialized == false && this.baseWidth > 0) {
             this.isSizeInitialized = true;
             super.setMinimumHeight(this.getItemHeight());
             super.setSize(this.baseWidth, this.getItemHeight());
         }
-        if (this.getWidth() < this.getMinimumWidth() && this.getMinimumWidth() < this.getMaximumWidth()) {
-            this.setWidth(this.getMinimumWidth());
-            return;
-        }
-        if (this.getHeight() < this.getMinimumHeight() && this.getMinimumHeight() < this.getMaximumHeight()) {
-            this.setHeight(this.getMinimumHeight());
-            return;
-        }
-        if (this.getWidth() > this.getMaximumWidth() && this.getMinimumWidth() < this.getMaximumWidth()) {
-            this.setWidth(this.getMaximumWidth());
-            return;
-        }
-        if (this.getHeight() > this.getMaximumHeight() && this.getMinimumHeight() < this.getMaximumHeight()) {
-            this.setHeight(this.getMaximumHeight());
-            return;
-        }
+        super.adjustSize();
         this.updateItemDisplay();
-    }
-    
-    @Override
-    public void setSize(Dimension dimension) {
-        super.setSize(dimension);
-        this.adjustSize();
-    }
-    
-    @Override
-    public void setSize(int width, int height) {
-        super.setSize(width, height);
-        this.adjustSize();
-    }
-    
-    @Override
-    public void setWidth(int width) {
-        super.setWidth(width);
-        this.adjustSize();
-    }
-    
-    @Override
-    public void setMinimumSize(int width, int height) {
-        super.setMinimumSize(width, height);
-        this.adjustSize();
-    }
-    
-    @Override
-    public void setMinimumWidth(int width) {
-        super.setMinimumWidth(width);
-        this.adjustSize();
-    }
-    
-    @Override
-    public void setMinimumHeight(int height) {
-        super.setMinimumHeight(height);
-        this.adjustSize();
-    }
-
-    @Override
-    public void setMaximumSize(int width, int height) {
-        super.setMaximumSize(width, height);
-        this.adjustSize();
-    }
-
-    @Override
-    public void setMaximumWidth(int width) {
-        super.setMaximumWidth(width);
-        this.adjustSize();
     }
     
     @Override

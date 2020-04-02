@@ -1,12 +1,8 @@
 package com.hirohiro716.gui.control;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
-
-import com.hirohiro716.gui.Component;
-import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * 左から右に向かって折り返しながら配置するペインのクラス。
@@ -38,30 +34,23 @@ public class FlowPane extends Pane {
     private FlowLayout layout;
     
     @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        FlowPane pane = this;
-        return new ChangeListener<Dimension>() {
-            
-            @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
-                if (pane.getChildren().size() == 0) {
-                    return;
-                }
-                if (changedValue.width > pane.getMaximumWidth()) {
-                    pane.setWidth(pane.getMaximumWidth());
-                    return;
-                }
-                Control lastControl = pane.getChildren().get(pane.getChildren().size() - 1);
-                int lastControlHeight = lastControl.getY() + lastControl.getHeight();
-                if (changedValue.height < lastControlHeight) {
-                    if (pane.getMaximumHeight() > lastControlHeight) {
-                        pane.setHeight(lastControlHeight);
-                    } else {
-                        pane.setHeight(pane.getMaximumHeight());
-                    }
-                }
+    protected void adjustSize() {
+        if (this.getChildren().size() == 0) {
+            return;
+        }
+        if (this.getWidth() > this.getMaximumWidth()) {
+            this.setWidth(this.getMaximumWidth());
+            return;
+        }
+        Control lastControl = this.getChildren().get(this.getChildren().size() - 1);
+        int lastControlHeight = lastControl.getY() + lastControl.getHeight();
+        if (this.getHeight() < lastControlHeight) {
+            if (this.getMaximumHeight() > lastControlHeight) {
+                this.setHeight(lastControlHeight);
+            } else {
+                this.setHeight(this.getMaximumHeight());
             }
-        };
+        }
     }
 
     /**

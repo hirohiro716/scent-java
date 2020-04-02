@@ -1,6 +1,5 @@
 package com.hirohiro716.gui.control;
 
-import java.awt.Dimension;
 import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Map;
@@ -89,11 +88,6 @@ public abstract class TextInputControl extends Control {
         return (JTextComponent) super.getInnerInstance();
     }
 
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
-    }
-    
     @Override
     public void setPadding(int top, int right, int bottom, int left) {
         this.getInnerInstance().setMargin(new Insets(top, left, bottom, right));

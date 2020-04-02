@@ -1,7 +1,6 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.util.Vector;
 
@@ -107,11 +106,6 @@ public class ListView<T> extends ListSelectControl<T> {
      */
     public ListView() {
         this(new JList<>());
-    }
-    
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
     }
     
     private int mouseHoverItemIndex = -1;

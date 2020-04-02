@@ -81,15 +81,15 @@ public class ChildWindow extends Frame<JDialog> {
     }
     
     @Override
-    public void setMaximumSize(int width, int height) {
-        this.getInnerInstance().setMaximumSize(new Dimension(width, height));
+    public void setMaximumSize(Dimension dimension) {
+        this.getInnerInstance().setMaximumSize(dimension);
         this.getPane().addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
                 ChildWindow dialog = ChildWindow.this;
-                if (changedValue.width > width || changedValue.height > height) {
-                    dialog.setSize(width, height);
+                if (changedValue.width > dimension.width || changedValue.height > dimension.height) {
+                    dialog.setSize(dimension);
                     dialog.setResizable(false);
                     Thread thread = new Thread(new Runnable() {
                         

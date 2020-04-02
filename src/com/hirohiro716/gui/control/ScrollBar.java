@@ -1,6 +1,5 @@
 package com.hirohiro716.gui.control;
 
-import java.awt.Dimension;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import javax.swing.JScrollBar;
@@ -30,11 +29,6 @@ public class ScrollBar extends Control {
         return (JScrollBar) super.getInnerInstance();
     }
 
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
-    }
-    
     /**
      * このスクロールバーのスクロール位置を取得する。
      * 

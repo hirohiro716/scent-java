@@ -1,7 +1,6 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +12,6 @@ import javax.swing.MenuElement;
 
 import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.KeyCode;
-import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * コンテキストメニューのクラス。
@@ -50,11 +48,6 @@ public class ContextMenu extends Control {
     @Override
     public JPopupMenu getInnerInstance() {
         return (JPopupMenu) super.getInnerInstance();
-    }
-
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
     }
     
     /**

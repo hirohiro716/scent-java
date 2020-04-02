@@ -42,11 +42,6 @@ public class WaitCircle extends Control {
         return (AnimationPanel) super.getInnerInstance();
     }
 
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
-    }
-    
     /**
      * このコントロールのサイズが変更された際にアニメーションのサイズも変更するリスナー。
      */

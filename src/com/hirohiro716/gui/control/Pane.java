@@ -1,7 +1,6 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +15,6 @@ import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.control.TabPane.Tab;
-import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * 手動で配置するペインのクラス。
@@ -57,11 +55,6 @@ public class Pane extends Control {
     @Override
     public JPanel getInnerInstance() {
         return (JPanel) super.getInnerInstance();
-    }
-    
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
     }
     
     private Map<Control, Boolean> mapControlDisabled = new HashMap<>();
@@ -181,6 +174,49 @@ public class Pane extends Control {
                 }
             }
         };
+
+        /**
+         * ペインが含むすべてのコントロールを検索する。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @return 結果。
+         */
+        public Array<Control> findAll() {
+            return new Array<>(this.findControlsAsList());
+        }
+        
+        /**
+         * ペインが含むすべてのコントロールのリストを作成する。<br>
+         * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+         * 
+         * @return 結果。
+         */
+        private List<Control> findControlsAsList() {
+            List<Control> finded = new ArrayList<>();
+            for (Control control : this) {
+                finded.add(control);
+                List<Pane> nextPanes = new ArrayList<>();
+                if (control instanceof Pane) {
+                    nextPanes.add((Pane) control);
+                }
+                if (control instanceof ScrollPane) {
+                    ScrollPane scrollPane = (ScrollPane) control;
+                    if (scrollPane.getContent() instanceof Pane) {
+                        nextPanes.add(scrollPane.getContent());
+                    }
+                }
+                if (control instanceof TabPane) {
+                    TabPane tabPane = (TabPane) control;
+                    for (Tab tab : tabPane.getTabs()) {
+                        nextPanes.add(tab.getPane());
+                    }
+                }
+                for (Pane nextPane : nextPanes) {
+                    finded.addAll(nextPane.getChildren().findControlsAsList());
+                }
+            }
+            return finded;
+        }
         
         /**
          * 指定されたポイントに位置するコントロールを検索する。見つからなかった場合はnullを返す。<br>

@@ -1,14 +1,11 @@
 package com.hirohiro716.gui.control;
 
-import java.awt.Dimension;
-
 import javax.swing.JComponent;
 
 import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.VerticalAlignment;
-import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * GUIのすべてのラベル付きコントロールの抽象クラス。
@@ -29,11 +26,6 @@ public abstract class LabeledControl extends Control {
         this.setDisableInputMethod(true);
     }
 
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
-    }
-    
     /**
      * このコントロールに表示されている文字列を取得する。
      * 

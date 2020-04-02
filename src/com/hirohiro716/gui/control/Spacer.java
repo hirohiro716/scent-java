@@ -1,12 +1,8 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Color;
-import java.awt.Dimension;
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-
-import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * スペーサーのクラス。
@@ -38,11 +34,6 @@ public class Spacer extends Control {
         this.setFixedSize(width, height);
     }
 
-    @Override
-    protected ChangeListener<Dimension> createBugFixChangeListener() {
-        return null;
-    }
-    
     @Override
     public Color getBackgroundColor() {
         return this.getInnerInstance().getBackground();
