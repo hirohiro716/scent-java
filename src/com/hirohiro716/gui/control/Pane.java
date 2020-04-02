@@ -181,7 +181,7 @@ public class Pane extends Control {
          * 
          * @return 結果。
          */
-        public Array<Control> findAll() {
+        public final Array<Control> findAll() {
             return new Array<>(this.findControlsAsList());
         }
         
@@ -228,7 +228,7 @@ public class Pane extends Control {
          * @return 結果。
          */
         @SuppressWarnings("unchecked")
-        public <C extends Control> C findControlByPoint(int x, int y) {
+        public final <C extends Control> C findControlByPoint(int x, int y) {
             for (Control control : this) {
                 if (control.getX() <= x && control.getX() + control.getWidth() >= x && control.getY() <= y && control.getY() + control.getHeight() >= y) {
                     Pane nextPane = null;
@@ -302,7 +302,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public Array<Control> findControlsByName(String name) {
+        public final Array<Control> findControlsByName(String name) {
             return new Array<>(this.findControlsByNameAsList(name));
         }
         
@@ -350,7 +350,7 @@ public class Pane extends Control {
          * @param controlClass
          * @return 結果。
          */
-        public <C extends Control> Array<C> findControlsByClass(Class<C> controlClass) {
+        public final <C extends Control> Array<C> findControlsByClass(Class<C> controlClass) {
             return new Array<>(this.findControlsByClassAsList(controlClass));
         }
         
@@ -362,7 +362,7 @@ public class Pane extends Control {
          * @param controlClass
          * @return 結果。
          */
-        public <C extends Control> Array<Control> findControlsByNameAndClass(String name, Class<C> controlClass) {
+        public final <C extends Control> Array<Control> findControlsByNameAndClass(String name, Class<C> controlClass) {
             List<Control> findedByName = this.findControlsByNameAsList(name);
             for (Control control : findedByName.toArray(new Control[] {})) {
                 if (control.getClass().getName().equals(controlClass.getName()) == false) {
@@ -381,7 +381,7 @@ public class Pane extends Control {
          * @return 結果。
          */
         @SuppressWarnings("unchecked")
-        public <C extends Control> C findControlByName(String name) {
+        public final <C extends Control> C findControlByName(String name) {
             for (Control control : this.findControlsByName(name)) {
                 try {
                     return (C) control;
@@ -398,7 +398,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public Label findLabelByName(String name) {
+        public final Label findLabelByName(String name) {
             return this.findControlByName(name);
         }
         
@@ -409,7 +409,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public TextField findTextFieldByName(String name) {
+        public final TextField findTextFieldByName(String name) {
             return this.findControlByName(name);
         }
         
@@ -420,7 +420,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public AutocompleteTextField findAutocompleteTextFieldByName(String name) {
+        public final AutocompleteTextField findAutocompleteTextFieldByName(String name) {
             return this.findControlByName(name);
         }
         
@@ -431,7 +431,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public PasswordField findPasswordFieldByName(String name) {
+        public final PasswordField findPasswordFieldByName(String name) {
             return this.findControlByName(name);
         }
         
@@ -442,7 +442,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public DatePicker findDatePickerByName(String name) {
+        public final DatePicker findDatePickerByName(String name) {
             return this.findControlByName(name);
         }
         
@@ -453,7 +453,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public TextArea findTextAreaByName(String name) {
+        public final TextArea findTextAreaByName(String name) {
             return this.findControlByName(name);
         }
         
@@ -464,7 +464,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public CheckBox findCheckBoxByName(String name) {
+        public final CheckBox findCheckBoxByName(String name) {
             return this.findControlByName(name);
         }
 
@@ -475,7 +475,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public Button findButtonByName(String name) {
+        public final Button findButtonByName(String name) {
             return this.findControlByName(name);
         }
         
@@ -486,7 +486,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public RadioButton findRadioButtonByName(String name) {
+        public final RadioButton findRadioButtonByName(String name) {
             return this.findControlByName(name);
         }
         
@@ -497,7 +497,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public ToggleButton findToggleButtonByName(String name) {
+        public final ToggleButton findToggleButtonByName(String name) {
             return this.findControlByName(name);
         }
         
@@ -509,7 +509,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public <T> ListView<T> findListViewByName(String name) {
+        public final <T> ListView<T> findListViewByName(String name) {
             return this.findControlByName(name);
         }
         
@@ -521,7 +521,7 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
-        public <T> DropDownList<T> findDropDownListByName(String name) {
+        public final <T> DropDownList<T> findDropDownListByName(String name) {
             return this.findControlByName(name);
         }
     }

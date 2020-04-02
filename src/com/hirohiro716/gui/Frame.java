@@ -284,7 +284,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * @param exception 発生した例外。
      * @param processAfterDialogClose ダイアログを閉じた後の処理。
      */
-    public void showException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
+    public final void showException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
         this.showException(null, exception, processAfterDialogClose);
     }
 
@@ -294,7 +294,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * @param message メッセージ。
      * @param exception 発生した例外。
      */
-    public void showException(String message, Exception exception) {
+    public final void showException(String message, Exception exception) {
         this.showException(message, exception, null);
     }
     
@@ -303,7 +303,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * 
      * @param exception 発生した例外。
      */
-    public void showException(Exception exception) {
+    public final void showException(Exception exception) {
         this.showException(null, exception, null);
     }
     

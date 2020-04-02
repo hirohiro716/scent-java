@@ -104,16 +104,6 @@ public class GridPane extends Pane {
         return this.horizontalSpacing;
     }
     
-    /**
-     * このペインに配置されている子要素間の水平方向スペースを指定する。
-     * 
-     * @param spacing
-     */
-    public void setHorizontalSpacing(int spacing) {
-        this.horizontalSpacing = spacing;
-        this.updateAllChildLayout();
-    }
-
     private int verticalSpacing = 0;
     
     /**
@@ -123,16 +113,6 @@ public class GridPane extends Pane {
      */
     public int getVerticalSpacing() {
         return this.verticalSpacing;
-    }
-    
-    /**
-     * このペインに配置されている子要素間の垂直方向スペースを指定する。
-     * 
-     * @param spacing
-     */
-    public void setVerticalSpacing(int spacing) {
-        this.verticalSpacing = spacing;
-        this.updateAllChildLayout();
     }
     
     /**
@@ -146,14 +126,32 @@ public class GridPane extends Pane {
         this.verticalSpacing = verticalSpacing;
         this.updateAllChildLayout();
     }
-
+    
     /**
      * このペインに配置されている子要素間のスペースを指定する。
      * 
      * @param spacing
      */
-    public void setSpacing(int spacing) {
+    public final void setSpacing(int spacing) {
         this.setSpacing(spacing, spacing);
+    }
+    
+    /**
+     * このペインに配置されている子要素間の水平方向スペースを指定する。
+     * 
+     * @param spacing
+     */
+    public final void setHorizontalSpacing(int spacing) {
+        this.setSpacing(spacing, this.verticalSpacing);
+    }
+
+    /**
+     * このペインに配置されている子要素間の垂直方向スペースを指定する。
+     * 
+     * @param spacing
+     */
+    public final void setVerticalSpacing(int spacing) {
+        this.setSpacing(this.horizontalSpacing, spacing);
     }
     
     private Map<Control, Integer> mapGridX = new HashMap<>();
@@ -193,7 +191,7 @@ public class GridPane extends Pane {
      * @param gridY 垂直方向表示位置。
      * @param cellLayout セル内のコントロール配置方法。
      */
-    public void setGridLayout(Control control, int gridX, int gridY, CellLayout cellLayout) {
+    public final void setGridLayout(Control control, int gridX, int gridY, CellLayout cellLayout) {
         this.setGridLayout(control, gridX, gridY, 1, 1, cellLayout);
     }
 
@@ -206,7 +204,7 @@ public class GridPane extends Pane {
      * @param gridWidth 表示に使用するカラム数。
      * @param gridHeight 表示に使用する行数。
      */
-    public void setGridLayout(Control control, int gridX, int gridY, int gridWidth, int gridHeight) {
+    public final void setGridLayout(Control control, int gridX, int gridY, int gridWidth, int gridHeight) {
         this.setGridLayout(control, gridX, gridY, gridWidth, gridHeight, CellLayout.FILL);
     }
     
@@ -217,7 +215,7 @@ public class GridPane extends Pane {
      * @param gridX 水平方向表示位置。
      * @param gridY 垂直方向表示位置。
      */
-    public void setGridLayout(Control control, int gridX, int gridY) {
+    public final void setGridLayout(Control control, int gridX, int gridY) {
         this.setGridLayout(control, gridX, gridY, 1, 1, CellLayout.FILL);
     }
     

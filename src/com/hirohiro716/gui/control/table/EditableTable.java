@@ -257,17 +257,6 @@ public abstract class EditableTable<C, R> extends Control {
     }
     
     /**
-     * このテーブルの指定された行、指定されたカラムをアクティブにする。
-     * 
-     * @param rowInstance
-     * @param columnInstance
-     */
-    public void activate(R rowInstance, C columnInstance) {
-        this.activateColumn(columnInstance);
-        this.activateRow(rowInstance);
-    }
-    
-    /**
      * このテーブルの指定された行のペインがアクティブに見えるようにする。
      * 
      * @param pane
@@ -352,6 +341,17 @@ public abstract class EditableTable<C, R> extends Control {
                 changeListener.executeWhenChanged(this, columnInstance);
             }
         }
+    }
+
+    /**
+     * このテーブルの指定された行、指定されたカラムをアクティブにする。
+     * 
+     * @param rowInstance
+     * @param columnInstance
+     */
+    public final void activate(R rowInstance, C columnInstance) {
+        this.activateColumn(columnInstance);
+        this.activateRow(rowInstance);
     }
     
     /**
@@ -532,7 +532,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param columnInstance
      * @param controlFactory
      */
-    public void addColumnOfLabel(C columnInstance, ReadonlyControlFactory<C, R, Label> controlFactory) {
+    public final void addColumnOfLabel(C columnInstance, ReadonlyControlFactory<C, R, Label> controlFactory) {
         this.addColumn(columnInstance, ColumnType.LABEL, controlFactory);
     }
     
@@ -542,7 +542,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param columnInstance
      * @param controlFactory
      */
-    public void addColumnOfTextField(C columnInstance, ControlFactory<C, R, TextField> controlFactory) {
+    public final void addColumnOfTextField(C columnInstance, ControlFactory<C, R, TextField> controlFactory) {
         this.addColumn(columnInstance, ColumnType.TEXT_FIELD, controlFactory);
     }
     
@@ -552,7 +552,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param columnInstance
      * @param controlFactory
      */
-    public void addColumnOfPasswordField(C columnInstance, ControlFactory<C, R, PasswordField> controlFactory) {
+    public final void addColumnOfPasswordField(C columnInstance, ControlFactory<C, R, PasswordField> controlFactory) {
         this.addColumn(columnInstance, ColumnType.PASSWORD_FIELD, controlFactory);
     }
     
@@ -562,7 +562,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param columnInstance
      * @param controlFactory
      */
-    public void addColumnOfDatePicker(C columnInstance, ControlFactory<C, R, DatePicker> controlFactory) {
+    public final void addColumnOfDatePicker(C columnInstance, ControlFactory<C, R, DatePicker> controlFactory) {
         this.addColumn(columnInstance, ColumnType.DATE_PICKER, controlFactory);
     }
     
@@ -572,7 +572,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param columnInstance
      * @param controlFactory
      */
-    public <T> void addColumnOfDropDownList(C columnInstance, ControlFactory<C, R, DropDownList<T>> controlFactory) {
+    public final <T> void addColumnOfDropDownList(C columnInstance, ControlFactory<C, R, DropDownList<T>> controlFactory) {
         this.addColumn(columnInstance, ColumnType.DROPDOWNLIST, controlFactory);
     }
     
@@ -582,7 +582,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param columnInstance
      * @param controlFactory
      */
-    public void addColumnOfCheckBox(C columnInstance, ControlFactory<C, R, CheckBox> controlFactory) {
+    public final void addColumnOfCheckBox(C columnInstance, ControlFactory<C, R, CheckBox> controlFactory) {
         this.addColumn(columnInstance, ColumnType.CHECKBOX, controlFactory);
     }
     
@@ -592,7 +592,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param columnInstance
      * @param controlFactory
      */
-    public void addColumnOfButton(C columnInstance, FixedControlFactory<C, R, Button> controlFactory) {
+    public final void addColumnOfButton(C columnInstance, FixedControlFactory<C, R, Button> controlFactory) {
         this.addColumn(columnInstance, ColumnType.BUTTON, controlFactory);
     }
     

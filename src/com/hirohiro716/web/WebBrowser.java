@@ -81,10 +81,8 @@ public class WebBrowser extends DynamicClass {
      * @param url
      * @throws Exception 
      */
-    public void load(String url) throws Exception {
-        Method method = new Method(this.webClient);
-        this.webPage = method.invoke("getPage", url);
-        this.clearSelectedElements();
+    public final void load(String url) throws Exception {
+        this.load(new URL(url));
     }
     
     /**

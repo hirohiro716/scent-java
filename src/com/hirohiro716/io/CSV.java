@@ -75,29 +75,7 @@ public class CSV {
     public List<List<String>> getRows() {
         return this.rows;
     }
-    
-    /**
-     * このインスタンス内のすべての行を置き換える。
-     * 
-     * @param rows
-     */
-    public void setRows(List<String>[] rows) {
-        this.clearRows();
-        for (List<String> row : rows) {
-            this.addRows(row);
-        }
-    }
-    
-    /**
-     * このインスタンス内のすべての行を置き換える。
-     * 
-     * @param rows
-     */
-    @SuppressWarnings("unchecked")
-    public void setRows(Collection<List<String>> rows) {
-        this.setRows(rows.toArray(new ArrayList[] {}));
-    }
-    
+
     /**
      * このインスタンスに行を追加する。
      * 
@@ -116,8 +94,30 @@ public class CSV {
      * 
      * @param values
      */
-    public void addRows(Collection<String> values) {
+    public final void addRows(Collection<String> values) {
         this.addRows(values.toArray(new String[] {}));
+    }
+    
+    /**
+     * このインスタンス内のすべての行を置き換える。
+     * 
+     * @param rows
+     */
+    public final void setRows(List<String>[] rows) {
+        this.clearRows();
+        for (List<String> row : rows) {
+            this.addRows(row);
+        }
+    }
+    
+    /**
+     * このインスタンス内のすべての行を置き換える。
+     * 
+     * @param rows
+     */
+    @SuppressWarnings("unchecked")
+    public final void setRows(Collection<List<String>> rows) {
+        this.setRows(rows.toArray(new ArrayList[] {}));
     }
     
     /**
@@ -175,7 +175,7 @@ public class CSV {
      * @param file
      * @throws IOException
      */
-    public void exportToFile(File file) throws IOException {
+    public final void exportToFile(File file) throws IOException {
         this.exportToFile(file, null);
     }
     
@@ -227,7 +227,7 @@ public class CSV {
      * @param firstRowIsHeader 一行目をヘッダーとして取り込む場合はtrueを指定。
      * @throws IOException
      */
-    public void importFromFile(File file, boolean firstRowIsHeader) throws IOException {
+    public final void importFromFile(File file, boolean firstRowIsHeader) throws IOException {
         this.importFromFile(file, null, firstRowIsHeader);
     }
     

@@ -138,7 +138,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @param x
      */
-    public void setX(int x) {
+    public final void setX(int x) {
         this.setLocation(x, this.getY());
     }
     
@@ -156,7 +156,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 
      * @param y
      */
-    public void setY(int y) {
+    public final void setY(int y) {
         this.setLocation(this.getX(), y);
     }
     

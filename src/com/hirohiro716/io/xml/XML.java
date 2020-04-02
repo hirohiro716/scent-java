@@ -103,7 +103,7 @@ public class XML {
      * @return 結果。
      * @throws TransformerException
      */
-    public String buildSource() throws TransformerException {
+    public final String buildSource() throws TransformerException {
         return buildSource(null);
     }
     
@@ -128,7 +128,7 @@ public class XML {
      * @throws IOException
      * @throws TransformerException
      */
-    public void exportToFile(File file) throws IOException, TransformerException {
+    public final void exportToFile(File file) throws IOException, TransformerException {
         this.exportToFile(file, null);
     }
     
@@ -272,7 +272,7 @@ public class XML {
          * @param name
          * @return 作成した要素。
          */
-        public XMLNode createNode(String name) {
+        public final XMLNode createNode(String name) {
             return this.createNode(name, null);
         }
         
@@ -314,7 +314,7 @@ public class XML {
          * @param value 
          * @return 見つかった要素。
          */
-        public XMLNode findXMLNodeByAttribute(String name, String value) {
+        public final XMLNode findXMLNodeByAttribute(String name, String value) {
             Array<XMLNode> nodes = this.findXMLNodesByAttribute(name, value);
             if (nodes.length() == 0) {
                 return null;
@@ -344,7 +344,7 @@ public class XML {
          * @param name
          * @return 見つかった要素。
          */
-        public XMLNode findXMLNodeByName(String name) {
+        public final XMLNode findXMLNodeByName(String name) {
             Array<XMLNode> nodeList = findXMLNodesByName(name);
             if (nodeList.length() == 0) {
                 return null;

@@ -37,7 +37,7 @@ public class WhereSet {
      * @param comparison
      * @param value
      */
-    public void add(ColumnInterface column, Comparison comparison, Object value) {
+    public final void add(ColumnInterface column, Comparison comparison, Object value) {
         this.add(false, column.getFullPhysicalName(), comparison, value);
     }
 
@@ -48,7 +48,7 @@ public class WhereSet {
      * @param comparison
      * @param value
      */
-    public void add(String column, Comparison comparison, Object value) {
+    public final void add(String column, Comparison comparison, Object value) {
         this.add(false, column, comparison, value);
     }
     
@@ -59,7 +59,7 @@ public class WhereSet {
      * @param comparison
      * @param value
      */
-    public void addNegate(ColumnInterface column, Comparison comparison, Object value) {
+    public final void addNegate(ColumnInterface column, Comparison comparison, Object value) {
         this.add(true, column.getFullPhysicalName(), comparison, value);
     }
     
@@ -70,7 +70,7 @@ public class WhereSet {
      * @param comparison
      * @param value
      */
-    public void addNegate(String column, Comparison comparison, Object value) {
+    public final void addNegate(String column, Comparison comparison, Object value) {
         this.add(true, column, comparison, value);
     }
     
@@ -95,7 +95,7 @@ public class WhereSet {
      * @param value1
      * @param value2
      */
-    public void addBetween(ColumnInterface column, Object value1, Object value2) {
+    public final void addBetween(ColumnInterface column, Object value1, Object value2) {
         this.addBetween(false, column.getFullPhysicalName(), value1, value2);
     }
 
@@ -106,7 +106,7 @@ public class WhereSet {
      * @param value1
      * @param value2
      */
-    public void addBetween(String column, Object value1, Object value2) {
+    public final void addBetween(String column, Object value1, Object value2) {
         this.addBetween(false, column, value1, value2);
     }
     
@@ -117,7 +117,7 @@ public class WhereSet {
      * @param value1
      * @param value2
      */
-    public void addBetweenNegate(ColumnInterface column, Object value1, Object value2) {
+    public final void addBetweenNegate(ColumnInterface column, Object value1, Object value2) {
         this.addBetween(true, column.getFullPhysicalName(), value1, value2);
     }
 
@@ -128,7 +128,7 @@ public class WhereSet {
      * @param value1
      * @param value2
      */
-    public void addBetweenNegate(String column, Object value1, Object value2) {
+    public final void addBetweenNegate(String column, Object value1, Object value2) {
         this.addBetween(true, column, value1, value2);
     }
     
@@ -151,7 +151,7 @@ public class WhereSet {
      * @param column
      * @param values
      */
-    public void addIn(ColumnInterface column, Object... values) {
+    public final void addIn(ColumnInterface column, Object... values) {
         this.addIn(false, column.getFullPhysicalName(), values);
     }
 
@@ -161,7 +161,7 @@ public class WhereSet {
      * @param column
      * @param values
      */
-    public void addIn(String column, Object... values) {
+    public final void addIn(String column, Object... values) {
         this.addIn(false, column, values);
     }
     
@@ -171,7 +171,7 @@ public class WhereSet {
      * @param column
      * @param values
      */
-    public void addInNegate(ColumnInterface column, Object... values) {
+    public final void addInNegate(ColumnInterface column, Object... values) {
         this.addIn(true, column.getFullPhysicalName(), values);
     }
 
@@ -181,7 +181,7 @@ public class WhereSet {
      * @param column
      * @param values
      */
-    public void addInNegate(String column, Object... values) {
+    public final void addInNegate(String column, Object... values) {
         this.addIn(true, column, values);
     }
     
@@ -202,7 +202,7 @@ public class WhereSet {
      * 
      * @param column
      */
-    public void addIsNull(ColumnInterface column) {
+    public final void addIsNull(ColumnInterface column) {
         this.addIsNull(false, column.getFullPhysicalName());
     }
 
@@ -211,7 +211,7 @@ public class WhereSet {
      * 
      * @param column
      */
-    public void addIsNull(String column) {
+    public final void addIsNull(String column) {
         this.addIsNull(false, column);
     }
     
@@ -220,7 +220,7 @@ public class WhereSet {
      * 
      * @param column
      */
-    public void addIsNullNegate(ColumnInterface column) {
+    public final void addIsNullNegate(ColumnInterface column) {
         this.addIsNull(true, column.getFullPhysicalName());
     }
 
@@ -229,7 +229,7 @@ public class WhereSet {
      * 
      * @param column
      */
-    public void addIsNullNegate(String column) {
+    public final void addIsNullNegate(String column) {
         this.addIsNull(true, column);
     }
     
@@ -281,7 +281,7 @@ public class WhereSet {
      * @param column
      * @return Whereインスタンス、またはnull。
      */
-    public Where findWhereFromColumn(ColumnInterface column) {
+    public final Where findWhereFromColumn(ColumnInterface column) {
         return this.findWhereFromColumn(column.getFullPhysicalName());
     }
     

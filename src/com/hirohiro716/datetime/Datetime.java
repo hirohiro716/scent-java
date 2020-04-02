@@ -379,7 +379,7 @@ public class Datetime implements Cloneable {
      * @return 結果。
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return this.toString(this.dateFormat);
     }
     
@@ -481,7 +481,7 @@ public class Datetime implements Cloneable {
      * 
      * @return 結果。
      */
-    public String toStringOnlyDate() {
+    public final String toStringOnlyDate() {
         return this.toString(DEFAULT_DATE_FORMAT_ONLY_DATE);
     }
     
@@ -491,7 +491,7 @@ public class Datetime implements Cloneable {
      * 
      * @return 結果。
      */
-    public String toStringOnlyTime() {
+    public final String toStringOnlyTime() {
         return this.toString(DEFAULT_DATE_FORMAT_ONLY_TIME);
     }
     

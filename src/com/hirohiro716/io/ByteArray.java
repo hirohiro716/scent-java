@@ -134,7 +134,7 @@ public class ByteArray {
      * @param file
      * @throws IOException
      */
-    public void saveToFile(com.hirohiro716.filesystem.File file) throws IOException {
+    public final void saveToFile(com.hirohiro716.filesystem.File file) throws IOException {
         this.saveToFile(file.toJavaIoFile());
     }
     

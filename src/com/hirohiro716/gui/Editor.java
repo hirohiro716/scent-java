@@ -172,7 +172,7 @@ public abstract class Editor<T> {
      * 
      * @param exception 発生した例外。
      */
-    protected void showValidationException(ValidationException exception) {
+    protected final void showValidationException(ValidationException exception) {
         this.showValidationException(exception, null);
     }
 
@@ -193,7 +193,7 @@ public abstract class Editor<T> {
      * @param exception 発生した例外。
      * @param processAfterDialogClose ダイアログを閉じた後の処理。
      */
-    protected void showException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
+    protected final void showException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
         this.showException(null, exception, processAfterDialogClose);
     }
 
@@ -203,8 +203,8 @@ public abstract class Editor<T> {
      * @param message メッセージ。
      * @param exception 発生した例外。
      */
-    protected void showException(String message, Exception exception) {
-        this.window.showException(message, exception, null);
+    protected final void showException(String message, Exception exception) {
+        this.showException(message, exception, null);
     }
     
     /**
@@ -212,8 +212,8 @@ public abstract class Editor<T> {
      * 
      * @param exception 発生した例外。
      */
-    protected void showException(Exception exception) {
-        this.window.showException(null, exception, null);
+    protected final void showException(Exception exception) {
+        this.showException(null, exception, null);
     }
     
     /**
@@ -301,7 +301,7 @@ public abstract class Editor<T> {
      * @param property
      * @return 結果。
      */
-    protected Label createLabel(PropertyInterface property) {
+    protected final Label createLabel(PropertyInterface property) {
         return this.createLabel(property, property.getLogicalName());
     }
     
@@ -388,7 +388,7 @@ public abstract class Editor<T> {
      * @param property
      * @return 結果。
      */
-    protected CheckBox createCheckBox(PropertyInterface property) {
+    protected final CheckBox createCheckBox(PropertyInterface property) {
         return this.createCheckBox(property, property.getLogicalName());
     }
 
@@ -411,7 +411,7 @@ public abstract class Editor<T> {
      * @param property
      * @return 結果。
      */
-    protected Button createButton(PropertyInterface property) {
+    protected final Button createButton(PropertyInterface property) {
         return this.createButton(property, property.getLogicalName());
     }
     
@@ -434,7 +434,7 @@ public abstract class Editor<T> {
      * @param property
      * @return 結果。
      */
-    protected RadioButton createRadioButton(PropertyInterface property) {
+    protected final RadioButton createRadioButton(PropertyInterface property) {
         return this.createRadioButton(property, property.getLogicalName());
     }
 
@@ -457,7 +457,7 @@ public abstract class Editor<T> {
      * @param property
      * @return 結果。
      */
-    protected ToggleButton createToggleButton(PropertyInterface property) {
+    protected final ToggleButton createToggleButton(PropertyInterface property) {
         return this.createToggleButton(property, property.getLogicalName());
     }
     

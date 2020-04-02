@@ -114,7 +114,7 @@ public abstract class LabeledControl extends Control {
      * @param horizontalAlignment
      * @param verticalAlignment
      */
-    public void setTextAlignment(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment) {
+    public final void setTextAlignment(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment) {
         this.setTextHorizontalAlignment(horizontalAlignment);
         this.setTextVerticalAlignment(verticalAlignment);
     }

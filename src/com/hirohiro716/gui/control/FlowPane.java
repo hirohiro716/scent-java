@@ -52,27 +52,7 @@ public class FlowPane extends Pane {
             }
         }
     }
-
-    /**
-     * コンポーネント間の水平方向スペースをセットする。
-     * 
-     * @param spacing
-     */
-    public void setHorizontalSpacing(int spacing) {
-        this.layout.setHgap(spacing);
-        this.adjustPadding();
-    }
     
-    /**
-     * コンポーネント間の垂直方向スペースをセットする。
-     * 
-     * @param spacing
-     */
-    public void setVerticalSpacing(int spacing) {
-        this.layout.setVgap(spacing);
-        this.adjustPadding();
-    }
-
     /**
      * コンポーネント間のスペースを指定する。
      * 
@@ -84,14 +64,32 @@ public class FlowPane extends Pane {
         this.layout.setVgap(verticalSpacing);
         this.adjustPadding();
     }
-
+    
     /**
      * このペインに配置されている子要素間のスペースを指定する。
      * 
      * @param spacing
      */
-    public void setSpacing(int spacing) {
+    public final void setSpacing(int spacing) {
         this.setSpacing(spacing, spacing);
+    }
+    
+    /**
+     * コンポーネント間の水平方向スペースをセットする。
+     * 
+     * @param spacing
+     */
+    public final void setHorizontalSpacing(int spacing) {
+        this.setSpacing(spacing, this.layout.getVgap());
+    }
+    
+    /**
+     * コンポーネント間の垂直方向スペースをセットする。
+     * 
+     * @param spacing
+     */
+    public final void setVerticalSpacing(int spacing) {
+        this.setSpacing(this.layout.getHgap(), spacing);
     }
     
     private int paddingTop = 0;
@@ -117,24 +115,6 @@ public class FlowPane extends Pane {
         this.paddingRight = right;
         this.paddingBottom = bottom;
         this.paddingLeft = left;
-        this.adjustPadding();
-    }
-    
-    @Override
-    public void setPadding(int topAndBottom, int rightAndLeft) {
-        this.paddingTop = topAndBottom;
-        this.paddingRight = rightAndLeft;
-        this.paddingBottom = topAndBottom;
-        this.paddingLeft = rightAndLeft;
-        this.adjustPadding();
-    }
-    
-    @Override
-    public void setPadding(int padding) {
-        this.paddingTop = padding;
-        this.paddingRight = padding;
-        this.paddingBottom = padding;
-        this.paddingLeft = padding;
         this.adjustPadding();
     }
     

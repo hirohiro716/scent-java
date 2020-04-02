@@ -251,7 +251,7 @@ public abstract class Database implements Closeable {
      * @return 影響を与えたレコード数。
      * @throws SQLException
      */
-    public int execute(String sql, Collection<Object> parameters) throws SQLException {
+    public final int execute(String sql, Collection<Object> parameters) throws SQLException {
         return this.execute(sql, parameters.toArray(new Object[] {}));
     }
     
@@ -295,7 +295,7 @@ public abstract class Database implements Closeable {
      * @throws SQLException
      * @throws DataNotFoundException
      */
-    public <T> T fetchField(String sql, Collection<Object> parameters) throws SQLException, DataNotFoundException {
+    public final <T> T fetchField(String sql, Collection<Object> parameters) throws SQLException, DataNotFoundException {
         return this.fetchField(sql, parameters.toArray(new Object[] {}));
     }
     
@@ -308,7 +308,7 @@ public abstract class Database implements Closeable {
      * @throws SQLException
      * @throws DataNotFoundException
      */
-    public <T> T fetchField(String sql) throws SQLException, DataNotFoundException {
+    public final <T> T fetchField(String sql) throws SQLException, DataNotFoundException {
         return this.fetchField(sql, new Object[] {});
     }
     
@@ -350,7 +350,7 @@ public abstract class Database implements Closeable {
      * @throws SQLException
      * @throws DataNotFoundException
      */
-    public DynamicArray<String> fetchRecord(String sql, Collection<Object> parameters) throws SQLException, DataNotFoundException {
+    public final DynamicArray<String> fetchRecord(String sql, Collection<Object> parameters) throws SQLException, DataNotFoundException {
         return this.fetchRecord(sql, parameters.toArray(new Object[] {}));
     }
 
@@ -362,7 +362,7 @@ public abstract class Database implements Closeable {
      * @throws SQLException
      * @throws DataNotFoundException
      */
-    public DynamicArray<String> fetchRecord(String sql) throws SQLException, DataNotFoundException {
+    public final DynamicArray<String> fetchRecord(String sql) throws SQLException, DataNotFoundException {
         return this.fetchRecord(sql, new Object[] {});
     }
     
@@ -404,7 +404,7 @@ public abstract class Database implements Closeable {
      * @return 結果。
      * @throws SQLException
      */
-    public DynamicArray<String>[] fetchRecords(String sql, Collection<Object> parameters) throws SQLException {
+    public final DynamicArray<String>[] fetchRecords(String sql, Collection<Object> parameters) throws SQLException {
         return this.fetchRecords(sql, parameters.toArray(new Object[] {}));
     }
 
@@ -415,7 +415,7 @@ public abstract class Database implements Closeable {
      * @return 結果。
      * @throws SQLException
      */
-    public DynamicArray<String>[] fetchRecords(String sql) throws SQLException {
+    public final DynamicArray<String>[] fetchRecords(String sql) throws SQLException {
         return this.fetchRecords(sql, new Object[] {});
     }
     

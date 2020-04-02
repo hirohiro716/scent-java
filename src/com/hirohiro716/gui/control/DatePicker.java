@@ -273,7 +273,7 @@ public class DatePicker extends TextField {
      * 
      * @param date
      */
-    public void setDate(Date date) {
+    public final void setDate(Date date) {
         if (date == null) {
             this.setText(null);
         } else {

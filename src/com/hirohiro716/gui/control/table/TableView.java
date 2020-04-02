@@ -177,7 +177,7 @@ public abstract class TableView<C, R> extends Control {
      * @param horizontalAlignment
      * @param width
      */
-    public void addColumn(C columnInstance, HorizontalAlignment horizontalAlignment, int width) {
+    public final void addColumn(C columnInstance, HorizontalAlignment horizontalAlignment, int width) {
         TableColumn tableColumn = this.addColumn(columnInstance, ColumnType.TEXT, horizontalAlignment);
         tableColumn.setWidth(width);
     }
@@ -188,7 +188,7 @@ public abstract class TableView<C, R> extends Control {
      * @param columnInstance
      * @param horizontalAlignment
      */
-    public void addColumn(C columnInstance, HorizontalAlignment horizontalAlignment) {
+    public final void addColumn(C columnInstance, HorizontalAlignment horizontalAlignment) {
         this.addColumn(columnInstance, ColumnType.TEXT, horizontalAlignment);
     }
     
@@ -199,7 +199,7 @@ public abstract class TableView<C, R> extends Control {
      * @param numberFormat
      * @param width
      */
-    public void addColumnOfNumber(C columnInstance, NumberFormat numberFormat, int width) {
+    public final void addColumnOfNumber(C columnInstance, NumberFormat numberFormat, int width) {
         TableColumn tableColumn = this.addColumn(columnInstance, ColumnType.NUMBER, HorizontalAlignment.RIGHT);
         tableColumn.setWidth(width);
         tableColumn.setNumberFormat(numberFormat);
@@ -211,7 +211,7 @@ public abstract class TableView<C, R> extends Control {
      * @param columnInstance
      * @param numberFormat
      */
-    public void addColumnOfNumber(C columnInstance, NumberFormat numberFormat) {
+    public final void addColumnOfNumber(C columnInstance, NumberFormat numberFormat) {
         TableColumn tableColumn = this.addColumn(columnInstance, ColumnType.NUMBER, HorizontalAlignment.RIGHT);
         tableColumn.setNumberFormat(numberFormat);
     }
@@ -223,7 +223,7 @@ public abstract class TableView<C, R> extends Control {
      * @param dateFormat
      * @param width
      */
-    public void addColumnOfDatetime(C columnInstance, DateFormat dateFormat, int width) {
+    public final void addColumnOfDatetime(C columnInstance, DateFormat dateFormat, int width) {
         TableColumn tableColumn = this.addColumn(columnInstance, ColumnType.DATETIME, HorizontalAlignment.CENTER);
         tableColumn.setWidth(width);
         tableColumn.setDateFormat(dateFormat);
@@ -235,7 +235,7 @@ public abstract class TableView<C, R> extends Control {
      * @param columnInstance
      * @param dateFormat
      */
-    public void addColumnOfDatetime(C columnInstance, DateFormat dateFormat) {
+    public final void addColumnOfDatetime(C columnInstance, DateFormat dateFormat) {
         TableColumn tableColumn = this.addColumn(columnInstance, ColumnType.DATETIME, HorizontalAlignment.CENTER);
         tableColumn.setDateFormat(dateFormat);
     }
@@ -248,7 +248,7 @@ public abstract class TableView<C, R> extends Control {
      * @param columnInstance
      * @param isEditable
      */
-    public void addColumnOfCheckBox(C columnInstance, boolean isEditable) {
+    public final void addColumnOfCheckBox(C columnInstance, boolean isEditable) {
         this.addColumn(columnInstance, ColumnType.CHECKBOX, HorizontalAlignment.CENTER);
         this.mapColumnEditable.put(columnInstance, isEditable);
     }
@@ -264,7 +264,7 @@ public abstract class TableView<C, R> extends Control {
      * @param buttonText
      * @param eventHandler
      */
-    public void addColumnOfButton(C columnInstance, String buttonText, EventHandler<ActionEvent> eventHandler) {
+    public final void addColumnOfButton(C columnInstance, String buttonText, EventHandler<ActionEvent> eventHandler) {
         this.addColumn(columnInstance, ColumnType.BUTTON, HorizontalAlignment.CENTER);
         this.mapColumnButtonText.put(columnInstance, buttonText);
         this.mapColumnButtonEventHandler.put(columnInstance, eventHandler);
@@ -333,7 +333,7 @@ public abstract class TableView<C, R> extends Control {
      * 
      * @param selectedRows
      */
-    public void setSelectedRows(R[] selectedRows) {
+    public final void setSelectedRows(R[] selectedRows) {
         this.setSelectedRows(DynamicArray.newInstance(selectedRows).getValues());
     }
     
@@ -342,7 +342,7 @@ public abstract class TableView<C, R> extends Control {
      * 
      * @param selectedRow
      */
-    public void setSelectedRow(R selectedRow) {
+    public final void setSelectedRow(R selectedRow) {
         List<R> list = new ArrayList<>();
         list.add(selectedRow);
         this.setSelectedRows(list);
@@ -351,7 +351,7 @@ public abstract class TableView<C, R> extends Control {
     /**
      * このテーブルビューの選択状態を解除する。
      */
-    public void clearSelection() {
+    public final void clearSelection() {
         this.setSelectedRows(new ArrayList<>());
     }
 

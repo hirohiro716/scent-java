@@ -94,14 +94,32 @@ public abstract class Printable implements java.awt.print.Printable {
     }
     
     /**
+     * 印刷に使用するフォントを取得する。
+     * 
+     * @return 結果。
+     */
+    protected Font getFont() {
+        return this.graphics2D.getFont();
+    }
+
+    /**
+     * 印刷に使用するフォントを設定する。
+     * 
+     * @param font
+     */
+    protected void setFont(Font font) {
+        this.graphics2D.setFont(font);
+    }
+    
+    /**
      * 印刷に使用するフォントを設定する。
      * 
      * @param fontName
      * @param size
      * @param fontStyle
      */
-    protected void setFont(String fontName, float size, FontStyle fontStyle) {
-        this.graphics2D.setFont(new Font(fontName, fontStyle.getValue(), (int) size));
+    protected final void setFont(String fontName, float size, FontStyle fontStyle) {
+        this.setFont(new Font(fontName, fontStyle.getValue(), (int) size));
     }
     
     /**
@@ -110,7 +128,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param fontName
      * @param size
      */
-    protected void setFont(String fontName, float size) {
+    protected final void setFont(String fontName, float size) {
         this.setFont(fontName, size, FontStyle.PLAIN);
     }
     
@@ -119,8 +137,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * 
      * @param size
      */
-    protected void setFontSize(float size) {
-        this.graphics2D.setFont(this.graphics2D.getFont().deriveFont(size));
+    protected final void setFontSize(float size) {
+        this.setFont(GUI.createFont(this.getFont(), (int) size));
     }
     
     /**
@@ -128,8 +146,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * 
      * @param fontStyle
      */
-    protected void setFontStyle(FontStyle fontStyle) {
-        this.graphics2D.setFont(this.graphics2D.getFont().deriveFont(fontStyle.getValue()));
+    protected final void setFontStyle(FontStyle fontStyle) {
+        this.setFont(this.getFont().getFontName(), this.getFont().getSize(), fontStyle);
     }
     
     private Float leading = null;
@@ -330,7 +348,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterStartY
      * @param millimeterLength
      */
-    protected void printHorizontalLine(float millimeterStartX, float millimeterStartY, float millimeterLength) {
+    protected final void printHorizontalLine(float millimeterStartX, float millimeterStartY, float millimeterLength) {
         this.printLine(millimeterStartX, millimeterStartY, millimeterStartX + millimeterLength, millimeterStartY);
     }
     
@@ -341,7 +359,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterStartY
      * @param millimeterLength
      */
-    protected void printVerticalLine(float millimeterStartX, float millimeterStartY, float millimeterLength) {
+    protected final void printVerticalLine(float millimeterStartX, float millimeterStartY, float millimeterLength) {
         this.printLine(millimeterStartX, millimeterStartY, millimeterStartX, millimeterStartY + millimeterLength);
     }
     
@@ -371,7 +389,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterWidth
      * @param millimeterHeight
      */
-    protected void printRectangleLine(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
+    protected final void printRectangleLine(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
         this.printRectangleLine(millimeterX, millimeterY, millimeterWidth, millimeterHeight, 0);
     }
 
@@ -401,7 +419,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterWidth
      * @param millimeterHeight
      */
-    protected void printRectangleFill(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
+    protected final void printRectangleFill(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
         this.printRectangleFill(millimeterX, millimeterY, millimeterWidth, millimeterHeight, 0);
     }
 
@@ -464,7 +482,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterWidth
      * @throws IOException
      */
-    protected void printImageToFitWidth(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterWidth) throws IOException {
+    protected final void printImageToFitWidth(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterWidth) throws IOException {
         float ratio = bufferedImage.getWidth() / millimeterWidth;
         float millimeterHeight = bufferedImage.getHeight() / ratio;
         this.printImage(bufferedImage, millimeterX, millimeterY, millimeterWidth, millimeterHeight);
@@ -479,7 +497,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterHeight
      * @throws IOException
      */
-    protected void printImageToFitHeight(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterHeight) throws IOException {
+    protected final void printImageToFitHeight(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterHeight) throws IOException {
         float ratio = bufferedImage.getHeight() / millimeterHeight;
         float millimeterWidth = bufferedImage.getWidth() / ratio;
         this.printImage(bufferedImage, millimeterX, millimeterY, millimeterWidth, millimeterHeight);

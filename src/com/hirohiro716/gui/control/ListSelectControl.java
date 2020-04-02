@@ -140,7 +140,7 @@ public abstract class ListSelectControl<T> extends Control {
      * 
      * @param selectedItems
      */
-    public void setSelectedItems(T[] selectedItems) {
+    public final void setSelectedItems(T[] selectedItems) {
         this.setSelectedItems(DynamicArray.newInstance(selectedItems).getValues());
     }
     
@@ -149,7 +149,7 @@ public abstract class ListSelectControl<T> extends Control {
      * 
      * @param selectedItem
      */
-    public void setSelectedItem(T selectedItem) {
+    public final void setSelectedItem(T selectedItem) {
         List<T> list = new ArrayList<>();
         list.add(selectedItem);
         this.setSelectedItems(list);

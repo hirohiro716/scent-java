@@ -255,7 +255,7 @@ public abstract class Control extends Component<JComponent> {
      * @param topAndBottom 
      * @param rightAndLeft 
      */
-    public void setPadding(int topAndBottom, int rightAndLeft) {
+    public final void setPadding(int topAndBottom, int rightAndLeft) {
         this.setPadding(topAndBottom, rightAndLeft, topAndBottom, rightAndLeft);
     }
     
@@ -264,7 +264,7 @@ public abstract class Control extends Component<JComponent> {
      * 
      * @param padding
      */
-    public void setPadding(int padding) {
+    public final void setPadding(int padding) {
         this.setPadding(padding, padding);
     }
     

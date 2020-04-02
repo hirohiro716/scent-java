@@ -92,17 +92,7 @@ public abstract class TextInputControl extends Control {
     public void setPadding(int top, int right, int bottom, int left) {
         this.getInnerInstance().setMargin(new Insets(top, left, bottom, right));
     }
-
-    @Override
-    public void setPadding(int topAndBottom, int rightAndLeft) {
-        this.setPadding(topAndBottom, rightAndLeft, topAndBottom, rightAndLeft);
-    }
-
-    @Override
-    public void setPadding(int padding) {
-        this.setPadding(padding, padding, padding, padding);
-    }
-
+    
     /**
      * このテキスト入力コントロールに入力されている文字列を取得する。
      * 
