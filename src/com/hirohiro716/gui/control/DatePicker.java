@@ -469,7 +469,6 @@ public class DatePicker extends TextField {
             DatePicker control = DatePicker.this;
             DropDownList<Integer> dropDownList = new DropDownList<>(Datetime.createYearsList(10));
             dropDownList.setFont(control.getFont());
-            dropDownList.setMinimumWidth(control.getFont().getSize() * 4);
             dropDownList.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
             dropDownList.setFocusable(false);
             dropDownList.setEnableChangeValueWithMouseWheelRotation(true);
@@ -488,7 +487,6 @@ public class DatePicker extends TextField {
             DatePicker control = DatePicker.this;
             DropDownList<Integer> dropDownList = new DropDownList<>(Datetime.createMonthsList());
             dropDownList.setFont(control.getFont());
-            dropDownList.setMinimumWidth(control.getFont().getSize() * 2);
             dropDownList.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
             dropDownList.setFocusable(false);
             dropDownList.setEnableChangeValueWithMouseWheelRotation(true);

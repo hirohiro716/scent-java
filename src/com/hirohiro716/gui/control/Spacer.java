@@ -31,7 +31,9 @@ public class Spacer extends Control {
      */
     public Spacer(int width, int height) {
         this(new JPanel());
-        this.setFixedSize(width, height);
+        this.setSize(width, height);
+        this.setMinimumSize(width, height);
+        this.setMaximumSize(width, height);
     }
 
     @Override

@@ -94,7 +94,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
             protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
                 AnchorPane pane = dialog.getPane();
                 int padding = pane.getFont().getSize() * 4;
-                dialog.verticalPane.setMaximumWidth(changedValue.width - padding);
+                dialog.verticalPane.setWidth(changedValue.width - padding);
             }
         });
         // Change anchor when other control resizing

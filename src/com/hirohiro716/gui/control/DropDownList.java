@@ -68,6 +68,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
                 control.getInnerInstance().setSelectedIndex(index);
             }
         });
+        this.setHeight(this.getItemHeight());
         this.adjustSize();
     }
     
@@ -123,8 +124,8 @@ public class DropDownList<T> extends ListSelectControl<T> {
     protected void adjustSize() {
         if (this.isSizeInitialized == false && this.baseWidth > 0) {
             this.isSizeInitialized = true;
-            super.setMinimumHeight(this.getItemHeight());
-            super.setSize(this.baseWidth, this.getItemHeight());
+            this.setMinimumHeight(this.getItemHeight());
+            this.setSize(this.baseWidth, this.getItemHeight());
         }
         super.adjustSize();
         this.updateItemDisplay();
