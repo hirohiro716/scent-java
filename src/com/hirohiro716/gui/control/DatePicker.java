@@ -6,9 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.swing.UIManager;
 
 import com.hirohiro716.StringObject;
@@ -21,7 +19,6 @@ import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.Popup;
 import com.hirohiro716.gui.VerticalAlignment;
-import com.hirohiro716.gui.event.ActionEvent;
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.KeyEvent;
@@ -63,11 +60,11 @@ public class DatePicker extends TextField {
             @Override
             protected void changed(Component<?> component, Boolean changedValue, Boolean valueBeforeChange) {
                 if (changedValue) {
-                    textField.showPopup();
                     textField.selectAll();
+                    textField.showPopup();
                 } else {
-                    textField.hidePopup();
                     textField.parseInputString();
+                    textField.hidePopup();
                 }
             }
         });
@@ -78,6 +75,9 @@ public class DatePicker extends TextField {
                 switch (event.getKeyCode()) {
                 case ENTER:
                     textField.parseInputString();
+                    break;
+                case ESCAPE:
+                    textField.hidePopup();
                     break;
                 default:
                     break;
@@ -155,41 +155,6 @@ public class DatePicker extends TextField {
         return this.dateFormat;
     }
     
-    private List<EventHandler<ActionEvent>> actionEventHandlers = new ArrayList<>();
-    
-    /**
-     * このコントロールの入力文字列がDatetimeインスタンスにパースされた際のイベントハンドラーを追加する。
-     * 
-     * @param eventHandler
-     */
-    public void addActionEventHandler(EventHandler<ActionEvent> eventHandler) {
-        this.actionEventHandlers.add(eventHandler);
-    }
-    
-    /**
-     * このコントロールの入力文字列がDatetimeインスタンスにパースされた際のイベントハンドラーを削除する。
-     * 
-     * @param eventHandler
-     */
-    public void removeActionEventHandler(EventHandler<ActionEvent> eventHandler) {
-        this.actionEventHandlers.remove(eventHandler);
-    }
-    
-    private Datetime datetimeBeforeChange = null;
-    
-    /**
-     * このコントロールの入力文字列がDatetimeインスタンスにパースされた際のイベントハンドラーを実行する。
-     */
-    private void executeActionEventHandler() {
-        Datetime datetime = this.toDatetime();
-        if (datetime == null && this.datetimeBeforeChange != null || datetime != null && datetime.equals(this.datetimeBeforeChange) == false) {
-            for (EventHandler<ActionEvent> eventHandler : this.actionEventHandlers) {
-                eventHandler.executeWhenControlEnabled(new ActionEvent(this, (java.awt.event.ActionEvent) null));
-            }
-            this.datetimeBeforeChange = datetime;
-        }
-    }
-    
     /**
      * このコントロールの入力文字列をフォーマットパターンに従ってパースする。
      */
@@ -250,7 +215,6 @@ public class DatePicker extends TextField {
             } catch (ParseException exception) {
             }
         }
-        this.executeActionEventHandler();
     }
     
     /**
@@ -264,7 +228,6 @@ public class DatePicker extends TextField {
         } else {
             this.setText(datetime.toString(this.dateFormat));
         }
-        this.datetimeBeforeChange = this.toDatetime();
     }
     
     /**
@@ -389,7 +352,7 @@ public class DatePicker extends TextField {
      * このコントロールのカレンダー用のポップアップを隠す。
      */
     public void hidePopup() {
-        if (this.getPopup() != null) {
+        if (this.getPopup() != null && this.getPopup().isVisible()) {
             this.getPopup().hide();
         }
     }
@@ -633,7 +596,6 @@ public class DatePicker extends TextField {
                 CalendarPane pane = CalendarPane.this;
                 Datetime datetime = event.getSource().getInstanceForUseLater();
                 control.setText(datetime.toString(control.getFormatPattern()));
-                control.executeActionEventHandler();
                 pane.displayCalender();
             }
         };

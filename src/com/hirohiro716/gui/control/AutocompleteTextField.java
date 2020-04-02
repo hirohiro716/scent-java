@@ -71,6 +71,9 @@ public class AutocompleteTextField extends TextField {
                 case ENTER:
                     event.copy(textField.getListView());
                     break;
+                case ESCAPE:
+                    textField.hidePopup();
+                    break;
                 default:
                     break;
                 }
@@ -225,7 +228,7 @@ public class AutocompleteTextField extends TextField {
      * このテキストフィールドのオートコンプリート用のポップアップを隠す。
      */
     public void hidePopup() {
-        if (this.getPopup() != null) {
+        if (this.getPopup() != null && this.getPopup().isVisible()) {
             this.getPopup().hide();
         }
     }
