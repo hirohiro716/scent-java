@@ -3,7 +3,6 @@ package com.hirohiro716.gui.dialog;
 import com.hirohiro716.Regex;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.datetime.Datetime;
-import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.KeyCode;
@@ -15,7 +14,6 @@ import com.hirohiro716.gui.control.Label;
 import com.hirohiro716.gui.control.Spacer;
 import com.hirohiro716.gui.control.TextField;
 import com.hirohiro716.gui.event.ActionEvent;
-import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.EventHandler;
 
 /**
@@ -99,6 +97,12 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
         this.close();
     }
     
+    private Label labelDate;
+    
+    private Label labelTime;
+    
+    private Label labelColon;
+    
     @Override
     protected Control createInputControl() {
         DatetimeInputDialog dialog = this;
@@ -109,42 +113,10 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
         pane.setFillChildToPaneHeight(true);
         pane.setSpacing(5);
         // Label of date
-        pane.getChildren().add(new Label("日付"));
+        this.labelDate = new Label("日付");
+        pane.getChildren().add(this.labelDate);
         // DatePicker
         this.datePicker = new DatePicker();
-        ChangeListener<String> textChangeListener = new ChangeListener<>() {
-
-            @Override
-            protected void changed(Component<?> component, String changedValue, String valueBeforeChange) {
-                dialog.buttonOK.setDisabled(true);
-                Datetime datetime = dialog.datePicker.toDatetime();
-                if (datetime == null) {
-                    return;
-                }
-                Integer hour = StringObject.newInstance(dialog.textFieldHour.getText()).toInteger();
-                if (hour == null || hour < 0 || hour > 23) {
-                    return;
-                }
-                Integer minute = StringObject.newInstance(dialog.textFieldMinute.getText()).toInteger();
-                if (minute == null || minute < 0 || minute > 59) {
-                    return;
-                }
-                dialog.buttonOK.setDisabled(false);
-            }
-        };
-        this.datePicker.addTextChangeListener(textChangeListener);
-        pane.getChildren().add(this.datePicker);
-        pane.getGrowableControls().add(this.datePicker);
-        // Spacer
-        pane.getChildren().add(new Spacer(baseSize * 1, 0));
-        // Label of time
-        pane.getChildren().add(new Label("時刻"));
-        // TextField of hour
-        this.textFieldHour = new TextField();
-        this.textFieldHour.setMinimumWidth(baseSize * 4);
-        this.textFieldHour.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
-        this.textFieldHour.addLimitByRegex(Regex.INTEGER_NARROW.getPattern(), false);
-        this.textFieldHour.addTextChangeListener(textChangeListener);
         EventHandler<ActionEvent> actionEventHandler = new EventHandler<>() {
 
             @Override
@@ -152,16 +124,29 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
                 dialog.setResultValueAndClose();
             }
         };
+        this.datePicker.addActionEventHandler(actionEventHandler);
+        pane.getChildren().add(this.datePicker);
+        pane.getGrowableControls().add(this.datePicker);
+        // Spacer
+        pane.getChildren().add(new Spacer(baseSize * 1, 0));
+        // Label of time
+        this.labelTime = new Label("時刻");
+        pane.getChildren().add(this.labelTime);
+        // TextField of hour
+        this.textFieldHour = new TextField();
+        this.textFieldHour.setMinimumWidth(baseSize * 4);
+        this.textFieldHour.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
+        this.textFieldHour.addLimitByRegex(Regex.INTEGER_NARROW.getPattern(), false);
         this.textFieldHour.addActionEventHandler(actionEventHandler);
         pane.getChildren().add(this.textFieldHour);
         // Label of colon
-        pane.getChildren().add(new Label(":"));
+        this.labelColon = new Label(":");
+        pane.getChildren().add(this.labelColon);
         // TextField of minute
         this.textFieldMinute = new TextField();
         this.textFieldMinute.setMinimumWidth(baseSize * 4);
         this.textFieldMinute.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
         this.textFieldMinute.addLimitByRegex(Regex.INTEGER_NARROW.getPattern(), false);
-        this.textFieldMinute.addTextChangeListener(textChangeListener);
         this.textFieldMinute.addActionEventHandler(actionEventHandler);
         pane.getChildren().add(this.textFieldMinute);
         return pane;
@@ -194,7 +179,6 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
         DatetimeInputDialog dialog = this;
         this.buttonOK = new Button("OK");
         this.buttonOK.setMnemonic(KeyCode.O);
-        this.buttonOK.setDisabled(true);
         this.buttonOK.addActionEventHandler(new EventHandler<ActionEvent>() {
             
             @Override
@@ -212,6 +196,38 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
             }
         });
         return new Button[] {this.buttonOK, this.buttonCancel};
+    }
+    
+    private boolean isTimeInput = true;
+    
+    /**
+     * このダイアログで時刻が入力できる場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isTimeInput() {
+        return this.isTimeInput;
+    }
+    
+    /**
+     * このダイアログで時刻を入力する場合はtrueをセットする。初期値はtrue。
+     * 
+     * @param isTimeInput
+     */
+    public void setTimeInput(boolean isTimeInput) {
+        this.isTimeInput = isTimeInput;
+    }
+    
+    @Override
+    protected void processBeforeShow() {
+        super.processBeforeShow();
+        if (this.isTimeInput == false) {
+            this.labelDate.setVisible(false);
+            this.labelTime.setVisible(false);
+            this.textFieldHour.setVisible(false);
+            this.labelColon.setVisible(false);
+            this.textFieldMinute.setVisible(false);
+        }
     }
 
     @Override
