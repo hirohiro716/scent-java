@@ -61,7 +61,7 @@ public abstract class ChangeListener<T> {
         return list.toArray();
     }
     
-    private T valueBeforeChange = null;
+    private Map<Component<?>, T> mapValueBeforeChange = new HashMap<>();
     
     /**
      * このリスナーの前回の値から変更されている場合に処理を実行する。
@@ -70,9 +70,10 @@ public abstract class ChangeListener<T> {
      * @param changed
      */
     public void executeWhenChanged(Component<?> component, T changed) {
-        if (changed != null && changed.equals(this.valueBeforeChange) == false || changed == null && this.valueBeforeChange != null) {
-            this.changed(component, changed, this.valueBeforeChange);
-            this.valueBeforeChange = changed;
+        T valueBeforeChange = this.mapValueBeforeChange.get(component);
+        if (changed != null && changed.equals(valueBeforeChange) == false || changed == null && valueBeforeChange != null) {
+            this.changed(component, changed, valueBeforeChange);
+            this.mapValueBeforeChange.put(component, changed);
         }
     }
 }
