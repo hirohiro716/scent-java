@@ -1,4 +1,4 @@
-package com.hirohiro716.gui;
+package com.hirohiro716.gui.dialog;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,6 +10,11 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import com.hirohiro716.gui.Border;
+import com.hirohiro716.gui.Component;
+import com.hirohiro716.gui.Frame;
+import com.hirohiro716.gui.GUI;
+import com.hirohiro716.gui.ProcessAfterDialogClose;
 import com.hirohiro716.gui.control.CenterPane;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;

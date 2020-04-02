@@ -1,5 +1,6 @@
-package com.hirohiro716.gui;
+package com.hirohiro716.gui.dialog;
 
+import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.control.Pane;
 
 /**
