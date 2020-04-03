@@ -2,19 +2,20 @@ package com.hirohiro716.gui.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.util.Collection;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
-
 import com.hirohiro716.Array;
+import com.hirohiro716.gui.GUI;
+import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.InnerInstanceCreator;
+import com.hirohiro716.gui.event.KeyEvent;
 import com.hirohiro716.gui.event.MouseEvent;
+import com.hirohiro716.gui.event.MouseEvent.MouseButton;
 
 /**
  * ドロップダウンリストのクラス。
@@ -31,7 +32,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
      * 
      * @param innerInstance
      */
-    protected DropDownList(JComboBox<T> innerInstance) {
+    protected DropDownList(JComboBox<String> innerInstance) {
         super(innerInstance);
         DropDownList<T> control = this;
         this.getItems().addListener(new AddListener<T>() {
@@ -71,23 +72,30 @@ public class DropDownList<T> extends ListSelectControl<T> {
                 control.getInnerInstance().setSelectedIndex(index);
             }
         });
-        this.setHeight(this.getItemHeight());
-        this.adjustSize();
-        // Display a string that exceeds the width of the control
-        this.getInnerInstance().setEditable(true);
-        JTextField editor = (JTextField) this.getInnerInstance().getEditor().getEditorComponent();
-        editor.setEditable(false);
-        editor.addMouseListener(new MouseAdapter() {
-
+        this.addMouseClickedEventHandler(MouseButton.BUTTON3, new EventHandler<MouseEvent>() {
+            
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent event) {
-                if (control.getInnerInstance().isPopupVisible()) {
-                    control.getInnerInstance().hidePopup();
-                }  else {
-                    control.getInnerInstance().showPopup();
+            protected void handle(MouseEvent event) {
+                ContextMenu menu = control.createContextMenu();
+                if (menu != null) {
+                    menu.show(event.getX(), event.getY());
                 }
             }
         });
+        this.addKeyReleasedEventHandler(new EventHandler<KeyEvent>() {
+            
+            @Override
+            protected void handle(KeyEvent event) {
+                if (event.getKeyCode() == KeyCode.F10 && event.isShiftDown()) {
+                    ContextMenu menu = control.createContextMenu();
+                    if (menu != null) {
+                        menu.show(control.getWidth() - control.getFont().getSize() / 2, control.getHeight() / 2);
+                    }
+                }
+            }
+        });
+        this.setHeight(this.getItemHeight());
+        this.adjustSize();
     }
     
     /**
@@ -241,5 +249,35 @@ public class DropDownList<T> extends ListSelectControl<T> {
      */
     public void setEnableChangeValueWithMouseWheelRotation(boolean isEnableChangeValueWithMouseWheelRotation) {
         this.isEnableChangeValueWithMouseWheelRotation = isEnableChangeValueWithMouseWheelRotation;
+    }
+    
+    /**
+     * ドロップダウンリスト用のコンテキストメニューを作成する。<br>
+     * 値が未選択の場合はnullを返す。
+     * 
+     * @return 結果。
+     */
+    public ContextMenu createContextMenu() {
+        DropDownList<T> dropDownList = this;
+        Object value = dropDownList.getSelectedItem();
+        if (value == null) {
+            return null;
+        }
+        ContextMenu menu = new ContextMenu(this);
+        if (dropDownList.getMapForDisplayTextAndItem().containsKey(value)) {
+            value = dropDownList.getMapForDisplayTextAndItem().get(value);
+        }
+        String text = value.toString();
+        ContextMenuItem copy = new ContextMenuItem(text + " をコピー(C)");
+        copy.setMnemonic(KeyCode.C);
+        copy.setAction(new Runnable() {
+            
+            @Override
+            public void run() {
+                GUI.setClipboardString(text);
+            }
+        });
+        menu.addContextMenuItem(copy);
+        return menu;
     }
 }

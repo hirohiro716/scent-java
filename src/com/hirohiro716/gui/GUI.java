@@ -8,6 +8,9 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +55,36 @@ public class GUI {
                 }
             });
         }
+    }
+    
+    /**
+     * クリップボードの文字列を取得する。
+     * 
+     * @return 結果。
+     */
+    public static String getClipboardString() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Clipboard clipboard = toolkit.getSystemClipboard();
+        try {
+            return (String) clipboard.getData(DataFlavor.stringFlavor);
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+    
+    /**
+     * クリップボードに文字列をセットする。
+     * 
+     * @param string
+     */
+    public static void setClipboardString(String string) {
+        if (string == null || string.length() == 0) {
+            return;
+        }
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Clipboard clipboard = toolkit.getSystemClipboard();
+        StringSelection stringSelection = new StringSelection(string);
+        clipboard.setContents(stringSelection, stringSelection);
     }
     
     /**

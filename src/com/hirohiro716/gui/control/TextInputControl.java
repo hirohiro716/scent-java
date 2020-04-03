@@ -42,7 +42,7 @@ public abstract class TextInputControl extends Control {
     protected TextInputControl(JTextComponent innerInstance, JComponent innerInstanceForLayout) {
         super(innerInstance, innerInstanceForLayout);
         TextInputControl control = this;
-        this.contextMenu = ContextMenu.createForTextInputControl(this);
+        this.contextMenu = this.createContextMenu();
         this.addMouseClickedEventHandler(MouseButton.BUTTON3, new EventHandler<MouseEvent>() {
             
             @Override
@@ -70,17 +70,6 @@ public abstract class TextInputControl extends Control {
      */
     protected TextInputControl(JTextComponent innerInstance) {
         this(innerInstance, innerInstance);
-    }
-    
-    private ContextMenu contextMenu;
-    
-    /**
-     * このテキスト入力コントロールのコンテキストメニューを取得する。
-     * 
-     * @return 結果。
-     */
-    public ContextMenu getContextMenu() {
-        return this.contextMenu;
     }
     
     @Override
@@ -326,6 +315,17 @@ public abstract class TextInputControl extends Control {
     public void clearLimitByRegex() {
         this.inputLimitRegexPatterns.clear();
     }
+
+    private ContextMenu contextMenu;
+    
+    /**
+     * このテキスト入力コントロールのコンテキストメニューを取得する。
+     * 
+     * @return 結果。
+     */
+    public ContextMenu getContextMenu() {
+        return this.contextMenu;
+    }
     
     /**
      * このテキスト入力コントロールの入力値を制限するクラス。
@@ -358,5 +358,56 @@ public abstract class TextInputControl extends Control {
             }
             super.insertString(offset, pass.toString(), attributeSet);
         }
+    }
+    
+    /**
+     * テキスト入力コントロール用のコンテキストメニューを作成する。
+     * 
+     * @return 結果。
+     */
+    private ContextMenu createContextMenu() {
+        TextInputControl control = this;
+        ContextMenuItem cut = new ContextMenuItem("切り取り(X)");
+        cut.setMnemonic(KeyCode.X);
+        cut.setAction(new Runnable() {
+            
+            @Override
+            public void run() {
+                control.cutSelection();
+            }
+        });
+        ContextMenuItem copy = new ContextMenuItem("コピー(C)");
+        copy.setMnemonic(KeyCode.C);
+        copy.setAction(new Runnable() {
+            
+            @Override
+            public void run() {
+                control.copySelection();
+            }
+        });
+        ContextMenuItem paste = new ContextMenuItem("貼り付け(P)");
+        paste.setMnemonic(KeyCode.P);
+        paste.setAction(new Runnable() {
+            
+            @Override
+            public void run() {
+                control.pasteToSelection();
+            }
+        });
+        ContextMenu menu = new ContextMenu(control) {
+            
+            @Override
+            public void show(int xLocationOnInvoker, int yLocationOnInvoker) {
+                super.show(xLocationOnInvoker, yLocationOnInvoker);
+                StringObject selectedText = new StringObject(control.getSelectedText());
+                cut.setDisabled(!control.isEditable() || selectedText.length() == 0);
+                copy.setDisabled(selectedText.length() == 0);
+                paste.setDisabled(!control.isEditable());
+            }
+        };
+        menu.addContextMenuItem(cut);
+        menu.addContextMenuItem(copy);
+        menu.addContextMenuItem(paste);
+        return menu;
     }
 }

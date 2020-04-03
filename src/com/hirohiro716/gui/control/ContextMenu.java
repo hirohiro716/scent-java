@@ -10,7 +10,6 @@ import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 import javax.swing.MenuElement;
 
-import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.KeyCode;
 
 /**
@@ -123,6 +122,15 @@ public class ContextMenu extends Control {
     }
     
     /**
+     * このコンテキストメニューのアイテムをクリアする。
+     */
+    public final void clearContextMenuItem() {
+        for (ContextMenuItem item : this.getContextMenuItems()) {
+            this.removeContextMenuItem(item);
+        }
+    }
+    
+    /**
      * 表示する位置を指定してコンテキストメニューを表示する。
      * 
      * @param xLocationOnInvoker 呼び出し元コントロール上での水平方向位置。
@@ -145,56 +153,5 @@ public class ContextMenu extends Control {
     @Override
     public void setForegroundColor(Color color) {
         throw new IllegalCallerException("This method should not be used for context menus.");
-    }
-    
-    /**
-     * テキスト入力コントロール用のコンテキストメニューを作成する。
-     * 
-     * @param control
-     * @return 結果。
-     */
-    public static ContextMenu createForTextInputControl(TextInputControl control) {
-        ContextMenuItem cut = new ContextMenuItem("切り取り(X)");
-        cut.setMnemonic(KeyCode.X);
-        cut.setAction(new Runnable() {
-            
-            @Override
-            public void run() {
-                control.cutSelection();
-            }
-        });
-        ContextMenuItem copy = new ContextMenuItem("コピー(C)");
-        copy.setMnemonic(KeyCode.C);
-        copy.setAction(new Runnable() {
-            
-            @Override
-            public void run() {
-                control.copySelection();
-            }
-        });
-        ContextMenuItem paste = new ContextMenuItem("貼り付け(P)");
-        paste.setMnemonic(KeyCode.P);
-        paste.setAction(new Runnable() {
-            
-            @Override
-            public void run() {
-                control.pasteToSelection();
-            }
-        });
-        ContextMenu menu = new ContextMenu(control) {
-            
-            @Override
-            public void show(int xLocationOnInvoker, int yLocationOnInvoker) {
-                super.show(xLocationOnInvoker, yLocationOnInvoker);
-                StringObject selectedText = new StringObject(control.getSelectedText());
-                cut.setDisabled(!control.isEditable() || selectedText.length() == 0);
-                copy.setDisabled(selectedText.length() == 0);
-                paste.setDisabled(!control.isEditable());
-            }
-        };
-        menu.addContextMenuItem(cut);
-        menu.addContextMenuItem(copy);
-        menu.addContextMenuItem(paste);
-        return menu;
     }
 }
