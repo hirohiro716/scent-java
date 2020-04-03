@@ -149,6 +149,7 @@ public class ListView<T> extends ListSelectControl<T> {
             int index = this.getItems().indexOf(item);
             if (index > -1) {
                 this.getInnerInstance().addSelectionInterval(index, index);
+                this.getInnerInstance().getSelectionModel().setAnchorSelectionIndex(index);
             }
         }
     }
@@ -164,30 +165,7 @@ public class ListView<T> extends ListSelectControl<T> {
 
                     @Override
                     public void valueChanged(ListSelectionEvent event) {
-                        if (event.getValueIsAdjusting()) {
-                            changeListener.executeWhenChanged(listView, listView.getSelectedItem());
-                        }
-                    }
-                };
-            }
-        });
-        this.getInnerInstance().getSelectionModel().addListSelectionListener(innerInstance);
-    }
-    
-    @Override
-    public void addSelectedItemsChangeListener(ChangeListener<Array<T>> changeListener) {
-        ListView<T> listView = this;
-        ListSelectionListener innerInstance = changeListener.createInnerInstance(listView, new InnerInstanceCreator<>() {
-
-            @Override
-            public ListSelectionListener create() {
-                return new ListSelectionListener() {
-                    
-                    @Override
-                    public void valueChanged(ListSelectionEvent event) {
-                        if (event.getValueIsAdjusting()) {
-                            changeListener.executeWhenChanged(listView, listView.getSelectedItems());
-                        }
+                        changeListener.executeWhenChanged(listView, listView.getSelectedItem());
                     }
                 };
             }

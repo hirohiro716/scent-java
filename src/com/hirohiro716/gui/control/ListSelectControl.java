@@ -168,13 +168,6 @@ public abstract class ListSelectControl<T> extends Control {
      */
     public abstract void addSelectedItemChangeListener(ChangeListener<T> changeListener);
     
-    /**
-     * このリストビューの選択範囲が変更された際のリスナーを追加する。
-     * 
-     * @param changeListener
-     */
-    public abstract void addSelectedItemsChangeListener(ChangeListener<Array<T>> changeListener);
-    
     private HorizontalAlignment textHorizontalAlignment = HorizontalAlignment.LEFT;
     
     /**

@@ -196,25 +196,6 @@ public class DropDownList<T> extends ListSelectControl<T> {
         });
         this.getInnerInstance().addActionListener(innerInstance);
     }
-
-    @Override
-    public void addSelectedItemsChangeListener(ChangeListener<Array<T>> changeListener) {
-        DropDownList<T> dropDownList = this;
-        ActionListener innerInstance = changeListener.createInnerInstance(dropDownList, new InnerInstanceCreator<>() {
-
-            @Override
-            public ActionListener create() {
-                return new ActionListener() {
-                    
-                    @Override
-                    public void actionPerformed(ActionEvent event) {
-                        changeListener.executeWhenChanged(dropDownList, dropDownList.getSelectedItems());
-                    }
-                };
-            }
-        });
-        this.getInnerInstance().addActionListener(innerInstance);
-    }
     
     @Override
     public void removeChangeListener(ChangeListener<?> changeListener) {
