@@ -225,8 +225,15 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
             this.labelDate.setVisible(false);
             this.labelTime.setVisible(false);
             this.textFieldHour.setVisible(false);
+            String zero = "0";
+            if (this.textFieldHour.getText().length() == 0) {
+                this.textFieldHour.setText(zero);
+            }
             this.labelColon.setVisible(false);
             this.textFieldMinute.setVisible(false);
+            if (this.textFieldMinute.getText().length() == 0) {
+                this.textFieldMinute.setText(zero);
+            }
         }
     }
 
@@ -237,6 +244,9 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
     
     @Override
     public void setDefaultValue(Datetime defaultResultValue) {
+        if (defaultResultValue == null) {
+            return;
+        }
         this.datePicker.setDatetime(defaultResultValue);
         this.textFieldHour.setText(String.valueOf(defaultResultValue.toHour()));
         this.textFieldMinute.setText(String.valueOf(defaultResultValue.toMinute()));

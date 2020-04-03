@@ -2,9 +2,12 @@ package com.hirohiro716.gui.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.util.Collection;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
+
 import com.hirohiro716.Array;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.RemoveListener;
@@ -70,6 +73,21 @@ public class DropDownList<T> extends ListSelectControl<T> {
         });
         this.setHeight(this.getItemHeight());
         this.adjustSize();
+        // Display a string that exceeds the width of the control
+        this.getInnerInstance().setEditable(true);
+        JTextField editor = (JTextField) this.getInnerInstance().getEditor().getEditorComponent();
+        editor.setEditable(false);
+        editor.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent event) {
+                if (control.getInnerInstance().isPopupVisible()) {
+                    control.getInnerInstance().hidePopup();
+                }  else {
+                    control.getInnerInstance().showPopup();
+                }
+            }
+        });
     }
     
     /**

@@ -75,7 +75,6 @@ public abstract class ListSelectControl<T> extends Control {
                 if (control.getMapForDisplayTextAndItem() != null && control.getMapForDisplayTextAndItem().containsKey(value)) {
                     label.setText(control.getMapForDisplayTextAndItem().get(value));
                 }
-                label.setMaximumWidth(control.getWidth());
                 int height = control.getItemHeight();
                 label.setHeight(height);
                 label.setPadding(0, (height - this.getFont().getSize()) / 2);
