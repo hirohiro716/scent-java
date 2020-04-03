@@ -1,6 +1,7 @@
 package com.hirohiro716.gui.collection;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -172,6 +173,17 @@ public class Collection<T> implements Iterable<T> {
      */
     public Array<T> toArray() {
         return new Array<>(this.list);
+    }
+
+    /**
+     * コレクション内のすべての値を格納している読み取り専用のリストを作成する。
+     * 
+     * @return 結果。
+     */
+    public List<T> toUnmodifiableList() {
+        List<T> list = new ArrayList<>(this.list);
+        Collections.unmodifiableList(list);
+        return list;
     }
     
     @Override
