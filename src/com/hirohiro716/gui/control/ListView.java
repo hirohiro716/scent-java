@@ -108,6 +108,17 @@ public class ListView<T> extends ListSelectControl<T> {
         this(new JList<>());
     }
     
+    @Override
+    @SuppressWarnings("unchecked")
+    public JList<T> getInnerInstance() {
+        return (JList<T>) super.getInnerInstance();
+    }
+    
+    @Override
+    public JScrollPane getInnerInstanceForLayout() {
+        return (JScrollPane) super.getInnerInstanceForLayout();
+    }
+
     private int mouseHoverItemIndex = -1;
     
     private Color mouseHoverBackgroundColor;
@@ -124,17 +135,6 @@ public class ListView<T> extends ListSelectControl<T> {
             }
             label.setBackgroundColor(this.mouseHoverBackgroundColor);
         }
-    }
-    
-    @Override
-    @SuppressWarnings("unchecked")
-    public JList<T> getInnerInstance() {
-        return (JList<T>) super.getInnerInstance();
-    }
-    
-    @Override
-    public JScrollPane getInnerInstanceForLayout() {
-        return (JScrollPane) super.getInnerInstanceForLayout();
     }
     
     @Override

@@ -137,6 +137,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
     
     @Override
     protected void itemLabelCallback(Label label, T value, int index, boolean isSelected) {
+        label.setWidth(this.getWidth());
         if (this.baseWidth < label.getWidth()) {
             this.baseWidth = label.getWidth();
         }

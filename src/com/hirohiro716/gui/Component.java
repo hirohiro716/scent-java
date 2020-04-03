@@ -221,9 +221,9 @@ public abstract class Component<T extends java.awt.Component> {
      * @param width
      */
     public final void setWidth(int width) {
-        int height = this.getInnerInstance().getPreferredSize().height;
-        if (height < this.getInnerInstance().getSize().getHeight()) {
-            height = this.getInnerInstance().getSize().height;
+        int height = this.getInnerInstanceForLayout().getPreferredSize().height;
+        if (height < this.getInnerInstanceForLayout().getSize().getHeight()) {
+            height = this.getInnerInstanceForLayout().getSize().height;
         }
         this.setSize(width, height);
     }
@@ -243,9 +243,9 @@ public abstract class Component<T extends java.awt.Component> {
      * @param height
      */
     public final void setHeight(int height) {
-        int width = this.getInnerInstance().getPreferredSize().width;
-        if (width < this.getInnerInstance().getSize().getWidth()) {
-            width = this.getInnerInstance().getSize().width;
+        int width = this.getInnerInstanceForLayout().getPreferredSize().width;
+        if (width < this.getInnerInstanceForLayout().getSize().getWidth()) {
+            width = this.getInnerInstanceForLayout().getSize().width;
         }
         this.setSize(width, height);
     }
@@ -256,9 +256,9 @@ public abstract class Component<T extends java.awt.Component> {
      * @param width
      */
     protected final void setWidthToInnerInstance(int width) {
-        int height = this.getInnerInstance().getPreferredSize().height;
-        if (height < this.getInnerInstance().getSize().getHeight()) {
-            height = this.getInnerInstance().getSize().height;
+        int height = this.getInnerInstanceForLayout().getPreferredSize().height;
+        if (height < this.getInnerInstanceForLayout().getSize().getHeight()) {
+            height = this.getInnerInstanceForLayout().getSize().height;
         }
         Dimension dimension = new Dimension(width, height);
         this.getInnerInstanceForLayout().setSize(dimension);
@@ -271,9 +271,9 @@ public abstract class Component<T extends java.awt.Component> {
      * @param height
      */
     protected final void setHeightToInnerInstance(int height) {
-        int width = this.getInnerInstance().getPreferredSize().width;
-        if (width < this.getInnerInstance().getSize().getWidth()) {
-            width = this.getInnerInstance().getSize().width;
+        int width = this.getInnerInstanceForLayout().getPreferredSize().width;
+        if (width < this.getInnerInstanceForLayout().getSize().getWidth()) {
+            width = this.getInnerInstanceForLayout().getSize().width;
         }
         Dimension dimension = new Dimension(width, height);
         this.getInnerInstanceForLayout().setSize(dimension);

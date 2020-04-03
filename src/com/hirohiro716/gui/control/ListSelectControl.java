@@ -1,6 +1,8 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +58,8 @@ public abstract class ListSelectControl<T> extends Control {
         return (int) (this.getFont().getSize2D() * 2.4);
     }
     
+    private Graphics graphics = null;
+    
     /**
      * このコントロールのリストアイテムの表示を更新する。
      */
@@ -76,10 +80,16 @@ public abstract class ListSelectControl<T> extends Control {
                     label.setText(control.getMapForDisplayTextAndItem().get(value));
                 }
                 int height = control.getItemHeight();
+                if (control.graphics == null) {
+                    BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+                    control.graphics = image.getGraphics();
+                }
+                int width = control.graphics.getFontMetrics(control.getFont()).stringWidth(label.getText()) + control.getItemHeight();
+                label.setWidth(width);
                 label.setHeight(height);
-                label.setPadding(0, (height - this.getFont().getSize()) / 2);
+                int padding = (int) (height * 0.32);
+                label.setPadding(0, padding);
                 label.setTextHorizontalAlignment(control.getTextHorizontalAlignment());
-                label.setParent(control);
                 control.itemLabelCallback(label, (T) value, index, isSelected);
                 return label.getInnerInstance();
             }
