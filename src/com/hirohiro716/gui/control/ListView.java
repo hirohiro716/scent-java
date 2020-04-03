@@ -46,7 +46,7 @@ public class ListView<T> extends ListSelectControl<T> {
             @Override
             protected void added(T added, int positionIndex) {
                 listView.vector.add(positionIndex, added);
-                listView.getInnerInstance().repaint();
+                listView.updateItemDisplay();
             }
         });
         this.getItems().addListener(new RemoveListener<T>() {
@@ -54,7 +54,7 @@ public class ListView<T> extends ListSelectControl<T> {
             @Override
             protected void removed(T removed) {
                 listView.vector.remove(removed);
-                listView.getInnerInstance().repaint();
+                listView.updateItemDisplay();
             }
         });
         this.addMouseMovedEventHandler(new EventHandler<MouseEvent>() {
@@ -62,7 +62,7 @@ public class ListView<T> extends ListSelectControl<T> {
             @Override
             protected void handle(MouseEvent event) {
                 listView.mouseHoverItemIndex = listView.getInnerInstance().locationToIndex(new Point(event.getX(), event.getY()));
-                listView.getInnerInstance().repaint();
+                listView.updateItemDisplay();
             }
         });
         this.addMouseExitedEventHandler(new EventHandler<MouseEvent>() {
@@ -70,7 +70,7 @@ public class ListView<T> extends ListSelectControl<T> {
             @Override
             protected void handle(MouseEvent event) {
                 listView.mouseHoverItemIndex = -1;
-                listView.getInnerInstance().repaint();
+                listView.updateItemDisplay();
             }
         });
     }
