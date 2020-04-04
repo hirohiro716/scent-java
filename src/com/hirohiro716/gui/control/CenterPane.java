@@ -60,7 +60,7 @@ public class CenterPane extends Pane {
         constraints.weighty = 1;
         constraints.anchor = GridBagConstraints.CENTER;
         this.getChildren().add(control);
-        this.layout.setConstraints(control.getInnerInstance(), constraints);
+        this.layout.setConstraints(control.getInnerInstanceForLayout(), constraints);
     }
     
     private AddListener<Control> addListener = new AddListener<Control>() {

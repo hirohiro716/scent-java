@@ -88,6 +88,14 @@ public abstract class Editor<T> {
      */
     protected abstract void processBeforeShow() throws Exception;
 
+    /**
+     * このエディターを表示した直後に実行される処理。<br>
+     * このメソッドはスーバークラスで自動的に呼び出される。
+     * 
+     * @throws Exception 
+     */
+    protected abstract void processAfterShow() throws Exception;
+
     private Map<PropertyInterface, Label> mapLabel = new HashMap<>();    
     
     /**
@@ -111,6 +119,7 @@ public abstract class Editor<T> {
         // Show
         this.processBeforeShow();
         this.window.show();
+        this.processAfterShow();
     }
     
     private boolean isShowConfirmationBeforeClose = true;

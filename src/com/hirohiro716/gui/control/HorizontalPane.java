@@ -156,7 +156,7 @@ public class HorizontalPane extends Pane {
      * @param index
      */
     private void updateChildLayout(Control control, int index) {
-        this.layout.removeLayoutComponent(control.getInnerInstance());
+        this.layout.removeLayoutComponent(control.getInnerInstanceForLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = index;
         constraints.gridy = 0;

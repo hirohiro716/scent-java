@@ -248,7 +248,7 @@ public class GridPane extends Pane {
      * @param index
      */
     private void updateChildLayout(Control control, int index) {
-        this.layout.removeLayoutComponent(control.getInnerInstance());
+        this.layout.removeLayoutComponent(control.getInnerInstanceForLayout());
         if (this.mapGridX.containsKey(control) == false) {
             this.mapControlVisible.put(control, control.isVisible());
             control.setVisible(false);

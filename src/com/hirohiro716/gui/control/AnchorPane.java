@@ -127,7 +127,7 @@ public class AnchorPane extends Pane {
             int intLeft = (left == null) ? 0 : left;
             constraints.insets = new Insets(intTop, intLeft, intBottom, intRight);
         }
-        this.layout.setConstraints(control.getInnerInstance(), constraints);
+        this.layout.setConstraints(control.getInnerInstanceForLayout(), constraints);
         if (this.layoutedControls.contains(control) == false) {
             control.setVisible(this.mapControlVisible.get(control));
             this.layoutedControls.add(control);
