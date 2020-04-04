@@ -35,7 +35,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
     protected DropDownList(JComboBox<String> innerInstance) {
         super(innerInstance);
         DropDownList<T> control = this;
-        this.getItems().addListener(new AddListener<T>() {
+        super.getItems().addListener(new AddListener<T>() {
 
             @Override
             protected void added(T added, int positionIndex) {
@@ -45,7 +45,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
                 }
             }
         });
-        this.getItems().addListener(new RemoveListener<T>() {
+        super.getItems().addListener(new RemoveListener<T>() {
 
             @Override
             protected void removed(T removed) {
@@ -133,14 +133,9 @@ public class DropDownList<T> extends ListSelectControl<T> {
         return (JComboBox<T>) super.getInnerInstance();
     }
     
-    private int baseWidth = 0;
-    
     @Override
     protected void itemLabelCallback(Label label, T value, int index, boolean isSelected) {
         label.setWidth(this.getWidth());
-        if (this.baseWidth < label.getWidth()) {
-            this.baseWidth = label.getWidth();
-        }
     }
     
     private boolean isSizeInitialized = false;
@@ -149,15 +144,25 @@ public class DropDownList<T> extends ListSelectControl<T> {
      * このGUIライブラリにはドロップダウンリストの最小幅をアイテムの文字幅に合わせて無限に拡大するバグがある。
      */
     protected void adjustSize() {
-        if (this.isSizeInitialized == false && this.baseWidth > 0) {
+        if (this.isSizeInitialized == false) {
             this.isSizeInitialized = true;
             this.setMinimumHeight(this.getItemHeight());
-            this.setSize(this.baseWidth, this.getItemHeight());
+            super.getItems().addAll(this.itemsForInitialization.toUnmodifiableList());
         }
         super.adjustSize();
         this.updateItemDisplay();
     }
-    
+
+    private com.hirohiro716.gui.collection.Collection<T> itemsForInitialization = new com.hirohiro716.gui.collection.Collection<>();
+        
+    @Override
+    public com.hirohiro716.gui.collection.Collection<T> getItems() {
+        if (this.isSizeInitialized) {
+            return super.getItems();
+        }
+        return this.itemsForInitialization;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public T getSelectedItem() {

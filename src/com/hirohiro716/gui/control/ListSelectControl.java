@@ -1,8 +1,6 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import com.hirohiro716.Array;
 import com.hirohiro716.DynamicArray;
+import com.hirohiro716.graphics.GraphicalString;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.event.ChangeListener;
@@ -58,8 +57,6 @@ public abstract class ListSelectControl<T> extends Control {
         return (int) (this.getFont().getSize2D() * 2.4);
     }
     
-    private Graphics graphics = null;
-    
     /**
      * このコントロールのリストアイテムの表示を更新する。
      */
@@ -80,13 +77,9 @@ public abstract class ListSelectControl<T> extends Control {
                     label.setText(control.getMapForDisplayTextAndItem().get(value));
                 }
                 int height = control.getItemHeight();
-                if (control.graphics == null) {
-                    BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-                    control.graphics = image.getGraphics();
-                }
-                int width = control.graphics.getFontMetrics(control.getFont()).stringWidth(label.getText()) + control.getItemHeight();
-                label.setWidth(width);
-                label.setHeight(height);
+                GraphicalString graphicalString = new GraphicalString(label.getText());
+                int width = graphicalString.createDimension().width + control.getItemHeight();
+                label.setSize(width, height);
                 int padding = (int) (height * 0.32);
                 label.setPadding(0, padding);
                 label.setTextHorizontalAlignment(control.getTextHorizontalAlignment());

@@ -593,8 +593,9 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             mapComparison.put(Comparison.EQUAL, "検索値と等しい");
             break;
         }
-        DropDownList<Comparison> dropDownList = new DropDownList<>(mapComparison.keySet());
+        DropDownList<Comparison> dropDownList = new DropDownList<>();
         dropDownList.setMinimumWidth(width);
+        dropDownList.getItems().addAll(mapComparison.keySet());
         dropDownList.setTextForItem(mapComparison);
         return dropDownList;
     }

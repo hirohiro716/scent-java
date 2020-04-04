@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,30 @@ public class GraphicalString {
      * @param graphics2D
      */
     public GraphicalString(String string, Graphics2D graphics2D) {
-        this.graphics2D = graphics2D;
+        if (graphics2D == null) {
+            if (GRAPHICS == null) {
+                BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+                GRAPHICS = (Graphics2D) image.getGraphics();
+            }
+            this.graphics2D = GRAPHICS;
+        } else {
+            this.graphics2D = graphics2D;
+        }
         this.string = new StringObject(string);
         this.string.replaceCRLF("\n").replaceCR("\n");
     }
+    
+    /**
+     * コンストラクタ。<br>
+     * 描画する文字列を指定する。
+     * 
+     * @param string 
+     */
+    public GraphicalString(String string) {
+        this(string, null);
+    }
+
+    private static Graphics2D GRAPHICS = null;
     
     private StringObject string;
     
