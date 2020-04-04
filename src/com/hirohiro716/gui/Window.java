@@ -146,12 +146,10 @@ public class Window extends Frame<JFrame> {
         return this.getInnerInstance().getDefaultCloseOperation() != JFrame.DO_NOTHING_ON_CLOSE;
     }
     
-    private CloseOperation specifiedCloseOperation;
-    
     @Override
     public void setClosable(boolean isClosable) {
         if (isClosable) {
-            this.setCloseOperation(this.specifiedCloseOperation);
+            this.setCloseOperation(CloseOperation.DISPOSE);
         } else {
             this.setCloseOperation(CloseOperation.DO_NOT_CLOSE);
         }
@@ -180,6 +178,5 @@ public class Window extends Frame<JFrame> {
             this.getInnerInstance().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             break;
         }
-        this.specifiedCloseOperation = closeOperation;
     }
 }
