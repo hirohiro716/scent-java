@@ -81,7 +81,7 @@ public abstract class RecordSearcher {
         }
         StringObject where = new StringObject();
         List<Object> parameters = new ArrayList<>();
-        if (whereSets.length > 0) {
+        if (whereSets != null && whereSets.length > 0) {
             for (WhereSet whereSet : whereSets) {
                 if (whereSet.getWheres().size() > 0) {
                     if (where.length() == 0) {
