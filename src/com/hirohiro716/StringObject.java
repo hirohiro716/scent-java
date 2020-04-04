@@ -101,19 +101,6 @@ public class StringObject implements Cloneable, Iterable<String> {
     }
     
     /**
-     * 文字列を追加する。
-     * 
-     * @param addition
-     * @return このインスタンス。
-     */
-    public StringObject append(Object addition) {
-        if (addition != null) {
-            this.value.append(addition.toString());
-        }
-        return this;
-    }
-    
-    /**
      * 文字列を指定位置に挿入する。<br>
      * Examples:<br>
      * (new StringObject("I have money!")).insert("don't ", 2) returns "I don't
@@ -135,6 +122,32 @@ public class StringObject implements Cloneable, Iterable<String> {
                 trueIndex = allLength;
             }
             this.value.insert(trueIndex, addition);
+        }
+        return this;
+    }
+
+    /**
+     * 文字列を先頭に追加する。
+     * 
+     * @param addition
+     * @return このインスタンス。
+     */
+    public StringObject prepend(Object addition) {
+        if (addition != null) {
+            this.insert(addition.toString(), 0);
+        }
+        return this;
+    }
+    
+    /**
+     * 文字列を末尾に追加する。
+     * 
+     * @param addition
+     * @return このインスタンス。
+     */
+    public StringObject append(Object addition) {
+        if (addition != null) {
+            this.value.append(addition.toString());
         }
         return this;
     }
