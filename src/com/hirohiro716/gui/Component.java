@@ -35,6 +35,7 @@ public abstract class Component<T extends java.awt.Component> {
     public Component(T innerInstance, java.awt.Component innerInstanceForLayout) {
         this.innerInstance = innerInstance;
         this.innerInstanceForLayout = innerInstanceForLayout;
+        this.innerInstanceForLayout.setMaximumSize(new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
     }
     
     private T innerInstance;
