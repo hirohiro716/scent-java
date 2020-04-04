@@ -3,7 +3,6 @@ package com.hirohiro716.gui.control;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Insets;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
@@ -21,6 +20,7 @@ import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.GUI;
+import com.hirohiro716.gui.Insets;
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.InnerInstanceCreator;
@@ -230,10 +230,32 @@ public abstract class Control extends Component<JComponent> {
         } else {
             this.border = border.getInnerInstance();
         }
-        this.getInnerInstanceForLayout().setBorder(new CompoundBorder(this.border, this.padding));
+        this.getInnerInstanceForLayout().setBorder(new CompoundBorder(this.border, this.paddingBorder));
+    }
+
+    private Insets padding = new Insets();
+    
+    /**
+     * このコントロールのパディングを取得する。
+     * 
+     * @return 結果。
+     */
+    public Insets getPadding() {
+        return this.padding;
     }
     
-    private EmptyBorder padding = null;
+    private EmptyBorder paddingBorder = null;
+    
+    /**
+     * このコントロールにパディングをセットする。
+     * 
+     * @param insets
+     */
+    public void setPadding(Insets insets) {
+        this.padding = insets;
+        this.paddingBorder = new EmptyBorder(this.padding.getInnerInstance());
+        this.getInnerInstanceForLayout().setBorder(new CompoundBorder(this.border, this.paddingBorder));
+    }
     
     /**
      * このコントロールにパディングをセットする。
@@ -243,10 +265,8 @@ public abstract class Control extends Component<JComponent> {
      * @param bottom 
      * @param left 
      */
-    public void setPadding(int top, int right, int bottom, int left) {
-        Insets insets = new Insets(top, left, bottom, right);
-        this.padding = new EmptyBorder(insets);
-        this.getInnerInstanceForLayout().setBorder(new CompoundBorder(this.border, this.padding));
+    public final void setPadding(int top, int right, int bottom, int left) {
+        this.setPadding(new Insets(top, right, bottom, left));
     }
 
     /**

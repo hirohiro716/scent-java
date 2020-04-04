@@ -1,6 +1,5 @@
 package com.hirohiro716.gui.control;
 
-import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -15,6 +14,7 @@ import javax.swing.text.PlainDocument;
 
 import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.HorizontalAlignment;
+import com.hirohiro716.gui.Insets;
 import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.EventHandler;
@@ -76,10 +76,18 @@ public abstract class TextInputControl extends Control {
     public JTextComponent getInnerInstance() {
         return (JTextComponent) super.getInnerInstance();
     }
+    
+    private Insets padding = new Insets();
+    
+    @Override
+    public Insets getPadding() {
+        return this.padding;
+    }
 
     @Override
-    public void setPadding(int top, int right, int bottom, int left) {
-        this.getInnerInstance().setMargin(new Insets(top, left, bottom, right));
+    public void setPadding(Insets insets) {
+        this.padding = insets;
+        this.getInnerInstance().setMargin(this.padding.getInnerInstance());
     }
     
     /**
