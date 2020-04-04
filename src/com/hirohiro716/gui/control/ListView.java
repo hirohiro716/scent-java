@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.hirohiro716.Array;
+import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.RemoveListener;
@@ -38,6 +39,7 @@ public class ListView<T> extends ListSelectControl<T> {
     protected ListView(JList<T> innerInstance) {
         super(innerInstance, new JScrollPane(innerInstance));
         this.scrollPane = new ScrollPane(this.getInnerInstanceForLayout());
+        this.setBorder(Border.create(this.scrollPane.getInnerInstance().getBorder()));
         this.setAllowMultipleSelection(false);
         this.getInnerInstance().setListData(this.vector);
         ListView<T> listView = this;

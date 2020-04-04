@@ -230,7 +230,7 @@ public abstract class Control extends Component<JComponent> {
         } else {
             this.border = border.getInnerInstance();
         }
-        this.getInnerInstance().setBorder(new CompoundBorder(this.border, this.padding));
+        this.getInnerInstanceForLayout().setBorder(new CompoundBorder(this.border, this.padding));
     }
     
     private EmptyBorder padding = null;
@@ -246,7 +246,7 @@ public abstract class Control extends Component<JComponent> {
     public void setPadding(int top, int right, int bottom, int left) {
         Insets insets = new Insets(top, left, bottom, right);
         this.padding = new EmptyBorder(insets);
-        this.getInnerInstance().setBorder(new CompoundBorder(this.border, this.padding));
+        this.getInnerInstanceForLayout().setBorder(new CompoundBorder(this.border, this.padding));
     }
 
     /**

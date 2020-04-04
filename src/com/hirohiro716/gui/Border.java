@@ -21,7 +21,8 @@ import javax.swing.border.MatteBorder;
 public class Border {
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * このコンポーネントがラップする、GUIライブラリに依存したインスタンスを指定する。
      * 
      * @param innerInstance
      */
@@ -39,7 +40,17 @@ public class Border {
     public javax.swing.border.Border getInnerInstance() {
        return this.innerInstance;
     }
-    
+
+    /**
+     * 内部で使用されるGUIライブラリに依存したインスタンスを指定して境界線を作成する。
+     * 
+     * @param innerInstance
+     * @return 結果。
+     */
+    public static Border create(javax.swing.border.Border innerInstance) {
+        return new Border(innerInstance);
+    }
+
     /**
      * 色と太さを指定して実線の境界線を作成する。
      * 

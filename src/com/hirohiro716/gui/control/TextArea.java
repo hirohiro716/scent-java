@@ -3,6 +3,7 @@ package com.hirohiro716.gui.control;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.KeyEvent;
@@ -25,6 +26,7 @@ public class TextArea extends TextInputControl {
         super(innerInstance, new JScrollPane(innerInstance));
         this.setTabInputAllow(false);
         this.scrollPane = new ScrollPane((JScrollPane) this.getInnerInstanceForLayout());
+        this.setBorder(Border.create(this.scrollPane.getInnerInstance().getBorder()));
     }
 
     /**
