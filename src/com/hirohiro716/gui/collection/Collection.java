@@ -41,6 +41,16 @@ public class Collection<T> implements Iterable<T> {
     private List<AddListener<T>> addListeners = new ArrayList<>();
     
     /**
+     * コレクションに対するオブジェクトの追加を検知するリスナーを取得する。
+     * 
+     * @return 結果。
+     */
+    @SuppressWarnings("unchecked")
+    public AddListener<T>[] getAddListeners() {
+        return this.addListeners.toArray(new AddListener[] {});
+    }
+    
+    /**
      * コレクションに対するオブジェクトの追加を検知するリスナーを追加する。
      * 
      * @param addListener
@@ -59,6 +69,16 @@ public class Collection<T> implements Iterable<T> {
     }
     
     private List<RemoveListener<T>> removeListeners = new ArrayList<>();
+
+    /**
+     * コレクションに対するオブジェクトの削除を検知するリスナーを取得する。
+     * 
+     * @return 結果。
+     */
+    @SuppressWarnings("unchecked")
+    public RemoveListener<T>[] getRemoveListeners() {
+        return this.removeListeners.toArray(new RemoveListener[] {});
+    }
     
     /**
      * コレクションに対するオブジェクトの削除を検知するリスナーを追加する。
