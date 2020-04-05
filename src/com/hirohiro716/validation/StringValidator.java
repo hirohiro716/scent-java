@@ -63,7 +63,8 @@ public class StringValidator {
     }
     
     /**
-     * 検証対象が指定された文字数ではない場合に例外をスローする検証を予約する。
+     * 検証対象が指定された文字数ではない場合に例外をスローする検証を予約する。<br>
+     * 引数に負数が指定された場合は検証を実行しない。
      * 
      * @param length
      */
@@ -72,7 +73,8 @@ public class StringValidator {
     }
     
     /**
-     * 検証対象が指定された文字数を超える場合に例外をスローする検証を予約する。
+     * 検証対象が指定された文字数を超える場合に例外をスローする検証を予約する。<br>
+     * 引数に負数が指定された場合は検証を実行しない。
      * 
      * @param length
      */
@@ -81,7 +83,8 @@ public class StringValidator {
     }
     
     /**
-     * 検証対象が指定された文字数未満の場合に例外をスローする検証を予約する。
+     * 検証対象が指定された文字数未満の場合に例外をスローする検証を予約する。<br>
+     * 引数に負数が指定された場合は検証を実行しない。
      * 
      * @param length
      */
@@ -180,19 +183,19 @@ public class StringValidator {
                 break;
             case LENGTH:
                 int length = this.parameters.get(pattern);
-                if (value.length() != length) {
+                if (length > -1 && value.length() != length) {
                     throw createValidationException(pattern);
                 }
                 break;
             case MAXIMUM_LENGTH:
                 int maximumLength = this.parameters.get(pattern);
-                if (value.length() > maximumLength) {
+                if (maximumLength > -1 && value.length() > maximumLength) {
                     throw createValidationException(pattern);
                 }
                 break;
             case MINIMUM_LENGTH:
                 int minimumLength = this.parameters.get(pattern);
-                if (value.length() < minimumLength) {
+                if (minimumLength > -1 && value.length() < minimumLength) {
                     throw createValidationException(pattern);
                 }
                 break;

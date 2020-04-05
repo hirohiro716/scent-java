@@ -14,29 +14,33 @@ import com.hirohiro716.StringObject;
  *
  */
 @SuppressWarnings("serial")
-public class ValidationException extends Exception {
+public class ValidationException extends Throwable {
     
     private final static String MESSAGE = "レコードの検証に失敗しました。";
 
     /**
      * 検証に失敗した原因のレコードを指定して、初期の例外メッセージを持つ新規例外を構築する。
      * 
+     * @param <C>
      * @param causeRecord 検証に失敗した原因のレコード。
      */
-    public ValidationException(DynamicArray<ColumnInterface> causeRecord) {
+    @SuppressWarnings("unchecked")
+    public <C extends ColumnInterface> ValidationException(DynamicArray<C> causeRecord) {
         super(MESSAGE);
-        this.causeRecord = causeRecord;
+        this.causeRecord = (DynamicArray<ColumnInterface>) causeRecord;
     }
     
     /**
      * 検証に失敗した原因のレコードと例外メッセージを指定して新規例外を構築する。
      * 
+     * @param <C>
      * @param message
      * @param causeRecord 検証に失敗した原因のレコード。
      */
-    public ValidationException(String message, DynamicArray<ColumnInterface> causeRecord) {
+    @SuppressWarnings("unchecked")
+    public <C extends ColumnInterface> ValidationException(String message, DynamicArray<C> causeRecord) {
         super(message);
-        this.causeRecord = causeRecord;
+        this.causeRecord = (DynamicArray<ColumnInterface>) causeRecord;
     }
     
     private DynamicArray<ColumnInterface> causeRecord;
