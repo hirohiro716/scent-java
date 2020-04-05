@@ -148,6 +148,12 @@ public class DropDownList<T> extends ListSelectControl<T> {
             this.isSizeInitialized = true;
             this.setMinimumHeight(this.getItemHeight());
             super.getItems().addAll(this.itemsForInitialization.toUnmodifiableList());
+            for (AddListener<T> addListener : this.itemsForInitialization.getAddListeners()) {
+                super.getItems().addListener(addListener);
+            }
+            for (RemoveListener<T> removeListener : this.itemsForInitialization.getRemoveListeners()) {
+                super.getItems().addListener(removeListener);
+            }
         }
         super.adjustSize();
         this.updateItemDisplay();
