@@ -40,10 +40,9 @@ public abstract class RecordMapper<C extends ColumnInterface> {
     /**
      * レコードが保存されているテーブルを取得する。
      * 
-     * @param <T>
      * @return 結果。
      */
-    public abstract <T extends TableInterface> T getTable();
+    public abstract TableInterface getTable();
     
     /**
      * レコードが保存されているテーブルを取得する。
