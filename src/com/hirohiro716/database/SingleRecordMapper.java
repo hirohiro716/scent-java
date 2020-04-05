@@ -126,6 +126,11 @@ public abstract class SingleRecordMapper<C extends ColumnInterface> extends Reco
      */
     public abstract void delete() throws SQLException, DataNotFoundException;
     
+    @Override
+    protected String[] getOrderByColumnsForEdit() {
+        return null;
+    }
+
     @Deprecated
     public DynamicArray<C>[] getRecords() {
         return super.getRecords();

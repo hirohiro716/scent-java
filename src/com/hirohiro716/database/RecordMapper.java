@@ -169,7 +169,7 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * このメソッドを呼び出すと、次のような値と同じ形式の配列を返す。<br>
      * new String[] {"column_name1", "column_name2 ASC", "column_name3 DESC"}
      * 
-     * @return 結果。
+     * @return 並び順を定義するカラム文字列の配列。またはnull。
      */
     protected abstract String[] getOrderByColumnsForEdit();
     
