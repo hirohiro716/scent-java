@@ -101,4 +101,14 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
         }
         return bigDecimal.setScale(digit, RoundingMode.FLOOR).doubleValue();
     }
+    
+    /**
+     * 指定されたIDから、該当する列挙子を取得する。該当するものがない場合はnullを返す。
+     * 
+     * @param id
+     * @return 結果。
+     */
+    public static RoundNumber enumOf(Integer id) {
+        return IdentifiableEnum.enumOf(id, RoundNumber.class);
+    }
 }
