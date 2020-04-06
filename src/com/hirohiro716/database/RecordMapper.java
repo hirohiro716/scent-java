@@ -69,8 +69,9 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * 
      * @return 結果。
      */
+    @SuppressWarnings("unchecked")
     public C[] getColumns() {
-        return this.getTable().getColumns();
+        return (C[]) this.getTable().getColumns();
     }
     
     /**
@@ -246,12 +247,9 @@ public abstract class RecordMapper<C extends ColumnInterface> {
         sql.append(" WHERE ");
         sql.append(this.getWhereSet().buildPlaceholderClause());
         sql.append(";");
-        try {
-            int numberOfRecord = this.getDatabase().fetchField(sql.toString(), this.getWhereSet().buildParameters());
-            if (numberOfRecord > 0) {
-                return true;
-            }
-        } catch (DataNotFoundException exception) {
+        Integer numberOfRecord = StringObject.newInstance(this.getDatabase().fetchField(sql.toString(), this.getWhereSet().buildParameters())).toInteger();
+        if (numberOfRecord != null && numberOfRecord > 0) {
+            return true;
         }
         return false;
     }

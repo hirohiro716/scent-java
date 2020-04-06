@@ -26,10 +26,9 @@ public interface TableInterface {
     /**
      * テーブルに属するカラムを取得する。
      * 
-     * @param <C>
      * @return 結果。
      */
-    public abstract <C extends ColumnInterface> C[] getColumns();
+    public abstract ColumnInterface[] getColumns();
     
     /**
      * カラムの物理名から、テーブルに属するカラムを取得する。見つからなかった場合はnullを返す。
