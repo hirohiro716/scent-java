@@ -357,6 +357,16 @@ public class StringObject implements Cloneable, Iterable<String> {
     public final StringObject replaceCRLF(String replacement) {
         return this.replace("\r\n", replacement);
     }
+
+    /**
+     * タブを置き換える。
+     * 
+     * @param replacement
+     * @return このインスタンス。
+     */
+    public final StringObject replaceTab(String replacement) {
+        return this.replace("\t", replacement);
+    }
     
     /**
      * 意味のない小数点以下を削除する。
