@@ -251,8 +251,7 @@ public abstract class RecordMapper<C extends ColumnInterface> {
             if (numberOfRecord > 0) {
                 return true;
             }
-        } catch (Exception exception) {
-            throw new SQLException(exception);
+        } catch (DataNotFoundException exception) {
         }
         return false;
     }

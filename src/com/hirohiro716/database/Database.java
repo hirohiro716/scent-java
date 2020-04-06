@@ -280,7 +280,6 @@ public abstract class Database implements Closeable {
         } catch (SQLException exception) {
             throw exception;
         } catch (Exception exception) {
-            exception.printStackTrace();
         }
         throw new DataNotFoundException();
     }
