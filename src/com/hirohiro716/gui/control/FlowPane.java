@@ -195,8 +195,8 @@ public class FlowPane extends Pane {
             }
             // Horizontal layout
             if (lineControls.size() > 0) {
-                Control baseControl = lineControls.get(lineControls.size() - 1);
-                this.layout.putConstraint(SpringLayout.WEST, control.getInnerInstanceForLayout(), this.horizontalSpacing, SpringLayout.EAST, baseControl.getInnerInstanceForLayout());
+                Control rightEndControl = lineControls.get(lineControls.size() - 1);
+                this.layout.putConstraint(SpringLayout.WEST, control.getInnerInstanceForLayout(), this.horizontalSpacing, SpringLayout.EAST, rightEndControl.getInnerInstanceForLayout());
             }
             // Vertical layout
             if (baseY != null) {
