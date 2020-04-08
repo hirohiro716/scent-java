@@ -4,7 +4,11 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
+import com.hirohiro716.gui.control.ScrollPane;
+import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * GUIのウィンドウのクラス。
@@ -22,9 +26,20 @@ public class Window extends Frame<JFrame> {
      */
     protected Window(JFrame jFrame) {
         super(jFrame);
+        Window window = this;
         this.setCloseOperation(CloseOperation.DISPOSE);
-        this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
-        this.pane.setParent(this);
+        this.rootPane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
+        this.rootPane.setParent(this);
+        this.rootPane.addSizeChangeListener(new ChangeListener<>() {
+            
+            @Override
+            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+                window.scrollPane.setSize(changedValue);
+            }
+        });
+        this.scrollPane.setBackgroundColor(null);
+        this.scrollPane.setBorder(null);
+        this.rootPane.getChildren().add(this.scrollPane);
     }
     
     /**
@@ -34,11 +49,18 @@ public class Window extends Frame<JFrame> {
         this(new JFrame());
     }
     
-    private Pane pane;
+    private Pane rootPane;
+
+    @Override
+    public Pane getRootPane() {
+        return this.rootPane;
+    }
+    
+    private ScrollPane scrollPane = new ScrollPane();
     
     @Override
-    public Pane getPane() {
-        return this.pane;
+    public void setContent(Control control) {
+        this.scrollPane.setContent(control);
     }
     
     @Override

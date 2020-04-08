@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
 import com.hirohiro716.gui.event.ChangeListener;
 
@@ -25,8 +26,8 @@ public class ChildWindow extends Frame<JDialog> {
     protected ChildWindow(JDialog jDialog) {
         super(jDialog);
         this.getInnerInstance().setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
-        this.pane.setParent(this);
+        this.rootPane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
+        this.rootPane.setParent(this);
     }
     
     /**
@@ -58,11 +59,17 @@ public class ChildWindow extends Frame<JDialog> {
         return this.owner;
     }
     
-    private Pane pane;
-    
+    private Pane rootPane;
+
     @Override
-    public Pane getPane() {
-        return this.pane;
+    public Pane getRootPane() {
+        return this.rootPane;
+    }
+
+    @Override
+    public void setContent(Control control) {
+        this.rootPane.getChildren().clear();
+        this.rootPane.getChildren().add(control);
     }
     
     @Override
@@ -83,7 +90,7 @@ public class ChildWindow extends Frame<JDialog> {
     @Override
     public void setMaximumSize(Dimension dimension) {
         this.getInnerInstance().setMaximumSize(dimension);
-        this.getPane().addSizeChangeListener(new ChangeListener<Dimension>() {
+        this.getRootPane().addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {

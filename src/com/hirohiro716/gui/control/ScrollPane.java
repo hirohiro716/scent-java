@@ -55,7 +55,9 @@ public class ScrollPane extends Control {
     @Override
     public void setDisabled(boolean isDisabled) {
         super.setDisabled(isDisabled);
-        this.content.setDisabled(isDisabled);
+        if (this.content != null) {
+            this.content.setDisabled(isDisabled);
+        }
     }
 
     private Control content = null;
@@ -79,6 +81,7 @@ public class ScrollPane extends Control {
     public void setContent(Control control) {
         this.content = control;
         this.content.setParent(this);
+        this.content.setDisabled(this.isDisabled());
         this.getInnerInstance().setViewportView(control.getInnerInstanceForLayout());
     }
     

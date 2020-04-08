@@ -31,7 +31,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
     public RecordSearchWindow() {
         super();
         this.tableView = new TableView();
-        this.getPane().getChildren().add(this.createContent(this.tableView));
+        this.setContent(this.createContent(this.tableView));
     }
     
     private TableView tableView;

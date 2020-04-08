@@ -167,7 +167,6 @@ public class FlowPane extends Pane {
         if (maximumWidth > this.getMaximumWidth()) {
             maximumWidth = this.getMaximumWidth();
         }
-        System.out.println(maximumWidth); // TODO
         // Define variables
         int height = 0;
         Control baseY = null;

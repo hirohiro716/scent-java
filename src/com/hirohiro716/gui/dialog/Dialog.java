@@ -179,7 +179,7 @@ public abstract class Dialog<R> implements DialogInterface {
         if (this.mapVisibleStatuses.size() == 0) {
             return;
         }
-        for (Control control : this.owner.getPane().getChildren()) {
+        for (Control control : this.owner.getRootPane().getChildren()) {
             if (control != this.backgroundPane) {
                 control.setVisible(this.mapVisibleStatuses.get(control));
             }
@@ -196,7 +196,7 @@ public abstract class Dialog<R> implements DialogInterface {
         if (this.mapDisableStatuses.size() == 0) {
             return;
         }
-        for (Control control : this.owner.getPane().getChildren()) {
+        for (Control control : this.owner.getRootPane().getChildren()) {
             if (control != this.backgroundPane) {
                 control.setDisabled(this.mapDisableStatuses.get(control));
             }
@@ -208,45 +208,48 @@ public abstract class Dialog<R> implements DialogInterface {
      * このダイアログを表示する。
      */
     public void show() {
-        if (this.owner.getPane().getChildren().contains(this.backgroundPane)) {
+        if (this.owner.getRootPane().getChildren().contains(this.backgroundPane)) {
             return;
         }
         try {
-            this.backgroundImage = this.owner.getPane().screenshot().createBufferedImage();
+            this.backgroundImage = this.owner.getRootPane().screenshot().createBufferedImage();
         } catch (IOException exception) {
             exception.printStackTrace();
         }
         this.mapVisibleStatuses.clear();
-        for (Control control : this.owner.getPane().getChildren()) {
+        for (Control control : this.owner.getRootPane().getChildren()) {
             this.mapVisibleStatuses.put(control, control.isVisible());
             control.setVisible(false);
             this.mapDisableStatuses.put(control, control.isDisabled());
             control.setDisabled(true);
         }
         this.owner.addSizeChangeListener(this.sizeChangeListener);
-        this.backgroundPane.setSize(this.owner.getPane().getSize());
+        this.backgroundPane.setSize(this.owner.getRootPane().getSize());
         this.processBeforeShow();
-        this.owner.getPane().getChildren().add(this.backgroundPane, 0);
+        this.owner.getRootPane().getChildren().add(this.backgroundPane, 0);
         this.processAfterShow();
         GUI.executeLater(5, new Runnable() {
             
             @Override
             public void run() {
-                Dialog<R> dialog = Dialog.this;
-                dialog.owner.getPane().updateDisplay();
+                // TODO これで良いのか確認
+//                Dialog<R> dialog = Dialog.this;
+//                dialog.owner.getRootPane().updateLayout();
             }
         });
+        Dialog<R> dialog = Dialog.this;
+        dialog.owner.getRootPane().updateLayout();
     }
     
     /**
      * このダイアログを閉じる。
      */
     public void close() {
-        this.owner.getPane().getChildren().remove(this.backgroundPane);
+        this.owner.getRootPane().getChildren().remove(this.backgroundPane);
         this.restoreOwnerChildVisibleStatuses();
         this.restoreOwnerChildDisableStatuses();
         this.owner.removeChangeListener(this.sizeChangeListener);
-        this.owner.getPane().updateDisplay();
+        this.owner.getRootPane().updateDisplay();
         if (this.processAfterDialogClose != null) {
             this.processAfterDialogClose.execute(this.getDialogResult());
         }

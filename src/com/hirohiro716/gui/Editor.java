@@ -108,10 +108,10 @@ public abstract class Editor<T> {
         this.target = this.editTarget();
         // Create content
         Control content = this.createContent();
-        this.window.getPane().getChildren().add(content);
+        this.window.setContent(content);
         // Label for
         for (PropertyInterface property : this.mapLabel.keySet()) {
-            Control control = this.window.getPane().getChildren().findControlByName(property.getPhysicalName());
+            Control control = this.window.getRootPane().getChildren().findControlByName(property.getPhysicalName());
             if (control != null) {
                 this.mapLabel.get(property).setLabelFor(control);
             }
@@ -503,7 +503,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public Control findControl(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findControlByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findControlByName(property.getPhysicalName());
     }
     
     /**
@@ -514,7 +514,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public Label findLabel(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findLabelByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findLabelByName(property.getPhysicalName());
     }
     
     /**
@@ -525,7 +525,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public TextField findTextField(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findTextFieldByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findTextFieldByName(property.getPhysicalName());
     }
     
     /**
@@ -536,7 +536,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public AutocompleteTextField findAutocompleteTextField(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findAutocompleteTextFieldByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findAutocompleteTextFieldByName(property.getPhysicalName());
     }
     
     /**
@@ -547,7 +547,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public PasswordField findPasswordField(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findPasswordFieldByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findPasswordFieldByName(property.getPhysicalName());
     }
     
     /**
@@ -558,7 +558,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public DatePicker findDatePicker(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findDatePickerByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findDatePickerByName(property.getPhysicalName());
     }
     
     /**
@@ -569,7 +569,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public TextArea findTextArea(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findTextAreaByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findTextAreaByName(property.getPhysicalName());
     }
     
     /**
@@ -580,7 +580,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public CheckBox findCheckBox(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findCheckBoxByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findCheckBoxByName(property.getPhysicalName());
     }
     
     /**
@@ -591,7 +591,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public RadioButton findRadioButton(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findRadioButtonByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findRadioButtonByName(property.getPhysicalName());
     }
     
     /**
@@ -602,7 +602,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public ToggleButton findToggleButton(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findToggleButtonByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findToggleButtonByName(property.getPhysicalName());
     }
 
     /**
@@ -613,7 +613,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public Button findButton(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findButtonByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findButtonByName(property.getPhysicalName());
     }
     
     /**
@@ -625,7 +625,7 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public <I> ListView<I> findListView(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findListViewByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findListViewByName(property.getPhysicalName());
     }
     
     /**
@@ -637,6 +637,6 @@ public abstract class Editor<T> {
      * @return 結果。
      */
     public <I> DropDownList<I> findDropDownList(PropertyInterface property) {
-        return this.getWindow().getPane().getChildren().findDropDownListByName(property.getPhysicalName());
+        return this.getWindow().getRootPane().getChildren().findDropDownListByName(property.getPhysicalName());
     }
 }

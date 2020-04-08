@@ -14,6 +14,7 @@ import com.hirohiro716.ExceptionMessenger;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.collection.RemoveListener;
+import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
 import com.hirohiro716.gui.dialog.MessageDialog;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
@@ -63,6 +64,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
                 frame.getInnerInstance().setIconImages(frame.innerIconImages);
             }
         });
+        this.setSize(400, 300);
     }
     
     private Map<Image, java.awt.Image> mapIconImage = new HashMap<>();
@@ -81,11 +83,18 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * このフレーム内のペインを取得する。
+     * このフレーム内のルートペインを取得する。
      * 
      * @return 結果。
      */
-    public abstract Pane getPane();
+    public abstract Pane getRootPane();
+    
+    /**
+     * このフレーム内に表示するコントロールをセットする。
+     * 
+     * @param control 
+     */
+    public abstract void setContent(Control control);
     
     /**
      * このフレームのタイトルを取得する。
@@ -104,7 +113,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     @Override
     public void setDisabled(boolean isDisabled) {
         super.setDisabled(isDisabled);
-        this.getPane().setDisabled(isDisabled);
+        this.getRootPane().setDisabled(isDisabled);
     }
 
     @Override
@@ -175,12 +184,12 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     
     @Override
     public Color getBackgroundColor() {
-        return this.getPane().getBackgroundColor();
+        return this.getRootPane().getBackgroundColor();
     }
     
     @Override
     public void setBackgroundColor(Color color) {
-        this.getPane().setBackgroundColor(color);
+        this.getRootPane().setBackgroundColor(color);
     }
     
     @Override
