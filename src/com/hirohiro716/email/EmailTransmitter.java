@@ -32,10 +32,16 @@ public class EmailTransmitter extends DynamicClass {
         super(javamailLibraryJar, activationLibraryJar);
     }
     
+    private static final String LINE_SEPARATOR = "\r\n";
+    
     /**
-     * E-mail本文に使用する改行コード。
+     * E-mail本文に使用する改行コードを取得する。
+     * 
+     * @return 結果。
      */
-    public static final String LINE_SEPARATOR = "\r\n";
+    public static String getLineSeparator() {
+        return LINE_SEPARATOR;
+    }
     
     private String myAddress;
     

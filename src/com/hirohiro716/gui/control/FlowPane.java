@@ -56,6 +56,10 @@ public class FlowPane extends Pane {
             
             @Override
             protected void added(Control added, int positionIndex) {
+                for (Control child : pane.getChildren()) {
+                    child.removeChangeListener(locationChangeListener);
+                    child.removeChangeListener(sizeChangeListener);
+                }
                 added.addLocationChangeListener(locationChangeListener);
                 added.addSizeChangeListener(sizeChangeListener);
             }
