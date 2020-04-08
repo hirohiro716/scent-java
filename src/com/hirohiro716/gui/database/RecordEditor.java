@@ -4,13 +4,14 @@ import java.sql.SQLException;
 
 import com.hirohiro716.OS;
 import com.hirohiro716.StringObject;
-import com.hirohiro716.database.DataNotFoundException;
 import com.hirohiro716.database.Database;
 import com.hirohiro716.database.RecordMapper;
 import com.hirohiro716.gui.Editor;
 import com.hirohiro716.gui.ProcessAfterDialogClose;
 import com.hirohiro716.gui.dialog.QuestionDialog;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
+import com.hirohiro716.gui.event.EventHandler;
+import com.hirohiro716.gui.event.FrameEvent;
 
 /**
  * GUIデータベースレコード編集ウィンドウの抽象クラス。
@@ -32,6 +33,14 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper<?>
      */
     public RecordEditor(String title, int width, int height) {
         super(title, width, height);
+        RecordEditor<D, T> editor = this;
+        this.getWindow().addClosedEventHandler(new EventHandler<>() {
+            
+            @Override
+            protected void handle(FrameEvent event) {
+                editor.closeDatabase(editor.database);
+            }
+        });
     }
     
     private D database;
@@ -63,6 +72,13 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper<?>
     protected abstract void connectDatabase(D database) throws SQLException;
     
     /**
+     * レコードの編集に使用するデータベースの切断処理をする。
+     * 
+     * @param database
+     */
+    protected abstract void closeDatabase(D database);
+    
+    /**
      * データベースレコードの編集・排他処理を行う。<br>
      * このメソッドはスーバークラスで自動的に呼び出される。
      * 
@@ -73,24 +89,28 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper<?>
     protected abstract T editRecordMapper(D database) throws SQLException;
 
     @Override
-    protected T editTarget() throws Exception {
+    protected T editTarget() throws SQLException {
+        if (this.database != null) {
+            this.closeDatabase(this.database);
+        }
         this.database = this.createDatabase();
         this.connectDatabase(this.database);
         return this.editRecordMapper(this.database);
     }
-    
+
     /**
-     * レコードの編集に使用するデータベースの接続処理をする。<br>
+     * データベースの接続処理をする。<br>
      * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
      * 
-     * @param processAfterSuccess
+     * @param processAfterSuccess 接続に成功した場合の処理。
+     * @param processAfterFailure 接続に失敗し再試行しなかった場合の処理。
      */
-    public void connectDatabaseWithRetryDialog(ProcessAfterSuccess<D> processAfterSuccess) {
+    protected void connectDatabaseWithRetryDialog(ProcessAfterSuccess<D> processAfterSuccess, ProcessAfterFailure processAfterFailure) {
         try {
-            this.database = this.createDatabase();
-            this.connectDatabase(this.database);
+            D database = this.createDatabase();
+            this.connectDatabase(database);
             if (processAfterSuccess != null) {
-                processAfterSuccess.execute(this.database);
+                processAfterSuccess.execute(database);
             }
         } catch (SQLException exception) {
             QuestionDialog dialog = new QuestionDialog(this.getWindow());
@@ -107,9 +127,11 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper<?>
                 public void execute(ResultButton dialogResult) {
                     RecordEditor<D, T> editor = RecordEditor.this;
                     if (dialogResult == ResultButton.YES) {
-                        editor.connectDatabaseWithRetryDialog(processAfterSuccess);
+                        editor.connectDatabaseWithRetryDialog(processAfterSuccess, processAfterFailure);
                     } else {
-                        editor.close();
+                        if (processAfterFailure != null) {
+                            processAfterFailure.execute();
+                        }
                     }
                 }
             });
@@ -117,19 +139,46 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper<?>
     }
     
     /**
+     * データベースの接続処理をする。<br>
+     * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
+     * 
+     * @param processAfterSuccess 接続に成功した場合の処理。
+     */
+    protected void connectDatabaseWithRetryDialog(ProcessAfterSuccess<D> processAfterSuccess) {
+        this.connectDatabaseWithRetryDialog(processAfterSuccess, null);
+    }
+
+    /**
+     * データベースの接続処理をする。<br>
+     * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
+     * 
+     * @param processAfterFailure 接続に失敗し再試行しなかった場合の処理。
+     */
+    protected void connectDatabaseWithRetryDialog(ProcessAfterFailure processAfterFailure) {
+        this.connectDatabaseWithRetryDialog(null, processAfterFailure);
+    }
+    
+    /**
+     * データベースの接続処理をする。<br>
+     * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
+     */
+    protected void connectDatabaseWithRetryDialog() {
+        this.connectDatabaseWithRetryDialog(null, null);
+    }
+    
+    /**
      * データベースレコードの編集・排他処理を行う。<br>
      * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
      * 
-     * @param processAfterSuccess
+     * @param processAfterSuccess 編集に成功した場合の処理。
+     * @param processAfterFailure 編集に失敗し再試行しなかった場合の処理。
      */
-    public void editRecordMapperWithRetryDialog(ProcessAfterDialogClose<T> processAfterSuccess) {
+    public void editRecordMapperWithRetryDialog(ProcessAfterDialogClose<T> processAfterSuccess, ProcessAfterFailure processAfterFailure) {
         try {
             this.editRecordMapper(this.database);
             if (processAfterSuccess != null) {
                 processAfterSuccess.execute(this.getTarget());
             }
-        } catch (DataNotFoundException exception) {
-            this.close();
         } catch (SQLException exception) {
             QuestionDialog dialog = new QuestionDialog(this.getWindow());
             dialog.setTitle("編集再試行の確認");
@@ -145,18 +194,52 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper<?>
                 public void execute(ResultButton dialogResult) {
                     RecordEditor<D, T> editor = RecordEditor.this;
                     if (dialogResult == ResultButton.YES) {
+                        if (editor.database != null) {
+                            editor.closeDatabase(editor.database);
+                        }
                         editor.connectDatabaseWithRetryDialog(new ProcessAfterSuccess<>() {
 
                             @Override
                             public void execute(D successedInstance) {
-                                editor.editRecordMapperWithRetryDialog(processAfterSuccess);
+                                editor.database = successedInstance;
+                                editor.editRecordMapperWithRetryDialog(processAfterSuccess, processAfterFailure);
                             }
-                        });
+                        }, processAfterFailure);
                     } else {
-                        editor.close();
+                        if (processAfterFailure != null) {
+                            processAfterFailure.execute();
+                        }
                     }
                 }
             });
         }
+    }
+
+    /**
+     * データベースレコードの編集・排他処理を行う。<br>
+     * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
+     * 
+     * @param processAfterSuccess 編集に成功した場合の処理。
+     */
+    public void editRecordMapperWithRetryDialog(ProcessAfterDialogClose<T> processAfterSuccess) {
+        this.editRecordMapperWithRetryDialog(processAfterSuccess, null);
+    }
+
+    /**
+     * データベースレコードの編集・排他処理を行う。<br>
+     * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
+     * 
+     * @param processAfterFailure 編集に失敗し再試行しなかった場合の処理。
+     */
+    public void editRecordMapperWithRetryDialog(ProcessAfterFailure processAfterFailure) {
+        this.editRecordMapperWithRetryDialog(null, processAfterFailure);
+    }
+
+    /**
+     * データベースレコードの編集・排他処理を行う。<br>
+     * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
+     */
+    public void editRecordMapperWithRetryDialog() {
+        this.editRecordMapperWithRetryDialog(null, null);
     }
 }

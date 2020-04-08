@@ -1,8 +1,10 @@
 package com.hirohiro716.gui.dialog;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.VerticalAlignment;
 import com.hirohiro716.gui.control.AnchorPane;
@@ -10,6 +12,9 @@ import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.HorizontalPane;
 import com.hirohiro716.gui.control.Label;
+import com.hirohiro716.gui.control.ScrollPane;
+import com.hirohiro716.gui.control.ScrollPane.ScrollBarDisplayPolicy;
+import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * メッセージダイアログの抽象クラス。
@@ -32,6 +37,8 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
     
     private Label labelOfMessage;
     
+    private ScrollPane scrollPaneOfMessage;
+    
     /**
      * このダイアログのメッセージラベルを取得する。
      * 
@@ -47,7 +54,10 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
         this.labelOfMessage = new Label();
         this.labelOfMessage.setTextVerticalAlignment(VerticalAlignment.TOP);
         this.labelOfMessage.setWrapText(true);
-        controls.add(this.labelOfMessage);
+        this.scrollPaneOfMessage = new ScrollPane(this.labelOfMessage);
+        this.scrollPaneOfMessage.setHorizontalScrollBarDisplayPolicy(ScrollBarDisplayPolicy.NEVER);
+        this.scrollPaneOfMessage.setBorder(null);
+        controls.add(this.scrollPaneOfMessage);
         // Input control
         Control inputControl = this.createInputControl();
         if (inputControl != null) {
@@ -106,7 +116,16 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
     @Override
     protected void processBeforeShow() {
         super.processBeforeShow();
-        this.getVerticalPaneOfControls().getGrowableControls().add(this.labelOfMessage);
+        this.getVerticalPaneOfControls().getGrowableControls().add(this.scrollPaneOfMessage);
+        this.scrollPaneOfMessage.setMinimumHeight(this.labelOfMessage.getFont().getSize() * 2);
+        this.scrollPaneOfMessage.addSizeChangeListener(new ChangeListener<>() {
+            
+            @Override
+            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+                MessageableDialog<R> dialog = MessageableDialog.this;
+                dialog.labelOfMessage.setMaximumWidth(changedValue.width);
+            }
+        });
         this.labelOfMessage.setText(this.getMessage());
     }
     
