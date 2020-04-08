@@ -2,6 +2,7 @@ package com.hirohiro716;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.LinkedHashMap;
 
 /**
  * 数値の端数処理の列挙型。
@@ -110,5 +111,14 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
      */
     public static RoundNumber enumOf(Integer id) {
         return IdentifiableEnum.enumOf(id, RoundNumber.class);
+    }
+
+    /**
+     * すべての列挙子で、キーがID、値が名前の連想配列を作成する。
+     * 
+     * @return 結果。
+     */
+    public static LinkedHashMap<Integer, String> createLinkedHashMap() {
+        return IdentifiableEnum.createLinkedHashMap(RoundNumber.class);
     }
 }
