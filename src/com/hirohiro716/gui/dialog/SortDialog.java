@@ -216,7 +216,7 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
             int targetIndex = dialog.verticalPane.getChildren().indexOf(target);
             dialog.verticalPane.getChildren().remove(source);
             dialog.verticalPane.getChildren().add(source, targetIndex);
-            dialog.verticalPane.updateDisplay();
+            dialog.verticalPane.updateLayout();
         }
     };
     

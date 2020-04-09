@@ -167,9 +167,10 @@ public class FlowPane extends Pane {
         if (maximumWidth > this.getMaximumWidth()) {
             maximumWidth = this.getMaximumWidth();
         }
+        maximumWidth -= this.getPadding().getLeft();
+        maximumWidth -= this.getPadding().getRight();
         // Define variables
         int height = 0;
-        Control baseY = null;
         int lineWidth = 0;
         List<Control> lineControls = new ArrayList<>();
         for (Control control : this.getChildren()) {
@@ -177,29 +178,15 @@ public class FlowPane extends Pane {
             // Initialize variables
             if (maximumWidth < lineWidth + this.horizontalSpacing + control.getWidth() && lineControls.size() > 0) {
                 lineWidth = 0;
-                baseY = this.getMaximumHeightControl(lineControls);
+                int controlHeight = this.fitControlMaximumHeight(height, lineControls);
                 height += this.verticalSpacing;
-                height += baseY.getHeight();
+                height += controlHeight;
                 lineControls.clear();
             }
-            // Add paddings
-            if (lineWidth == 0) {
-                lineWidth += this.getPadding().getLeft();
-                lineWidth += this.getPadding().getRight();
-            }
             // Horizontal layout
-            if (lineControls.size() == 0) {
-                this.layout.putConstraint(SpringLayout.WEST, control.getInnerInstanceForLayout(), 0, SpringLayout.WEST, this.getInnerInstanceForLayout());
-            } else {
-                Control rightEndControl = lineControls.get(lineControls.size() - 1);
-                this.layout.putConstraint(SpringLayout.WEST, control.getInnerInstanceForLayout(), this.horizontalSpacing, SpringLayout.EAST, rightEndControl.getInnerInstanceForLayout());
-            }
+            this.layout.putConstraint(SpringLayout.WEST, control.getInnerInstanceForLayout(), lineWidth, SpringLayout.WEST, this.getInnerInstanceForLayout());
             // Vertical layout
-            if (baseY == null) {
-                this.layout.putConstraint(SpringLayout.NORTH, control.getInnerInstanceForLayout(), 0, SpringLayout.NORTH, this.getInnerInstanceForLayout());
-            } else {
-                this.layout.putConstraint(SpringLayout.NORTH, control.getInnerInstanceForLayout(), this.verticalSpacing, SpringLayout.SOUTH, baseY.getInnerInstanceForLayout());
-            }
+            this.layout.putConstraint(SpringLayout.NORTH, control.getInnerInstanceForLayout(), height, SpringLayout.NORTH, this.getInnerInstanceForLayout());
             // Addition
             lineControls.add(control);
             lineWidth += this.horizontalSpacing;
@@ -208,13 +195,10 @@ public class FlowPane extends Pane {
                 this.setWidth(lineWidth);
             }
         }
-        Control maximumHeightControl = this.getMaximumHeightControl(lineControls);
-        if (maximumHeightControl != null) {
-            if (height > 0) {
-                height += this.verticalSpacing;
-            }
-            height += maximumHeightControl.getHeight();
-        }
+        // Adjust pane height
+        int controlHeight = this.fitControlMaximumHeight(height, lineControls);
+        height += this.verticalSpacing;
+        height += controlHeight;
         if (height > this.getMaximumHeight()) {
             height = this.getMaximumHeight();
         }
@@ -230,18 +214,22 @@ public class FlowPane extends Pane {
     }
     
     /**
-     * 指定されたコントロールのリストの中で最大の高さのものを取得する。
+     * 指定されたすべてのコントロールの高さを揃え、その高さを取得する。
      * 
+     * @param locationY 指定されたコントロールの上位置。
      * @param controls
      * @return 結果。
      */
-    private Control getMaximumHeightControl(List<Control> controls) {
-        Control maxHeightControl = null;
+    private int fitControlMaximumHeight(int locationY, List<Control> controls) {
+        int maximumHeight = 0;
         for (Control control : controls) {
-            if (maxHeightControl == null || maxHeightControl.getHeight() < control.getHeight()) {
-                maxHeightControl = control;
+            if (maximumHeight < control.getHeight()) {
+                maximumHeight = control.getHeight();
             }
         }
-        return maxHeightControl;
+        for (Control control : controls) {
+            this.layout.putConstraint(SpringLayout.SOUTH, control.getInnerInstanceForLayout(), locationY + maximumHeight, SpringLayout.NORTH, this.getInnerInstanceForLayout());
+        }
+        return maximumHeight;
     }
 }
