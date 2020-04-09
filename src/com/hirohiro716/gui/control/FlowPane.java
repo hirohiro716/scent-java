@@ -177,13 +177,7 @@ public class FlowPane extends Pane {
             // Initialize variables
             if (maximumWidth < lineWidth + this.horizontalSpacing + control.getWidth() && lineControls.size() > 0) {
                 lineWidth = 0;
-                Control maxHeightControl = null;
-                for (Control lineControl : lineControls) {
-                    if (maxHeightControl == null || maxHeightControl.getHeight() < lineControl.getHeight()) {
-                        maxHeightControl = lineControl;
-                    }
-                }
-                baseY = maxHeightControl;
+                baseY = this.getMaximumHeightControl(lineControls);
                 height += this.verticalSpacing;
                 height += baseY.getHeight();
                 lineControls.clear();
@@ -194,12 +188,16 @@ public class FlowPane extends Pane {
                 lineWidth += this.getPadding().getRight();
             }
             // Horizontal layout
-            if (lineControls.size() > 0) {
+            if (lineControls.size() == 0) {
+                this.layout.putConstraint(SpringLayout.WEST, control.getInnerInstanceForLayout(), 0, SpringLayout.WEST, this.getInnerInstanceForLayout());
+            } else {
                 Control rightEndControl = lineControls.get(lineControls.size() - 1);
                 this.layout.putConstraint(SpringLayout.WEST, control.getInnerInstanceForLayout(), this.horizontalSpacing, SpringLayout.EAST, rightEndControl.getInnerInstanceForLayout());
             }
             // Vertical layout
-            if (baseY != null) {
+            if (baseY == null) {
+                this.layout.putConstraint(SpringLayout.NORTH, control.getInnerInstanceForLayout(), 0, SpringLayout.NORTH, this.getInnerInstanceForLayout());
+            } else {
                 this.layout.putConstraint(SpringLayout.NORTH, control.getInnerInstanceForLayout(), this.verticalSpacing, SpringLayout.SOUTH, baseY.getInnerInstanceForLayout());
             }
             // Addition
@@ -210,9 +208,12 @@ public class FlowPane extends Pane {
                 this.setWidth(lineWidth);
             }
         }
-        if (baseY != null) {
-            height += this.verticalSpacing;
-            height += baseY.getHeight();
+        Control maximumHeightControl = this.getMaximumHeightControl(lineControls);
+        if (maximumHeightControl != null) {
+            if (height > 0) {
+                height += this.verticalSpacing;
+            }
+            height += maximumHeightControl.getHeight();
         }
         if (height > this.getMaximumHeight()) {
             height = this.getMaximumHeight();
@@ -226,5 +227,21 @@ public class FlowPane extends Pane {
                 pane.isStartedUpdateLayout = false;
             }
         });
+    }
+    
+    /**
+     * 指定されたコントロールのリストの中で最大の高さのものを取得する。
+     * 
+     * @param controls
+     * @return 結果。
+     */
+    private Control getMaximumHeightControl(List<Control> controls) {
+        Control maxHeightControl = null;
+        for (Control control : controls) {
+            if (maxHeightControl == null || maxHeightControl.getHeight() < control.getHeight()) {
+                maxHeightControl = control;
+            }
+        }
+        return maxHeightControl;
     }
 }
