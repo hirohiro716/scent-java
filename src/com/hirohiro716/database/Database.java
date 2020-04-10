@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 import com.hirohiro716.DynamicArray;
 import com.hirohiro716.StringObject;
+import com.hirohiro716.datetime.Datetime;
 
 /**
  * JDBCドライバでデータベースに接続するための抽象クラス。
@@ -634,8 +635,11 @@ public abstract class Database implements Closeable {
         if (originalValue == null) {
             return null;
         }
-        switch (originalValue.getClass().getName()) {
-        case "java.util.Date":
+        if (originalValue instanceof Datetime) {
+            Datetime datatime = (Datetime) originalValue;
+            return new Date(datatime.getDate().getTime());
+        }
+        if (originalValue instanceof java.util.Date) {
             java.util.Date date = (java.util.Date) originalValue;
             return new Date(date.getTime());
         }
@@ -652,11 +656,11 @@ public abstract class Database implements Closeable {
         if (databaseValue == null) {
             return null;
         }
-        switch (databaseValue.getClass().getName()) {
-        case "java.sql.Timestamp":
+        if (databaseValue instanceof Timestamp) {
             Timestamp timestamp = (Timestamp) databaseValue;
             return new Date(timestamp.getTime());
-        case "java.math.BigDecimal":
+        }
+        if (databaseValue instanceof BigDecimal) {
             BigDecimal bigDecimal = (BigDecimal) databaseValue;
             return bigDecimal.doubleValue();
         }

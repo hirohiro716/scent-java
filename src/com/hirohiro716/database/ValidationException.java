@@ -14,7 +14,7 @@ import com.hirohiro716.StringObject;
  *
  */
 @SuppressWarnings("serial")
-public class ValidationException extends Throwable {
+public class ValidationException extends Exception {
     
     private final static String MESSAGE = "レコードの検証に失敗しました。";
 
