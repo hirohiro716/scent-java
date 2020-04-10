@@ -32,7 +32,7 @@ public class Datetime implements Cloneable {
     /**
      * 年月日と時刻を文字列で表す際のデフォルトフォーマットパターン。
      */
-    public final static SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat(StringObject.join(DEFAULT_DATE_FORMAT_ONLY_DATE.toPattern(), " ", DEFAULT_DATE_FORMAT_ONLY_TIME.toPattern()).toString());
+    public final static SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat(StringObject.join(Datetime.DEFAULT_DATE_FORMAT_ONLY_DATE.toPattern(), " ", Datetime.DEFAULT_DATE_FORMAT_ONLY_TIME.toPattern()).toString());
     
     /**
      * コンストラクタ。<br>
@@ -84,7 +84,7 @@ public class Datetime implements Cloneable {
     
     private Calendar calendar;
 
-    private DateFormat dateFormat = DEFAULT_DATE_FORMAT;
+    private DateFormat dateFormat = Datetime.DEFAULT_DATE_FORMAT;
     
     /**
      * このDatetimeの時刻に、指定されたjava.util.Dateの日時をセットする。
@@ -482,7 +482,7 @@ public class Datetime implements Cloneable {
      * @return 結果。
      */
     public final String toStringOnlyDate() {
-        return this.toString(DEFAULT_DATE_FORMAT_ONLY_DATE);
+        return this.toString(Datetime.DEFAULT_DATE_FORMAT_ONLY_DATE);
     }
     
     /**
@@ -492,7 +492,7 @@ public class Datetime implements Cloneable {
      * @return 結果。
      */
     public final String toStringOnlyTime() {
-        return this.toString(DEFAULT_DATE_FORMAT_ONLY_TIME);
+        return this.toString(Datetime.DEFAULT_DATE_FORMAT_ONLY_TIME);
     }
     
     /**
@@ -601,7 +601,7 @@ public class Datetime implements Cloneable {
      */
     public static List<Integer> createYearsList(int subtraction, int addition) {
         Datetime datetime = new Datetime();
-        return createYearsList(datetime.toYear(), subtraction, addition);
+        return Datetime.createYearsList(datetime.toYear(), subtraction, addition);
     }
 
     /**
@@ -612,7 +612,7 @@ public class Datetime implements Cloneable {
      */
     public static List<Integer> createYearsList(int addition) {
         Datetime datetime = new Datetime();
-        return createYearsList(datetime.toYear(), datetime.toYear() - Datetime.newInstance(new Date(0)).toYear(), addition);
+        return Datetime.createYearsList(datetime.toYear(), datetime.toYear() - Datetime.newInstance(new Date(0)).toYear(), addition);
     }
     
     /**

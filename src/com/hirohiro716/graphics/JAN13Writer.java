@@ -51,11 +51,11 @@ public class JAN13Writer {
         // リーディングディジットを取得する
         int leadingDigit = barcode.clone().extract(0, 1).toInteger();
         // センターガードバーの左側を描画する
-        int[] leftParityType = LEFT_PARITY_TYPES[leadingDigit];
+        int[] leftParityType = JAN13Writer.LEFT_PARITY_TYPES[leadingDigit];
         for (int index = 1; index <= 6; index++) {
             int typeIndex = leftParityType[index - 1];
             int drawing = barcode.clone().extract(index, index + 1).toInteger();
-            int[] parities = LEFT_PARITIES[typeIndex][drawing];
+            int[] parities = JAN13Writer.LEFT_PARITIES[typeIndex][drawing];
             for (int parity: parities) {
                 if (parity == 1) {
                     this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule, height));
@@ -72,7 +72,7 @@ public class JAN13Writer {
         // センターガードバーの右側を描画する
         for (int index = 7; index <= 12; index++) {
             int drawing = barcode.clone().extract(index, index + 1).toInteger();
-            int[] parities = RIGHT_PARITIES[drawing];
+            int[] parities = JAN13Writer.RIGHT_PARITIES[drawing];
             for (int parity: parities) {
                 if (parity == 1) {
                     this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule, height));
@@ -95,7 +95,7 @@ public class JAN13Writer {
     public static boolean isValid(String barcode) {
         StringObject stringObject = new StringObject(barcode);
         if (stringObject.length() == 13) {
-            String checkDigit = computeCheckDigit(barcode);
+            String checkDigit = JAN13Writer.computeCheckDigit(barcode);
             if (stringObject.extract(-1).equals(checkDigit)) {
                 return true;
             }

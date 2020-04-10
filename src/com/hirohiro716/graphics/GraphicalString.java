@@ -28,11 +28,11 @@ public class GraphicalString {
      */
     public GraphicalString(String string, Graphics2D graphics2D) {
         if (graphics2D == null) {
-            if (GRAPHICS == null) {
+            if (GraphicalString.GRAPHICS == null) {
                 BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-                GRAPHICS = (Graphics2D) image.getGraphics();
+                GraphicalString.GRAPHICS = (Graphics2D) image.getGraphics();
             }
-            this.graphics2D = GRAPHICS;
+            this.graphics2D = GraphicalString.GRAPHICS;
         } else {
             this.graphics2D = graphics2D;
         }

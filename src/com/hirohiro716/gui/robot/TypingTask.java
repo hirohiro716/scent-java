@@ -61,16 +61,16 @@ public class TypingTask {
         StringObject result = new StringObject();
         for (Task task: this.tasks) {
             if (result.length() > 0) {
-                result.append(DEFINITION_STRING_TASK_DELIMITER);
+                result.append(TypingTask.DEFINITION_STRING_TASK_DELIMITER);
             }
             switch (task.getTaskType()) {
             case KEY:
                 result.append(task.getTaskType().toString());
-                result.append(DEFINITION_STRING_TYPE_AND_VALUE_DELIMITER);
+                result.append(TypingTask.DEFINITION_STRING_TYPE_AND_VALUE_DELIMITER);
                 boolean isFirst = true;
                 for (KeyCode keyCode: task.getKeyCodes()) {
                     if (isFirst == false) {
-                        result.append(DEFINITION_STRING_VALUES_DELIMITER);
+                        result.append(TypingTask.DEFINITION_STRING_VALUES_DELIMITER);
                     }
                     result.append(keyCode.toString());
                     isFirst = false;
@@ -78,7 +78,7 @@ public class TypingTask {
                 break;
             case SLEEP:
                 result.append(task.getTaskType().toString());
-                result.append(DEFINITION_STRING_TYPE_AND_VALUE_DELIMITER);
+                result.append(TypingTask.DEFINITION_STRING_TYPE_AND_VALUE_DELIMITER);
                 result.append(task.getMilliseconds());
                 break;
             }
@@ -94,13 +94,13 @@ public class TypingTask {
     public void importFromDefinitionString(String definitionString) {
         this.tasks.clear();
         try {
-            String[] taskStrings = StringObject.newInstance(definitionString).split(DEFINITION_STRING_TASK_DELIMITER);
+            String[] taskStrings = StringObject.newInstance(definitionString).split(TypingTask.DEFINITION_STRING_TASK_DELIMITER);
             for (String taskString: taskStrings) {
-                String[] typeAndValue = taskString.split(DEFINITION_STRING_TYPE_AND_VALUE_DELIMITER);
+                String[] typeAndValue = taskString.split(TypingTask.DEFINITION_STRING_TYPE_AND_VALUE_DELIMITER);
                 TaskType taskType = TaskType.find(typeAndValue[0]);
                 switch (taskType) {
                 case KEY:
-                    String[] keyCodeStrings = typeAndValue[1].split(DEFINITION_STRING_VALUES_DELIMITER);
+                    String[] keyCodeStrings = typeAndValue[1].split(TypingTask.DEFINITION_STRING_VALUES_DELIMITER);
                     List<KeyCode> keyCodes = new ArrayList<>();
                     for (String keyCodeString: keyCodeStrings) {
                         KeyCode keyCode = KeyCode.valueOf(keyCodeString);

@@ -45,13 +45,13 @@ public class GUI {
      */
     public static void executeLater(int generationToExecute, Runnable runnable) {
         if (generationToExecute <= 0) {
-            executeLater(runnable);
+            GUI.executeLater(runnable);
         } else {
-            executeLater(new Runnable() {
+            GUI.executeLater(new Runnable() {
                 
                 @Override
                 public void run() {
-                    executeLater(generationToExecute - 1, runnable);
+                    GUI.executeLater(generationToExecute - 1, runnable);
                 }
             });
         }

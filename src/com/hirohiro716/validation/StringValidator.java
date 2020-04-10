@@ -264,7 +264,7 @@ public class StringValidator {
             case MAXIMUM_VALUE:
             case MINIMUM_VALUE:
                 StringObject number = new StringObject(this.parameters.get(pattern));
-                message.append(pattern.getErrorMessage().replace(ERROR_MESSAGE_ARGUMENT, number.removeMeaninglessDecimalPoint().toString()));
+                message.append(pattern.getErrorMessage().replace(StringValidator.ERROR_MESSAGE_ARGUMENT, number.removeMeaninglessDecimalPoint().toString()));
                 break;
             case BLANK:
             case INTEGER:
@@ -293,12 +293,12 @@ public class StringValidator {
         BLANK("が空欄です。"),
         INTEGER("に数字以外の文字列が含まれています。"),
         DECIMAL("に数字以外の文字列が含まれています。"),
-        LENGTH(StringObject.join("は", ERROR_MESSAGE_ARGUMENT, "桁である必要があります。").toString()),
-        MAXIMUM_LENGTH(StringObject.join("の文字数がオーバーしています。", ERROR_MESSAGE_ARGUMENT, "文字まで入力できます。").toString()),
-        MINIMUM_LENGTH(StringObject.join("の文字数が足りません。", ERROR_MESSAGE_ARGUMENT, "文字必要です。").toString()),
+        LENGTH(StringObject.join("は", StringValidator.ERROR_MESSAGE_ARGUMENT, "桁である必要があります。").toString()),
+        MAXIMUM_LENGTH(StringObject.join("の文字数がオーバーしています。", StringValidator.ERROR_MESSAGE_ARGUMENT, "文字まで入力できます。").toString()),
+        MINIMUM_LENGTH(StringObject.join("の文字数が足りません。", StringValidator.ERROR_MESSAGE_ARGUMENT, "文字必要です。").toString()),
         ZERO("にゼロは入力できません。"),
-        MAXIMUM_VALUE(StringObject.join("は最大で「", ERROR_MESSAGE_ARGUMENT, "」まで入力できます。").toString()),
-        MINIMUM_VALUE(StringObject.join("は「", ERROR_MESSAGE_ARGUMENT, "」以上である必要があります。").toString()),
+        MAXIMUM_VALUE(StringObject.join("は最大で「", StringValidator.ERROR_MESSAGE_ARGUMENT, "」まで入力できます。").toString()),
+        MINIMUM_VALUE(StringObject.join("は「", StringValidator.ERROR_MESSAGE_ARGUMENT, "」以上である必要があります。").toString()),
         DATETIME("が正しくありません。"),
         TELEPHONE_NUMBER("が正しくありません。"),
         REGEX("が正しくありません。"),

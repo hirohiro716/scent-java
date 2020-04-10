@@ -36,7 +36,7 @@ public class MillimeterValue {
      * @return 結果。
      */
     public double toPoint() {
-        return this.millimeter * MILLIMETER_TO_POINT_RATIO;
+        return this.millimeter * MillimeterValue.MILLIMETER_TO_POINT_RATIO;
     }
 
     /**
@@ -56,6 +56,6 @@ public class MillimeterValue {
      * @return 結果。
      */
     public static MillimeterValue fromPoint(double point) {
-        return new MillimeterValue(point / MILLIMETER_TO_POINT_RATIO);
+        return new MillimeterValue(point / MillimeterValue.MILLIMETER_TO_POINT_RATIO);
     }
 }

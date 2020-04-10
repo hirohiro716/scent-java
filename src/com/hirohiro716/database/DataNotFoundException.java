@@ -17,7 +17,7 @@ public class DataNotFoundException extends SQLException {
      * 初期の例外メッセージを持つ新規例外を構築する。
      */
     public DataNotFoundException() {
-        super(MESSAGE);
+        super(DataNotFoundException.MESSAGE);
     }
     
     /**
@@ -35,7 +35,7 @@ public class DataNotFoundException extends SQLException {
      * @param cause
      */
     public DataNotFoundException(Throwable cause) {
-        super(MESSAGE, cause);
+        super(DataNotFoundException.MESSAGE, cause);
     }
     
     /**

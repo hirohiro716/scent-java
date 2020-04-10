@@ -47,7 +47,7 @@ public class NW7Writer {
             if (index > 0) {
                 allWidth += gapWidthRatio;
             }
-            for (int barWidthRatio: getHashMapCharacterPatterns().get(this.barcode.substring(index, index + 1))) {
+            for (int barWidthRatio: NW7Writer.getHashMapCharacterPatterns().get(this.barcode.substring(index, index + 1))) {
                 allWidth += barWidthRatio;
             }
         }
@@ -56,7 +56,7 @@ public class NW7Writer {
         // すべてのキャラクタのエレメントとクワイエットゾーンを描画する
         float drawingX = x;
         for (int index = 0; index < this.barcode.length(); index++) {
-            int[] characterPatterns = getHashMapCharacterPatterns().get(this.barcode.substring(index, index + 1));
+            int[] characterPatterns = NW7Writer.getHashMapCharacterPatterns().get(this.barcode.substring(index, index + 1));
             boolean isPause = false;
             for (int barWidthRatio: characterPatterns) {
                 float barWidth = oneWidth * barWidthRatio;
@@ -73,7 +73,7 @@ public class NW7Writer {
         }
     }
     
-    private static Map<String, int[]> hashMapCharacterPatterns = new HashMap<>();
+    private static Map<String, int[]> MAP_CHARACTER_PATTERNS = null;
     
     /**
      * それぞれの英数記号をバーコードの印字パターンの連想配列を取得する。
@@ -81,29 +81,31 @@ public class NW7Writer {
      * @return 結果。
      */
     private static Map<String, int[]> getHashMapCharacterPatterns() {
-        if (hashMapCharacterPatterns.size() == 0) {
-            hashMapCharacterPatterns.put("0", new int[] {1, 1, 1, 1, 1, 3, 3});
-            hashMapCharacterPatterns.put("1", new int[] {1, 1, 1, 1, 3, 3, 1});
-            hashMapCharacterPatterns.put("2", new int[] {1, 1, 1, 3, 1, 1, 3});
-            hashMapCharacterPatterns.put("3", new int[] {3, 3, 1, 1, 1, 1, 1});
-            hashMapCharacterPatterns.put("4", new int[] {1, 1, 3, 1, 1, 3, 1});
-            hashMapCharacterPatterns.put("5", new int[] {3, 1, 1, 1, 1, 3, 1});
-            hashMapCharacterPatterns.put("6", new int[] {1, 3, 1, 1, 1, 1, 3});
-            hashMapCharacterPatterns.put("7", new int[] {1, 3, 1, 1, 3, 1, 1});
-            hashMapCharacterPatterns.put("8", new int[] {1, 3, 3, 1, 1, 1, 1});
-            hashMapCharacterPatterns.put("9", new int[] {3, 1, 1, 3, 1, 1, 1});
-            hashMapCharacterPatterns.put("-", new int[] {1, 1, 1, 3, 3, 1, 1});
-            hashMapCharacterPatterns.put("$", new int[] {1, 1, 3, 3, 1, 1, 1});
-            hashMapCharacterPatterns.put(":", new int[] {3, 1, 1, 1, 3, 1, 3});
-            hashMapCharacterPatterns.put("/", new int[] {3, 1, 3, 1, 1, 1, 3});
-            hashMapCharacterPatterns.put(".", new int[] {3, 1, 3, 1, 3, 1, 1});
-            hashMapCharacterPatterns.put("+", new int[] {1, 1, 3, 1, 3, 1, 3});
-            hashMapCharacterPatterns.put("a", new int[] {1, 1, 3, 3, 1, 3, 1});
-            hashMapCharacterPatterns.put("b", new int[] {1, 3, 1, 3, 1, 1, 3});
-            hashMapCharacterPatterns.put("c", new int[] {1, 1, 1, 3, 1, 3, 3});
-            hashMapCharacterPatterns.put("d", new int[] {1, 1, 1, 3, 3, 3, 1});
+        if (NW7Writer.MAP_CHARACTER_PATTERNS == null) {
+            Map<String, int[]> map = new HashMap<>();
+            map.put("0", new int[] {1, 1, 1, 1, 1, 3, 3});
+            map.put("1", new int[] {1, 1, 1, 1, 3, 3, 1});
+            map.put("2", new int[] {1, 1, 1, 3, 1, 1, 3});
+            map.put("3", new int[] {3, 3, 1, 1, 1, 1, 1});
+            map.put("4", new int[] {1, 1, 3, 1, 1, 3, 1});
+            map.put("5", new int[] {3, 1, 1, 1, 1, 3, 1});
+            map.put("6", new int[] {1, 3, 1, 1, 1, 1, 3});
+            map.put("7", new int[] {1, 3, 1, 1, 3, 1, 1});
+            map.put("8", new int[] {1, 3, 3, 1, 1, 1, 1});
+            map.put("9", new int[] {3, 1, 1, 3, 1, 1, 1});
+            map.put("-", new int[] {1, 1, 1, 3, 3, 1, 1});
+            map.put("$", new int[] {1, 1, 3, 3, 1, 1, 1});
+            map.put(":", new int[] {3, 1, 1, 1, 3, 1, 3});
+            map.put("/", new int[] {3, 1, 3, 1, 1, 1, 3});
+            map.put(".", new int[] {3, 1, 3, 1, 3, 1, 1});
+            map.put("+", new int[] {1, 1, 3, 1, 3, 1, 3});
+            map.put("a", new int[] {1, 1, 3, 3, 1, 3, 1});
+            map.put("b", new int[] {1, 3, 1, 3, 1, 1, 3});
+            map.put("c", new int[] {1, 1, 1, 3, 1, 3, 3});
+            map.put("d", new int[] {1, 1, 1, 3, 3, 3, 1});
+            NW7Writer.MAP_CHARACTER_PATTERNS = map;
         }
-        return hashMapCharacterPatterns;
+        return NW7Writer.MAP_CHARACTER_PATTERNS;
     }
     
     /**
@@ -124,6 +126,6 @@ public class NW7Writer {
      * @return 結果。
      */
     public static String compute7DSR(String barcode) {
-        return String.valueOf(7 - Integer.parseInt(compute7DR(barcode)));
+        return String.valueOf(7 - Integer.parseInt(NW7Writer.compute7DR(barcode)));
     }
 }

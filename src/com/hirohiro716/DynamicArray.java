@@ -433,7 +433,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @return 結果。
      */
     public static DynamicArray<Integer> newInstance(Collection<Object> values) {
-        return newInstance(values.toArray(new Object[] {}));
+        return DynamicArray.newInstance(values.toArray(new Object[] {}));
     }
     
     /**

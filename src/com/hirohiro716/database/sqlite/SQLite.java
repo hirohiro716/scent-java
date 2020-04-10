@@ -26,7 +26,7 @@ public abstract class SQLite extends Database {
         this.setIsolationLevel(IsolationLevel.NOLOCK);
     }
     
-    private static IsolationLevel isolationLevel = IsolationLevel.NOLOCK;
+    private static IsolationLevel ISOLATION_LEVEL = IsolationLevel.NOLOCK;
     
     private boolean isOwnTransaction = false;
     
@@ -36,8 +36,8 @@ public abstract class SQLite extends Database {
      * @return 結果。
      */
     public IsolationLevel getIsolationLevel() {
-        synchronized (SQLite.isolationLevel) {
-            return SQLite.isolationLevel;
+        synchronized (SQLite.ISOLATION_LEVEL) {
+            return SQLite.ISOLATION_LEVEL;
         }
     }
     
@@ -48,12 +48,12 @@ public abstract class SQLite extends Database {
      * @throws SQLException
      */
     private void setIsolationLevel(IsolationLevel isolationLevel) throws SQLException {
-        synchronized (SQLite.isolationLevel) {
-            if (SQLite.isolationLevel != IsolationLevel.NOLOCK && this.isOwnTransaction == false) {
+        synchronized (SQLite.ISOLATION_LEVEL) {
+            if (SQLite.ISOLATION_LEVEL != IsolationLevel.NOLOCK && this.isOwnTransaction == false) {
                 throw new SQLException("Transaction has already been started.");
             }
-            SQLite.isolationLevel = isolationLevel;
-            if (SQLite.isolationLevel != IsolationLevel.NOLOCK) {
+            SQLite.ISOLATION_LEVEL = isolationLevel;
+            if (SQLite.ISOLATION_LEVEL != IsolationLevel.NOLOCK) {
                 this.isOwnTransaction = true;
             } else {
                 this.isOwnTransaction = false;
@@ -131,7 +131,7 @@ public abstract class SQLite extends Database {
     public void begin(IsolationLevel isolationLevel) throws SQLException {
         this.setIsolationLevel(isolationLevel);
         try {
-            this.execute(StringObject.join("BEGIN ", SQLite.isolationLevel.toString(), ";").toString());
+            this.execute(StringObject.join("BEGIN ", SQLite.ISOLATION_LEVEL.toString(), ";").toString());
         } catch (SQLException exception) {
             this.setIsolationLevel(IsolationLevel.NOLOCK);
             throw exception;

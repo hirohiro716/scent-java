@@ -21,7 +21,7 @@ public class ValidationException extends Exception {
      * 初期の例外メッセージを持つ新規例外を構築する。
      */
     public ValidationException() {
-        super(MESSAGE);
+        super(ValidationException.MESSAGE);
     }
     
     /**

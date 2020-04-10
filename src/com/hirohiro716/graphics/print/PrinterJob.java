@@ -56,7 +56,7 @@ public class PrinterJob {
      * @throws PrinterException 
      */
     public PrinterJob(String printServiceName) throws PrinterException {
-        this(findPrintService(printServiceName));
+        this(PrinterJob.findPrintService(printServiceName));
     }
     
     /**
@@ -353,7 +353,7 @@ public class PrinterJob {
      * @return 結果。
      */
     public static PrintService findPrintService(String printServiceName) {
-        for (PrintService printService : lookupPrintServices()) {
+        for (PrintService printService : PrinterJob.lookupPrintServices()) {
             if (printService.getName().equals(printServiceName)) {
                 return printService;
             }

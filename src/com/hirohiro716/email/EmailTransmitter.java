@@ -40,7 +40,7 @@ public class EmailTransmitter extends DynamicClass {
      * @return 結果。
      */
     public static String getLineSeparator() {
-        return LINE_SEPARATOR;
+        return EmailTransmitter.LINE_SEPARATOR;
     }
     
     private String myAddress;
@@ -223,8 +223,8 @@ public class EmailTransmitter extends DynamicClass {
         methodMimeMmessage.invoke("setSubject", subject, this.charset);
         // Body
         StringObject bodyObject = new StringObject(body);
-        bodyObject.replaceCR(LINE_SEPARATOR);
-        bodyObject.replaceLF(LINE_SEPARATOR);
+        bodyObject.replaceCR(EmailTransmitter.LINE_SEPARATOR);
+        bodyObject.replaceLF(EmailTransmitter.LINE_SEPARATOR);
         methodMimeMmessage.invoke("setText", body.toString(), this.charset);
         // Send
         Method methodTransport = new Method(this.loadClass("javax.mail.Transport"));

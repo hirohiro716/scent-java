@@ -207,7 +207,7 @@ public class Image extends ByteArray {
      * @throws IOException
      */
     public static Image newInstance(File file, int maxPixelWidth, int maxPixelHeight) throws IOException {
-        BufferedImage bufferedImage = resize(file, maxPixelWidth, maxPixelHeight);
+        BufferedImage bufferedImage = Image.resize(file, maxPixelWidth, maxPixelHeight);
         ImageFormatName imageFormatName = ImageFormatName.find(file);
         Image image = new Image(imageFormatName, new byte[] {});
         image.loadBufferedImage(imageFormatName, bufferedImage);
@@ -266,7 +266,7 @@ public class Image extends ByteArray {
          * @return 結果。
          */
         public static ImageFormatName find(File file) {
-            return find(file.getAbsolutePath());
+            return ImageFormatName.find(file.getAbsolutePath());
         }
     }
 }

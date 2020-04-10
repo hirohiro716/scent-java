@@ -258,8 +258,8 @@ public abstract class Editor<T> {
                 }
                 editor.window.setCloseOperation(CloseOperation.DO_NOT_CLOSE);
                 this.dialog = new ConfirmDialog(editor.window);
-                this.dialog.setTitle(DIALOG_TITLE);
-                this.dialog.setMessage(DIALOG_MESSAGE);
+                this.dialog.setTitle(CloseEventHandler.DIALOG_TITLE);
+                this.dialog.setMessage(CloseEventHandler.DIALOG_MESSAGE);
                 this.dialog.setDefaultValue(ResultButton.OK);
                 this.dialog.setProcessAfterClose(new ProcessAfterDialogClose<>() {
                     

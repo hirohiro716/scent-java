@@ -26,7 +26,7 @@ public class ValidationException extends Exception {
      */
     @SuppressWarnings("unchecked")
     public <C extends ColumnInterface> ValidationException(DynamicArray<C> causeRecord) {
-        super(MESSAGE);
+        super(ValidationException.MESSAGE);
         this.causeRecord = (DynamicArray<ColumnInterface>) causeRecord;
     }
     

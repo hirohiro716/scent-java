@@ -552,7 +552,7 @@ public abstract class Printable implements java.awt.print.Printable {
         this.graphics2D.rotate(Math.toRadians(angle), x, y);
     }
     
-    private static List<String> NEED_TO_VERITICAL_LIST = new ArrayList<>();
+    private static List<String> NEED_TO_VERITICAL_LIST = null;
     
     /**
      * 文字列を垂直書きで印刷する場合に、90度回転させる必要がある文字列のリストを取得する。
@@ -560,46 +560,48 @@ public abstract class Printable implements java.awt.print.Printable {
      * @return 結果。
      */
     protected static List<String> getNeedToVerticalList() {
-        if (NEED_TO_VERITICAL_LIST.size() == 0) {
-            NEED_TO_VERITICAL_LIST.add("(");
-            NEED_TO_VERITICAL_LIST.add(")");
-            NEED_TO_VERITICAL_LIST.add("-");
-            NEED_TO_VERITICAL_LIST.add("<");
-            NEED_TO_VERITICAL_LIST.add("=");
-            NEED_TO_VERITICAL_LIST.add(">");
-            NEED_TO_VERITICAL_LIST.add("[");
-            NEED_TO_VERITICAL_LIST.add("]");
-            NEED_TO_VERITICAL_LIST.add("{");
-            NEED_TO_VERITICAL_LIST.add("|");
-            NEED_TO_VERITICAL_LIST.add("}");
-            NEED_TO_VERITICAL_LIST.add("~");
-            NEED_TO_VERITICAL_LIST.add("‐");
-            NEED_TO_VERITICAL_LIST.add("−");
-            NEED_TO_VERITICAL_LIST.add("〈");
-            NEED_TO_VERITICAL_LIST.add("〉");
-            NEED_TO_VERITICAL_LIST.add("《");
-            NEED_TO_VERITICAL_LIST.add("》");
-            NEED_TO_VERITICAL_LIST.add("「");
-            NEED_TO_VERITICAL_LIST.add("」");
-            NEED_TO_VERITICAL_LIST.add("『");
-            NEED_TO_VERITICAL_LIST.add("』");
-            NEED_TO_VERITICAL_LIST.add("【");
-            NEED_TO_VERITICAL_LIST.add("】");
-            NEED_TO_VERITICAL_LIST.add("〔");
-            NEED_TO_VERITICAL_LIST.add("〕");
-            NEED_TO_VERITICAL_LIST.add("〜");
-            NEED_TO_VERITICAL_LIST.add("ー");
-            NEED_TO_VERITICAL_LIST.add("（");
-            NEED_TO_VERITICAL_LIST.add("）");
-            NEED_TO_VERITICAL_LIST.add("＝");
-            NEED_TO_VERITICAL_LIST.add("［");
-            NEED_TO_VERITICAL_LIST.add("］");
-            NEED_TO_VERITICAL_LIST.add("｛");
-            NEED_TO_VERITICAL_LIST.add("｜");
-            NEED_TO_VERITICAL_LIST.add("｝");
-            Collections.unmodifiableList(NEED_TO_VERITICAL_LIST);
+        if (Printable.NEED_TO_VERITICAL_LIST == null) {
+            List<String> list = new ArrayList<>();
+            list.add("(");
+            list.add(")");
+            list.add("-");
+            list.add("<");
+            list.add("=");
+            list.add(">");
+            list.add("[");
+            list.add("]");
+            list.add("{");
+            list.add("|");
+            list.add("}");
+            list.add("~");
+            list.add("‐");
+            list.add("−");
+            list.add("〈");
+            list.add("〉");
+            list.add("《");
+            list.add("》");
+            list.add("「");
+            list.add("」");
+            list.add("『");
+            list.add("』");
+            list.add("【");
+            list.add("】");
+            list.add("〔");
+            list.add("〕");
+            list.add("〜");
+            list.add("ー");
+            list.add("（");
+            list.add("）");
+            list.add("＝");
+            list.add("［");
+            list.add("］");
+            list.add("｛");
+            list.add("｜");
+            list.add("｝");
+            Collections.unmodifiableList(list);
+            Printable.NEED_TO_VERITICAL_LIST = list;
         }
-        return NEED_TO_VERITICAL_LIST;
+        return Printable.NEED_TO_VERITICAL_LIST;
     }
     
     /**

@@ -368,12 +368,12 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 // Pane
                 HorizontalPane paneOfWhere = this.createPaneOfSearchColumn(searchableColumn);
                 // Comparison
-                DropDownList<Comparison> dropDownList = paneOfWhere.getChildren().findDropDownListByName(NAME_OF_COMPARISON_CONTROL);
+                DropDownList<Comparison> dropDownList = paneOfWhere.getChildren().findDropDownListByName(WhereSetDialog.NAME_OF_COMPARISON_CONTROL);
                 Comparison comparison = where.getComparison();
                 dropDownList.setSelectedItem(comparison);
                 this.paneWhereSetEditor.getChildren().add(paneOfWhere);
                 // Negate
-                CheckBox checkBoxNegate = paneOfWhere.getChildren().findCheckBoxByName(NAME_OF_NEGATE_CHECKBOX);
+                CheckBox checkBoxNegate = paneOfWhere.getChildren().findCheckBoxByName(WhereSetDialog.NAME_OF_NEGATE_CHECKBOX);
                 checkBoxNegate.setMarked(where.isNegate());
                 // Values
                 if (comparison != null) {
@@ -382,18 +382,18 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     Control control2;
                     switch (comparison) {
                     case EQUAL:
-                        control1 = paneOfWhere.getChildren().findControlByName(NAME_OF_VALUE_CONTROL1);
+                        control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                         this.setValueToControl(columnType, control1, where.getValue());
                         break;
                     case LIKE:
-                        control1 = paneOfWhere.getChildren().findControlByName(NAME_OF_VALUE_CONTROL1);
+                        control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                         String valueOfLike = StringObject.newInstance(where.getValue()).extract(1, -1).toString();
                         this.setValueToControl(columnType, control1, valueOfLike);
                         break;
                     case BETWEEN:
-                        control1 = paneOfWhere.getChildren().findControlByName(NAME_OF_VALUE_CONTROL1);
+                        control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                         this.setValueToControl(columnType, control1, where.getValue());
-                        control2 = paneOfWhere.getChildren().findControlByName(NAME_OF_VALUE_CONTROL2);
+                        control2 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL2);
                         this.setValueToControl(columnType, control2, where.getValue2());
                         break;
                     default:
@@ -420,10 +420,10 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             // Searchable column
             String searchableColumn = paneOfWhere.getInstanceForUseLater();
             // Comparison
-            DropDownList<Comparison> dropDownListComparison = paneOfWhere.getChildren().findDropDownListByName(NAME_OF_COMPARISON_CONTROL);
+            DropDownList<Comparison> dropDownListComparison = paneOfWhere.getChildren().findDropDownListByName(WhereSetDialog.NAME_OF_COMPARISON_CONTROL);
             Comparison comparison = dropDownListComparison.getSelectedItem();
             // Negate
-            CheckBox checkBoxNegate = paneOfWhere.getChildren().findCheckBoxByName(NAME_OF_NEGATE_CHECKBOX);
+            CheckBox checkBoxNegate = paneOfWhere.getChildren().findCheckBoxByName(WhereSetDialog.NAME_OF_NEGATE_CHECKBOX);
             boolean isNegate = false;
             if (checkBoxNegate != null && checkBoxNegate.isMarked()) {
                 isNegate = true;
@@ -435,17 +435,17 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 Control control2;
                 switch (comparison) {
                 case EQUAL:
-                    control1 = paneOfWhere.getChildren().findControlByName(NAME_OF_VALUE_CONTROL1);
+                    control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                     whereSet.add(isNegate, searchableColumn, comparison, this.getValueFromControl(columnType, control1));
                     break;
                 case LIKE:
-                    control1 = paneOfWhere.getChildren().findControlByName(NAME_OF_VALUE_CONTROL1);
-                    String valueOfLike = StringObject.newInstance(this.getValueFromControl(columnType, control1)).prepend(WILDCARD).append(WILDCARD).toString();
+                    control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
+                    String valueOfLike = StringObject.newInstance(this.getValueFromControl(columnType, control1)).prepend(WhereSetDialog.WILDCARD).append(WhereSetDialog.WILDCARD).toString();
                     whereSet.add(isNegate, searchableColumn, comparison, valueOfLike);
                     break;
                 case BETWEEN:
-                    control1 = paneOfWhere.getChildren().findControlByName(NAME_OF_VALUE_CONTROL1);
-                    control2 = paneOfWhere.getChildren().findControlByName(NAME_OF_VALUE_CONTROL2);
+                    control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
+                    control2 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL2);
                     whereSet.addBetween(isNegate, searchableColumn, this.getValueFromControl(columnType, control1), this.getValueFromControl(columnType, control2));
                     break;
                 default:
@@ -537,12 +537,12 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         // DropDownList of comparison
         ColumnType columnType = this.mapColumnType.get(searchableColumn);
         DropDownList<Comparison> dropDownList = this.createDropDownListOfComparison(columnType);
-        dropDownList.setName(NAME_OF_COMPARISON_CONTROL);
+        dropDownList.setName(WhereSetDialog.NAME_OF_COMPARISON_CONTROL);
         dropDownList.addSelectedItemChangeListener(this.comparisonChangeListener);
         pane.getChildren().add(dropDownList);
         // Pane of values
         HorizontalPane paneValues = new HorizontalPane(VerticalAlignment.CENTER);
-        paneValues.setName(NAME_OF_VALUES_PANE);
+        paneValues.setName(WhereSetDialog.NAME_OF_VALUES_PANE);
         paneValues.setSpacing(5);
         pane.getChildren().add(paneValues);
         return pane;
@@ -643,16 +643,16 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         case EQUAL:
         case LIKE:
             Control control = this.createValueControl(searchableColumn, columnType);
-            control.setName(NAME_OF_VALUE_CONTROL1);
+            control.setName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
             controls.add(control);
             break;
         case BETWEEN:
             Control control1 = this.createValueControl(searchableColumn, columnType);
-            control1.setName(NAME_OF_VALUE_CONTROL1);
+            control1.setName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
             controls.add(control1);
             controls.add(new Label("〜"));
             Control control2 = this.createValueControl(searchableColumn, columnType);
-            control2.setName(NAME_OF_VALUE_CONTROL2);
+            control2.setName(WhereSetDialog.NAME_OF_VALUE_CONTROL2);
             controls.add(control2);
             break;
         default:
@@ -660,7 +660,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         }
         if (columnType != ColumnType.BOOLEAN) {
             CheckBox checkBox = new CheckBox("否定");
-            checkBox.setName(NAME_OF_NEGATE_CHECKBOX);
+            checkBox.setName(WhereSetDialog.NAME_OF_NEGATE_CHECKBOX);
             controls.add(checkBox);
         }
         return controls.toArray(new Control[] {});

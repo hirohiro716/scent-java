@@ -622,7 +622,7 @@ public abstract class Database implements Closeable {
      * @return 結果。
      */
     public static String makeCaseClauseFromHashMap(Map<?, String> map, ColumnInterface column) {
-        return makeCaseClauseFromHashMap(map, column.getFullPhysicalName());
+        return Database.makeCaseClauseFromHashMap(map, column.getFullPhysicalName());
     }
     
     /**
