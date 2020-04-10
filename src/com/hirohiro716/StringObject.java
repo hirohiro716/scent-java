@@ -598,7 +598,20 @@ public class StringObject implements Cloneable, Iterable<String> {
             return false;
         }
     }
-
+    
+    /**
+     * 文字列をcom.hirohiro716.datetime.Datetimeに変換する。失敗した場合はnullを返す。
+     * 
+     * @return com.hirohiro716.datetime.Datetime、またはnull。
+     */
+    public Datetime toDatetime() {
+        try {
+            return Datetime.newInstance(this.value.toString());
+        } catch (ParseException exception) {
+            return null;
+        }
+    }
+    
     /**
      * 文字列をjava.util.Dateに変換する。失敗した場合はnullを返す。
      * 
