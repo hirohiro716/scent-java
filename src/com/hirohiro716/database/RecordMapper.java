@@ -13,9 +13,8 @@ import com.hirohiro716.StringObject;
  * 
  * @author hiro
  * 
- * @param <C> カラムの型。
  */
-public abstract class RecordMapper<C extends ColumnInterface> {
+public abstract class RecordMapper {
     
     /**
      * コンストラクタ。
@@ -53,7 +52,7 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * @param databaseClass
      * @return 結果。
      */
-    public static <M extends RecordMapper<?>, D extends Database> TableInterface getTable(Class<M> recordMapperClass, Class<D> databaseClass) {
+    public static <M extends RecordMapper, D extends Database> TableInterface getTable(Class<M> recordMapperClass, Class<D> databaseClass) {
         try {
             Database database = null;
             M instance = recordMapperClass.getConstructor(databaseClass).newInstance(database);
@@ -69,9 +68,8 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * 
      * @return 結果。
      */
-    @SuppressWarnings("unchecked")
-    public C[] getColumns() {
-        return (C[]) this.getTable().getColumns();
+    public ColumnInterface[] getColumns() {
+        return this.getTable().getColumns();
     }
     
     /**
@@ -79,10 +77,11 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * 
      * @return 結果。
      */
-    public DynamicArray<C> createDefaultRecord() {
+    @SuppressWarnings("unchecked")
+    public <C extends ColumnInterface> DynamicArray<C> createDefaultRecord() {
         DynamicArray<C> record = new DynamicArray<>();
-        for (C column: this.getColumns()) {
-            record.put(column, column.getDefaultValue());
+        for (ColumnInterface column: this.getColumns()) {
+            record.put((C) column, column.getDefaultValue());
         }
         return record;
     }
@@ -107,7 +106,7 @@ public abstract class RecordMapper<C extends ColumnInterface> {
         this.whereSet = whereSet;
     }
     
-    private List<DynamicArray<C>> editingRecords = new ArrayList<>();
+    private List<DynamicArray<ColumnInterface>> editingRecords = new ArrayList<>();
     
     /**
      * このインスタンスにマップされているレコードを取得する。
@@ -115,8 +114,12 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * @return 結果。
      */
     @SuppressWarnings("unchecked")
-    public DynamicArray<C>[] getRecords() {
-        return this.editingRecords.toArray(new DynamicArray[] {});
+    public <C extends ColumnInterface> DynamicArray<C>[] getRecords() {
+        List<DynamicArray<C>> list = new ArrayList<>();
+        for (DynamicArray<ColumnInterface> record : this.editingRecords) {
+            list.add((DynamicArray<C>) record);
+        }
+        return list.toArray(new DynamicArray[] {});
     }
     
     /**
@@ -124,8 +127,9 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * 
      * @param record
      */
-    public void addRecord(DynamicArray<C> record) {
-        this.editingRecords.add(record);
+    @SuppressWarnings("unchecked")
+    public <C extends ColumnInterface> void addRecord(DynamicArray<C> record) {
+        this.editingRecords.add((DynamicArray<ColumnInterface>) record);
     }
     
     /**
@@ -133,9 +137,11 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * 
      * @param records
      */
-    public void setRecords(Collection<DynamicArray<C>> records) {
+    public <C extends ColumnInterface> void setRecords(Collection<DynamicArray<C>> records) {
         this.editingRecords.clear();
-        this.editingRecords.addAll(records);
+        for (DynamicArray<C> record : records) {
+            this.addRecord(record);
+        }
     }
     
     /**
@@ -143,7 +149,7 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * 
      * @param records
      */
-    public void setRecords(DynamicArray<C>[] records) {
+    public <C extends ColumnInterface> void setRecords(DynamicArray<C>[] records) {
         this.editingRecords.clear();
         DynamicArray<Integer> arrayRecords = new DynamicArray<>(records);
         this.setRecords(arrayRecords.getValues());
@@ -154,7 +160,7 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * 
      * @param record
      */
-    public void removeRecord(DynamicArray<C> record) {
+    public <C extends ColumnInterface> void removeRecord(DynamicArray<C> record) {
         this.editingRecords.remove(record);
     }
     
@@ -189,11 +195,11 @@ public abstract class RecordMapper<C extends ColumnInterface> {
      * @throws SQLException
      */
     public void edit() throws SQLException {
-        List<DynamicArray<C>> records = new ArrayList<>();
+        List<DynamicArray<ColumnInterface>> records = new ArrayList<>();
         for (DynamicArray<String> fetchedRecord : this.fetchRecordsForEdit(this.getOrderByColumnsForEdit())) {
-            DynamicArray<C> record = new DynamicArray<>();
+            DynamicArray<ColumnInterface> record = new DynamicArray<>();
             for (String key : fetchedRecord.getKeys()) {
-                C column = this.getTable().find(key);
+                ColumnInterface column = this.getTable().find(key);
                 if (column != null) {
                     record.put(column, fetchedRecord.get(key));
                 }
@@ -230,7 +236,7 @@ public abstract class RecordMapper<C extends ColumnInterface> {
             sql.append(";");
             this.getDatabase().execute(sql.toString(), this.getWhereSet().buildParameters());
         }
-        for (DynamicArray<C> record : this.getRecords()) {
+        for (DynamicArray<ColumnInterface> record : this.getRecords()) {
             this.getDatabase().insert(record, this.getTable());
         }
     }

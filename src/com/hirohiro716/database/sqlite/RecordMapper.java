@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import com.hirohiro716.DynamicArray;
 import com.hirohiro716.StringObject;
-import com.hirohiro716.database.ColumnInterface;
 import com.hirohiro716.database.sqlite.SQLite.IsolationLevel;
 import com.hirohiro716.filesystem.File;
 
@@ -15,9 +14,8 @@ import com.hirohiro716.filesystem.File;
  * 
  * @author hiro
  *
- * @param <C> カラムの型。
  */
-public abstract class RecordMapper<C extends ColumnInterface> extends com.hirohiro716.database.RecordMapper<C> implements Closeable {
+public abstract class RecordMapper extends com.hirohiro716.database.RecordMapper implements Closeable {
     
     /**
      * コンストラクタ。

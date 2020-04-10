@@ -3,16 +3,14 @@ package com.hirohiro716.database.postgresql;
 import java.sql.SQLException;
 import com.hirohiro716.DynamicArray;
 import com.hirohiro716.StringObject;
-import com.hirohiro716.database.ColumnInterface;
 
 /**
  * PostgreSQLデータベースの単一レコードとオブジェクトをマップするための抽象クラス。
  * 
  * @author hiro
  *
- * @param <C> カラムの型。
  */
-public abstract class SingleRecordMapper<C extends ColumnInterface> extends com.hirohiro716.database.SingleRecordMapper<C> {
+public abstract class SingleRecordMapper extends com.hirohiro716.database.SingleRecordMapper {
     
     /**
      * コンストラクタ。

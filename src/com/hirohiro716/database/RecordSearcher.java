@@ -51,7 +51,7 @@ public abstract class RecordSearcher {
      * @param databaseClass
      * @return 結果。
      */
-    public static <M extends RecordMapper<?>, D extends Database> TableInterface getTable(Class<M> recordMapperClass, Class<D> databaseClass) {
+    public static <M extends RecordMapper, D extends Database> TableInterface getTable(Class<M> recordMapperClass, Class<D> databaseClass) {
         try {
             Database database = null;
             M instance = recordMapperClass.getConstructor(databaseClass).newInstance(database);

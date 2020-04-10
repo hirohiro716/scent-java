@@ -21,7 +21,7 @@ import com.hirohiro716.gui.event.FrameEvent;
  * @param <D> データベースの型。
  * @param <T> 編集するターゲットの型。
  */
-public abstract class RecordEditor<D extends Database, T extends RecordMapper<?>> extends Editor<T> {
+public abstract class RecordEditor<D extends Database, T extends RecordMapper> extends Editor<T> {
     
     /**
      * コンストラクタ。<br>

@@ -13,9 +13,8 @@ import com.hirohiro716.StringObject;
  * 
  * @author hiro
  * 
- * @param <C> カラムの型。
  */
-public abstract class SingleRecordMapper<C extends ColumnInterface> extends RecordMapper<C> {
+public abstract class SingleRecordMapper extends RecordMapper {
     
     /**
      * コンストラクタ。
@@ -32,7 +31,7 @@ public abstract class SingleRecordMapper<C extends ColumnInterface> extends Reco
      * 
      * @return 結果。
      */
-    public DynamicArray<C> getRecord() {
+    public DynamicArray<ColumnInterface> getRecord() {
         return super.getRecords()[0];
     }
     
@@ -41,7 +40,7 @@ public abstract class SingleRecordMapper<C extends ColumnInterface> extends Reco
      * 
      * @param record
      */
-    public void setRecord(DynamicArray<C> record) {
+    public <C extends ColumnInterface> void setRecord(DynamicArray<C> record) {
         List<DynamicArray<C>> records = new ArrayList<>();
         records.add(record);
         super.setRecords(records);
@@ -132,27 +131,27 @@ public abstract class SingleRecordMapper<C extends ColumnInterface> extends Reco
     }
 
     @Deprecated
-    public DynamicArray<C>[] getRecords() {
+    public <C extends ColumnInterface> DynamicArray<C>[] getRecords() {
         return super.getRecords();
     }
     
     @Deprecated
-    public void addRecord(DynamicArray<C> record) {
+    public <C extends ColumnInterface> void addRecord(DynamicArray<C> record) {
         super.addRecord(record);
     }
 
     @Deprecated
-    public void setRecords(Collection<DynamicArray<C>> records) {
+    public <C extends ColumnInterface> void setRecords(Collection<DynamicArray<C>> records) {
         super.setRecords(records);
     }
     
     @Deprecated
-    public void setRecords(DynamicArray<C>[] records) {
+    public <C extends ColumnInterface> void setRecords(DynamicArray<C>[] records) {
         super.setRecords(records);
     }
     
     @Deprecated
-    public void removeRecord(DynamicArray<C> record) {
+    public <C extends ColumnInterface> void removeRecord(DynamicArray<C> record) {
         super.removeRecord(record);
     }
     
