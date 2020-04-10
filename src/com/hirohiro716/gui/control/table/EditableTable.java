@@ -187,6 +187,10 @@ public abstract class EditableTable<C, R> extends Control {
     
     @Override
     public void updateLayout() {
+        for (R key : this.mapRowControlPanes.keySet()) {
+            Pane rowControlPane = this.mapRowControlPanes.get(key);
+            this.rowsPane.getChildren().remove(rowControlPane);
+        }
         super.updateLayout();
         if (this.displayedLeadingIndex == null) {
             return;
@@ -200,6 +204,10 @@ public abstract class EditableTable<C, R> extends Control {
 
     @Override
     public void updateDisplay() {
+        for (R key : this.mapRowControlPanes.keySet()) {
+            Pane rowControlPane = this.mapRowControlPanes.get(key);
+            this.rowsPane.getChildren().remove(rowControlPane);
+        }
         super.updateDisplay();
         if (this.displayedLeadingIndex == null) {
             return;
@@ -420,6 +428,7 @@ public abstract class EditableTable<C, R> extends Control {
         });
         label.addMouseMovedEventHandler(this.headerLabelMouseMovedEventHandler);
         label.addMousePressedEventHandler(MouseButton.BUTTON1, this.headerLabelMousePressedEventHandler);
+        label.addMouseReleasedEventHandler(MouseButton.BUTTON1, this.headerLabelMouseReleasedEventHandler);
         label.addMouseDraggedEventHandler(this.headerLabelMouseDraggedEventHandler);
         this.headerPane.getChildren().add(label);
         GridBagConstraints constraints = new GridBagConstraints();
@@ -494,6 +503,7 @@ public abstract class EditableTable<C, R> extends Control {
         protected void handle(MouseEvent event) {
             EditableTable<C, R> editableTable = EditableTable.this;
             editableTable.isStartedResizeHeaderLabel = false;
+            editableTable.isDisabledControlSizeChangeListener = true;
             if (event.getX() > event.getSource().getWidth() - 10) {
                 editableTable.isStartedResizeHeaderLabel = true;
                 editableTable.headerPaneWidthBeforeResize = editableTable.headerPane.getWidth();
@@ -503,6 +513,18 @@ public abstract class EditableTable<C, R> extends Control {
         }
     };
 
+    /**
+     * ヘッダーラベルの端でカラムをリサイズするイベントハンドラー。
+     */
+    private EventHandler<MouseEvent> headerLabelMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
+
+        @Override
+        protected void handle(MouseEvent event) {
+            EditableTable<C, R> editableTable = EditableTable.this;
+            editableTable.isDisabledControlSizeChangeListener = false;
+        }
+    };
+    
     /**
      * ヘッダーラベルの端でカラムをリサイズするイベントハンドラー。
      */
@@ -521,11 +543,11 @@ public abstract class EditableTable<C, R> extends Control {
             event.getSource().setWidth(labelWidth);
             editableTable.headerPane.getInnerInstance().doLayout();
             for (Pane controlPane : editableTable.rowControlPanes) {
-                controlPane.getInnerInstance().doLayout();
+                controlPane.getInnerInstanceForLayout().revalidate();
             }
         }
     };
-    
+
     /**
      * このテーブルにラベルを表示するカラムを追加する。
      * 
@@ -682,7 +704,7 @@ public abstract class EditableTable<C, R> extends Control {
      */
     public void displayRowControls(int leadingIndex) {
         // If same position as last time || If there is no column
-        if (this.displayedLeadingIndex != null && this.displayedLeadingIndex == leadingIndex || this.columnInstances.size() == 0) {
+        if (this.displayedLeadingIndex != null && this.displayedLeadingIndex == leadingIndex || this.columnInstances.size() == 0 || this.rowInstances.size() == 0) {
             return;
         }
         // Create controls
@@ -784,7 +806,7 @@ public abstract class EditableTable<C, R> extends Control {
         for (C columnInstance : this.columnInstances) {
             ControlFactory<C, R, Control> controlFactory = this.mapControlFactories.get(columnInstance);
             Control control = controlFactory.newInstance(columnInstance);
-            control.setWidth(this.mapTableColumns.get(columnInstance).getWidth());
+            control.addSizeChangeListener(new ControlSizeChangeListener(columnInstance));
             control.addFocusChangeListener(new ControlFocusChangeListener(columnInstance));
             control.addKeyPressedEventHandler(new ControlKeyPressedEventHandler(pane, columnInstance));
             control.getInnerInstance().addMouseListener(new ControlClickEventHandler(pane, columnInstance));
@@ -902,6 +924,41 @@ public abstract class EditableTable<C, R> extends Control {
                 editableTable.rowsScrollPane.scrollTo(editableTable.mapRowControlPanes.get(rowInstance));
             }
         });
+    }
+
+    private boolean isDisabledControlSizeChangeListener = false;
+    
+    /**
+     * このテーブルの行に配置されたコントロールのサイズが変更された場合のリスナー。
+     * 
+     * @author hiro
+     *
+     */
+    private class ControlSizeChangeListener extends ChangeListener<Dimension> {
+
+        /**
+         * コンストラクタ。<br>
+         * コントロールが属するカラムのインスタンスを指定する。
+         * 
+         * @param columnInstance
+         */
+        private ControlSizeChangeListener(C columnInstance) {
+            this.columnInstance = columnInstance;
+        }
+        
+        private C columnInstance;
+        
+        @Override
+        protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            EditableTable<C, R> editableTable = EditableTable.this;
+            if (editableTable.isDisabledControlSizeChangeListener || changedValue.width == 0 || changedValue.height == 0) {
+                return;
+            }
+            TableColumn tableColumn = editableTable.mapTableColumns.get(this.columnInstance);
+            if (tableColumn.getWidth() < changedValue.width && changedValue.width < tableColumn.getMaximumWidth()) {
+                tableColumn.setWidth(changedValue.width + editableTable.getFont().getSize());
+            }
+        }
     }
     
     /**
