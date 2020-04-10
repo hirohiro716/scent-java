@@ -23,7 +23,6 @@ import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;
 import com.hirohiro716.property.PropertyInterface;
-import com.hirohiro716.property.ValidationException;
 
 /**
  * GUIエディターの抽象クラス。
@@ -168,7 +167,7 @@ public abstract class Editor<T> {
      * @param exception 発生した例外。
      * @param processAfterDialogClose ダイアログを閉じた後の処理。
      */
-    protected void showValidationException(ValidationException exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
+    protected void showValidationException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
         MessageDialog dialog = new MessageDialog(this.window);
         dialog.setTitle("バリデーションに失敗");
         dialog.setMessage(exception.getMessage());
@@ -181,7 +180,7 @@ public abstract class Editor<T> {
      * 
      * @param exception 発生した例外。
      */
-    protected final void showValidationException(ValidationException exception) {
+    protected final void showValidationException(Exception exception) {
         this.showValidationException(exception, null);
     }
 
