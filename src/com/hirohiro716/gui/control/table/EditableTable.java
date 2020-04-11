@@ -886,7 +886,9 @@ public abstract class EditableTable<C, R> extends Control {
                 control = buttonPane;
                 break;
             }
-            control.setWidth(tableColumn.getWidth());
+            if (control.getWidth() < tableColumn.getWidth()) {
+                control.setWidth(tableColumn.getWidth());
+            }
             pane.getChildren().add(control);
             mapControls.put(columnInstance, control);
             if (control instanceof Pane == false) {
