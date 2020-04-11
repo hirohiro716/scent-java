@@ -13,6 +13,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
 import com.hirohiro716.StringObject;
+import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.Insets;
 import com.hirohiro716.gui.KeyCode;
@@ -56,6 +57,15 @@ public abstract class TextInputControl extends Control {
             protected void handle(KeyEvent event) {
                 if (event.getKeyCode() == KeyCode.F10 && event.isShiftDown()) {
                     control.contextMenu.show(control.getWidth() - control.getFont().getSize() / 2, control.getHeight() / 2);
+                }
+            }
+        });
+        this.addFocusChangeListener(new ChangeListener<Boolean>() {
+
+            @Override
+            protected void changed(Component<?> component, Boolean changedValue, Boolean valueBeforeChange) {
+                if (control.isEnableSelectAllWhenFocused) {
+                    control.selectAll();
                 }
             }
         });
@@ -189,6 +199,26 @@ public abstract class TextInputControl extends Control {
      */
     public void selectAll() {
         this.getInnerInstance().selectAll();
+    }
+    
+    private boolean isEnableSelectAllWhenFocused = false;
+    
+    /**
+     * このテキスト入力コントロールがフォーカスされた際に、すべての文字列を選択状態にする場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isEnableSelectAllWhenFocused() {
+        return this.isEnableSelectAllWhenFocused;
+    }
+    
+    /**
+     * このテキスト入力コントロールがフォーカスされた際に、すべての文字列を選択状態にする場合はtrueをセットする。
+     * 
+     * @param isEnableSelectAllWhenFocused
+     */
+    public void setEnableSelectAllWhenFocused(boolean isEnableSelectAllWhenFocused) {
+        this.isEnableSelectAllWhenFocused = isEnableSelectAllWhenFocused;
     }
     
     /**
