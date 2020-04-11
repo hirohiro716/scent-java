@@ -217,25 +217,25 @@ public class StringValidator {
                 }
                 break;
             case DATETIME:
-                if (value.toDate() == null) {
+                if (value.length() > 0 && value.toDate() == null) {
                     throw createValidationException(pattern);
                 }
                 break;
             case TELEPHONE_NUMBER:
                 DynamicArray<Integer> telephoneNumberParts = new DynamicArray<>(value.split("-"));
-                if (value.toString().matches("^[\\+\\-0-9]{10,}$") == false || telephoneNumberParts.size() < 3 || telephoneNumberParts.containsValue("")) {
+                if (value.length() > 0 && value.toString().matches("^[\\+\\-0-9]{10,}$") == false || telephoneNumberParts.size() < 3 || telephoneNumberParts.containsValue("")) {
                     throw createValidationException(pattern);
                 }
                 break;
             case REGEX:
                 String regex = this.parameters.get(pattern);
-                if (value.toString().matches(regex) == false) {
+                if (value.length() > 0 && value.toString().matches(regex) == false) {
                     throw createValidationException(pattern);
                 }
                 break;
             case REVERSE_REGEX:
                 String regexReverse = this.parameters.get(pattern);
-                if (value.toString().matches(regexReverse)) {
+                if (value.length() > 0 && value.toString().matches(regexReverse)) {
                     throw createValidationException(pattern);
                 }
                 break;
