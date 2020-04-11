@@ -298,7 +298,7 @@ public abstract class EditableTable<C, R> extends Control {
                 }
             }
         }
-        if (this.activeColumnInstance == null) {
+        if (this.activeColumnInstance == null || mapRowControls.containsKey(this.activeColumnInstance) == false) {
             return;
         }
         mapRowControls.get(this.activeColumnInstance).requestFocus();
