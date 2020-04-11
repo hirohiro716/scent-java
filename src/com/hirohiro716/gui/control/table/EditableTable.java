@@ -410,8 +410,9 @@ public abstract class EditableTable<C, R> extends Control {
         this.rowIndex = 0;
         // Header label
         Label label = new Label(columnInstance.toString());
-        label.setFont(this.getFont());
         label.setPadding(label.getFont().getSize());
+        label.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
+        label.setFont(this.getFont());
         if (this.columnInstances.size() > 0) {
             label.setBorder(Border.createLine(this.borderColor, 0, 0, 0, 1));
         }
@@ -804,6 +805,7 @@ public abstract class EditableTable<C, R> extends Control {
         pane.getInnerInstance().setLayout(layout);
         Map<C, Control> mapControls = new HashMap<>();
         for (C columnInstance : this.columnInstances) {
+            TableColumn tableColumn = this.mapTableColumns.get(columnInstance);
             ControlFactory<C, R, Control> controlFactory = this.mapControlFactories.get(columnInstance);
             Control control = controlFactory.newInstance(columnInstance);
             control.addSizeChangeListener(new ControlSizeChangeListener(columnInstance));
@@ -884,6 +886,7 @@ public abstract class EditableTable<C, R> extends Control {
                 control = buttonPane;
                 break;
             }
+            control.setWidth(tableColumn.getWidth());
             pane.getChildren().add(control);
             mapControls.put(columnInstance, control);
             if (control instanceof Pane == false) {
