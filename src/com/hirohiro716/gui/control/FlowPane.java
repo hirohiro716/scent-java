@@ -32,13 +32,13 @@ public class FlowPane extends Pane {
         super(innerInstance);
         this.layout = new SpringLayout();
         this.getInnerInstance().setLayout(this.layout);
-        
         FlowPane pane = this;
         ChangeListener<Point> locationChangeListener = new ChangeListener<>() {
 
             @Override
             protected void changed(Component<?> component, Point changedValue, Point valueBeforeChange) {
                 pane.updateAllChildLayout();
+                pane.updateLayout();
             }
         };
         ChangeListener<Dimension> sizeChangeListener = new ChangeListener<>() {
@@ -46,9 +46,7 @@ public class FlowPane extends Pane {
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
                 pane.updateAllChildLayout();
-                if (pane.isSizeInitialized == false) {
-                    pane.updateLayout();
-                }
+                pane.updateLayout();
             }
         };
         this.addSizeChangeListener(sizeChangeListener);
@@ -144,8 +142,6 @@ public class FlowPane extends Pane {
     public final void setVerticalSpacing(int spacing) {
         this.setSpacing(this.horizontalSpacing, spacing);
     }
-    
-    private boolean isSizeInitialized = false;
     
     private boolean isStartedUpdateLayout = false;
     
