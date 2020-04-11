@@ -436,7 +436,6 @@ public abstract class EditableTable<C, R> extends Control {
         });
         label.addMouseMovedEventHandler(this.headerLabelMouseMovedEventHandler);
         label.addMousePressedEventHandler(MouseButton.BUTTON1, this.headerLabelMousePressedEventHandler);
-        label.addMouseReleasedEventHandler(MouseButton.BUTTON1, this.headerLabelMouseReleasedEventHandler);
         label.addMouseDraggedEventHandler(this.headerLabelMouseDraggedEventHandler);
         this.headerPane.getChildren().add(label);
         GridBagConstraints constraints = new GridBagConstraints();
@@ -511,25 +510,12 @@ public abstract class EditableTable<C, R> extends Control {
         protected void handle(MouseEvent event) {
             EditableTable<C, R> editableTable = EditableTable.this;
             editableTable.isStartedResizeHeaderLabel = false;
-            editableTable.isDisabledControlSizeChangeListener = true;
             if (event.getX() > event.getSource().getWidth() - 10) {
                 editableTable.isStartedResizeHeaderLabel = true;
                 editableTable.headerPaneWidthBeforeResize = editableTable.headerPane.getWidth();
                 editableTable.headerLabelWidthBeforeResize = event.getSource().getWidth();
                 editableTable.headerLabelResizeStartPointX = event.getScreenX();
             }
-        }
-    };
-
-    /**
-     * ヘッダーラベルの端でカラムをリサイズするイベントハンドラー。
-     */
-    private EventHandler<MouseEvent> headerLabelMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
-
-        @Override
-        protected void handle(MouseEvent event) {
-            EditableTable<C, R> editableTable = EditableTable.this;
-            editableTable.isDisabledControlSizeChangeListener = false;
         }
     };
     
@@ -874,6 +860,7 @@ public abstract class EditableTable<C, R> extends Control {
                 break;
             case CHECKBOX:
                 CheckBox checkBox = (CheckBox) control;
+                checkBox.setBackgroundColor(null);
                 checkBox.addMarkChangeListener(new ChangeListener<Boolean>() {
 
                     @Override
@@ -885,14 +872,15 @@ public abstract class EditableTable<C, R> extends Control {
                 });
                 break;
             case BUTTON:
+                Button button = (Button) control;
+                button.setMinimumSize(button.getFont().getSize(), button.getHeight());
                 AnchorPane buttonPane = new AnchorPane();
                 buttonPane.setBackgroundColor(null);
                 buttonPane.getChildren().add(control);
-                buttonPane.setAnchor(control, 0, 5, 0, 5);
+                buttonPane.setAnchor(control, null, 5, null, 5);
                 control = buttonPane;
                 break;
             }
-            control.addSizeChangeListener(new ControlSizeChangeListener(columnInstance));
             if (control.getWidth() < tableColumn.getWidth()) {
                 control.setWidth(tableColumn.getWidth());
             }
@@ -938,41 +926,6 @@ public abstract class EditableTable<C, R> extends Control {
         });
     }
 
-    private boolean isDisabledControlSizeChangeListener = false;
-    
-    /**
-     * このテーブルの行に配置されたコントロールのサイズが変更された場合のリスナー。
-     * 
-     * @author hiro
-     *
-     */
-    private class ControlSizeChangeListener extends ChangeListener<Dimension> {
-
-        /**
-         * コンストラクタ。<br>
-         * コントロールが属するカラムのインスタンスを指定する。
-         * 
-         * @param columnInstance
-         */
-        private ControlSizeChangeListener(C columnInstance) {
-            this.columnInstance = columnInstance;
-        }
-        
-        private C columnInstance;
-        
-        @Override
-        protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
-            EditableTable<C, R> editableTable = EditableTable.this;
-            if (editableTable.isDisabledControlSizeChangeListener || changedValue.width == 0 || changedValue.height == 0) {
-                return;
-            }
-            TableColumn tableColumn = editableTable.mapTableColumns.get(this.columnInstance);
-            if (tableColumn.getWidth() < changedValue.width && changedValue.width < tableColumn.getMaximumWidth()) {
-                tableColumn.setWidth(changedValue.width + editableTable.getFont().getSize());
-            }
-        }
-    }
-    
     /**
      * このテーブルの行に配置されたコントロールのフォーカスが変更された場合のリスナー。
      * 
