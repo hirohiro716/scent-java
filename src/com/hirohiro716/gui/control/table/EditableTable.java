@@ -61,6 +61,13 @@ public abstract class EditableTable<C, R> extends Control {
         GridBagLayout layout = new GridBagLayout();
         this.root.getInnerInstance().setLayout(layout);
         this.root.setBorder(Border.createLine(this.borderColor, 1));
+        this.root.addSizeChangeListener(new ChangeListener<>() {
+
+            @Override
+            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+                editableTable.updateDisplay();
+            }
+        });
         // Header pane
         this.headerPane.getInnerInstance().setLayout(this.headerLayout);
         this.headerSpacer.setBackgroundColor(null);
