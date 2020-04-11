@@ -387,6 +387,26 @@ public abstract class EditableTable<C, R> extends Control {
      */
     protected abstract void setValueToRow(R row, C columnInstance, Object value);
     
+    private int defaultColumnWidth = 100;
+    
+    /**
+     * このテーブルのデフォルトのカラム幅を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getDefaultColumnWidth() {
+        return this.defaultColumnWidth;
+    }
+    
+    /**
+     * このテーブルのデフォルトのカラム幅をセットする。初期値は100。
+     * 
+     * @param width
+     */
+    public void setDefaultColumnWidth(int width) {
+        this.defaultColumnWidth = width;
+    }
+    
     private Collection<C> columnInstances = new Collection<>();
     
     private Map<C, ColumnType> mapColumnTypes = new HashMap<>();
@@ -417,6 +437,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.rowIndex = 0;
         // Header label
         Label label = new Label(columnInstance.toString());
+        label.setWidth(this.defaultColumnWidth);
         label.setPadding(label.getFont().getSize());
         label.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
         label.setFont(this.getFont());
