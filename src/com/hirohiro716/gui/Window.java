@@ -7,8 +7,6 @@ import javax.swing.JPanel;
 
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
-import com.hirohiro716.gui.control.ScrollPane;
-import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * GUIのウィンドウのクラス。
@@ -26,20 +24,9 @@ public class Window extends Frame<JFrame> {
      */
     protected Window(JFrame jFrame) {
         super(jFrame);
-        Window window = this;
         this.setCloseOperation(CloseOperation.DISPOSE);
         this.rootPane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
         this.rootPane.setParent(this);
-        this.rootPane.addSizeChangeListener(new ChangeListener<>() {
-            
-            @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
-                window.scrollPane.setSize(changedValue);
-            }
-        });
-        this.scrollPane.setBackgroundColor(null);
-        this.scrollPane.setBorder(null);
-        this.rootPane.getChildren().add(this.scrollPane);
     }
     
     /**
@@ -56,11 +43,10 @@ public class Window extends Frame<JFrame> {
         return this.rootPane;
     }
     
-    private ScrollPane scrollPane = new ScrollPane();
-    
     @Override
     public void setContent(Control control) {
-        this.scrollPane.setContent(control);
+        this.rootPane.getChildren().clear();
+        this.rootPane.getChildren().add(control);
     }
     
     @Override
