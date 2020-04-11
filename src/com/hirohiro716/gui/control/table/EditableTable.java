@@ -399,7 +399,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param controlFactory 
      */
     @SuppressWarnings("unchecked")
-    private <T extends Control> void addColumn(C columnInstance, ColumnType columnType, ControlFactory<C, R, T> controlFactory) {
+    protected <T extends Control> void addColumn(C columnInstance, ColumnType columnType, ControlFactory<C, R, T> controlFactory) {
         EditableTable<C, R> editableTable = this;
         if (this.activeColumnInstance == null) {
             this.activateColumn(columnInstance);
@@ -808,7 +808,6 @@ public abstract class EditableTable<C, R> extends Control {
             TableColumn tableColumn = this.mapTableColumns.get(columnInstance);
             ControlFactory<C, R, Control> controlFactory = this.mapControlFactories.get(columnInstance);
             Control control = controlFactory.newInstance(columnInstance);
-            control.addSizeChangeListener(new ControlSizeChangeListener(columnInstance));
             control.addFocusChangeListener(new ControlFocusChangeListener(columnInstance));
             control.addKeyPressedEventHandler(new ControlKeyPressedEventHandler(pane, columnInstance));
             control.getInnerInstance().addMouseListener(new ControlClickEventHandler(pane, columnInstance));
@@ -886,6 +885,7 @@ public abstract class EditableTable<C, R> extends Control {
                 control = buttonPane;
                 break;
             }
+            control.addSizeChangeListener(new ControlSizeChangeListener(columnInstance));
             if (control.getWidth() < tableColumn.getWidth()) {
                 control.setWidth(tableColumn.getWidth());
             }
@@ -1346,7 +1346,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @author hiro
      *
      */
-    private enum ColumnType {
+    public enum ColumnType {
         /**
          * ラベルのセルを表示するカラム。
          */
