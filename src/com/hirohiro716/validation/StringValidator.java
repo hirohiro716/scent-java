@@ -1,7 +1,10 @@
 package com.hirohiro716.validation;
 
+import java.util.Date;
+
 import com.hirohiro716.DynamicArray;
 import com.hirohiro716.StringObject;
+import com.hirohiro716.datetime.Datetime;
 
 /**
  * 文字列の検証を行うクラス。
@@ -217,7 +220,7 @@ public class StringValidator {
                 }
                 break;
             case DATETIME:
-                if (value.length() > 0 && value.toDate() == null) {
+                if (target instanceof Date == false && target instanceof Datetime == false && value.length() > 0 && value.toDate() == null) {
                     throw createValidationException(pattern);
                 }
                 break;

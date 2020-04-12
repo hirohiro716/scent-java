@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
@@ -18,6 +17,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -637,11 +637,11 @@ public abstract class Database implements Closeable {
         }
         if (originalValue instanceof Datetime) {
             Datetime datatime = (Datetime) originalValue;
-            return new Date(datatime.getDate().getTime());
+            return new Timestamp(datatime.getDate().getTime());
         }
-        if (originalValue instanceof java.util.Date) {
-            java.util.Date date = (java.util.Date) originalValue;
-            return new Date(date.getTime());
+        if (originalValue instanceof Date) {
+            Date date = (Date) originalValue;
+            return new Timestamp(date.getTime());
         }
         return originalValue;
     }
@@ -659,6 +659,10 @@ public abstract class Database implements Closeable {
         if (databaseValue instanceof Timestamp) {
             Timestamp timestamp = (Timestamp) databaseValue;
             return new Date(timestamp.getTime());
+        }
+        if (databaseValue instanceof java.sql.Date) {
+            java.sql.Date date = (java.sql.Date) databaseValue;
+            return new Date(date.getTime());
         }
         if (databaseValue instanceof BigDecimal) {
             BigDecimal bigDecimal = (BigDecimal) databaseValue;
