@@ -2,6 +2,7 @@ package com.hirohiro716;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -241,6 +242,16 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      */
     public final Double getDouble(K key) {
         return this.get(key, Double.class);
+    }
+    
+    /**
+     * 指定されたキーに関連づいた値を、Dateとして取得する。
+     * 
+     * @param key
+     * @return 結果。
+     */
+    public final Date getDate(K key) {
+        return this.get(key, Date.class);
     }
 
     /**
