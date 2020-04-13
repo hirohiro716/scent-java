@@ -221,7 +221,7 @@ public class GUI {
      * @return 結果。
      */
     public static Color createAlphaColor(Color baseColor, double opacity) {
-        int alpha = (int) (255 * opacity);
+        int alpha = (int) (baseColor.getAlpha() * opacity);
         return new Color(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), alpha);
     }
     

@@ -9,6 +9,8 @@ import java.awt.RenderingHints;
 import java.awt.Window;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.geom.RoundRectangle2D;
+
 import javax.swing.JPanel;
 
 import com.hirohiro716.graphics.GraphicalString;
@@ -106,7 +108,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
         this.foregroundColor = color;
     }
     
-    private Color backgroundColor = new Color(0, 0, 0, 0.7f);
+    private Color backgroundColor = Color.DARK_GRAY;
     
     @Override
     public Color getBackgroundColor() {
@@ -267,26 +269,31 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
             graphics2D.setFont(this.instantMessage.pane.getFont());
             // Calculate text size
             int fontSize = graphics2D.getFont().getSize();
-            int maximumWidth = this.instantMessage.owner.getWidth() - fontSize * 4;
+            int paddingX = (int) (fontSize * 1.5);
+            int paddingY = (int) (fontSize * 1.2);
+            int maximumWidth = this.instantMessage.owner.getWidth() - paddingX * 4;
             GraphicalString graphicalString = new GraphicalString(this.instantMessage.text, graphics2D);
             graphicalString.setMaximumWidth(maximumWidth);
             Dimension textSize = graphicalString.createDimension();
             // Calculate window size
-            int windowWidth = textSize.width + fontSize * 2;
-            int windowHeight = textSize.height + fontSize * 2;
+            int windowWidth = textSize.width + paddingX * 2;
+            int windowHeight = textSize.height + paddingY * 2;
             if (windowWidth != this.getWidth() || windowHeight != this.getHeight()) {
                 this.setSize(windowWidth, windowHeight);
                 this.instantMessage.updateLocation();
                 
             }
             // Draw background
+            int arc = fontSize * 2;
+            RoundRectangle2D rectangle = new RoundRectangle2D.Double(0, 0, windowWidth, windowHeight, arc, arc);
+            this.setShape(rectangle);
             graphics2D.setColor(this.instantMessage.backgroundColor);
-            graphics2D.fillRoundRect(0, 0, windowWidth, windowHeight, fontSize, fontSize);
+            graphics2D.fill(rectangle);
             // Draw text
             graphics2D.setColor(this.instantMessage.foregroundColor);
             graphicalString.setHorizontalPosition(HorizontalPosition.CENTER);
             graphicalString.setVerticalPosition(VerticalPosition.CENTER);
-            graphicalString.drawInBox(fontSize, fontSize, textSize.width, textSize.height);
+            graphicalString.drawInBox(paddingX, paddingY, textSize.width, textSize.height);
         }
     }
     
