@@ -252,4 +252,17 @@ public class InstantMessage extends Component<JWindow> {
         public void windowActivated(WindowEvent event) {
         }
     };
+    
+    /**
+     * テキスト、閉じるまでの時間(ミリ秒)、オーナーを指定してインスタントメッセージを表示する。
+     * 
+     * @param text
+     * @param closeAfterMillisecond
+     * @param owner
+     */
+    public static void show(String text, int closeAfterMillisecond, Frame<?> owner) {
+        InstantMessage instance = new InstantMessage(owner);
+        instance.setText(text);
+        instance.show(closeAfterMillisecond);
+    }
 }
