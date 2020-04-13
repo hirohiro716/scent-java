@@ -120,7 +120,8 @@ public class Popup extends Component<JWindow> {
         
         @Override
         public void windowClosed(WindowEvent event) {
-            Popup.this.getInnerInstance().dispose();
+            Popup popup = Popup.this;
+            popup.getInnerInstance().dispose();
         }
         
         @Override

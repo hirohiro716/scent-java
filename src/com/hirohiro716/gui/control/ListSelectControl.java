@@ -1,6 +1,7 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Component;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,9 @@ public abstract class ListSelectControl<T> extends Control {
     protected int getItemHeight() {
         return (int) (this.getFont().getSize2D() * 2.4);
     }
-    
+
+    private Graphics2D graphics = GraphicalString.createGraphics2D();
+
     /**
      * このコントロールのリストアイテムの表示を更新する。
      */
@@ -77,7 +80,8 @@ public abstract class ListSelectControl<T> extends Control {
                     label.setText(control.getMapForDisplayTextAndItem().get(value));
                 }
                 int height = control.getItemHeight();
-                GraphicalString graphicalString = new GraphicalString(label.getText());
+                control.graphics.setFont(control.getFont());
+                GraphicalString graphicalString = new GraphicalString(label.getText(), control.graphics);
                 int width = graphicalString.createDimension().width + control.getItemHeight();
                 label.setSize(width, height);
                 int padding = (int) (height * 0.32);

@@ -27,30 +27,10 @@ public class GraphicalString {
      * @param graphics2D
      */
     public GraphicalString(String string, Graphics2D graphics2D) {
-        if (graphics2D == null) {
-            if (GraphicalString.GRAPHICS == null) {
-                BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-                GraphicalString.GRAPHICS = (Graphics2D) image.getGraphics();
-            }
-            this.graphics2D = GraphicalString.GRAPHICS;
-        } else {
-            this.graphics2D = graphics2D;
-        }
+        this.graphics2D = graphics2D;
         this.string = new StringObject(string);
         this.string.replaceCRLF("\n").replaceCR("\n");
     }
-    
-    /**
-     * コンストラクタ。<br>
-     * 描画する文字列を指定する。
-     * 
-     * @param string 
-     */
-    public GraphicalString(String string) {
-        this(string, null);
-    }
-
-    private static Graphics2D GRAPHICS = null;
     
     private StringObject string;
     
@@ -342,7 +322,17 @@ public class GraphicalString {
         this.maxHeight = defaultMaxHeight;
         return dimension;
     }
-
+    
+    /**
+     * このクラスで使用できるGraphics2Dインスタンスを新しく作成する。
+     * 
+     * @return 結果。
+     */
+    public static Graphics2D createGraphics2D() {
+        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        return (Graphics2D) image.getGraphics();
+    }
+    
     /**
      * 文字列を描画する垂直方向基準の列挙型。
      * 
