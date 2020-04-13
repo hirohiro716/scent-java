@@ -58,40 +58,41 @@ public class GraphicalString {
         this.verticalPosition = verticalPosition;
     }
     
-    private Float maxWidth = null;
+    
+    private Float maximumWidth = null;
     
     /**
      * 文字列を描画する最大の幅を設定する。描画する文字列は最大の幅に応じて自動縮小される。
      * 
-     * @param maxWidth
+     * @param maximumWidth
      */
-    public void setMaxWidth(float maxWidth) {
-        this.maxWidth = maxWidth;
+    public void setMaximumWidth(float maximumWidth) {
+        this.maximumWidth = maximumWidth;
     }
     
     /**
      * 文字列を描画する最大の幅を解除して無限にする。
      */
-    public void clearMaxWidth() {
-        this.maxWidth = null;
+    public void clearMaximumWidth() {
+        this.maximumWidth = null;
     }
     
-    private Float maxHeight = null;
+    private Float maximumHeight = null;
     
     /**
      * 文字列を描画する最大の高さを設定する。描画する文字列は最大の高さに応じて自動縮小される。
      * 
-     * @param maxHeight
+     * @param maximumHeight
      */
-    public void setMaxHeight(float maxHeight) {
-        this.maxHeight = maxHeight;
+    public void setMaximumHeight(float maximumHeight) {
+        this.maximumHeight = maximumHeight;
     }
     
     /**
      * 文字列を描画する最大の高さを解除して無限に設定する。
      */
-    public void clearMaxHeight() {
-        this.maxHeight = null;
+    public void clearMaximumHeight() {
+        this.maximumHeight = null;
     }
     
     private Float leading = null;
@@ -140,7 +141,7 @@ public class GraphicalString {
             for (int index = 0; index < this.string.length(); index++) {
                 StringObject one = this.string.clone().extract(index, index + 1);
                 Rectangle2D rectangle = fontMetrics.getStringBounds(stringObject.clone().append(one).toString(), this.graphics2D);
-                if (this.maxWidth != null && this.maxWidth < rectangle.getWidth() || one.equals("\n")) {
+                if (this.maximumWidth != null && this.maximumWidth < rectangle.getWidth() || one.equals("\n")) {
                     lines.add(stringObject.toString());
                     stringObject = one;
                 } else {
@@ -160,8 +161,8 @@ public class GraphicalString {
                 }
                 height += fontMetrics.getHeight() - fontMetrics.getLeading(); 
             }
-            if (this.maxWidth == null || this.maxWidth >= width) {
-                if (this.maxHeight == null || this.maxHeight >= height) {
+            if (this.maximumWidth == null || this.maximumWidth >= width) {
+                if (this.maximumHeight == null || this.maximumHeight >= height) {
                     layout = new Layout(lines.toArray(new String[] {}), font, width, height);
                     break;
                 }
@@ -288,8 +289,8 @@ public class GraphicalString {
      * @return 描画した文字列のサイズ。
      */
     public Dimension drawInBox(float x, float y, float width, float height) {
-        Float defaultMaxWidth = this.maxWidth;
-        Float defaultMaxHeight = this.maxHeight;
+        Float defaultMaxWidth = this.maximumWidth;
+        Float defaultMaxHeight = this.maximumHeight;
         float fixX = x;
         switch (this.horizontalPosition) {
         case LEFT:
@@ -315,11 +316,11 @@ public class GraphicalString {
             fixY += height;
             break;
         }
-        this.setMaxWidth(width);
-        this.setMaxHeight(height);
+        this.setMaximumWidth(width);
+        this.setMaximumHeight(height);
         Dimension dimension = this.draw(fixX, fixY);
-        this.maxWidth = defaultMaxWidth;
-        this.maxHeight = defaultMaxHeight;
+        this.maximumWidth = defaultMaxWidth;
+        this.maximumHeight = defaultMaxHeight;
         return dimension;
     }
     

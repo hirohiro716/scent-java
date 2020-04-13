@@ -2,22 +2,21 @@ package com.hirohiro716.gui.dialog;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Window;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.geom.RoundRectangle2D;
-
 import javax.swing.JPanel;
-import javax.swing.JWindow;
 
 import com.hirohiro716.graphics.GraphicalString;
+import com.hirohiro716.graphics.GraphicalString.HorizontalPosition;
+import com.hirohiro716.graphics.GraphicalString.VerticalPosition;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.GUI;
-import com.hirohiro716.gui.HorizontalAlignment;
-import com.hirohiro716.gui.VerticalAlignment;
-import com.hirohiro716.gui.control.Label;
 import com.hirohiro716.gui.control.Pane;
 import com.hirohiro716.gui.event.ChangeListener;
 
@@ -27,7 +26,7 @@ import com.hirohiro716.gui.event.ChangeListener;
  * @author hiro
  *
  */
-public class InstantMessage extends Component<JWindow> {
+public class InstantMessage extends Component<InstantMessage.JWindowForInstantMessage> {
     
     /**
      * コンストラクタ。<br>
@@ -35,7 +34,7 @@ public class InstantMessage extends Component<JWindow> {
      * 
      * @param innerInstance
      */
-    protected InstantMessage(JWindow innerInstance) {
+    private InstantMessage(JWindowForInstantMessage innerInstance) {
         super(innerInstance, innerInstance);
         InstantMessage instance = this;
         this.addSizeChangeListener(new ChangeListener<Dimension>() {
@@ -47,12 +46,8 @@ public class InstantMessage extends Component<JWindow> {
         });
         this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
         this.pane.setParent(this);
+        this.pane.setBackgroundColor(null);
         this.getInnerInstance().addWindowListener(this.windowListener);
-        this.label = new Label();
-        this.label.setTextAlignment(HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
-        this.label.setForegroundColor(Color.WHITE);
-        this.label.setBackgroundColor(null);
-        this.pane.getChildren().add(this.label);
     }
 
     /**
@@ -62,7 +57,8 @@ public class InstantMessage extends Component<JWindow> {
      * @param owner
      */
     public InstantMessage(Frame<?> owner) {
-        this(new JWindow(owner.getInnerInstance()));
+        this(new JWindowForInstantMessage(owner.getInnerInstance()));
+        this.getInnerInstance().setInstantMessage(this);
         this.owner = owner;
     }
 
@@ -70,7 +66,7 @@ public class InstantMessage extends Component<JWindow> {
     
     private Pane pane;
     
-    private Label label;
+    private String text;
     
     /**
      * このメッセージに表示する文字列を取得する。
@@ -78,7 +74,7 @@ public class InstantMessage extends Component<JWindow> {
      * @return 結果。
      */
     public String getText() {
-        return this.label.getText();
+        return this.text;
     }
     
     /**
@@ -87,8 +83,10 @@ public class InstantMessage extends Component<JWindow> {
      * @param text
      */
     public void setText(String text) {
-        this.label.setText(text);
+        this.text = text;
     }
+
+    private Color foregroundColor = Color.WHITE;
     
     /**
      * このメッセージの前景色を取得する。
@@ -96,7 +94,7 @@ public class InstantMessage extends Component<JWindow> {
      * @return 結果。
      */
     public Color getForegroundColor() {
-        return this.label.getForegroundColor();
+        return this.foregroundColor;
     }
     
     /**
@@ -105,10 +103,10 @@ public class InstantMessage extends Component<JWindow> {
      * @param color
      */
     public void setForegroundColor(Color color) {
-        this.label.setForegroundColor(color);
+        this.foregroundColor = color;
     }
     
-    private Color backgroundColor = new Color(0, 0, 0, 0.4f);
+    private Color backgroundColor = new Color(0, 0, 0, 0.7f);
     
     @Override
     public Color getBackgroundColor() {
@@ -118,19 +116,6 @@ public class InstantMessage extends Component<JWindow> {
     @Override
     public void setBackgroundColor(Color color) {
         this.backgroundColor = color;
-    }
-
-    @Override
-    public void updateDisplay() {
-        this.getInnerInstance().setBackground(this.backgroundColor);
-        this.getInnerInstance().setShape(new RoundRectangle2D.Double(0, 0, this.getWidth(), this.getHeight(), 3, 3));
-        super.updateDisplay();
-    }
-
-    @Override
-    public void updateLayout() {
-        super.updateLayout();
-        this.updateDisplay();
     }
     
     /**
@@ -153,25 +138,14 @@ public class InstantMessage extends Component<JWindow> {
             instance.updateLocation();
         }
     };
-
+    
     /**
      * 表示時間を指定して、このメッセージを表示する。
      * 
      * @param closeAfterMillisecond このミリ秒数を経過後に自動的にメッセージを閉じる。
      */
     public void show(Integer closeAfterMillisecond) {
-        // Calculate text size
-        Graphics2D graphics = GraphicalString.createGraphics2D();
-        graphics.setFont(this.label.getFont());
-        GraphicalString graphicalString = new GraphicalString(this.label.getText(), graphics);
-        Dimension dimension = graphicalString.createDimension();
-        // Display message
-        this.label.setSize(this.getSize());
-        int padding = this.label.getFont().getSize();
-        this.setSize(dimension.width + padding * 2, dimension.height + padding * 2);
-        this.updateLocation();
         this.getInnerInstance().setVisible(true);
-        // Auto close
         if (closeAfterMillisecond != null) {
             Thread thread = new Thread(new Runnable() {
                 
@@ -252,6 +226,69 @@ public class InstantMessage extends Component<JWindow> {
         public void windowActivated(WindowEvent event) {
         }
     };
+    
+    /**
+     * このインスタントメッセージで使用するJWindow拡張クラス。
+     * 
+     * @author hiro
+     *
+     */
+    @SuppressWarnings("serial")
+    protected static class JWindowForInstantMessage extends javax.swing.JWindow {
+        
+        /**
+         * コンストラクタ。<br>
+         * このJWindowのオーナーを指定する。
+         * 
+         * @param owner
+         */
+        public JWindowForInstantMessage(Window owner) {
+            super(owner);
+        }
+        
+        private InstantMessage instantMessage;
+        
+        /**
+         * このJWindowにインスタントメッセージのインスタンスをセットする。
+         * 
+         * @param instantMessage
+         */
+        public void setInstantMessage(InstantMessage instantMessage) {
+            this.instantMessage = instantMessage;
+        }
+        
+        @Override
+        public void paint(Graphics graphics) {
+            graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
+            // Initial settings
+            Graphics2D graphics2D = (Graphics2D) graphics;
+            graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            graphics2D.setFont(this.instantMessage.pane.getFont());
+            // Calculate text size
+            int fontSize = graphics2D.getFont().getSize();
+            int maximumWidth = this.instantMessage.owner.getWidth() - fontSize * 4;
+            GraphicalString graphicalString = new GraphicalString(this.instantMessage.text, graphics2D);
+            graphicalString.setMaximumWidth(maximumWidth);
+            Dimension textSize = graphicalString.createDimension();
+            // Calculate window size
+            int windowWidth = textSize.width + fontSize * 2;
+            int windowHeight = textSize.height + fontSize * 2;
+            if (windowWidth != this.getWidth() || windowHeight != this.getHeight()) {
+                this.setSize(windowWidth, windowHeight);
+                this.instantMessage.updateLocation();
+                
+            }
+            // Draw background
+            graphics2D.setColor(this.instantMessage.backgroundColor);
+            graphics2D.fillRoundRect(0, 0, windowWidth, windowHeight, fontSize, fontSize);
+            // Draw text
+            graphics2D.setColor(this.instantMessage.foregroundColor);
+            graphicalString.setHorizontalPosition(HorizontalPosition.CENTER);
+            graphicalString.setVerticalPosition(VerticalPosition.CENTER);
+            graphicalString.drawInBox(fontSize, fontSize, textSize.width, textSize.height);
+        }
+    }
     
     /**
      * テキスト、閉じるまでの時間(ミリ秒)、オーナーを指定してインスタントメッセージを表示する。

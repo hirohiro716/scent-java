@@ -233,8 +233,8 @@ public abstract class Printable implements java.awt.print.Printable {
         }
         float maxWidth = (float) MillimeterValue.newInstance(millimeterMaxWidth).toPoint();
         float maxHeight = (float) MillimeterValue.newInstance(millimeterMaxHeight).toPoint();
-        graphicalString.setMaxWidth(maxWidth);
-        graphicalString.setMaxHeight(maxHeight);
+        graphicalString.setMaximumWidth(maxWidth);
+        graphicalString.setMaximumHeight(maxHeight);
         Dimension dimension = graphicalString.createDimension();
         this.lastAutomaticallyAdjustedFont = graphicalString.getLastAutomaticallyAdjustedFont();
         dimension.setSize(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
