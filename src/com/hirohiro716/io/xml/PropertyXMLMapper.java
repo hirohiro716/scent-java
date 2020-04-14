@@ -45,6 +45,15 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
     
     private PropertyXML propertyXML;
     
+    /**
+     * このインスタンスにマップされているXMLを取得する。
+     * 
+     * @return 結果。
+     */
+    public PropertyXML getPropertyXML() {
+        return this.propertyXML;
+    }
+    
     private DynamicArray<P> propertyValues;
     
     /**
