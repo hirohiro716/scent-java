@@ -198,7 +198,6 @@ public abstract class Database implements Closeable {
         try {
             this.connection.close();
         } catch (Exception exception) {
-            exception.printStackTrace();
         }
     }
     
