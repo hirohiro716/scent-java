@@ -291,7 +291,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
             graphics2D.fill(rectangle);
             // Draw text
             graphics2D.setColor(this.instantMessage.foregroundColor);
-            graphicalString.setHorizontalPosition(HorizontalPosition.CENTER);
+            graphicalString.setHorizontalPosition(HorizontalPosition.LEFT);
             graphicalString.setVerticalPosition(VerticalPosition.CENTER);
             graphicalString.drawInBox(paddingX, paddingY, textSize.width, textSize.height);
         }
