@@ -111,7 +111,7 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
      * @throws IOException
      * @throws TransformerException 
      */
-    public void write() throws IOException, TransformerException  {
+    public final void write() throws IOException, TransformerException  {
         this.write("UTF-8");
     }
 }
