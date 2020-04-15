@@ -188,15 +188,19 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     public void setDefaultValue(R defaultResultValue) {
         this.result = defaultResultValue;
     }
-
+    
     @Override
     public R getDialogResult() {
         return this.result;
     }
-
+    
     @Override
     protected void setDialogResult(R result) {
         this.result = result;
+    }
+    
+    @Override
+    protected void setCanceledDialogResult() {
     }
     
     private Exception exception = null;
@@ -209,5 +213,4 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     public Exception getException() {
         return this.exception;
     }
-    
 }

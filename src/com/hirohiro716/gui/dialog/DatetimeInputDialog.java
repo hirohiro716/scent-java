@@ -263,4 +263,9 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
     protected void setDialogResult(Datetime result) {
         this.result = result;
     }
+
+    @Override
+    protected void setCanceledDialogResult() {
+        this.result = null;
+    }
 }

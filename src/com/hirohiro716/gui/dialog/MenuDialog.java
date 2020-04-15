@@ -130,5 +130,9 @@ public class MenuDialog extends TitledDialog<Button> {
     protected void setDialogResult(Button result) {
         this.result = result;
     }
-    
+
+    @Override
+    protected void setCanceledDialogResult() {
+        this.result = null;
+    }
 }

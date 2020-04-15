@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
-import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.ProcessAfterDialogClose;
 import com.hirohiro716.gui.control.CenterPane;
 import com.hirohiro716.gui.control.Control;
@@ -94,6 +93,7 @@ public abstract class Dialog<R> implements DialogInterface {
             if (dialog.isCancelableByClickBackground()) {
                 Control child = dialog.backgroundPane.getChildren().findControlByPoint(event.getX(), event.getY());
                 if (child == null) {
+                    dialog.setCanceledDialogResult();
                     dialog.close();
                 }
             }
@@ -158,7 +158,12 @@ public abstract class Dialog<R> implements DialogInterface {
      * @param result
      */
     protected abstract void setDialogResult(R result);
-
+    
+    /**
+     * このダイアログにキャンセルされた場合の表示結果をセットする。
+     */
+    protected abstract void setCanceledDialogResult();
+    
     private ProcessAfterDialogClose<R> processAfterDialogClose = null;
     
     /**
@@ -227,18 +232,8 @@ public abstract class Dialog<R> implements DialogInterface {
         this.backgroundPane.setSize(this.owner.getRootPane().getSize());
         this.processBeforeShow();
         this.owner.getRootPane().getChildren().add(this.backgroundPane, 0);
+        this.owner.getRootPane().updateLayout();
         this.processAfterShow();
-        GUI.executeLater(5, new Runnable() {
-            
-            @Override
-            public void run() {
-                // TODO これで良いのか確認
-//                Dialog<R> dialog = Dialog.this;
-//                dialog.owner.getRootPane().updateLayout();
-            }
-        });
-        Dialog<R> dialog = Dialog.this;
-        dialog.owner.getRootPane().updateLayout();
     }
     
     /**

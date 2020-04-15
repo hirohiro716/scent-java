@@ -74,4 +74,9 @@ public class MessageDialog extends MessageableDialog<ResultButton> {
     protected void setDialogResult(ResultButton result) {
         this.result = result;
     }
+
+    @Override
+    protected void setCanceledDialogResult() {
+        this.result = null;
+    }
 }

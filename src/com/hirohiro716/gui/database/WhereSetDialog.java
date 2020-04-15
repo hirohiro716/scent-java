@@ -205,6 +205,11 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     }
     
     @Override
+    protected void setCanceledDialogResult() {
+        this.result = null;
+    }
+
+    @Override
     protected void processAfterShow() {
         super.processAfterShow();
         if (this.defaultWhereSets == null) {

@@ -254,4 +254,9 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
     protected void setDialogResult(Array<T> result) {
         this.result = result;
     }
+
+    @Override
+    protected void setCanceledDialogResult() {
+        this.result = null;
+    }
 }

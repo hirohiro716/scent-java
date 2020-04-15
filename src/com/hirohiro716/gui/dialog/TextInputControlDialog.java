@@ -133,4 +133,9 @@ public abstract class TextInputControlDialog<C extends TextInputControl> extends
     protected void setDialogResult(String result) {
         this.result = result;
     }
+
+    @Override
+    protected void setCanceledDialogResult() {
+        this.result = null;
+    }
 }
