@@ -1,6 +1,8 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
@@ -11,6 +13,7 @@ import com.hirohiro716.gui.VerticalAlignment;
 import com.hirohiro716.gui.event.ActionEvent;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.InnerInstanceCreator;
+import com.hirohiro716.image.Image;
 
 /**
  * ボタンのクラス。
@@ -40,6 +43,24 @@ public class Button extends LabeledControl {
         this(new JButton(text));
     }
     
+    /**
+     * コンストラクタ。<br>
+     * このボタンに表示する画像を指定する。
+     * 
+     * @param image
+     */
+    public Button(Image image) {
+        this(new JButton());
+        this.setImage(image);
+    }
+
+    /**
+     * コンストラクタ。
+     */
+    public Button() {
+        this(new JButton());
+    }
+    
     @Override
     public JButton getInnerInstance() {
         return (JButton) super.getInnerInstance();
@@ -53,6 +74,20 @@ public class Button extends LabeledControl {
     @Override
     public void setTextToInnerInstance(String text) {
         this.getInnerInstance().setText(text);
+    }
+    
+    /**
+     * このボタンに表示する画像をセットする。
+     * 
+     * @param image
+     */
+    public void setImage(Image image) {
+        if (image != null) {
+            this.setText("");
+            this.getInnerInstance().setIcon(new ImageIcon(image.bytes()));
+        } else {
+            this.getInnerInstance().setIcon(null);
+        }
     }
     
     @Override
