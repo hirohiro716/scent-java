@@ -245,6 +245,7 @@ public abstract class Dialog<R> implements DialogInterface {
         this.restoreOwnerChildDisableStatuses();
         this.owner.removeChangeListener(this.sizeChangeListener);
         this.owner.getRootPane().updateDisplay();
+        this.owner.getRootPane().requestFocus();
         if (this.processAfterDialogClose != null) {
             this.processAfterDialogClose.execute(this.getDialogResult());
         }
