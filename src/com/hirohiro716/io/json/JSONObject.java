@@ -24,7 +24,8 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
     }
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * JSON定義文を指定する。
      * 
      * @param json
      * @throws ParseException

@@ -19,7 +19,8 @@ public class JSONString extends JSONValue<String> {
     }
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * JSON定義文を指定する。
      * 
      * @param json
      * @throws ParseException

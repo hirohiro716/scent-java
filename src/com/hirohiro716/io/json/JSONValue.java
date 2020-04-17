@@ -18,7 +18,8 @@ public abstract class JSONValue<T> {
     }
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * JSON定義文を指定する。
      * 
      * @param json
      * @throws ParseException

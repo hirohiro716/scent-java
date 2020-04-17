@@ -19,7 +19,8 @@ public class JSONNumber extends JSONValue<Double> {
     }
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * JSON定義文を指定する。
      * 
      * @param json
      * @throws ParseException

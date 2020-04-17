@@ -19,7 +19,8 @@ public class JSONBoolean extends JSONValue<Boolean> {
     }
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * JSON定義文を指定する。
      * 
      * @param json
      * @throws ParseException

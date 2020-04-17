@@ -25,7 +25,8 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
     }
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * JSON定義文を指定する。
      * 
      * @param json
      * @throws ParseException
