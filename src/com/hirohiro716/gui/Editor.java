@@ -19,6 +19,7 @@ import com.hirohiro716.gui.control.TextField;
 import com.hirohiro716.gui.control.ToggleButton;
 import com.hirohiro716.gui.dialog.ConfirmDialog;
 import com.hirohiro716.gui.dialog.MessageDialog;
+import com.hirohiro716.gui.dialog.ProcessAfterDialogClose;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;

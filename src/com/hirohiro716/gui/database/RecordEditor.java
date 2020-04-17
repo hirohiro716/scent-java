@@ -7,7 +7,7 @@ import com.hirohiro716.StringObject;
 import com.hirohiro716.database.Database;
 import com.hirohiro716.database.RecordMapper;
 import com.hirohiro716.gui.Editor;
-import com.hirohiro716.gui.ProcessAfterDialogClose;
+import com.hirohiro716.gui.dialog.ProcessAfterDialogClose;
 import com.hirohiro716.gui.dialog.QuestionDialog;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;

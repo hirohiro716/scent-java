@@ -1,4 +1,4 @@
-package com.hirohiro716.gui;
+package com.hirohiro716.gui.dialog;
 
 /**
  * ダイアログが閉じられた後に実行される処理のインターフェース。

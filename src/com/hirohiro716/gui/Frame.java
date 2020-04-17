@@ -17,6 +17,7 @@ import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
 import com.hirohiro716.gui.dialog.MessageDialog;
+import com.hirohiro716.gui.dialog.ProcessAfterDialogClose;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;

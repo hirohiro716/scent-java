@@ -199,7 +199,7 @@ public abstract class RecordMapper {
         for (DynamicArray<String> fetchedRecord : this.fetchRecordsForEdit(this.getOrderByColumnsForEdit())) {
             DynamicArray<ColumnInterface> record = new DynamicArray<>();
             for (String key : fetchedRecord.getKeys()) {
-                ColumnInterface column = this.getTable().find(key);
+                ColumnInterface column = this.getTable().findColumn(key);
                 if (column != null) {
                     record.put(column, fetchedRecord.get(key));
                 }
