@@ -120,7 +120,11 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
             keyJsonString.set(key);
             result.append(keyJsonString.toString());
             result.append(": ");
-            result.append(jsonValue.toString());
+            if (jsonValue != null) {
+                result.append(jsonValue.toString());
+            } else {
+                result.append("null");
+            }
         }
         return result.append("}").toString();
     }
