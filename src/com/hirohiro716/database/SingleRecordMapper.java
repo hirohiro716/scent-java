@@ -31,8 +31,9 @@ public abstract class SingleRecordMapper extends RecordMapper {
      * 
      * @return 結果。
      */
-    public DynamicArray<ColumnInterface> getRecord() {
-        return super.getRecords()[0];
+    @SuppressWarnings("unchecked")
+    public <C extends ColumnInterface> DynamicArray<C> getRecord() {
+        return (DynamicArray<C>) super.getRecords()[0];
     }
     
     /**
