@@ -31,6 +31,7 @@ public class ClickableLabel extends Button {
             
             @Override
             protected void handle(MouseEvent event) {
+                label.isMouseExited = false;
                 Thread thread = new Thread(new Runnable() {
                     
                     @Override
@@ -39,6 +40,9 @@ public class ClickableLabel extends Button {
                             try {
                                 Thread.sleep(20);
                             } catch (InterruptedException exception) {
+                            }
+                            if (label.isMouseExited) {
+                                break;
                             }
                             final double opacityForLater = opacity;
                             GUI.executeLater(new Runnable() {
@@ -59,6 +63,7 @@ public class ClickableLabel extends Button {
 
             @Override
             protected void handle(MouseEvent event) {
+                label.isMouseExited = true;
                 Thread thread = new Thread(new Runnable() {
                     
                     @Override
@@ -67,6 +72,9 @@ public class ClickableLabel extends Button {
                             try {
                                 Thread.sleep(40);
                             } catch (InterruptedException exception) {
+                            }
+                            if (label.isMouseExited == false) {
+                                break;
                             }
                             final double opacityForLater = opacity;
                             GUI.executeLater(new Runnable() {
@@ -100,6 +108,8 @@ public class ClickableLabel extends Button {
             }
         });
     }
+    
+    private boolean isMouseExited = true;
     
     /**
      * 指定された色をテキストと下線に設定する。
