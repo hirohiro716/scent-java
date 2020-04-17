@@ -67,7 +67,11 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         int height = baseSize * 40;
         this.getPane().setSize(width, height);
     }
-    
+
+    @Override
+    protected boolean isShowCloseSymbol() {
+        return false;
+    }
     
     private List<String> searchableColumns = new ArrayList<>();
     

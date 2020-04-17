@@ -35,6 +35,11 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
         super(owner);
     }
     
+    @Override
+    protected boolean isShowCloseSymbol() {
+        return false;
+    }
+    
     private Label labelOfMessage;
     
     private ScrollPane scrollPaneOfMessage;

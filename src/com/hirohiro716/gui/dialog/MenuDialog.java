@@ -56,6 +56,11 @@ public class MenuDialog extends TitledDialog<Button> {
         }
     };
 
+    @Override
+    protected boolean isShowCloseSymbol() {
+        return true;
+    }
+    
     private Collection<Button> buttons = new Collection<>();
     
     /**

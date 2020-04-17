@@ -11,11 +11,14 @@ import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.control.AnchorPane;
+import com.hirohiro716.gui.control.ClickableLabel;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Label;
 import com.hirohiro716.gui.control.Pane;
 import com.hirohiro716.gui.control.VerticalPane;
+import com.hirohiro716.gui.event.ActionEvent;
 import com.hirohiro716.gui.event.ChangeListener;
+import com.hirohiro716.gui.event.EventHandler;
 
 /**
  * タイトル付きダイアログの抽象クラス。
@@ -47,6 +50,13 @@ public abstract class TitledDialog<R> extends Dialog<R> {
         return this.labelOfTitle;
     }
     
+    /**
+     * このダイアログに閉じる記号を表示する場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    protected abstract boolean isShowCloseSymbol();
+    
     private VerticalPane verticalPane;
     
     /**
@@ -75,7 +85,24 @@ public abstract class TitledDialog<R> extends Dialog<R> {
         this.labelOfTitle.setFont(fontTitle);
         this.labelOfTitle.setPadding(0, 0, padding2, 0);
         pane.getChildren().add(this.labelOfTitle);
-        pane.setAnchor(this.labelOfTitle, padding2, padding2, null, padding2);
+        if (this.isShowCloseSymbol() == false) {
+            pane.setAnchor(this.labelOfTitle, padding2, padding2, null, padding2);
+        } else {
+            pane.setAnchor(this.labelOfTitle, padding2, padding2 + padding2, null, padding2);
+            // Close label
+            ClickableLabel clickableLabel = new ClickableLabel("×");
+            clickableLabel.setForegroundColor(GUI.createAlphaColor(clickableLabel.getForegroundColor(), 0.8));
+            clickableLabel.setDisabledUnderline(true);
+            clickableLabel.addActionEventHandler(new EventHandler<ActionEvent>() {
+                
+                @Override
+                protected void handle(ActionEvent event) {
+                    dialog.close();
+                }
+            });
+            pane.getChildren().add(clickableLabel);
+            pane.setAnchor(clickableLabel, padding2, padding2, null, null);
+        }
         // Controls
         this.verticalPane = new VerticalPane();
         this.verticalPane.setSpacing(padding2);
