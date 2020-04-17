@@ -771,7 +771,7 @@ public abstract class TableView<C, R> extends Control {
             this.headerText = headerText;
         }
         
-        private HorizontalAlignment horizontalAlignment = HorizontalAlignment.LEFT;
+        private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
         
         @Override
         public HorizontalAlignment getHeaderHorizontalAlignment() {
