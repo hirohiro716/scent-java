@@ -325,7 +325,7 @@ public abstract class Database implements Closeable {
         try (java.sql.PreparedStatement statement = this.connection.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
             statement.setQueryTimeout(this.queryTimeout);
             for (int index = 0; index < parameters.length; index++) {
-                statement.setObject(index + 1, convertFromResultSetValue(parameters[index]));
+                statement.setObject(index + 1, convertToBindParameter(parameters[index]));
             }
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -379,7 +379,7 @@ public abstract class Database implements Closeable {
         try (java.sql.PreparedStatement statement = this.connection.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
             statement.setQueryTimeout(this.queryTimeout);
             for (int index = 0; index < parameters.length; index++) {
-                statement.setObject(index + 1, convertFromResultSetValue(parameters[index]));
+                statement.setObject(index + 1, convertToBindParameter(parameters[index]));
             }
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<DynamicArray<String>> rows = new ArrayList<>();
