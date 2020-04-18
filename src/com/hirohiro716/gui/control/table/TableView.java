@@ -161,9 +161,9 @@ public abstract class TableView<C, R> extends Control {
      * @param horizontalAlignment 
      * @return 結果。
      */
-    public TableColumn addColumn(C columnInstance, ColumnType columnType, HorizontalAlignment horizontalAlignment) {
+    protected TableColumn addColumn(C columnInstance, ColumnType columnType, HorizontalAlignment horizontalAlignment) {
         this.columnInstances.add(columnInstance);
-        TableColumn tableColumn = new TableColumn(this.getInnerInstance().getTableHeader(), columnInstance, columnType);
+        TableColumn tableColumn = new TableColumn(columnInstance, columnType);
         this.mapTableColumns.put(columnInstance, tableColumn);
         this.mapColumnHorizontalAlignment.put(columnInstance, horizontalAlignment);
         this.tableModel.updateStructure();
@@ -736,21 +736,16 @@ public abstract class TableView<C, R> extends Control {
         
         /**
          * コンストラクタ。<br>
-         * このコンポーネントがラップする、GUIライブラリに依存したインスタンスと、<br>
          * テーブルカラムを識別するためのインスタンス、テーブルカラムのタイプを指定する。
          * 
-         * @param jTableHeader 
          * @param columnInstance
          * @param columnType 
          */
-        private TableColumn(JTableHeader jTableHeader, C columnInstance, ColumnType columnType) {
-            this.jTableHeader = jTableHeader;
+        private TableColumn(C columnInstance, ColumnType columnType) {
             this.columnInstance = columnInstance;
             this.headerText = columnInstance.toString();
             this.columnType = columnType;
         }
-        
-        private JTableHeader jTableHeader;
         
         private C columnInstance;
         
@@ -835,18 +830,23 @@ public abstract class TableView<C, R> extends Control {
         }
         
         /**
+         * JTable内のJTableHeaderインスタンスを取得する。
+         * 
+         * @return 結果。
+         */
+        private JTableHeader getJTableHeader() {
+            TableView<C, R> tableView = TableView.this;
+            return tableView.getInnerInstance().getTableHeader();
+        }
+        
+        /**
          * このコンポーネントがラップしている、GUIライブラリに依存したインスタンスを取得する。
          * 
          * @return 結果。
          */
         private javax.swing.table.TableColumn getInnerInstance() {
-            for (int index = 0; index < this.jTableHeader.getColumnModel().getColumnCount(); index++) {
-                javax.swing.table.TableColumn tableColumn = this.jTableHeader.getColumnModel().getColumn(index);
-                if (tableColumn.getIdentifier().equals(this.columnInstance)) {
-                    return tableColumn;
-                }
-            }
-            return null;
+            TableView<C, R> tableView = TableView.this;
+            return this.getJTableHeader().getColumnModel().getColumn(tableView.columnInstances.indexOf(this.columnInstance));
         }
         
         private Integer width = null;
@@ -858,8 +858,8 @@ public abstract class TableView<C, R> extends Control {
         
         @Override
         public void setWidth(Integer width) {
-            javax.swing.table.TableColumn innerInstance = this.getInnerInstance();
             this.width = width;
+            javax.swing.table.TableColumn innerInstance = this.getInnerInstance();
             if (width != null) {
                 innerInstance.setWidth(width);
                 innerInstance.setPreferredWidth(width);
@@ -878,10 +878,11 @@ public abstract class TableView<C, R> extends Control {
         @Override
         public void setMinimumWidth(Integer width) {
             this.minimumWidth = width;
+            javax.swing.table.TableColumn innerInstance = this.getInnerInstance();
             if (width != null) {
-                this.getInnerInstance().setMinWidth(width);
+                innerInstance.setMinWidth(width);
             } else {
-                this.getInnerInstance().setMinWidth(0);
+                innerInstance.setMinWidth(0);
             }
         }
         
@@ -895,10 +896,11 @@ public abstract class TableView<C, R> extends Control {
         @Override
         public void setMaximumWidth(Integer width) {
             this.maximumWidth = width;
+            javax.swing.table.TableColumn innerInstance = this.getInnerInstance();
             if (width != null) {
-                this.getInnerInstance().setMaxWidth(width);
+                innerInstance.setMaxWidth(width);
             } else {
-                this.getInnerInstance().setMaxWidth(Integer.MAX_VALUE);
+                innerInstance.setMaxWidth(Integer.MAX_VALUE);
             }
         }
         
@@ -912,7 +914,8 @@ public abstract class TableView<C, R> extends Control {
         @Override
         public void setResizable(boolean isResizable) {
             this.isResizable = isResizable;
-            this.getInnerInstance().setResizable(isResizable);
+            javax.swing.table.TableColumn innerInstance = this.getInnerInstance();
+            innerInstance.setResizable(isResizable);
         }
         
         @Override
@@ -927,7 +930,7 @@ public abstract class TableView<C, R> extends Control {
 
                         @Override
                         public void mouseClicked(java.awt.event.MouseEvent event) {
-                            int columnIndex = tableColumn.jTableHeader.columnAtPoint(event.getPoint());
+                            int columnIndex = tableColumn.getJTableHeader().columnAtPoint(event.getPoint());
                             if (tableView.columnInstances.get(columnIndex).equals(tableColumn.columnInstance)) {
                                 eventHandler.executeWhenControlEnabled(new MouseEvent(tableView, event));
                             }
@@ -935,7 +938,7 @@ public abstract class TableView<C, R> extends Control {
                     };
                 }
             });
-            this.jTableHeader.addMouseListener(innerInstance);
+            this.getJTableHeader().addMouseListener(innerInstance);
         }
         
         @Override
@@ -950,7 +953,7 @@ public abstract class TableView<C, R> extends Control {
 
                         @Override
                         public void mouseClicked(java.awt.event.MouseEvent event) {
-                            int columnIndex = tableColumn.jTableHeader.columnAtPoint(event.getPoint());
+                            int columnIndex = tableColumn.getJTableHeader().columnAtPoint(event.getPoint());
                             if (tableView.columnInstances.get(columnIndex).equals(tableColumn.columnInstance)) {
                                 MouseEvent mouseEvent = new MouseEvent(tableView, event);
                                 if (mouseEvent.getMouseButton() == mouseButton) {
@@ -961,7 +964,7 @@ public abstract class TableView<C, R> extends Control {
                     };
                 }
             });
-            this.jTableHeader.addMouseListener(innerInstance);
+            this.getJTableHeader().addMouseListener(innerInstance);
         }
         
         @Override
@@ -976,7 +979,7 @@ public abstract class TableView<C, R> extends Control {
 
                         @Override
                         public void mousePressed(java.awt.event.MouseEvent event) {
-                            int columnIndex = tableColumn.jTableHeader.columnAtPoint(event.getPoint());
+                            int columnIndex = tableColumn.getJTableHeader().columnAtPoint(event.getPoint());
                             if (tableView.columnInstances.get(columnIndex).equals(tableColumn.columnInstance)) {
                                 eventHandler.executeWhenControlEnabled(new MouseEvent(tableView, event));
                             }
@@ -984,7 +987,7 @@ public abstract class TableView<C, R> extends Control {
                     };
                 }
             });
-            this.jTableHeader.addMouseListener(innerInstance);
+            this.getJTableHeader().addMouseListener(innerInstance);
         }
         
         @Override
@@ -999,7 +1002,7 @@ public abstract class TableView<C, R> extends Control {
                         
                         @Override
                         public void mousePressed(java.awt.event.MouseEvent event) {
-                            int columnIndex = tableColumn.jTableHeader.columnAtPoint(event.getPoint());
+                            int columnIndex = tableColumn.getJTableHeader().columnAtPoint(event.getPoint());
                             if (tableView.columnInstances.get(columnIndex).equals(tableColumn.columnInstance)) {
                                 MouseEvent mouseEvent = new MouseEvent(tableView, event);
                                 if (mouseEvent.getMouseButton() == mouseButton) {
@@ -1010,7 +1013,7 @@ public abstract class TableView<C, R> extends Control {
                     };
                 }
             });
-            this.jTableHeader.addMouseListener(innerInstance);
+            this.getJTableHeader().addMouseListener(innerInstance);
         }
         
         @Override
@@ -1025,7 +1028,7 @@ public abstract class TableView<C, R> extends Control {
 
                         @Override
                         public void mouseReleased(java.awt.event.MouseEvent event) {
-                            int columnIndex = tableColumn.jTableHeader.columnAtPoint(event.getPoint());
+                            int columnIndex = tableColumn.getJTableHeader().columnAtPoint(event.getPoint());
                             if (tableView.columnInstances.get(columnIndex).equals(tableColumn.columnInstance)) {
                                 eventHandler.executeWhenControlEnabled(new MouseEvent(tableView, event));
                             }
@@ -1033,7 +1036,7 @@ public abstract class TableView<C, R> extends Control {
                     };
                 }
             });
-            this.jTableHeader.addMouseListener(innerInstance);
+            this.getJTableHeader().addMouseListener(innerInstance);
         }
         
         @Override
@@ -1048,7 +1051,7 @@ public abstract class TableView<C, R> extends Control {
 
                         @Override
                         public void mouseReleased(java.awt.event.MouseEvent event) {
-                            int columnIndex = tableColumn.jTableHeader.columnAtPoint(event.getPoint());
+                            int columnIndex = tableColumn.getJTableHeader().columnAtPoint(event.getPoint());
                             if (tableView.columnInstances.get(columnIndex).equals(tableColumn.columnInstance)) {
                                 MouseEvent mouseEvent = new MouseEvent(tableView, event);
                                 if (mouseEvent.getMouseButton() == mouseButton) {
@@ -1059,7 +1062,7 @@ public abstract class TableView<C, R> extends Control {
                     };
                 }
             });
-            this.jTableHeader.addMouseListener(innerInstance);
+            this.getJTableHeader().addMouseListener(innerInstance);
         }
         
         @Override
@@ -1074,7 +1077,7 @@ public abstract class TableView<C, R> extends Control {
                         
                         @Override
                         public void mouseWheelMoved(MouseWheelEvent event) {
-                            int columnIndex = tableColumn.jTableHeader.columnAtPoint(event.getPoint());
+                            int columnIndex = tableColumn.getJTableHeader().columnAtPoint(event.getPoint());
                             if (tableView.columnInstances.get(columnIndex).equals(tableColumn.columnInstance)) {
                                 eventHandler.executeWhenControlEnabled(new MouseEvent(tableView, event));
                             }
@@ -1082,7 +1085,7 @@ public abstract class TableView<C, R> extends Control {
                     };
                 }
             });
-            this.jTableHeader.addMouseWheelListener(innerInstance);
+            this.getJTableHeader().addMouseWheelListener(innerInstance);
         }
         
         @Override
@@ -1090,13 +1093,13 @@ public abstract class TableView<C, R> extends Control {
             TableView<C, R> tableView = TableView.this;
             for (Object innerInstance : eventHandler.getInnerInstances(tableView)) {
                 if (innerInstance instanceof MouseListener) {
-                    this.jTableHeader.removeMouseListener((MouseListener) innerInstance);
+                    this.getJTableHeader().removeMouseListener((MouseListener) innerInstance);
                 }
                 if (innerInstance instanceof MouseMotionListener) {
-                    this.jTableHeader.removeMouseMotionListener((MouseMotionListener) innerInstance);
+                    this.getJTableHeader().removeMouseMotionListener((MouseMotionListener) innerInstance);
                 }
                 if (innerInstance instanceof MouseWheelListener) {
-                    this.jTableHeader.removeMouseWheelListener((MouseWheelListener) innerInstance);
+                    this.getJTableHeader().removeMouseWheelListener((MouseWheelListener) innerInstance);
                 }
             }
         }
@@ -1126,8 +1129,8 @@ public abstract class TableView<C, R> extends Control {
             if (this.isResizable != null) {
                 innerInstance.setResizable(this.isResizable);
             }
-            this.jTableHeader.doLayout();
-            this.jTableHeader.repaint();
+            this.getJTableHeader().revalidate();
+            this.getJTableHeader().repaint();
         }
     }
 }

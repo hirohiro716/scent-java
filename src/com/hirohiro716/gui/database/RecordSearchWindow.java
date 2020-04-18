@@ -11,6 +11,7 @@ import com.hirohiro716.database.WhereSet;
 import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.Window;
 import com.hirohiro716.gui.control.Control;
+import com.hirohiro716.gui.control.table.TableView;
 import com.hirohiro716.gui.dialog.ProcessAfterDialogClose;
 import com.hirohiro716.gui.dialog.WaitCircleDialog;
 import com.hirohiro716.gui.event.EventHandler;
@@ -30,18 +31,26 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
      */
     public RecordSearchWindow() {
         super();
-        this.tableView = new TableView();
+        this.tableView = this.createTableView();
         this.setContent(this.createContent(this.tableView));
     }
     
-    private TableView tableView;
+    private TableView<String, DynamicArray<String>> tableView;
+    
+    /**
+     * レコード検索結果を表示するテーブルビューを作成する。<br>
+     * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
+     * 
+     * @return 結果。
+     */
+    protected abstract TableView<String, DynamicArray<String>> createTableView();
     
     /**
      * レコード検索結果を表示するテーブルビューを取得する。
      * 
      * @return 結果。
      */
-    public TableView getTableView() {
+    public TableView<String, DynamicArray<String>> getTableView() {
         return this.tableView;
     }
     
@@ -153,7 +162,6 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
      * このレコード検索ウィンドウで高度な検索ダイアログを表示する。
      */
     protected void showAdvancedSearchDialog() {
-        // TODO
         RecordSearchWindow<T> window = this;
         WhereSetDialog dialog = this.createAdvancedSearchDialog();
         dialog.setDefaultValue(this.lastTimeWhereSets);
@@ -285,29 +293,10 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
     
     /**
      * このレコード検索ウィンドウに表示するコンテンツを作成する。<br>
-     * このメソッドはスーバークラスで自動的に呼び出される。
+     * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
      * 
      * @param tableView 検索結果が表示されるテーブルビュー。
      * @return 結果。
      */
-    protected abstract Control createContent(TableView tableView);
-    
-    /**
-     * レコード検索結果を表示するテーブルビューのクラス。
-     * 
-     * @author hiro
-     *
-     */
-    public static class TableView extends com.hirohiro716.gui.control.table.TableView<String, DynamicArray<String>> {
-
-        @Override
-        protected Object getValueFromRow(DynamicArray<String> rowInstance, String columnInstance) {
-            return rowInstance.get(columnInstance);
-        }
-
-        @Override
-        protected void setValueToRow(DynamicArray<String> rowInstance, String columnInstance, Object value) {
-            rowInstance.put(columnInstance, value);
-        }
-    }
+    protected abstract Control createContent(TableView<String, DynamicArray<String>> tableView);
 }
