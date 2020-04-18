@@ -265,10 +265,8 @@ public abstract class Dialog<R> implements DialogInterface {
         protected void paintComponent(Graphics graphics) {
             super.paintComponent(graphics);
             Dialog<R> dialog = Dialog.this;
-            if (this.getWidth() == dialog.backgroundImage.getWidth() && this.getHeight() == dialog.backgroundImage.getHeight()) {
+            if (this.getWidth() == dialog.backgroundImage.getWidth() || this.getHeight() == dialog.backgroundImage.getHeight()) {
                 graphics.drawImage(dialog.backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
-            } else {
-                dialog.restoreOwnerChildVisibleStatuses();
             }
             graphics.setColor(new Color(50, 50, 50, 200));
             graphics.fillRect(0, 0, this.getWidth(), this.getHeight());

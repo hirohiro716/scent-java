@@ -44,21 +44,21 @@ public class Bounds {
      */
     public Bounds(String json) throws ParseException {
         JSONObject jsonObject = new JSONObject(json);
-        for (String key : jsonObject.get().keySet()) {
+        for (String key : jsonObject.getContent().keySet()) {
             try {
-                JSONNumber jsonNumber = (JSONNumber) jsonObject.get().get(key);
+                JSONNumber jsonNumber = (JSONNumber) jsonObject.getContent().get(key);
                 switch (key) {
                 case "x":
-                    this.x = jsonNumber.get().intValue();
+                    this.x = jsonNumber.getContent().intValue();
                     break;
                 case "y":
-                    this.y = jsonNumber.get().intValue();
+                    this.y = jsonNumber.getContent().intValue();
                     break;
                 case "width":
-                    this.width = jsonNumber.get().intValue();
+                    this.width = jsonNumber.getContent().intValue();
                     break;
                 case "height":
-                    this.height = jsonNumber.get().intValue();
+                    this.height = jsonNumber.getContent().intValue();
                     break;
                 }
             } catch (Exception exception) {

@@ -21,7 +21,7 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
      */
     public JSONArray() {
         super();
-        this.set(new ArrayList<>());
+        this.setContent(new ArrayList<>());
     }
     
     /**
@@ -114,7 +114,7 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
         }
         return result.append("]").toString();
     }
-
+    
     /**
      * この配列の中に値を追加する。
      * 
@@ -125,19 +125,19 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
         if (value instanceof String || value instanceof StringObject) {
             jsonValue = new JSONString();
             JSONString jsonString = (JSONString) jsonValue;
-            jsonString.set(value.toString());
+            jsonString.setContent(value.toString());
         }
         if (value instanceof Number) {
             jsonValue = new JSONNumber();
             JSONNumber jsonNumber = (JSONNumber) jsonValue;
-            jsonNumber.set(((Number) value).doubleValue());
+            jsonNumber.setContent(((Number) value).doubleValue());
         }
         if (value instanceof Boolean) {
             jsonValue = new JSONBoolean();
             JSONBoolean jsonBoolean = (JSONBoolean) jsonValue;
-            jsonBoolean.set((Boolean) value);
+            jsonBoolean.setContent((Boolean) value);
         }
-        this.get().add(jsonValue);
+        this.getContent().add(jsonValue);
     }
     
     /**
@@ -147,8 +147,8 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
      */
     public void add(List<JSONValue<?>> value) {
         JSONArray jsonArray = new JSONArray();
-        jsonArray.set(value);
-        this.get().add(jsonArray);
+        jsonArray.setContent(value);
+        this.getContent().add(jsonArray);
     }
 
     /**
@@ -158,7 +158,7 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
      */
     public void add(LinkedHashMap<String, JSONValue<?>> value) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.set(value);
-        this.get().add(jsonObject);
+        jsonObject.setContent(value);
+        this.getContent().add(jsonObject);
     }
 }

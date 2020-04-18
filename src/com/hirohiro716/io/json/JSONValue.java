@@ -40,11 +40,11 @@ public abstract class JSONValue<T> {
     }
     
     /**
-     * JSONを解析した結果、変換できた値を取得する。
+     * JSONを解析した結果、変換できた内容を取得する。
      * 
      * @return 結果。
      */
-    public T get() {
+    public T getContent() {
         if (this.parseResult == null) {
             return null;
         }
@@ -56,7 +56,7 @@ public abstract class JSONValue<T> {
      * 
      * @param value
      */
-    public void set(T value) {
+    public void setContent(T value) {
         this.parseResult = new ParseResult<T>(value, this.makeJSON(value), null);
     }
 

@@ -20,7 +20,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
      */
     public JSONObject() {
         super();
-        this.set(new LinkedHashMap<>());
+        this.setContent(new LinkedHashMap<>());
     }
     
     /**
@@ -62,7 +62,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
                 if (one.equals("\"")) {
                     JSONString jsonString = new JSONString(target.clone().extract(index).toString());
                     if (key == null) {
-                        key = jsonString.get();
+                        key = jsonString.getContent();
                     } else {
                         values.put(key, jsonString);
                     }
@@ -117,7 +117,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
                 result.append(", ");
             }
             JSONString keyJsonString = new JSONString();
-            keyJsonString.set(key);
+            keyJsonString.setContent(key);
             result.append(keyJsonString.toString());
             result.append(": ");
             if (jsonValue != null) {
@@ -127,6 +127,16 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
             }
         }
         return result.append("}").toString();
+    }
+    
+    /**
+     * この連想配列の中の値を取得する。
+     * 
+     * @param key
+     * @return 結果。
+     */
+    public JSONValue<?> get(String key) {
+        return this.getContent().get(key);
     }
 
     /**
@@ -140,19 +150,19 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
         if (value instanceof String || value instanceof StringObject) {
             jsonValue = new JSONString();
             JSONString jsonString = (JSONString) jsonValue;
-            jsonString.set(value.toString());
+            jsonString.setContent(value.toString());
         }
         if (value instanceof Number) {
             jsonValue = new JSONNumber();
             JSONNumber jsonNumber = (JSONNumber) jsonValue;
-            jsonNumber.set(((Number) value).doubleValue());
+            jsonNumber.setContent(((Number) value).doubleValue());
         }
         if (value instanceof Boolean) {
             jsonValue = new JSONBoolean();
             JSONBoolean jsonBoolean = (JSONBoolean) jsonValue;
-            jsonBoolean.set((Boolean) value);
+            jsonBoolean.setContent((Boolean) value);
         }
-        this.get().put(key, jsonValue);
+        this.getContent().put(key, jsonValue);
     }
     
     /**
@@ -163,8 +173,8 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
      */
     public void put(String key, List<JSONValue<?>> value) {
         JSONArray jsonArray = new JSONArray();
-        jsonArray.set(value);
-        this.get().put(key, jsonArray);
+        jsonArray.setContent(value);
+        this.getContent().put(key, jsonArray);
     }
 
     /**
@@ -175,7 +185,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
      */
     public void put(String key, LinkedHashMap<String, JSONValue<?>> value) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.set(value);
-        this.get().put(key, jsonObject);
+        jsonObject.setContent(value);
+        this.getContent().put(key, jsonObject);
     }
 }

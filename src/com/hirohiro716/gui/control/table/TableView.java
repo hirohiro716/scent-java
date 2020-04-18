@@ -713,7 +713,10 @@ public abstract class TableView<C, R> extends Control {
             Button button = new Button(tableView.mapColumnButtonText.get(columnInstance));
             button.setFont(tableView.getFont());
             button.setFocusable(false);
-            button.addActionEventHandler(tableView.mapColumnButtonEventHandler.get(columnInstance));
+            EventHandler<ActionEvent> eventHandler = tableView.mapColumnButtonEventHandler.get(columnInstance);
+            if (eventHandler != null) {
+                button.addActionEventHandler(eventHandler);
+            }
             CenterPane pane = new CenterPane();
             pane.setBackgroundColor(new Color(tableView.getInnerInstance().getSelectionBackground().getRGB()));
             pane.setControl(button);
@@ -763,7 +766,9 @@ public abstract class TableView<C, R> extends Control {
         
         @Override
         public void setHeaderText(String headerText) {
+            TableView<C, R> tableView = TableView.this;
             this.headerText = headerText;
+            tableView.tableModel.updateStructure();
         }
         
         private HorizontalAlignment horizontalAlignment = HorizontalAlignment.CENTER;
@@ -1129,7 +1134,7 @@ public abstract class TableView<C, R> extends Control {
             if (this.isResizable != null) {
                 innerInstance.setResizable(this.isResizable);
             }
-            this.getJTableHeader().revalidate();
+            this.getJTableHeader().doLayout();
             this.getJTableHeader().repaint();
         }
     }
