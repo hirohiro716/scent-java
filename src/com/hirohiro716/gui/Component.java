@@ -121,8 +121,8 @@ public abstract class Component<T extends java.awt.Component> {
      * @param x
      * @param y
      */
-    public void setLocation(int x, int y) {
-        this.getInnerInstanceForLayout().setLocation(x, y);
+    public final void setLocation(int x, int y) {
+        this.setLocation(new Point(x, y));
     }
     
     /**

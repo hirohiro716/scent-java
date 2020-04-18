@@ -157,6 +157,18 @@ public class ClickableLabel extends Button {
     }
     
     @Override
+    public void setVisible(boolean isVisible) {
+        super.setVisible(isVisible);
+        this.setStyleColor(this.defaultForegroundColor);
+    }
+
+    @Override
+    public void setDisabled(boolean isDisabled) {
+        super.setDisabled(isDisabled);
+        this.setStyleColor(this.defaultForegroundColor);
+    }
+
+    @Override
     public void setForegroundColor(Color color) {
         super.setForegroundColor(color);
         this.defaultForegroundColor = color;

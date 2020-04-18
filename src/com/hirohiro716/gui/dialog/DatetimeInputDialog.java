@@ -137,6 +137,7 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
         this.textFieldHour.setMinimumWidth(baseSize * 4);
         this.textFieldHour.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
         this.textFieldHour.addLimitByRegex(Regex.INTEGER_NARROW.getPattern(), false);
+        this.textFieldHour.setDisableInputMethod(true);
         this.textFieldHour.addActionEventHandler(actionEventHandler);
         pane.getChildren().add(this.textFieldHour);
         // Label of colon
@@ -147,6 +148,7 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
         this.textFieldMinute.setMinimumWidth(baseSize * 4);
         this.textFieldMinute.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
         this.textFieldMinute.addLimitByRegex(Regex.INTEGER_NARROW.getPattern(), false);
+        this.textFieldMinute.setDisableInputMethod(true);
         this.textFieldMinute.addActionEventHandler(actionEventHandler);
         pane.getChildren().add(this.textFieldMinute);
         return pane;

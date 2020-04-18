@@ -3,6 +3,8 @@ package com.hirohiro716.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -111,6 +113,14 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      */
     public abstract void setTitle(String title);
     
+    private boolean isSetLocation = false;
+    
+    @Override
+    public void setLocation(Point point) {
+        super.setLocation(point);
+        this.isSetLocation = (point != null);
+    }
+
     @Override
     public void setDisabled(boolean isDisabled) {
         super.setDisabled(isDisabled);
@@ -171,7 +181,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * @return 結果。
      */
     public boolean isAlwaysOnTop() {
-        return this.isAlwaysOnTop();
+        return this.getInnerInstance().isAlwaysOnTop();
     }
     
     /**
@@ -180,7 +190,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * @param isAlwaysOnTop
      */
     public void setAlwaysOnTop(boolean isAlwaysOnTop) {
-        this.setAlwaysOnTop(isAlwaysOnTop);
+        this.getInnerInstance().setAlwaysOnTop(isAlwaysOnTop);
     }
     
     @Override
@@ -223,6 +233,12 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * このフレームを表示する。
      */
     public void show() {
+        if (this.isSetLocation == false) {
+            if (GUI.getGraphicsDevices().length > 0) {
+                Rectangle screenRectangle = GUI.getMaximumWindowBounds(GUI.getDefaultGraphicsDevice());
+                this.setLocation(screenRectangle.x + screenRectangle.width / 2 - this.getWidth() / 2, screenRectangle.y + screenRectangle.height / 2 - this.getHeight() / 2);
+            }
+        }
         this.getInnerInstance().setVisible(true);
     }
     
