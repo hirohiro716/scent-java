@@ -61,9 +61,11 @@ public interface TableInterface {
      */
     @SuppressWarnings("unchecked")
     public default <C extends ColumnInterface> C findColumn(String physicalColumnName) {
-        for (ColumnInterface column : this.getColumns()) {
-            if (column.getPhysicalName().equals(physicalColumnName) || column.getFullPhysicalName().equals(physicalColumnName)) {
-                return (C) column;
+        if (this.getColumns() != null) {
+            for (ColumnInterface column : this.getColumns()) {
+                if (column.getPhysicalName().equals(physicalColumnName) || column.getFullPhysicalName().equals(physicalColumnName)) {
+                    return (C) column;
+                }
             }
         }
         return null;

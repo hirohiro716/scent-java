@@ -161,7 +161,7 @@ public abstract class TableView<C, R> extends Control {
      * @param horizontalAlignment 
      * @return 結果。
      */
-    private TableColumn addColumn(C columnInstance, ColumnType columnType, HorizontalAlignment horizontalAlignment) {
+    public TableColumn addColumn(C columnInstance, ColumnType columnType, HorizontalAlignment horizontalAlignment) {
         this.columnInstances.add(columnInstance);
         TableColumn tableColumn = new TableColumn(this.getInnerInstance().getTableHeader(), columnInstance, columnType);
         this.mapTableColumns.put(columnInstance, tableColumn);
@@ -435,7 +435,7 @@ public abstract class TableView<C, R> extends Control {
      * @author hiro
      *
      */
-    private enum ColumnType {
+    protected enum ColumnType {
         /**
          * 文字列のセルを表示するカラム。
          */
