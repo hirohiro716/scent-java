@@ -206,9 +206,6 @@ public class CSV {
      */
     public void importFromFile(File file, String charsetName, boolean firstRowIsHeader) throws IOException {
         this.rows.clear();
-        if (file.isExist() == false) {
-            return;
-        }
         CSVParser parser = new CSVParser();
         file.read(parser, charsetName);
         if (parser.getIncompleteValues().size() > 0) {
