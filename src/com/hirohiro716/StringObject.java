@@ -259,30 +259,8 @@ public class StringObject implements Cloneable, Iterable<String> {
      * @return このインスタンス。
      */
     public StringObject trim() {
-        int allLength = this.length();
-        int startIndex = 0;
-        FIRST: for (String one : this) {
-            switch (one) {
-            case " ":
-            case "　":
-                startIndex++;
-                break;
-            default:
-                break FIRST;
-            }
-        }
-        int lastIndex = allLength;
-        LAST: for (String one : this) {
-            switch (one) {
-            case " ":
-            case "　":
-                lastIndex--;
-                break;
-            default:
-                break LAST;
-            }
-        }
-        return this.extract(startIndex, lastIndex);
+        this.replace("^[ |　]{1,}", "");
+        return this.replace("[ |　]{1,}$", "");
     }
     
     /**
