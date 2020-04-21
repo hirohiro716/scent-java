@@ -83,11 +83,11 @@ public class File extends FilesystemItem {
     /**
      * このファイルの内容を指定されたcharsetを使用して読み込む。
      * 
-     * @param readCharacterCallback 読み込んだファイルの一文字を処理するコールバック。
+     * @param processAfterReadingCharacter 読み込んだファイルの一文字を処理するコールバック。
      * @param charsetName 
      * @throws IOException
      */
-    public void read(ReadCharacterCallback readCharacterCallback, String charsetName) throws IOException {
+    public void read(ProcessAfterReadingCharacter processAfterReadingCharacter, String charsetName) throws IOException {
         Charset charset = Charset.defaultCharset();
         try {
             if (charsetName != null && charsetName.length() > 0) {
@@ -101,7 +101,7 @@ public class File extends FilesystemItem {
                 try (BufferedReader bufferedReader = new BufferedReader(streamReader)) {
                     int character = bufferedReader.read();
                     while (character > -1) {
-                        readCharacterCallback.call((char) character, bufferedReader);
+                        processAfterReadingCharacter.call((char) character, bufferedReader);
                         character = bufferedReader.read();
                     }
                 }
@@ -112,20 +112,20 @@ public class File extends FilesystemItem {
     /**
      * このファイルの内容をデフォルトのcharsetを使用して読み込む。
      * 
-     * @param readCharacterCallback 読み込んだファイルの一文字を処理するコールバック。
+     * @param processAfterReadingCharacter 読み込んだファイルの一文字を処理するコールバック。
      * @throws IOException
      */
-    public void read(ReadCharacterCallback readCharacterCallback) throws IOException {
-        this.read(readCharacterCallback, null);
+    public void read(ProcessAfterReadingCharacter processAfterReadingCharacter) throws IOException {
+        this.read(processAfterReadingCharacter, null);
     }
     
     /**
-     * 読み込んだファイルの一文字を処理するコールバック。
+     * ファイルの一文字を読み込んだ後の処理インターフェース。
      * 
      * @author hiro
      *
      */
-    public interface ReadCharacterCallback {
+    public interface ProcessAfterReadingCharacter {
         
         /**
          * ファイルの一文字を読み込んだ際に呼び出される。
@@ -140,11 +140,11 @@ public class File extends FilesystemItem {
     /**
      * このファイルの内容を指定されたcharsetを使用して読み込む。
      * 
-     * @param readLineCallback 読み込んだ一行を処理するコールバック。
+     * @param processAfterReadingLine 読み込んだ一行を処理するコールバック。
      * @param charsetName 
      * @throws IOException
      */
-    public void read(ReadLineCallback readLineCallback, String charsetName) throws IOException {
+    public void read(ProcessAfterReadingLine processAfterReadingLine, String charsetName) throws IOException {
         Charset charset = Charset.defaultCharset();
         try {
             if (charsetName != null && charsetName.length() > 0) {
@@ -158,7 +158,7 @@ public class File extends FilesystemItem {
                 try (BufferedReader bufferedReader = new BufferedReader(streamReader)) {
                     String line = bufferedReader.readLine();
                     while (line != null) {
-                        readLineCallback.call(line, bufferedReader);
+                        processAfterReadingLine.call(line, bufferedReader);
                         line = bufferedReader.readLine();
                     }
                 }
@@ -169,20 +169,20 @@ public class File extends FilesystemItem {
     /**
      * このファイルの内容をデフォルトのcharsetを使用して読み込む。
      * 
-     * @param readLineCallback 読み込んだ一行を処理するコールバック。
+     * @param processAfterReadingLine 読み込んだ一行を処理するコールバック。
      * @throws IOException
      */
-    public void read(ReadLineCallback readLineCallback) throws IOException {
-        this.read(readLineCallback, null);
+    public void read(ProcessAfterReadingLine processAfterReadingLine) throws IOException {
+        this.read(processAfterReadingLine, null);
     }
     
     /**
-     * 読み込んだファイルの一行を処理するコールバック。
+     * ファイルの一行を読み込んだ後の処理インターフェース。
      * 
      * @author hiro
      *
      */
-    public interface ReadLineCallback {
+    public interface ProcessAfterReadingLine {
         
         /**
          * ファイルの一行を読み込んだ際に呼び出される。
@@ -197,11 +197,11 @@ public class File extends FilesystemItem {
     /**
      * このファイルに指定されたcharsetを使用して文字列を書き込む。既存の内容は上書きされる。
      * 
-     * @param writeCallback 書き込み処理するコールバック。
+     * @param writingProcess 書き込み処理するコールバック。
      * @param charsetName 
      * @throws IOException
      */
-    public void write(WriteCallback writeCallback, String charsetName) throws IOException {
+    public void write(WritingProcess writingProcess, String charsetName) throws IOException {
         Charset charset = Charset.defaultCharset();
         try {
             if (charsetName != null && charsetName.length() > 0) {
@@ -212,7 +212,7 @@ public class File extends FilesystemItem {
         }
         try (FileOutputStream stream = new FileOutputStream(this.toJavaIoFile())) {
             try (OutputStreamWriter writer = new OutputStreamWriter(stream, charset)) {
-                writeCallback.call(writer);
+                writingProcess.call(writer);
             }
         }
     }
@@ -220,20 +220,20 @@ public class File extends FilesystemItem {
     /**
      * このファイルに指定されたcharsetを使用して文字列を書き込む。既存の内容は上書きされる。
      * 
-     * @param writeCallback 書き込み処理するコールバック。
+     * @param writingProcess 書き込み処理するコールバック。
      * @throws IOException
      */
-    public void write(WriteCallback writeCallback) throws IOException {
-        this.write(writeCallback, null);
+    public void write(WritingProcess writingProcess) throws IOException {
+        this.write(writingProcess, null);
     }
     
     /**
-     * 書き込み処理するコールバック。
+     * 書き込みの処理インターフェース。
      * 
      * @author hiro
      *
      */
-    public static interface WriteCallback {
+    public static interface WritingProcess {
         
         /**
          * ファイルに文字列を書き込む際に呼び出される。

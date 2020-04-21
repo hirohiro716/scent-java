@@ -156,9 +156,9 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     }
     
     @Override
-    protected void processAfterShow() {
+    protected void processAfterShowing() {
         ProgressBarDialog<R> dialog = this;
-        super.processAfterShow();
+        super.processAfterShowing();
         Thread thread = new Thread(new Runnable() {
             
             @Override

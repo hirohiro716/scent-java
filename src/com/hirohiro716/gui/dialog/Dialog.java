@@ -68,7 +68,7 @@ public abstract class Dialog<R> implements DialogInterface {
     private ChangeListener<Dimension> sizeChangeListener = new ChangeListener<Dimension>() {
 
         @Override
-        protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+        protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
             Dialog<R> dialog = Dialog.this;
             dialog.getBackgroundPane().setSize(changedValue);
         }
@@ -130,12 +130,12 @@ public abstract class Dialog<R> implements DialogInterface {
     /**
      * このダイアログを表示する直前に実行される処理。
      */
-    protected abstract void processBeforeShow();
+    protected abstract void processBeforeShowing();
     
     /**
      * このダイアログを表示した後に実行される処理。
      */
-    protected abstract void processAfterShow();
+    protected abstract void processAfterShowing();
     
     /**
      * このダイアログにデフォルトの値をセットする。
@@ -163,15 +163,15 @@ public abstract class Dialog<R> implements DialogInterface {
      */
     protected abstract void setCanceledDialogResult();
     
-    private ProcessAfterDialogClose<R> processAfterDialogClose = null;
+    private ProcessAfterDialogClosing<R> processAfterDialogClosing = null;
     
     /**
      * このダイアログを閉じた際に実行される処理をセットする。
      * 
-     * @param processAfterDialogClose
+     * @param processAfterDialogClosing
      */
-    public void setProcessAfterClose(ProcessAfterDialogClose<R> processAfterDialogClose) {
-        this.processAfterDialogClose = processAfterDialogClose;
+    public void setProcessAfterClosing(ProcessAfterDialogClosing<R> processAfterDialogClosing) {
+        this.processAfterDialogClosing = processAfterDialogClosing;
     }
     
     private Map<Control, Boolean> mapVisibleStatuses = new HashMap<>();
@@ -229,10 +229,10 @@ public abstract class Dialog<R> implements DialogInterface {
         }
         this.owner.addSizeChangeListener(this.sizeChangeListener);
         this.backgroundPane.setSize(this.owner.getRootPane().getSize());
-        this.processBeforeShow();
+        this.processBeforeShowing();
         this.owner.getRootPane().getChildren().add(this.backgroundPane, 0);
         this.owner.getRootPane().updateLayout();
-        this.processAfterShow();
+        this.processAfterShowing();
     }
     
     /**
@@ -245,8 +245,8 @@ public abstract class Dialog<R> implements DialogInterface {
         this.owner.removeChangeListener(this.sizeChangeListener);
         this.owner.getRootPane().updateDisplay();
         this.owner.getRootPane().requestFocus();
-        if (this.processAfterDialogClose != null) {
-            this.processAfterDialogClose.execute(this.getDialogResult());
+        if (this.processAfterDialogClosing != null) {
+            this.processAfterDialogClosing.execute(this.getDialogResult());
         }
     }
     

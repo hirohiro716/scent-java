@@ -94,13 +94,13 @@ public class MenuDialog extends TitledDialog<Button> {
     }
 
     @Override
-    protected void processBeforeShow() {
-        super.processBeforeShow();
+    protected void processBeforeShowing() {
+        super.processBeforeShowing();
         this.getVerticalPaneOfControls().getGrowableControls().add(this.flowPane);
     }
     
     @Override
-    protected void processAfterShow() {
+    protected void processAfterShowing() {
         Font font = this.getPane().getFont();
         this.flowPane.setSpacing(font.getSize());
         for (Button button : this.getButtons()) {

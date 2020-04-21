@@ -19,7 +19,7 @@ import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
 import com.hirohiro716.gui.dialog.MessageDialog;
-import com.hirohiro716.gui.dialog.ProcessAfterDialogClose;
+import com.hirohiro716.gui.dialog.ProcessAfterDialogClosing;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;
@@ -294,13 +294,13 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * 
      * @param message メッセージ。
      * @param exception 発生した例外。
-     * @param processAfterDialogClose ダイアログを閉じた後の処理。
+     * @param processAfterDialogClosing ダイアログを閉じた後の処理。
      */
-    public void showException(String message, Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
+    public void showException(String message, Exception exception, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
         MessageDialog dialog = new MessageDialog(this);
         dialog.setTitle("例外の発生");
         dialog.setMessage(ExceptionMessenger.newInstance(exception).make(message));
-        dialog.setProcessAfterClose(processAfterDialogClose);
+        dialog.setProcessAfterClosing(processAfterDialogClosing);
         dialog.show();
     }
     
@@ -308,10 +308,10 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * 例外が発生した場合のメッセージを表示する。
      * 
      * @param exception 発生した例外。
-     * @param processAfterDialogClose ダイアログを閉じた後の処理。
+     * @param processAfterDialogClosing ダイアログを閉じた後の処理。
      */
-    public final void showException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
-        this.showException(null, exception, processAfterDialogClose);
+    public final void showException(Exception exception, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
+        this.showException(null, exception, processAfterDialogClosing);
     }
 
     /**

@@ -64,7 +64,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.root.addSizeChangeListener(new ChangeListener<>() {
 
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 editableTable.updateDisplay();
             }
         });
@@ -80,7 +80,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.headerPane.addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 headerScrollPane.setMinimumHeight(changedValue.height);
                 for (Pane controlPane : editableTable.rowControlPanes) {
                     controlPane.setWidth(changedValue.width);
@@ -101,7 +101,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.rowsPane.addLocationChangeListener(new ChangeListener<Point>() {
 
             @Override
-            protected void changed(Component<?> component, Point changedValue, Point valueBeforeChange) {
+            protected void changed(Component<?> component, Point changedValue, Point previousValue) {
                 editableTable.headerPane.setX(changedValue.x);
             }
         });
@@ -447,7 +447,7 @@ public abstract class EditableTable<C, R> extends Control {
         label.addSizeChangeListener(new ChangeListener<Dimension>() {
 
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 for (Map<C, Control> controls : editableTable.listOfRowControlMap.values()) {
                     Control control = controls.get(columnInstance);
                     control.setWidth(changedValue.width);
@@ -516,9 +516,9 @@ public abstract class EditableTable<C, R> extends Control {
     
     private boolean isStartedResizeHeaderLabel = false;
     
-    private int headerPaneWidthBeforeResize;
+    private int headerPaneWidthBeforeResizing;
     
-    private int headerLabelWidthBeforeResize;
+    private int headerLabelWidthBeforeResizing;
     
     private int headerLabelResizeStartPointX;
     
@@ -533,8 +533,8 @@ public abstract class EditableTable<C, R> extends Control {
             editableTable.isStartedResizeHeaderLabel = false;
             if (event.getX() > event.getSource().getWidth() - 10) {
                 editableTable.isStartedResizeHeaderLabel = true;
-                editableTable.headerPaneWidthBeforeResize = editableTable.headerPane.getWidth();
-                editableTable.headerLabelWidthBeforeResize = event.getSource().getWidth();
+                editableTable.headerPaneWidthBeforeResizing = editableTable.headerPane.getWidth();
+                editableTable.headerLabelWidthBeforeResizing = event.getSource().getWidth();
                 editableTable.headerLabelResizeStartPointX = event.getScreenX();
             }
         }
@@ -549,12 +549,12 @@ public abstract class EditableTable<C, R> extends Control {
         protected void handle(MouseEvent event) {
             EditableTable<C, R> editableTable = EditableTable.this;
             TableColumn tableColumn = editableTable.mapHeaderLabels.get(event.getSource());
-            int labelWidth = editableTable.headerLabelWidthBeforeResize - editableTable.headerLabelResizeStartPointX + event.getScreenX();
+            int labelWidth = editableTable.headerLabelWidthBeforeResizing - editableTable.headerLabelResizeStartPointX + event.getScreenX();
             if (tableColumn.isResizable() == false || editableTable.isStartedResizeHeaderLabel == false
                     || labelWidth <= tableColumn.getMinimumWidth() || labelWidth >= tableColumn.getMaximumWidth()) {
                 return;
             }
-            editableTable.headerPane.setWidth(editableTable.headerPaneWidthBeforeResize - editableTable.headerLabelResizeStartPointX + event.getScreenX());
+            editableTable.headerPane.setWidth(editableTable.headerPaneWidthBeforeResizing - editableTable.headerLabelResizeStartPointX + event.getScreenX());
             event.getSource().setWidth(labelWidth);
             editableTable.headerPane.getInnerInstance().doLayout();
             for (Pane controlPane : editableTable.rowControlPanes) {
@@ -838,7 +838,7 @@ public abstract class EditableTable<C, R> extends Control {
                 textField.addTextChangeListener(new ChangeListener<String>() {
 
                     @Override
-                    protected void changed(Component<?> component, String changedValue, String valueBeforeChange) {
+                    protected void changed(Component<?> component, String changedValue, String previousValue) {
                         Control control = (Control) component;
                         R rowInstance = pane.getInstanceForUseLater();
                         controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
@@ -859,7 +859,7 @@ public abstract class EditableTable<C, R> extends Control {
                 datePicker.addTextChangeListener(new ChangeListener<String>() {
 
                     @Override
-                    protected void changed(Component<?> component, String changedValue, String valueBeforeChange) {
+                    protected void changed(Component<?> component, String changedValue, String previousValue) {
                         Control control = (Control) component;
                         R rowInstance = pane.getInstanceForUseLater();
                         controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
@@ -872,7 +872,7 @@ public abstract class EditableTable<C, R> extends Control {
                 dropDownList.addSelectedItemChangeListener(new ChangeListener<Object>() {
 
                     @Override
-                    protected void changed(Component<?> component, Object changedValue, Object valueBeforeChange) {
+                    protected void changed(Component<?> component, Object changedValue, Object previousValue) {
                         Control control = (Control) component;
                         R rowInstance = pane.getInstanceForUseLater();
                         controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
@@ -885,7 +885,7 @@ public abstract class EditableTable<C, R> extends Control {
                 checkBox.addMarkChangeListener(new ChangeListener<Boolean>() {
 
                     @Override
-                    protected void changed(Component<?> component, Boolean changedValue, Boolean valueBeforeChange) {
+                    protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                         Control control = (Control) component;
                         R rowInstance = pane.getInstanceForUseLater();
                         controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
@@ -968,7 +968,7 @@ public abstract class EditableTable<C, R> extends Control {
         private C columnInstance;
         
         @Override
-        protected void changed(Component<?> component, Boolean changedValue, Boolean valueBeforeChange) {
+        protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
             EditableTable<C, R> editableTable = EditableTable.this;
             if (changedValue) {
                 editableTable.activateColumn(this.columnInstance);
@@ -1135,7 +1135,7 @@ public abstract class EditableTable<C, R> extends Control {
     private ChangeListener<Integer> scrollPositionChangeListener = new ChangeListener<Integer>() {
         
         @Override
-        protected void changed(Component<?> component, Integer changedValue, Integer valueBeforeChange) {
+        protected void changed(Component<?> component, Integer changedValue, Integer previousValue) {
             EditableTable<C, R> editableTable = EditableTable.this;
             for (Pane rowControlPane : editableTable.rowControlPanes) {
                 for (Control control : rowControlPane.getChildren()) {

@@ -9,8 +9,8 @@ import java.util.List;
 
 import com.hirohiro716.StringObject;
 import com.hirohiro716.filesystem.File;
-import com.hirohiro716.filesystem.File.ReadCharacterCallback;
-import com.hirohiro716.filesystem.File.WriteCallback;
+import com.hirohiro716.filesystem.File.ProcessAfterReadingCharacter;
+import com.hirohiro716.filesystem.File.WritingProcess;
 
 /**
  * CSVファイル(RFC4180準拠)の解析と作成を行うクラス。
@@ -43,7 +43,9 @@ public class CSV {
         this.setHeaders(headers.toArray(new String[] {}));
     }
     
-    private String delimiter = ",";
+    private static final String DEFAULT_DELIMITER = ",";
+    
+    private String delimiter = CSV.DEFAULT_DELIMITER;
     
     /**
      * このインスタンスで使用する値の区切り文字を指定する。初期値はカンマ。
@@ -145,7 +147,7 @@ public class CSV {
             return;
         }
         
-        file.write(new WriteCallback() {
+        file.write(new WritingProcess() {
             @Override
             public void call(OutputStreamWriter writer) throws IOException {
                 CSV csv = CSV.this;
@@ -206,7 +208,15 @@ public class CSV {
      */
     public void importFromFile(File file, String charsetName, boolean firstRowIsHeader) throws IOException {
         this.rows.clear();
-        CSVParser parser = new CSVParser();
+        CSVParser parser = new CSVParser(this.delimiter, new ProcessAfterParsing() {
+            
+            @Override
+            public Exception call(List<String> parsed) {
+                CSV csv = CSV.this;
+                csv.rows.add(parsed);
+                return null;
+            }
+        });
         file.read(parser, charsetName);
         if (parser.getIncompleteValues().size() > 0) {
             this.rows.add(parser.getIncompleteValues());
@@ -229,12 +239,99 @@ public class CSV {
     }
     
     /**
-     * CSVファイルの解析を行うReadCharacterCallback。
+     * CSVファイル、charset、値区切り文字、行情報を解析した後の処理を指定してCSVファイルを解析する。
+     * 
+     * @param file
+     * @param charsetName
+     * @param delimiter
+     * @param processAfterParsing
+     * @return 処理中に発生した例外を返す。発生しなかった場合はnullを返す。
+     * @throws IOException
+     */
+    public static Exception parse(File file, String charsetName, String delimiter, ProcessAfterParsing processAfterParsing) throws IOException {
+        CSVParser parser = new CSVParser(delimiter, processAfterParsing);
+        try {
+            file.read(parser, charsetName);
+        } catch (IOException exception) {
+            if (parser.getException() == null) {
+                throw exception;
+            }
+            return parser.getException();
+        }
+        if (parser.getIncompleteValues().size() > 0) {
+            Exception exception = processAfterParsing.call(parser.getIncompleteValues());
+            if (exception != null) {
+                return exception;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * CSVファイル、charset、行情報を解析した後の処理を指定して、値区切り文字にカンマを使用しているCSVファイルを解析する。
+     * 
+     * @param file
+     * @param charsetName
+     * @param processAfterParsing
+     * @return 処理中に発生した例外を返す。発生しなかった場合はnullを返す。
+     * @throws IOException
+     */
+    public static Exception parse(File file, String charsetName, ProcessAfterParsing processAfterParsing) throws IOException{
+        return CSV.parse(file, charsetName, CSV.DEFAULT_DELIMITER, processAfterParsing);
+    }
+    
+    /**
+     * CSVファイル、行情報を解析した後の処理を指定して、デフォルトのcharsetで値区切り文字にカンマを使用しているCSVファイルを解析する。
+     * 
+     * @param file
+     * @param processAfterParsing
+     * @return 処理中に発生した例外を返す。発生しなかった場合はnullを返す。
+     * @throws IOException
+     */
+    public static Exception parse(File file, ProcessAfterParsing processAfterParsing) throws IOException {
+        return CSV.parse(file, null, CSV.DEFAULT_DELIMITER, processAfterParsing);
+    }
+    
+    /**
+     * CSVファイルの行情報を解析した後の処理インターフェース。
      * 
      * @author hiro
      *
      */
-    private class CSVParser implements ReadCharacterCallback {
+    public interface ProcessAfterParsing {
+        
+        /**
+         * CSVファイルの行情報を解析した後に呼び出される処理。
+         * 
+         * @param parsed
+         * @return 処理中に発生した例外を返す。発生しなかった場合はnullを返す。
+         */
+        public abstract Exception call(List<String> parsed);
+    }
+    
+    /**
+     * CSVファイルの解析を行うクラス。
+     * 
+     * @author hiro
+     *
+     */
+    private static class CSVParser implements ProcessAfterReadingCharacter {
+        
+        /**
+         * コンストラクタ。<br>
+         * 値の区切り文字、CSVファイルの行情報を解析した後の処理を指定する。
+         * 
+         * @param delimiter 
+         * @param processAfterParsing
+         */
+        private CSVParser(String delimiter, ProcessAfterParsing processAfterParsing) {
+            this.delimiter = delimiter;
+            this.processAfterParsing = processAfterParsing;
+        }
+        
+        private String delimiter;
+        
+        private ProcessAfterParsing processAfterParsing;
         
         private List<String> values = new ArrayList<>();
         
@@ -261,15 +358,28 @@ public class CSV {
                 this.values.add(this.parseValue(character, bufferedReader));
                 break;
             }
+            if (this.exception != null) {
+                throw new IOException(this.exception);
+            }
+        }
+        
+        private Exception exception;
+        
+        /**
+         * 処理中に発生した例外を取得する。発生していない場合はnullを返す。
+         * 
+         * @return 結果。
+         */
+        public Exception getException() {
+            return this.exception;
         }
         
         /**
-         * 取り込み中の行情報を取得する。
+         * 行末に達した場合に行情報の配列を新しくする。
          */
         private void changeToNewRow() {
-            CSV csv = CSV.this;
             if (this.values.size() > 0) {
-                csv.rows.add(this.values);
+                this.exception = this.processAfterParsing.call(this.values);
                 this.values = new ArrayList<>();
             }
         }
@@ -283,7 +393,6 @@ public class CSV {
          * @throws IOException
          */
         private String parseValue(int firstCharacter, BufferedReader bufferedReader) throws IOException {
-            CSV csv = CSV.this;
             StringObject result = new StringObject();
             int character = firstCharacter;
             while (character > -1) {
@@ -292,7 +401,7 @@ public class CSV {
                     this.changeToNewRow();
                     break;
                 }
-                if (first.equals(csv.delimiter)) {
+                if (first.equals(this.delimiter)) {
                     break;
                 }
                 result.append(first);

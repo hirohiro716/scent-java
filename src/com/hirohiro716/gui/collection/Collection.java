@@ -130,7 +130,7 @@ public class Collection<T> implements Iterable<T> {
         }
         this.list.add(positionIndex, value);
         for (AddListener<T> listener : this.addListeners) {
-            listener.executeWhenNotDisabled(value, positionIndex);
+            listener.added(value, positionIndex);
         }
     }
     
@@ -173,7 +173,7 @@ public class Collection<T> implements Iterable<T> {
     public void remove(T value) {
         this.list.remove(value);
         for (RemoveListener<T> listener : this.removeListeners) {
-            listener.executeWhenNotDisabled(value);
+            listener.removed(value);
         }
     }
     

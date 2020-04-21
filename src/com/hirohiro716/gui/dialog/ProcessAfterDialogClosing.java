@@ -7,7 +7,7 @@ package com.hirohiro716.gui.dialog;
  *
  * @param <R> ダイアログの表示結果の型。
  */
-public interface ProcessAfterDialogClose<R> {
+public interface ProcessAfterDialogClosing<R> {
     
     /**
      * ダイアログが閉じられた後に実行される処理。

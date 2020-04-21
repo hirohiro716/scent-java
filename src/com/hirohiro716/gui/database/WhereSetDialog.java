@@ -37,7 +37,7 @@ import com.hirohiro716.gui.control.TextField;
 import com.hirohiro716.gui.control.VerticalPane;
 import com.hirohiro716.gui.dialog.DatetimeInputDialog;
 import com.hirohiro716.gui.dialog.DropDownListDialog;
-import com.hirohiro716.gui.dialog.ProcessAfterDialogClose;
+import com.hirohiro716.gui.dialog.ProcessAfterDialogClosing;
 import com.hirohiro716.gui.dialog.TitledDialog;
 import com.hirohiro716.gui.event.ActionEvent;
 import com.hirohiro716.gui.event.ChangeListener;
@@ -214,8 +214,8 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     }
 
     @Override
-    protected void processAfterShow() {
-        super.processAfterShow();
+    protected void processAfterShowing() {
+        super.processAfterShowing();
         if (this.defaultWhereSets == null) {
             this.listView.getItems().add(new WhereSet());
         } else {
@@ -354,9 +354,9 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         this.listView.addSelectedItemChangeListener(new ChangeListener<WhereSet>() {
 
             @Override
-            protected void changed(Component<?> component, WhereSet changedValue, WhereSet valueBeforeChange) {
-                if (valueBeforeChange != null) {
-                    dialog.importWhereSetFromEditor(valueBeforeChange);
+            protected void changed(Component<?> component, WhereSet changedValue, WhereSet previousValue) {
+                if (previousValue != null) {
+                    dialog.importWhereSetFromEditor(previousValue);
                 }
                 dialog.exportWhereSetToEditor(changedValue);
             }
@@ -481,7 +481,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 dialog.getDropDownList().setTextForItem(ownerDialog.mapLogicalName);
                 dialog.setTitle("検索するカラムの追加");
                 dialog.setMessage("検索条件に追加するカラムを選択してください。");
-                dialog.setProcessAfterClose(new ProcessAfterDialogClose<>() {
+                dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
                     
                     @Override
                     public void execute(String dialogResult) {
@@ -615,7 +615,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     private ChangeListener<Comparison> comparisonChangeListener = new ChangeListener<>() {
 
         @Override
-        protected void changed(Component<?> component, Comparison changedValue, Comparison valueBeforeChange) {
+        protected void changed(Component<?> component, Comparison changedValue, Comparison previousValue) {
             WhereSetDialog dialog = WhereSetDialog.this;
             DropDownList<?> dropDownList = (DropDownList<?>) component;
             HorizontalPane parent = dropDownList.getParent();
@@ -748,7 +748,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 dialog.setDefaultValue(Datetime.newInstance(textField.getText()));
             } catch (ParseException exception) {
             }
-            dialog.setProcessAfterClose(new ProcessAfterDialogClose<>() {
+            dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
 
                 @Override
                 public void execute(Datetime dialogResult) {
@@ -780,7 +780,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 dialog.setDefaultValue(Datetime.newInstance(textField.getText()));
             } catch (ParseException exception) {
             }
-            dialog.setProcessAfterClose(new ProcessAfterDialogClose<>() {
+            dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
 
                 @Override
                 public void execute(Datetime dialogResult) {

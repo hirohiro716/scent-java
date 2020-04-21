@@ -32,7 +32,7 @@ public class ClickableLabel extends Button {
         this.addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 label.setStyleColor(label.defaultForegroundColor);
             }
         });

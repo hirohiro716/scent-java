@@ -7,7 +7,7 @@ import com.hirohiro716.StringObject;
 import com.hirohiro716.database.Database;
 import com.hirohiro716.database.RecordMapper;
 import com.hirohiro716.gui.Editor;
-import com.hirohiro716.gui.dialog.ProcessAfterDialogClose;
+import com.hirohiro716.gui.dialog.ProcessAfterDialogClosing;
 import com.hirohiro716.gui.dialog.QuestionDialog;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;
@@ -121,7 +121,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
             message.append(exception.getMessage());
             dialog.setMessage(message.toString());
             dialog.setDefaultValue(ResultButton.YES);
-            dialog.setProcessAfterClose(new ProcessAfterDialogClose<>() {
+            dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
                 
                 @Override
                 public void execute(ResultButton dialogResult) {
@@ -173,7 +173,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
      * @param processAfterSuccess 編集に成功した場合の処理。
      * @param processAfterFailure 編集に失敗し再試行しなかった場合の処理。
      */
-    public void editRecordMapperWithRetryDialog(ProcessAfterDialogClose<T> processAfterSuccess, ProcessAfterFailure processAfterFailure) {
+    public void editRecordMapperWithRetryDialog(ProcessAfterDialogClosing<T> processAfterSuccess, ProcessAfterFailure processAfterFailure) {
         try {
             this.editRecordMapper(this.database);
             if (processAfterSuccess != null) {
@@ -188,7 +188,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
             message.append(exception.getMessage());
             dialog.setMessage(message.toString());
             dialog.setDefaultValue(ResultButton.YES);
-            dialog.setProcessAfterClose(new ProcessAfterDialogClose<>() {
+            dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
                 
                 @Override
                 public void execute(ResultButton dialogResult) {
@@ -221,7 +221,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
      * 
      * @param processAfterSuccess 編集に成功した場合の処理。
      */
-    public void editRecordMapperWithRetryDialog(ProcessAfterDialogClose<T> processAfterSuccess) {
+    public void editRecordMapperWithRetryDialog(ProcessAfterDialogClosing<T> processAfterSuccess) {
         this.editRecordMapperWithRetryDialog(processAfterSuccess, null);
     }
 

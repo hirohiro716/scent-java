@@ -8,7 +8,7 @@ import com.hirohiro716.DynamicArray;
  * @author hiro
  *
  */
-public interface ProcessAfterRecordSelect {
+public interface ProcessAfterRecordSelection {
 
     /**
      * データベースレコードが選択された後に実行される処理。

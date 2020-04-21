@@ -12,7 +12,7 @@ import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.Window;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.table.TableView;
-import com.hirohiro716.gui.dialog.ProcessAfterDialogClose;
+import com.hirohiro716.gui.dialog.ProcessAfterDialogClosing;
 import com.hirohiro716.gui.dialog.WaitCircleDialog;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.KeyEvent;
@@ -96,13 +96,13 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
      * 
      * @param whereSets 検索に使用される検索条件。
      */
-    protected abstract void processBeforeSearch(WhereSet... whereSets);
+    protected abstract void processBeforeSearching(WhereSet... whereSets);
     
     /**
      * 検索を実行した後に実行される処理。<br>
      * このメソッドはスーバークラスで自動的に呼び出される。
      */
-    protected abstract void processAfterSearch();
+    protected abstract void processAfterSearching();
 
     /**
      * 検索条件を指定して、ダイアログを表示しながら検索を実行する。
@@ -110,7 +110,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
      * @param whereSets
      */
     private void searchWithDialog(WhereSet... whereSets) {
-        this.processBeforeSearch(whereSets);
+        this.processBeforeSearching(whereSets);
         RecordSearchWindow<T> window = this;
         WaitCircleDialog<Void> dialog = new WaitCircleDialog<>(this, new Callable<Void>() {
 
@@ -127,7 +127,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
         });
         dialog.setTitle("検索処理中");
         dialog.setMessage("データベースのレコードを検索しています。");
-        dialog.setProcessAfterClose(new ProcessAfterDialogClose<Void>() {
+        dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<Void>() {
             
             @Override
             public void execute(Void dialogResult) {
@@ -135,7 +135,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
                 if (dialog.getException() != null) {
                     window.showException(dialog.getException());
                 }
-                window.processAfterSearch();
+                window.processAfterSearching();
             }
         });
         dialog.show();
@@ -165,7 +165,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
         RecordSearchWindow<T> window = this;
         WhereSetDialog dialog = this.createAdvancedSearchDialog();
         dialog.setDefaultValue(this.lastTimeWhereSets);
-        dialog.setProcessAfterClose(new ProcessAfterDialogClose<>() {
+        dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
 
             @Override
             public void execute(Array<WhereSet> dialogResult) {
@@ -187,15 +187,15 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
         dialog.show();
     }
     
-    private ProcessAfterRecordSelect processAfterRecordSelect = null;
+    private ProcessAfterRecordSelection processAfterRecordSelection = null;
     
     /**
      * レコードの検索結果のうち一つのレコードを選択した後に実行する処理をセットする。
      * 
-     * @param processAfterRecordSelect
+     * @param processAfterRecordSelection
      */
-    public void setProcessAfterRecordSelect(ProcessAfterRecordSelect processAfterRecordSelect) {
-        this.processAfterRecordSelect = processAfterRecordSelect;
+    public void setProcessAfterRecordSelect(ProcessAfterRecordSelection processAfterRecordSelection) {
+        this.processAfterRecordSelection = processAfterRecordSelection;
     }
     
     /**
@@ -204,10 +204,10 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
      * @param record
      */
     protected void selectRecord(DynamicArray<String> record) {
-        if (this.processAfterRecordSelect == null || record == null) {
+        if (this.processAfterRecordSelection == null || record == null) {
             return;
         }
-        this.processAfterRecordSelect.execute(record);
+        this.processAfterRecordSelection.execute(record);
         this.close();
     }
 

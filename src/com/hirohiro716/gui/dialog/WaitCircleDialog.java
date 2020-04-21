@@ -136,8 +136,8 @@ public class WaitCircleDialog<R> extends MessageableDialog<R> {
     }
     
     @Override
-    protected void processBeforeShow() {
-        super.processBeforeShow();
+    protected void processBeforeShowing() {
+        super.processBeforeShowing();
         int size = this.waitCircle.getFont().getSize() * 5;
         this.waitCircle.setMinimumSize(size, size);
     }
@@ -148,9 +148,9 @@ public class WaitCircleDialog<R> extends MessageableDialog<R> {
     }
     
     @Override
-    protected void processAfterShow() {
+    protected void processAfterShowing() {
         WaitCircleDialog<R> dialog = this;
-        super.processAfterShow();
+        super.processAfterShowing();
         Thread thread = new Thread(new Runnable() {
             
             @Override

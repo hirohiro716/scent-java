@@ -119,14 +119,14 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
     }
     
     @Override
-    protected void processBeforeShow() {
-        super.processBeforeShow();
+    protected void processBeforeShowing() {
+        super.processBeforeShowing();
         this.getVerticalPaneOfControls().getGrowableControls().add(this.scrollPaneOfMessage);
         this.scrollPaneOfMessage.setMinimumHeight(this.labelOfMessage.getFont().getSize() * 2);
         this.scrollPaneOfMessage.addSizeChangeListener(new ChangeListener<>() {
             
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 MessageableDialog<R> dialog = MessageableDialog.this;
                 dialog.labelOfMessage.setMaximumWidth(changedValue.width);
             }

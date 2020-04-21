@@ -42,7 +42,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
         this.addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 instance.updateDisplay();
             }
         });
@@ -135,7 +135,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
     private ChangeListener<Point> locationChangeListener = new ChangeListener<Point>() {
 
         @Override
-        protected void changed(Component<?> component, Point changedValue, Point valueBeforeChange) {
+        protected void changed(Component<?> component, Point changedValue, Point previousValue) {
             InstantMessage instance = InstantMessage.this;
             instance.updateLocation();
         }

@@ -36,7 +36,7 @@ public class FlowPane extends Pane {
         ChangeListener<Point> locationChangeListener = new ChangeListener<>() {
 
             @Override
-            protected void changed(Component<?> component, Point changedValue, Point valueBeforeChange) {
+            protected void changed(Component<?> component, Point changedValue, Point previousValue) {
                 pane.updateAllChildLayout();
                 pane.updateLayout();
             }
@@ -44,7 +44,7 @@ public class FlowPane extends Pane {
         ChangeListener<Dimension> sizeChangeListener = new ChangeListener<>() {
 
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 pane.updateAllChildLayout();
                 pane.updateLayout();
             }

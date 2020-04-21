@@ -208,15 +208,15 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
     }
 
     @Override
-    protected void processBeforeShow() {
-        super.processBeforeShow();
+    protected void processBeforeShowing() {
+        super.processBeforeShowing();
         ToggleButtonDialog<T> dialog = this;
         this.getVerticalPaneOfControls().getGrowableControls().clear();
         this.getVerticalPaneOfControls().getGrowableControls().add(this.scrollPane);
         this.getVerticalPaneOfControls().addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 dialog.flowPane.setMaximumWidth(changedValue.width);
             }
         });

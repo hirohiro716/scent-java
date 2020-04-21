@@ -110,8 +110,8 @@ public abstract class TextInputControlDialog<C extends TextInputControl> extends
     }
     
     @Override
-    protected void processBeforeShow() {
-        super.processBeforeShow();
+    protected void processBeforeShowing() {
+        super.processBeforeShowing();
         this.control.setText(this.defaultValue);
     }
     

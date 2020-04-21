@@ -93,7 +93,7 @@ public class ChildWindow extends Frame<JDialog> {
         this.getRootPane().addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 ChildWindow dialog = ChildWindow.this;
                 if (changedValue.width > dimension.width || changedValue.height > dimension.height) {
                     dialog.setSize(dimension);

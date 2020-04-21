@@ -19,7 +19,7 @@ import com.hirohiro716.gui.control.TextField;
 import com.hirohiro716.gui.control.ToggleButton;
 import com.hirohiro716.gui.dialog.ConfirmDialog;
 import com.hirohiro716.gui.dialog.MessageDialog;
-import com.hirohiro716.gui.dialog.ProcessAfterDialogClose;
+import com.hirohiro716.gui.dialog.ProcessAfterDialogClosing;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;
@@ -86,7 +86,7 @@ public abstract class Editor<T> {
      * 
      * @throws Exception 
      */
-    protected abstract void processBeforeShow() throws Exception;
+    protected abstract void processBeforeShowing() throws Exception;
 
     /**
      * このエディターを表示した直後に実行される処理。<br>
@@ -94,7 +94,7 @@ public abstract class Editor<T> {
      * 
      * @throws Exception 
      */
-    protected abstract void processAfterShow() throws Exception;
+    protected abstract void processAfterShowing() throws Exception;
 
     private Map<PropertyInterface, Label> mapLabel = new HashMap<>();    
     
@@ -117,29 +117,29 @@ public abstract class Editor<T> {
             }
         }
         // Show
-        this.processBeforeShow();
+        this.processBeforeShowing();
         this.window.show();
-        this.processAfterShow();
+        this.processAfterShowing();
     }
     
-    private boolean isShowConfirmationBeforeClose = true;
+    private boolean isShowConfirmationBeforeClosing = true;
     
     /**
      * このエディターを閉じる前に確認を表示する場合はtrueを返す。
      * 
      * @return 結果。
      */
-    public boolean isShowConfirmationBeforeClose() {
-        return this.isShowConfirmationBeforeClose;
+    public boolean isShowConfirmationBeforeClosing() {
+        return this.isShowConfirmationBeforeClosing;
     }
     
     /**
      * このエディターを閉じる前に確認を表示する場合はtrueをセットする。
      * 
-     * @param isShowConfirmationBeforeClose
+     * @param isShowConfirmationBeforeClosing
      */
-    public void setShowConfirmationBeforeClose(boolean isShowConfirmationBeforeClose) {
-        this.isShowConfirmationBeforeClose = isShowConfirmationBeforeClose;
+    public void setShowConfirmationBeforeClosing(boolean isShowConfirmationBeforeClosing) {
+        this.isShowConfirmationBeforeClosing = isShowConfirmationBeforeClosing;
     }
 
     /**
@@ -148,7 +148,7 @@ public abstract class Editor<T> {
      * 
      * @throws Exception 
      */
-    protected abstract void processBeforeClose() throws Exception;
+    protected abstract void processBeforeClosing() throws Exception;
     
     /**
      * 編集中のターゲットの情報をエディターに出力する。<br>
@@ -166,13 +166,13 @@ public abstract class Editor<T> {
      * バリデーションに失敗した場合のメッセージを表示する。
      * 
      * @param exception 発生した例外。
-     * @param processAfterDialogClose ダイアログを閉じた後の処理。
+     * @param processAfterDialogClosing ダイアログを閉じた後の処理。
      */
-    protected void showValidationException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
+    protected void showValidationException(Exception exception, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
         MessageDialog dialog = new MessageDialog(this.window);
         dialog.setTitle("バリデーションに失敗");
         dialog.setMessage(exception.getMessage());
-        dialog.setProcessAfterClose(processAfterDialogClose);
+        dialog.setProcessAfterClosing(processAfterDialogClosing);
         dialog.show();
     }
 
@@ -190,20 +190,20 @@ public abstract class Editor<T> {
      * 
      * @param message メッセージ。
      * @param exception 発生した例外。
-     * @param processAfterDialogClose ダイアログを閉じた後の処理。
+     * @param processAfterDialogClosing ダイアログを閉じた後の処理。
      */
-    protected void showException(String message, Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
-        this.window.showException(message, exception, processAfterDialogClose);
+    protected void showException(String message, Exception exception, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
+        this.window.showException(message, exception, processAfterDialogClosing);
     }
     
     /**
      * 例外が発生した場合のメッセージを表示する。
      * 
      * @param exception 発生した例外。
-     * @param processAfterDialogClose ダイアログを閉じた後の処理。
+     * @param processAfterDialogClosing ダイアログを閉じた後の処理。
      */
-    protected final void showException(Exception exception, ProcessAfterDialogClose<ResultButton> processAfterDialogClose) {
-        this.showException(null, exception, processAfterDialogClose);
+    protected final void showException(Exception exception, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
+        this.showException(null, exception, processAfterDialogClosing);
     }
 
     /**
@@ -229,7 +229,7 @@ public abstract class Editor<T> {
      * このエディターを閉じる。
      */
     public void close() {
-        this.isShowConfirmationBeforeClose = false;
+        this.isShowConfirmationBeforeClosing = false;
         this.window.close();
     }
 
@@ -252,7 +252,7 @@ public abstract class Editor<T> {
         @Override
         protected void handle(FrameEvent event) {
             Editor<T> editor = Editor.this;
-            if (editor.isShowConfirmationBeforeClose && this.isAgree == false) {
+            if (editor.isShowConfirmationBeforeClosing && this.isAgree == false) {
                 if (this.dialog != null) {
                     return;
                 }
@@ -261,14 +261,14 @@ public abstract class Editor<T> {
                 this.dialog.setTitle(CloseEventHandler.DIALOG_TITLE);
                 this.dialog.setMessage(CloseEventHandler.DIALOG_MESSAGE);
                 this.dialog.setDefaultValue(ResultButton.OK);
-                this.dialog.setProcessAfterClose(new ProcessAfterDialogClose<>() {
+                this.dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
                     
                     @Override
                     public void execute(ResultButton dialogResult) {
                         CloseEventHandler handler = CloseEventHandler.this;
                         if (dialogResult == ResultButton.OK) {
                             try {
-                                editor.processBeforeClose();
+                                editor.processBeforeClosing();
                                 handler.isAgree = true;
                                 editor.window.close();
                             } catch (Exception exception) {

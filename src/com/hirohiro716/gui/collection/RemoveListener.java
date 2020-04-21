@@ -15,35 +15,4 @@ public abstract class RemoveListener<T> {
      * @param removed
      */
     protected abstract void removed(T removed);
-
-    /**
-     * このリスナーが無効ではない場合に処理を実行する。
-     * 
-     * @param removed
-     */
-    public void executeWhenNotDisabled(T removed) {
-        if (this.isDisabled == false) {
-            this.removed(removed);
-        }
-    }
-    
-    private boolean isDisabled = false;
-    
-    /**
-     * このリスナーが無効になっている場合はtrueを返す。
-     * 
-     * @return 結果。
-     */
-    public boolean isDisabled() {
-        return this.isDisabled;
-    }
-    
-    /**
-     * このリスナーを無効に設定する。
-     * 
-     * @param isDisabled
-     */
-    public void setDisabled(boolean isDisabled) {
-        this.isDisabled = isDisabled;
-    }
 }

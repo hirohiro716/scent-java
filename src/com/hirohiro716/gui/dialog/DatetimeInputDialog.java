@@ -221,8 +221,8 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
     }
     
     @Override
-    protected void processBeforeShow() {
-        super.processBeforeShow();
+    protected void processBeforeShowing() {
+        super.processBeforeShowing();
         if (this.isTimeInput == false) {
             this.labelDate.setVisible(false);
             this.labelTime.setVisible(false);

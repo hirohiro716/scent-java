@@ -63,7 +63,7 @@ public abstract class TextInputControl extends Control {
         this.addFocusChangeListener(new ChangeListener<Boolean>() {
 
             @Override
-            protected void changed(Component<?> component, Boolean changedValue, Boolean valueBeforeChange) {
+            protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                 if (control.isEnableSelectAllWhenFocused) {
                     control.selectAll();
                 }

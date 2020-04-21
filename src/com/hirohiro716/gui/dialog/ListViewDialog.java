@@ -130,8 +130,8 @@ public class ListViewDialog<T> extends MessageableDialog<Array<T>> {
     }
     
     @Override
-    protected void processBeforeShow() {
-        super.processBeforeShow();
+    protected void processBeforeShowing() {
+        super.processBeforeShowing();
         this.getVerticalPaneOfControls().getGrowableControls().clear();
         this.getVerticalPaneOfControls().getGrowableControls().add(this.listView);
     }

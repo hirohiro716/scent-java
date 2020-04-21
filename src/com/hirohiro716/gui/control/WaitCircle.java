@@ -48,7 +48,7 @@ public class WaitCircle extends Control {
     private ChangeListener<Dimension> sizeChangeListener = new ChangeListener<>() {
 
         @Override
-        protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+        protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
             WaitCircle waitCircle = WaitCircle.this;
             waitCircle.getInnerInstance().setCircleSize(changedValue.width / 12d * 5, changedValue.height / 12d * 5, (int) (changedValue.width / 12d * 2), (int) (changedValue.height / 12d * 2));
         }

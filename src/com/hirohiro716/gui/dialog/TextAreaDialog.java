@@ -29,8 +29,8 @@ public class TextAreaDialog extends TextInputControlDialog<TextArea> {
     }
 
     @Override
-    protected void processBeforeShow() {
-        super.processBeforeShow();
+    protected void processBeforeShowing() {
+        super.processBeforeShowing();
         this.getVerticalPaneOfControls().getGrowableControls().clear();
         this.getVerticalPaneOfControls().getGrowableControls().add(this.getTextInputControl());
     }

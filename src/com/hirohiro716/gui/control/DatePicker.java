@@ -51,14 +51,14 @@ public class DatePicker extends TextField {
         this.addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 textField.showPopup();
             }
         });
         this.addFocusChangeListener(new ChangeListener<Boolean>() {
             
             @Override
-            protected void changed(Component<?> component, Boolean changedValue, Boolean valueBeforeChange) {
+            protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                 if (changedValue) {
                     textField.selectAll();
                     textField.showPopup();
@@ -313,14 +313,14 @@ public class DatePicker extends TextField {
             frame.addLocationChangeListener(new ChangeListener<Point>() {
                 
                 @Override
-                protected void changed(Component<?> component, Point changedValue, Point valueBeforeChange) {
+                protected void changed(Component<?> component, Point changedValue, Point previousValue) {
                     control.showPopup();
                 }
             });
             frame.addSizeChangeListener(new ChangeListener<Dimension>() {
                 
                 @Override
-                protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+                protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                     control.showPopup();
                 }
             });
@@ -463,7 +463,7 @@ public class DatePicker extends TextField {
         private ChangeListener<Integer> monthChangeListener = new ChangeListener<Integer>() {
             
             @Override
-            protected void changed(Component<?> component, Integer changedValue, Integer valueBeforeChange) {
+            protected void changed(Component<?> component, Integer changedValue, Integer previousValue) {
                 CalendarPane pane = CalendarPane.this;
                 pane.displayCalender();
             }

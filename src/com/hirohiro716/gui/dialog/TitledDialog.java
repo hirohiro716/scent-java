@@ -117,7 +117,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
         pane.addSizeChangeListener(new ChangeListener<Dimension>() {
 
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 AnchorPane pane = dialog.getPane();
                 int padding = pane.getFont().getSize() * 4;
                 dialog.verticalPane.setWidth(changedValue.width - padding);
@@ -127,7 +127,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
         ChangeListener<Dimension> sizeChangeListener = new ChangeListener<Dimension>() {
             
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 AnchorPane pane = dialog.getPane();
                 int padding = pane.getFont().getSize();
                 int padding2 = padding * 2;
@@ -156,12 +156,12 @@ public abstract class TitledDialog<R> extends Dialog<R> {
     protected abstract Control getInitialFocusControl();
     
     @Override
-    protected void processBeforeShow() {
+    protected void processBeforeShowing() {
         this.labelOfTitle.setText(this.getTitle());
     }
 
     @Override
-    protected void processAfterShow() {
+    protected void processAfterShowing() {
         if (this.getInitialFocusControl() != null) {
             this.verticalPane.getChildren().setInitialFocusControl(this.getInitialFocusControl());
             this.verticalPane.requestFocus();

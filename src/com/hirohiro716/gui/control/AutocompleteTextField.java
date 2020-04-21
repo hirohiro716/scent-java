@@ -42,14 +42,14 @@ public class AutocompleteTextField extends TextField {
         this.addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 textField.showPopup();
             }
         });
         this.addFocusChangeListener(new ChangeListener<Boolean>() {
             
             @Override
-            protected void changed(Component<?> component, Boolean changedValue, Boolean valueBeforeChange) {
+            protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                 if (changedValue) {
                     if (textField.isDisableAutocomplete() == false) {
                         textField.showPopup();
@@ -167,14 +167,14 @@ public class AutocompleteTextField extends TextField {
         frame.addLocationChangeListener(new ChangeListener<Point>() {
             
             @Override
-            protected void changed(Component<?> component, Point changedValue, Point valueBeforeChange) {
+            protected void changed(Component<?> component, Point changedValue, Point previousValue) {
                 control.showPopup();
             }
         });
         frame.addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension valueBeforeChange) {
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 control.showPopup();
             }
         });
@@ -351,7 +351,7 @@ public class AutocompleteTextField extends TextField {
     private class TextChangeListener extends ChangeListener<String> {
         
         @Override
-        protected void changed(Component<?> component, String changedValue, String valueBeforeChange) {
+        protected void changed(Component<?> component, String changedValue, String previousValue) {
             AutocompleteTextField control = AutocompleteTextField.this;
             if (control.isDisableAutocomplete()) {
                 return;
