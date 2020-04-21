@@ -395,16 +395,16 @@ public class CSV {
             StringObject result = new StringObject();
             int character = firstCharacter;
             while (character > -1) {
-                String first = String.valueOf((char) character);
-                if (first.equals("\n") || first.equals("\r")) {
+                String one = String.valueOf((char) character);
+                if (one.equals("\n") || one.equals("\r")) {
                     this.values.add(result.toString());
                     this.changeToNewRow();
+                    return;
+                }
+                if (one.equals(this.delimiter)) {
                     break;
                 }
-                if (first.equals(this.delimiter)) {
-                    break;
-                }
-                result.append(first);
+                result.append(one);
                 character = bufferedReader.read();
             }
             this.values.add(result.toString());
