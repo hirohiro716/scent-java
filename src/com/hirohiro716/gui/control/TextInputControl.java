@@ -285,7 +285,7 @@ public abstract class TextInputControl extends Control {
         }
     }
 
-    private int maxLength = -1;
+    private int maximumLength = -1;
     
     /**
      * このテキスト入力コントロールに入力できる最大文字数を取得する。
@@ -293,16 +293,16 @@ public abstract class TextInputControl extends Control {
      * @return 結果。
      */
     public int getMaxLength() {
-        return this.maxLength;
+        return this.maximumLength;
     }
     
     /**
      * このテキスト入力コントロールに入力できる文字数を制限する。初期値は-1の無制限。
      * 
-     * @param maxLength
+     * @param maximumLength
      */
-    public void setMaxLength(int maxLength) {
-        this.maxLength = maxLength;
+    public void setMaxLength(int maximumLength) {
+        this.maximumLength = maximumLength;
     }
     
     private Map<Pattern, Boolean> inputLimitRegexPatterns = new HashMap<>();

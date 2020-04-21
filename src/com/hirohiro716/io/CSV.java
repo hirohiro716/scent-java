@@ -349,13 +349,13 @@ public class CSV {
             String first = String.valueOf(character);
             switch (first) {
             case "\"":
-                this.values.add(this.parseValueOfString(bufferedReader));
+                this.parseValueOfString(bufferedReader);
                 break;
             case "\r":
             case "\n":
                 break;
             default:
-                this.values.add(this.parseValue(character, bufferedReader));
+                this.parseValue(character, bufferedReader);
                 break;
             }
             if (this.exception != null) {
@@ -389,15 +389,15 @@ public class CSV {
          * 
          * @param firstCharacter ダブルクォートで囲われていないと判断した最初のcharacter。
          * @param bufferedReader
-         * @return 結果。
          * @throws IOException
          */
-        private String parseValue(int firstCharacter, BufferedReader bufferedReader) throws IOException {
+        private void parseValue(int firstCharacter, BufferedReader bufferedReader) throws IOException {
             StringObject result = new StringObject();
             int character = firstCharacter;
             while (character > -1) {
                 String first = String.valueOf((char) character);
                 if (first.equals("\n") || first.equals("\r")) {
+                    this.values.add(result.toString());
                     this.changeToNewRow();
                     break;
                 }
@@ -407,17 +407,16 @@ public class CSV {
                 result.append(first);
                 character = bufferedReader.read();
             }
-            return result.toString();
+            this.values.add(result.toString());
         }
         
         /**
          * ダブルクォートで囲われている値を解析する。
          * 
          * @param bufferedReader
-         * @return 結果。
          * @throws IOException
          */
-        private String parseValueOfString(BufferedReader bufferedReader) throws IOException {
+        private void parseValueOfString(BufferedReader bufferedReader) throws IOException {
             StringObject result = new StringObject();
             char character = (char) bufferedReader.read();
             while (character > -1) {
@@ -438,7 +437,7 @@ public class CSV {
                 }
                 character = (char) bufferedReader.read();
             }
-            return result.toString();
+            this.values.add(result.toString());
         }
     }
 }

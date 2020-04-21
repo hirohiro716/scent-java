@@ -324,7 +324,7 @@ public abstract class Editor<T> {
     protected TextField createTextField(PropertyInterface property) {
         TextField textField = new TextField();
         textField.setName(property.getPhysicalName());
-        textField.setMaxLength(property.getMaxLength());
+        textField.setMaxLength(property.getMaximumLength());
         return textField;
     }
     
@@ -337,7 +337,7 @@ public abstract class Editor<T> {
     protected AutocompleteTextField createAutocompleteTextField(PropertyInterface property) {
         AutocompleteTextField textField = new AutocompleteTextField();
         textField.setName(property.getPhysicalName());
-        textField.setMaxLength(property.getMaxLength());
+        textField.setMaxLength(property.getMaximumLength());
         return textField;
     }
 
@@ -350,7 +350,7 @@ public abstract class Editor<T> {
     protected PasswordField createPasswordField(PropertyInterface property) {
         PasswordField passwordField = new PasswordField();
         passwordField.setName(property.getPhysicalName());
-        passwordField.setMaxLength(property.getMaxLength());
+        passwordField.setMaxLength(property.getMaximumLength());
         return passwordField;
     }
 
@@ -375,7 +375,7 @@ public abstract class Editor<T> {
     protected TextArea createTextArea(PropertyInterface property) {
         TextArea textArea = new TextArea();
         textArea.setName(property.getPhysicalName());
-        textArea.setMaxLength(property.getMaxLength());
+        textArea.setMaxLength(property.getMaximumLength());
         return textArea;
     }
     

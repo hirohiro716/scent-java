@@ -37,7 +37,7 @@ public interface PropertyInterface {
      * 
      * @return 結果。
      */
-    public abstract int getMaxLength();
+    public abstract int getMaximumLength();
 
     /**
      * 指定された物理名とプロパティ列挙型のクラスから、該当する列挙子を取得する。該当するものがない場合はnullを返す。
