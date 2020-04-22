@@ -83,11 +83,11 @@ public class File extends FilesystemItem {
     /**
      * このファイルの内容を指定されたcharsetを使用して読み込む。
      * 
-     * @param processAfterReadingCharacter 読み込んだファイルの一文字を処理するコールバック。
      * @param charsetName 
+     * @param processAfterReadingCharacter 読み込んだファイルの一文字を処理するコールバック。
      * @throws IOException
      */
-    public void read(ProcessAfterReadingCharacter processAfterReadingCharacter, String charsetName) throws IOException {
+    public void read(String charsetName, ProcessAfterReadingCharacter processAfterReadingCharacter) throws IOException {
         Charset charset = Charset.defaultCharset();
         try {
             if (charsetName != null && charsetName.length() > 0) {
@@ -116,7 +116,7 @@ public class File extends FilesystemItem {
      * @throws IOException
      */
     public void read(ProcessAfterReadingCharacter processAfterReadingCharacter) throws IOException {
-        this.read(processAfterReadingCharacter, null);
+        this.read(null, processAfterReadingCharacter);
     }
     
     /**
@@ -140,11 +140,11 @@ public class File extends FilesystemItem {
     /**
      * このファイルの内容を指定されたcharsetを使用して読み込む。
      * 
-     * @param processAfterReadingLine 読み込んだ一行を処理するコールバック。
      * @param charsetName 
+     * @param processAfterReadingLine 読み込んだ一行を処理するコールバック。
      * @throws IOException
      */
-    public void read(ProcessAfterReadingLine processAfterReadingLine, String charsetName) throws IOException {
+    public void read(String charsetName, ProcessAfterReadingLine processAfterReadingLine) throws IOException {
         Charset charset = Charset.defaultCharset();
         try {
             if (charsetName != null && charsetName.length() > 0) {
@@ -173,7 +173,7 @@ public class File extends FilesystemItem {
      * @throws IOException
      */
     public void read(ProcessAfterReadingLine processAfterReadingLine) throws IOException {
-        this.read(processAfterReadingLine, null);
+        this.read(null, processAfterReadingLine);
     }
     
     /**
@@ -197,11 +197,11 @@ public class File extends FilesystemItem {
     /**
      * このファイルに指定されたcharsetを使用して文字列を書き込む。既存の内容は上書きされる。
      * 
-     * @param writingProcess 書き込み処理するコールバック。
      * @param charsetName 
+     * @param writingProcess 書き込み処理するコールバック。
      * @throws IOException
      */
-    public void write(WritingProcess writingProcess, String charsetName) throws IOException {
+    public void write(String charsetName, WritingProcess writingProcess) throws IOException {
         Charset charset = Charset.defaultCharset();
         try {
             if (charsetName != null && charsetName.length() > 0) {
@@ -224,7 +224,7 @@ public class File extends FilesystemItem {
      * @throws IOException
      */
     public void write(WritingProcess writingProcess) throws IOException {
-        this.write(writingProcess, null);
+        this.write(null, writingProcess);
     }
     
     /**

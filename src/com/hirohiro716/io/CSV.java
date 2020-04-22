@@ -147,7 +147,7 @@ public class CSV {
             return;
         }
         
-        file.write(new WritingProcess() {
+        file.write(charsetName, new WritingProcess() {
             @Override
             public void call(OutputStreamWriter writer) throws IOException {
                 CSV csv = CSV.this;
@@ -168,7 +168,7 @@ public class CSV {
                     writer.write(line.toString());
                 }
             }
-        }, charsetName);
+        });
     }
 
     /**
@@ -217,7 +217,7 @@ public class CSV {
                 return null;
             }
         });
-        file.read(parser, charsetName);
+        file.read(charsetName, parser);
         if (parser.getIncompleteValues().size() > 0) {
             this.rows.add(parser.getIncompleteValues());
         }
@@ -251,7 +251,7 @@ public class CSV {
     public static Exception parse(File file, String charsetName, String delimiter, ProcessAfterParsing processAfterParsing) throws IOException {
         CSVParser parser = new CSVParser(delimiter, processAfterParsing);
         try {
-            file.read(parser, charsetName);
+            file.read(charsetName, parser);
         } catch (IOException exception) {
             if (parser.getException() == null) {
                 throw exception;
@@ -309,6 +309,32 @@ public class CSV {
         public abstract Exception call(List<String> parsed);
     }
     
+    /**
+     * CSVファイルの行数をカウントするクラス。
+     * 
+     * @author hiro
+     *
+     */
+    public static class CSVRowCounter implements ProcessAfterParsing {
+        
+        private int numberOfRow = 0;
+        
+        /**
+         * カウントされたCSVファイルの行数を返す。
+         * 
+         * @return 結果。
+         */
+        public int getNumberOfRow() {
+            return this.numberOfRow;
+        }
+        
+        @Override
+        public Exception call(List<String> parsed) {
+            this.numberOfRow++;
+            return null;
+        }
+    }
+
     /**
      * CSVファイルの解析を行うクラス。
      * 
