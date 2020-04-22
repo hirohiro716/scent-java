@@ -11,7 +11,6 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 import com.hirohiro716.StringObject;
 
 /**
@@ -193,7 +192,32 @@ public class File extends FilesystemItem {
          */
         public abstract void call(String line, BufferedReader bufferedReader) throws IOException;
     }
-    
+
+    /**
+     * ファイルの行数をカウントするクラス。
+     * 
+     * @author hiro
+     *
+     */
+    public static class LineCounter implements ProcessAfterReadingLine {
+        
+        private int numberOfLine = 0;
+        
+        /**
+         * カウントされたCSVファイルの行数を返す。
+         * 
+         * @return 結果。
+         */
+        public int getNumberOfLine() {
+            return this.numberOfLine;
+        }
+        
+        @Override
+        public void call(String line, BufferedReader bufferedReader) throws IOException {
+            this.numberOfLine++;
+        }
+    }
+
     /**
      * このファイルに指定されたcharsetを使用して文字列を書き込む。既存の内容は上書きされる。
      * 

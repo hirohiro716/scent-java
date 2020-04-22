@@ -310,32 +310,6 @@ public class CSV {
     }
     
     /**
-     * CSVファイルの行数をカウントするクラス。
-     * 
-     * @author hiro
-     *
-     */
-    public static class CSVRowCounter implements ProcessAfterParsing {
-        
-        private int numberOfRow = 0;
-        
-        /**
-         * カウントされたCSVファイルの行数を返す。
-         * 
-         * @return 結果。
-         */
-        public int getNumberOfRow() {
-            return this.numberOfRow;
-        }
-        
-        @Override
-        public Exception call(List<String> parsed) {
-            this.numberOfRow++;
-            return null;
-        }
-    }
-
-    /**
      * CSVファイルの解析を行うクラス。
      * 
      * @author hiro
