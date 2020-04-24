@@ -248,7 +248,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
     }
     
     /**
-     * このコントロールの選択アイテムをDeleteキー、Backspaceキーでクリアできるようにする場合はtrueをセットする。
+     * このコントロールの選択アイテムをDeleteキー、Backspaceキーでクリアできるようにする場合はtrueをセットする。初期値はtrue。
      * 
      * @param isClearable
      */
