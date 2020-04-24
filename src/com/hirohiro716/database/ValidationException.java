@@ -50,8 +50,9 @@ public class ValidationException extends Exception {
      * 
      * @return 結果。
      */
-    public DynamicArray<ColumnInterface> getCauseRecord() {
-        return this.causeRecord;
+    @SuppressWarnings("unchecked")
+    public <C extends ColumnInterface> DynamicArray<C> getCauseRecord() {
+        return (DynamicArray<C>) this.causeRecord;
     }
     
     private Map<ColumnInterface, String> errorMessages = new LinkedHashMap<>();
@@ -71,8 +72,9 @@ public class ValidationException extends Exception {
      * 
      * @return 結果。
      */
-    public ColumnInterface[] getCauseColumns() {
-        return this.errorMessages.keySet().toArray(new ColumnInterface[] {});
+    @SuppressWarnings("unchecked")
+    public  <C extends ColumnInterface> C[] getCauseColumns() {
+        return (C[]) this.errorMessages.keySet().toArray(new ColumnInterface[] {});
     }
 
     /**
