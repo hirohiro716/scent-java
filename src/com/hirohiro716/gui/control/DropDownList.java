@@ -86,11 +86,23 @@ public class DropDownList<T> extends ListSelectControl<T> {
             
             @Override
             protected void handle(KeyEvent event) {
-                if (event.getKeyCode() == KeyCode.F10 && event.isShiftDown()) {
-                    ContextMenu menu = control.createContextMenu();
-                    if (menu != null) {
-                        menu.show(control.getWidth() - control.getFont().getSize() / 2, control.getHeight() / 2);
+                switch (event.getKeyCode()) {
+                case F10:
+                    if (event.isShiftDown()) {
+                        ContextMenu menu = control.createContextMenu();
+                        if (menu != null) {
+                            menu.show(control.getWidth() - control.getFont().getSize() / 2, control.getHeight() / 2);
+                        }
                     }
+                    break;
+                case DELETE:
+                case BACKSPACE:
+                    if (control.isClearable) {
+                        control.setSelectedItem(null);
+                    }
+                    break;
+                default:
+                    break;
                 }
             }
         });
@@ -222,6 +234,26 @@ public class DropDownList<T> extends ListSelectControl<T> {
     @Override
     protected void mapDisplayTextToItem(DefaultListCellRenderer renderer) {
         this.getInnerInstance().setRenderer(renderer);
+    }
+    
+    private boolean isClearable = true;
+    
+    /**
+     * このコントロールの選択アイテムをDeleteキー、Backspaceキーでクリア可能な場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isClearable() {
+        return this.isClearable;
+    }
+    
+    /**
+     * このコントロールの選択アイテムをDeleteキー、Backspaceキーでクリアできるようにする場合はtrueをセットする。
+     * 
+     * @param isClearable
+     */
+    public void setClearable(boolean isClearable) {
+        this.isClearable = isClearable;
     }
 
     private boolean isEnableChangeValueWithMouseWheelRotation = false;
