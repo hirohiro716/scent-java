@@ -73,7 +73,7 @@ public abstract class RecordSearcher {
      * @throws SQLException
      */
     public final DynamicArray<String>[] search(String selectSQL, String partAfterWhere, WhereSet... whereSets) throws SQLException {
-        StringObject sql = new StringObject(selectSQL);
+        StringObject sql = new StringObject();
         if (selectSQL != null && selectSQL.trim().length() > 0) {
             sql.append(selectSQL);
         } else {
