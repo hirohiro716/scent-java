@@ -112,7 +112,7 @@ public abstract class RecordSearcher {
      * @return 検索結果。
      * @throws SQLException
      */
-    public DynamicArray<String>[] search(String partAfterWhere, WhereSet... whereSets) throws SQLException {
+    public final DynamicArray<String>[] search(String partAfterWhere, WhereSet... whereSets) throws SQLException {
         return this.search(null, partAfterWhere, whereSets);
     }
     
@@ -123,7 +123,7 @@ public abstract class RecordSearcher {
      * @return 検索結果。
      * @throws SQLException
      */
-    public DynamicArray<String>[] search(WhereSet... whereSets) throws SQLException {
+    public final DynamicArray<String>[] search(WhereSet... whereSets) throws SQLException {
         return this.search(null, whereSets);
     }
 }
