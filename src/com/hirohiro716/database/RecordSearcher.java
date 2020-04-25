@@ -16,7 +16,8 @@ import com.hirohiro716.StringObject;
 public abstract class RecordSearcher {
 
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * 接続済みのデータベースインスタンスを指定する。
      * 
      * @param database
      */
