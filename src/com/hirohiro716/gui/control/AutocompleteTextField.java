@@ -345,6 +345,7 @@ public class AutocompleteTextField extends TextField {
         });
         control.paneForClearFilter.getChildren().add(button);
         control.paneForClearFilter.setAnchor(button, null, 0, null, null);
+        this.paneForClearFilter.updateDisplay();
     }
     
     private List<ListItemAdder> listItemAdders = new ArrayList<>();
