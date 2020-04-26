@@ -317,7 +317,7 @@ public class AutocompleteTextField extends TextField {
      * このテキストフィールドでオートコンプリートに使用するリストアイテムをクリアする。
      */
     public void clearListItems() {
-        this.setListItems(new String[] {});
+        this.listItems.clear();
     }
     
     private AnchorPane paneForClearFilter = new AnchorPane();
