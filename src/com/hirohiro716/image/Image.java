@@ -18,7 +18,7 @@ import com.hirohiro716.io.ByteArray;
  * @author hiro
  *
  */
-public class Image extends ByteArray {
+public class Image extends ByteArray implements Cloneable {
 
     /**
      * コンストラクタ。
@@ -143,7 +143,7 @@ public class Image extends ByteArray {
     }
     
     /**
-     * この画像の長辺を指定された大きさにリサイズする。短辺は長辺のりサイズ比率に応じて自動的にリサイズされる。
+     * この画像の長辺を指定された大きさにリサイズする。短辺は長辺のリサイズ比率に応じて自動的にリサイズされる。
      * 
      * @param longSide 画像の長辺。
      * @param isEnlarged 拡大リサイズを行う場合はtrueを指定。
@@ -158,6 +158,11 @@ public class Image extends ByteArray {
             double rate = (double) bufferedImage.getHeight() / (double) bufferedImage.getWidth();
             this.resize(bufferedImage, (int) (longSide / rate), longSide, isEnlarged);
         }
+    }
+
+    @Override
+    public Image clone() {
+        return new Image(this.imageFormat, this.bytes());
     }
 
     /**
