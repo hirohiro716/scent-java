@@ -313,6 +313,13 @@ public class AutocompleteTextField extends TextField {
         }
     }
     
+    /**
+     * このテキストフィールドでオートコンプリートに使用するリストアイテムをクリアする。
+     */
+    public void clearListItems() {
+        this.setListItems(new String[] {});
+    }
+    
     private AnchorPane paneForClearFilter = new AnchorPane();
     
     /**
