@@ -235,13 +235,19 @@ public class AutocompleteTextField extends TextField {
     
     private ListView<String> listView = new ListView<>();
     
+    private static final int NUMBER_OF_INITIAL_LIST_ITEM = 1000;
+    
     /**
      * オートコンプリート用のリストビューを作成する。
      */
     private void configureListView() {
         AutocompleteTextField control = this;
         this.filteredListItems.addAll(this.listItems);
-        this.listView.getItems().addAll(this.filteredListItems);
+        List<String> initialListitems = this.filteredListItems;
+        if (initialListitems.size() > AutocompleteTextField.NUMBER_OF_INITIAL_LIST_ITEM) {
+            initialListitems = initialListitems.subList(0, AutocompleteTextField.NUMBER_OF_INITIAL_LIST_ITEM - 1);
+        }
+        this.listView.getItems().addAll(initialListitems);
         this.listView.setFocusable(false);
         this.listView.addKeyPressedEventHandler(new EventHandler<KeyEvent>() {
             

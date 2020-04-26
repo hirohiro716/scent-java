@@ -88,15 +88,26 @@ public class TextField extends TextInputControl {
      */
     public void addActionEventHandler(EventHandler<ActionEvent> eventHandler) {
         TextField textField = this;
+        
         KeyListener innerInstance = eventHandler.createInnerInstance(textField, new InnerInstanceCreator<>() {
 
             @Override
             public KeyListener create() {
                 return new KeyAdapter() {
+                    
+                    private boolean isPressed = false;
+                    
+                    @Override
+                    public void keyPressed(KeyEvent event) {
+                        this.isPressed = false;
+                        if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+                            this.isPressed = true;
+                        }
+                    }
 
                     @Override
-                    public void keyTyped(KeyEvent event) {
-                        if (event.getKeyChar() == 13 || event.getKeyChar() == 10) {
+                    public void keyReleased(KeyEvent event) {
+                        if (event.getKeyCode() == KeyEvent.VK_ENTER && this.isPressed) {
                             eventHandler.executeWhenControlEnabled(new ActionEvent(textField, event));
                         }
                     }
