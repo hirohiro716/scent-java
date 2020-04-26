@@ -12,7 +12,7 @@ import java.io.IOException;
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.InnerInstanceCreator;
 import com.hirohiro716.image.Image;
-import com.hirohiro716.image.Image.ImageFormatName;
+import com.hirohiro716.image.Image.ImageFormat;
 
 /**
  * GUIのすべてのコンポーネントの抽象クラス。
@@ -584,7 +584,7 @@ public abstract class Component<T extends java.awt.Component> {
     public Image screenshot() throws IOException {
         BufferedImage bufferedImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
         this.getInnerInstanceForLayout().print(bufferedImage.getGraphics());
-        return new Image(ImageFormatName.PNG, bufferedImage);
+        return new Image(ImageFormat.PNG, bufferedImage);
     }
     
     /**

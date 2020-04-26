@@ -24,7 +24,7 @@ import javax.print.attribute.standard.OrientationRequested;
 
 import com.hirohiro716.StringObject;
 import com.hirohiro716.image.Image;
-import com.hirohiro716.image.Image.ImageFormatName;
+import com.hirohiro716.image.Image.ImageFormat;
 
 /**
  * プリンタージョブを作成するクラス。
@@ -303,12 +303,12 @@ public class PrinterJob {
      * 新たに作成した画像に対してPrintableの印刷を行い、作成した画像の配列を取得する。
      * 
      * @param expansionRatio 画像を作成する際の拡大率。等倍は1.0。
-     * @param imageFormatName
+     * @param imageFormat
      * @return 結果。
      * @throws PrinterException
      * @throws IOException
      */
-    public Image[] printToImages(double expansionRatio, ImageFormatName imageFormatName) throws PrinterException, IOException {
+    public Image[] printToImages(double expansionRatio, ImageFormat imageFormat) throws PrinterException, IOException {
         MillimeterValue width;
         MillimeterValue height;
         if (this.getOrientationRequested() == null
@@ -331,7 +331,7 @@ public class PrinterJob {
             graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             printResult = this.printable.print(graphics2d, null, pageIndex);
             if (printResult == Printable.PAGE_EXISTS) {
-                images.add(new Image(imageFormatName, bufferedImage));
+                images.add(new Image(imageFormat, bufferedImage));
             }
         }
         return images.toArray(new Image[] {});

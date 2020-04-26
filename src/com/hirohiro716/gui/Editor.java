@@ -289,8 +289,9 @@ public abstract class Editor<T> {
      * このメソッドはスーバークラスで自動的に呼び出される。
      * 
      * @return 結果。
+     * @throws Exception 
      */
-    protected abstract Control createContent();
+    protected abstract Control createContent() throws Exception;
     
     /**
      * 指定されたプロパティとテキストのラベルを作成する。

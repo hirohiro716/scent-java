@@ -59,7 +59,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     }
 
     @Override
-    protected Control createContent() {
+    protected Control createContent() throws Exception {
         // Root pane
         VerticalPane rootPane = new VerticalPane();
         rootPane.setFillChildToPaneWidth(true);
@@ -128,6 +128,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
      * レコードを編集するテーブルを作成する。
      * 
      * @return 結果。
+     * @throws Exception 
      */
-    protected abstract EditableTable<C, DynamicArray<C>> createEditableTable();
+    protected abstract EditableTable<C, DynamicArray<C>> createEditableTable() throws Exception;
 }

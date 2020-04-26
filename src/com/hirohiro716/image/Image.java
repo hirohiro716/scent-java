@@ -23,36 +23,36 @@ public class Image extends ByteArray {
     /**
      * コンストラクタ。
      * 
-     * @param imageFormatName
+     * @param imageFormat
      * @param bytes
      */
-    public Image(ImageFormatName imageFormatName, byte... bytes) {
+    public Image(ImageFormat imageFormat, byte... bytes) {
         super(bytes);
-        this.imageFormatName = imageFormatName;
+        this.imageFormat = imageFormat;
     }
     
     /**
      * コンストラクタ。<br>
      * byteを16進数二桁に変換して連結した文字列をbyte配列にして画像とする。
      * 
-     * @param imageFormatName
+     * @param imageFormat
      * @param stringExpressionOfByteArray byteを16進数ふた桁に変換して連結した文字列。
      */
-    public Image(ImageFormatName imageFormatName, String stringExpressionOfByteArray) {
+    public Image(ImageFormat imageFormat, String stringExpressionOfByteArray) {
         super(stringExpressionOfByteArray);
-        this.imageFormatName = imageFormatName;
+        this.imageFormat = imageFormat;
     }
     
     /**
      * コンストラクタ。<br>
      * 画像形式を指定して、指定されたBufferedImageを初期値とする。
      * 
-     * @param imageFormatName
+     * @param imageFormat
      * @param bufferedImage
      * @throws IOException
      */
-    public Image(ImageFormatName imageFormatName, BufferedImage bufferedImage) throws IOException {
-        this.loadBufferedImage(imageFormatName, bufferedImage);
+    public Image(ImageFormat imageFormat, BufferedImage bufferedImage) throws IOException {
+        this.loadBufferedImage(imageFormat, bufferedImage);
     }
     
     /**
@@ -64,13 +64,13 @@ public class Image extends ByteArray {
      */
     public Image(File file) throws IOException {
         super(file);
-        this.imageFormatName = ImageFormatName.find(file);
-        if (this.imageFormatName == null) {
+        this.imageFormat = ImageFormat.find(file);
+        if (this.imageFormat == null) {
             throw new IOException("The specified file couldn't be recognized as an image.");
         }
     }
     
-    private ImageFormatName imageFormatName;
+    private ImageFormat imageFormat;
 
     /**
      * コンストラクタ。<br>
@@ -86,17 +86,17 @@ public class Image extends ByteArray {
     /**
      * BufferedImageからbyte配列を読み込む。
      * 
-     * @param imageFormatName
+     * @param imageFormat
      * @param bufferedImage
      * @throws IOException
      */
-    public void loadBufferedImage(ImageFormatName imageFormatName, BufferedImage bufferedImage) throws IOException {
+    public void loadBufferedImage(ImageFormat imageFormat, BufferedImage bufferedImage) throws IOException {
         try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
-            ImageIO.write(bufferedImage, imageFormatName.toString(), stream);
+            ImageIO.write(bufferedImage, imageFormat.toString(), stream);
             stream.flush();
             this.set(stream.toByteArray());
         }
-        this.imageFormatName = imageFormatName;
+        this.imageFormat = imageFormat;
     }
     
     /**
@@ -126,7 +126,7 @@ public class Image extends ByteArray {
         }
         BufferedImage resized = new BufferedImage(pixelWidth, pixelHeight, bufferedImage.getType());
         resized.getGraphics().drawImage(bufferedImage.getScaledInstance(pixelWidth, pixelHeight, java.awt.Image.SCALE_AREA_AVERAGING), 0, 0, pixelWidth, pixelHeight, null);
-        this.loadBufferedImage(this.imageFormatName, resized);
+        this.loadBufferedImage(this.imageFormat, resized);
     }
     
     /**
@@ -170,8 +170,8 @@ public class Image extends ByteArray {
      * @throws IOException
      */
     public static BufferedImage resize(File file, int maxPixelWidth, int maxPixelHeight) throws IOException {
-        ImageFormatName imageFormatName = ImageFormatName.find(file);
-        if (imageFormatName == null) {
+        ImageFormat imageFormat = ImageFormat.find(file);
+        if (imageFormat == null) {
             throw new IOException("The specified file couldn't be recognized as an image.");
         }
         BufferedImage originalBufferedImage = ImageIO.read(file);
@@ -208,9 +208,9 @@ public class Image extends ByteArray {
      */
     public static Image newInstance(File file, int maxPixelWidth, int maxPixelHeight) throws IOException {
         BufferedImage bufferedImage = Image.resize(file, maxPixelWidth, maxPixelHeight);
-        ImageFormatName imageFormatName = ImageFormatName.find(file);
-        Image image = new Image(imageFormatName, new byte[] {});
-        image.loadBufferedImage(imageFormatName, bufferedImage);
+        ImageFormat imageFormat = ImageFormat.find(file);
+        Image image = new Image(imageFormat, new byte[] {});
+        image.loadBufferedImage(imageFormat, bufferedImage);
         return image;
     }
     
@@ -220,7 +220,7 @@ public class Image extends ByteArray {
      * @author hiro
      *
      */
-    public enum ImageFormatName {
+    public enum ImageFormat {
         /**
          * JPEG。
          */
@@ -249,11 +249,11 @@ public class Image extends ByteArray {
          * @param fileName
          * @return 結果。
          */
-        public static ImageFormatName find(String fileName) {
-            for (ImageFormatName imageFormatName : ImageFormatName.values()) {
-                if (fileName.endsWith("." + imageFormatName.toString().toLowerCase())
-                        || fileName.endsWith("." + imageFormatName.toString().toUpperCase())) {
-                    return imageFormatName;
+        public static ImageFormat find(String fileName) {
+            for (ImageFormat imageFormat : ImageFormat.values()) {
+                if (fileName.endsWith("." + imageFormat.toString().toLowerCase())
+                        || fileName.endsWith("." + imageFormat.toString().toUpperCase())) {
+                    return imageFormat;
                 }
             }
             return null;
@@ -265,8 +265,8 @@ public class Image extends ByteArray {
          * @param file
          * @return 結果。
          */
-        public static ImageFormatName find(File file) {
-            return ImageFormatName.find(file.getAbsolutePath());
+        public static ImageFormat find(File file) {
+            return ImageFormat.find(file.getAbsolutePath());
         }
     }
 }
