@@ -121,6 +121,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
             message.append(exception.getMessage());
             dialog.setMessage(message.toString());
             dialog.setDefaultValue(ResultButton.YES);
+            dialog.setCancelable(false);
             dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
                 
                 @Override
@@ -135,6 +136,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
                     }
                 }
             });
+            dialog.show();
         }
     }
     
@@ -175,7 +177,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
      */
     public void editRecordMapperWithRetryDialog(ProcessAfterDialogClosing<T> processAfterSuccess, ProcessAfterFailure processAfterFailure) {
         try {
-            this.editRecordMapper(this.database);
+            this.setTarget(this.editRecordMapper(this.database));
             if (processAfterSuccess != null) {
                 processAfterSuccess.execute(this.getTarget());
             }
@@ -188,6 +190,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
             message.append(exception.getMessage());
             dialog.setMessage(message.toString());
             dialog.setDefaultValue(ResultButton.YES);
+            dialog.setCancelable(false);
             dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
                 
                 @Override
@@ -212,6 +215,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
                     }
                 }
             });
+            dialog.show();
         }
     }
 

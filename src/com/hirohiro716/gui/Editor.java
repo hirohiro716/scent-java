@@ -69,6 +69,15 @@ public abstract class Editor<T> {
         return this.target;
     }
     
+    /**
+     * 編集中のターゲットとしてインスタンスをセットする。
+     * 
+     * @param target
+     */
+    protected void setTarget(T target) {
+        this.target = target;
+    }
+    
     private Window window;
     
     /**
