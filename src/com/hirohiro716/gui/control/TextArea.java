@@ -24,6 +24,7 @@ public class TextArea extends TextInputControl {
      */
     protected TextArea(JTextArea innerInstance) {
         super(innerInstance, new JScrollPane(innerInstance));
+        this.setWrapText(true);
         this.setTabInputAllow(false);
         this.scrollPane = new ScrollPane((JScrollPane) this.getInnerInstanceForLayout());
         this.setBorder(Border.create(this.scrollPane.getInnerInstance().getBorder()));
@@ -73,6 +74,24 @@ public class TextArea extends TextInputControl {
         if (horizontalAlignment != HorizontalAlignment.LEFT) {
             throw new IllegalArgumentException("The horizontal position of the text area is fixed to the left.");
         }
+    }
+
+    /**
+     * このコントロールに表示する文字列を折り返して表示する場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isWrapText() {
+        return this.getInnerInstance().getLineWrap();
+    }
+    
+    /**
+     * このコントロールに表示する文字列を折り返して表示する場合はtrueをセットする。初期値はtrue。
+     * 
+     * @param isWrapText
+     */
+    public void setWrapText(boolean isWrapText) {
+        this.getInnerInstance().setLineWrap(isWrapText);
     }
     
     /**
