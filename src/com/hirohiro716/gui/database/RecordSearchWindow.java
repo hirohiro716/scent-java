@@ -323,8 +323,20 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
     
     private Map<Control, Boolean> mapKeyTyped = new HashMap<>();
     
+    /**
+     * このレコード検索ウィンドウでキーを押した際のイベントハンドラー。
+     * 
+     * @author hiro
+     *
+     */
     private class KeyPressedEventHandler extends EventHandler<KeyEvent> {
         
+        /**
+         * コンストラクタ。<br>
+         * 対象のキーコードを指定する。
+         * 
+         * @param keyCode
+         */
         public KeyPressedEventHandler(KeyCode keyCode) {
             this.keyCode = keyCode;
         }
@@ -340,8 +352,21 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
         }
     }
 
+    /**
+     * このレコード検索ウィンドウでキーを離した際のイベントハンドラー。
+     * 
+     * @author hiro
+     *
+     */
     private class KeyReleasedEventHandler extends EventHandler<KeyEvent> {
-        
+
+        /**
+         * コンストラクタ。<br>
+         * 対象のキーコード、処理を指定する。
+         * 
+         * @param keyCode
+         * @param runnable 
+         */
         public KeyReleasedEventHandler(KeyCode keyCode, Runnable runnable) {
             this.keyCode = keyCode;
             this.runnable = runnable;

@@ -839,8 +839,6 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     textField.setInstanceForUseLater(dialogResult);
                     if (dialogResult != null) {
                         textField.setText(dialogResult.toString(new SimpleDateFormat("yyyy-MM-dd HH:mm")));
-                    } else {
-                        textField.setText(null);
                     }
                 }
             });
