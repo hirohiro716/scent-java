@@ -247,6 +247,8 @@ public class GUI {
         }
         return list.toArray(new String[] {});
     }
+    
+    private static GraphicsDevice defaultGraphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
     /**
      * デフォルトのグラフィックデバイスを取得する。
@@ -254,7 +256,16 @@ public class GUI {
      * @return 結果。
      */
     public static GraphicsDevice getDefaultGraphicsDevice() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        return GUI.defaultGraphicsDevice;
+    }
+    
+    /**
+     * デフォルトのグラフィックデバイスをセットする。
+     * 
+     * @param graphicsDevice
+     */
+    public static void setDefaultGraphicsDevice(GraphicsDevice graphicsDevice) {
+        GUI.defaultGraphicsDevice = graphicsDevice;
     }
     
     /**

@@ -120,7 +120,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         super.setLocation(point);
         this.isSetLocation = (point != null);
     }
-
+    
     @Override
     public void setDisabled(boolean isDisabled) {
         super.setDisabled(isDisabled);
