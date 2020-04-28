@@ -80,6 +80,9 @@ public abstract class TableView<C, R> extends Control {
             @Override
             protected void handle(KeyEvent event) {
                 switch (event.getKeyCode()) {
+                case F2:
+                    event.consume();
+                    break;
                 case TAB:
                     if (event.isShiftDown() == false) {
                         innerInstance.transferFocus();

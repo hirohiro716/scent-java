@@ -334,7 +334,6 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
         @Override
         protected void handle(KeyEvent event) {
             RecordSearchWindow<S> window = RecordSearchWindow.this;
-            window.mapKeyTyped.clear();
             if (event.getKeyCode() == this.keyCode) {
                 window.mapKeyTyped.put(event.getSource(), true);
             }
@@ -357,8 +356,8 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
             RecordSearchWindow<S> window = RecordSearchWindow.this;
             if (event.getKeyCode() == this.keyCode && window.mapKeyTyped.containsKey(event.getSource())) {
                 this.runnable.run();
+                window.mapKeyTyped.clear();
             }
-            window.mapKeyTyped.clear();
         }
     }
 }
