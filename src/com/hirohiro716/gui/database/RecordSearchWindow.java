@@ -22,17 +22,24 @@ import com.hirohiro716.gui.event.KeyEvent;
  * 
  * @author hiro
  *
- * @param <T> 検索に使用するインスタンスの型。
+ * @param <S> 検索に使用するインスタンスの型。
  */
-public abstract class RecordSearchWindow<T extends RecordSearcher> extends Window {
+public abstract class RecordSearchWindow<S extends RecordSearcher> extends Window {
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * 表示するウィンドウのタイトル、幅、高さを指定する。
+     * 
+     * @param title 
+     * @param width
+     * @param height
      */
-    public RecordSearchWindow() {
+    public RecordSearchWindow(String title, int width, int height) {
         super();
+        this.setTitle(title);
+        this.setSize(width, height);
         this.tableView = this.createTableView();
-        this.setContent(this.createContent(this.tableView));
+        this.setContent(this.createContentUsingTableView(this.tableView));
     }
     
     private TableView<String, DynamicArray<String>> tableView;
@@ -60,7 +67,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
      * 
      * @return 結果。
      */
-    protected abstract WhereSet createWhereSetFromContent();
+    protected abstract WhereSet[] createWhereSetFromWindowContent();
     
     
     /**
@@ -70,7 +77,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
      * @return 結果。
      * @throws Exception 
      */
-    protected abstract T createRecordSearcher() throws Exception;
+    protected abstract S createRecordSearcher() throws Exception;
     
     /**
      * WHERE句の前までのSELECT句からFROM句までのSQLを取得する。
@@ -111,12 +118,12 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
      */
     private void searchWithDialog(WhereSet... whereSets) {
         this.processBeforeSearching(whereSets);
-        RecordSearchWindow<T> window = this;
+        RecordSearchWindow<S> window = this;
         WaitCircleDialog<Void> dialog = new WaitCircleDialog<>(this, new Callable<Void>() {
 
             @Override
             public Void call() throws Exception {
-                T searcher = window.createRecordSearcher();
+                S searcher = window.createRecordSearcher();
                 DynamicArray<String>[] rows = searcher.search(window.createSelectSQL(), window.createPartAfterWhereSQL(), whereSets);
                 window.tableView.getRows().clear();
                 for (DynamicArray<String> row : rows) {
@@ -144,9 +151,9 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
     /**
      * このレコード検索ウィンドウに表示されているコントロールの検索条件で検索を実行する。
      */
-    protected void searchFromTopControl() {
-        WhereSet whereSet = this.createWhereSetFromContent();
-        this.searchWithDialog(whereSet);
+    protected void searchFromWindowContent() {
+        WhereSet[] whereSets = this.createWhereSetFromWindowContent();
+        this.searchWithDialog(whereSets);
     }
     
     /**
@@ -162,7 +169,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
      * このレコード検索ウィンドウで高度な検索ダイアログを表示する。
      */
     protected void showAdvancedSearchDialog() {
-        RecordSearchWindow<T> window = this;
+        RecordSearchWindow<S> window = this;
         WhereSetDialog dialog = this.createAdvancedSearchDialog();
         dialog.setDefaultValue(this.lastTimeWhereSets);
         dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
@@ -223,7 +230,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
 
                 @Override
                 protected void handle(KeyEvent event) {
-                    RecordSearchWindow<T> window = RecordSearchWindow.this;
+                    RecordSearchWindow<S> window = RecordSearchWindow.this;
                     DynamicArray<String> selected = window.tableView.getSelectedRow();
                     if (event.getKeyCode() == keyCode && selected != null) {
                         window.selectRecord(selected);
@@ -252,7 +259,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
 
                 @Override
                 protected void handle(KeyEvent event) {
-                    RecordSearchWindow<T> window = RecordSearchWindow.this;
+                    RecordSearchWindow<S> window = RecordSearchWindow.this;
                     DynamicArray<String> selected = window.tableView.getSelectedRow();
                     if (event.getKeyCode() == keyCode && selected != null) {
                         window.editRecord(selected);
@@ -281,7 +288,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
 
                 @Override
                 protected void handle(KeyEvent event) {
-                    RecordSearchWindow<T> window = RecordSearchWindow.this;
+                    RecordSearchWindow<S> window = RecordSearchWindow.this;
                     DynamicArray<String> selected = window.tableView.getSelectedRow();
                     if (event.getKeyCode() == keyCode && selected != null) {
                         window.deleteRecord(selected);
@@ -290,7 +297,7 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
             });
         }
     }
-    
+
     /**
      * このレコード検索ウィンドウに表示するコンテンツを作成する。<br>
      * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
@@ -298,5 +305,5 @@ public abstract class RecordSearchWindow<T extends RecordSearcher> extends Windo
      * @param tableView 検索結果が表示されるテーブルビュー。
      * @return 結果。
      */
-    protected abstract Control createContent(TableView<String, DynamicArray<String>> tableView);
+    protected abstract Control createContentUsingTableView(TableView<String, DynamicArray<String>> tableView);
 }

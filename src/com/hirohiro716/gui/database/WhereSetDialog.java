@@ -27,6 +27,7 @@ import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.control.AnchorPane;
 import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.CheckBox;
+import com.hirohiro716.gui.control.ContextMenu;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.DropDownList;
 import com.hirohiro716.gui.control.HorizontalPane;
@@ -325,6 +326,8 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     
     private ListView<WhereSet> listView;
     
+    private int whereSetNumber = 1;
+    
     /**
      * WhereSet一覧を表示するリストビューを作成する。
      */
@@ -339,7 +342,8 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             
             @Override
             protected void added(WhereSet added, int positionIndex) {
-                dialog.listView.getMapForDisplayTextAndItem().put(added, "条件セット" + dialog.listView.getItems().size());
+                dialog.listView.getMapForDisplayTextAndItem().put(added, "条件セット" + dialog.whereSetNumber);
+                dialog.whereSetNumber++;
             }
         });
         // When removed items
@@ -359,6 +363,38 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     dialog.importWhereSetFromEditor(previousValue);
                 }
                 dialog.exportWhereSetToEditor(changedValue);
+            }
+        });
+        // Context menu
+        ContextMenu contextMenu = new ContextMenu(this.listView);
+        contextMenu.addContextMenuItem("複製", new Runnable() {
+            
+            @Override
+            public void run() {
+                WhereSet whereSet = dialog.listView.getSelectedItem();
+                if (whereSet == null) {
+                    return;
+                }
+                dialog.importWhereSetFromEditor(whereSet);
+                dialog.listView.getItems().add(whereSet.clone());
+            }
+        });
+        contextMenu.addContextMenuItem("削除", new Runnable() {
+            
+            @Override
+            public void run() {
+                WhereSet whereSet = dialog.listView.getSelectedItem();
+                if (whereSet == null) {
+                    return;
+                }
+                dialog.listView.getItems().remove(whereSet);
+            }
+        });
+        this.listView.addMouseClickedEventHandler(MouseButton.BUTTON3, new EventHandler<MouseEvent>() {
+
+            @Override
+            protected void handle(MouseEvent event) {
+                contextMenu.show(event.getX(), event.getY());
             }
         });
     }
@@ -390,10 +426,6 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     Control control1;
                     Control control2;
                     switch (comparison) {
-                    case EQUAL:
-                        control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
-                        this.setValueToControl(columnType, control1, where.getValue());
-                        break;
                     case LIKE:
                         control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                         String valueOfLike = StringObject.newInstance(where.getValue()).extract(1, -1).toString();
@@ -405,7 +437,10 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                         control2 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL2);
                         this.setValueToControl(columnType, control2, where.getValue2());
                         break;
+                    case EQUAL:
                     default:
+                        control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
+                        this.setValueToControl(columnType, control1, where.getValue());
                         break;
                     }
                 }
@@ -443,10 +478,6 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 Control control1;
                 Control control2;
                 switch (comparison) {
-                case EQUAL:
-                    control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
-                    whereSet.add(isNegate, searchableColumn, comparison, this.getValueFromControl(columnType, control1));
-                    break;
                 case LIKE:
                     control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                     String valueOfLike = StringObject.newInstance(this.getValueFromControl(columnType, control1)).prepend(WhereSetDialog.WILDCARD).append(WhereSetDialog.WILDCARD).toString();
@@ -457,7 +488,10 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     control2 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL2);
                     whereSet.addBetween(isNegate, searchableColumn, this.getValueFromControl(columnType, control1), this.getValueFromControl(columnType, control2));
                     break;
+                case EQUAL:
                 default:
+                    control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
+                    whereSet.add(isNegate, searchableColumn, comparison, this.getValueFromControl(columnType, control1));
                     break;
                 }
             }
@@ -649,12 +683,6 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     private Control[] createValueControls(String searchableColumn, ColumnType columnType, Comparison comparison) {
         List<Control> controls = new ArrayList<>();
         switch (comparison) {
-        case EQUAL:
-        case LIKE:
-            Control control = this.createValueControl(searchableColumn, columnType);
-            control.setName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
-            controls.add(control);
-            break;
         case BETWEEN:
             Control control1 = this.createValueControl(searchableColumn, columnType);
             control1.setName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
@@ -664,13 +692,29 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             control2.setName(WhereSetDialog.NAME_OF_VALUE_CONTROL2);
             controls.add(control2);
             break;
+        case EQUAL:
+        case LIKE:
         default:
+            Control control = this.createValueControl(searchableColumn, columnType);
+            control.setName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
+            controls.add(control);
             break;
         }
-        if (columnType != ColumnType.BOOLEAN) {
+        switch (columnType) {
+        case STRING:
+        case NUMBER_STRING:
+        case NUMBER:
+        case DATE:
+        case DATE_STRING:
+        case DATETIME:
+        case DATETIME_STRING:
+        case SELECTABLE:
             CheckBox checkBox = new CheckBox("否定");
             checkBox.setName(WhereSetDialog.NAME_OF_NEGATE_CHECKBOX);
             controls.add(checkBox);
+            break;
+        case BOOLEAN:
+            break;
         }
         return controls.toArray(new Control[] {});
     }
@@ -697,6 +741,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             textField = new TextField();
             textField.setMinimumWidth(baseSize * 5);
             textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
+            textField.setDisableInputMethod(true);
             textField.addLimitByRegex(Regex.DECIMAL_NEGATIVE.getPattern(), false);
             return textField;
         case DATE:
