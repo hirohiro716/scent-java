@@ -593,15 +593,18 @@ public abstract class Component<T extends java.awt.Component> {
      * @return 結果。
      */
     public GraphicsDevice findPlacedGraphicsDevice() {
-        GraphicsDevice[] devices = GUI.getGraphicsDevices();
-        Point point = this.getInnerInstanceForLayout().getLocationOnScreen();
-        point.setLocation(point.getX() + this.getWidth() / 2, point.getY() + this.getHeight() / 2);
-        for (GraphicsDevice device : devices) {
-            Rectangle rectangle = device.getDefaultConfiguration().getBounds();
-            if (rectangle.getMinX() <= point.getX() && point.getX() <= rectangle.getMaxX()
-                    && rectangle.getMinY() <= point.getY() && point.getY() <= rectangle.getMaxY()) {
-                return device;
+        try {
+            GraphicsDevice[] devices = GUI.getGraphicsDevices();
+            Point point = this.getInnerInstanceForLayout().getLocationOnScreen();
+            point.setLocation(point.getX() + this.getWidth() / 2, point.getY() + this.getHeight() / 2);
+            for (GraphicsDevice device : devices) {
+                Rectangle rectangle = device.getDefaultConfiguration().getBounds();
+                if (rectangle.getMinX() <= point.getX() && point.getX() <= rectangle.getMaxX()
+                        && rectangle.getMinY() <= point.getY() && point.getY() <= rectangle.getMaxY()) {
+                    return device;
+                }
             }
+        } catch (Exception exception) {
         }
         return null;
     }

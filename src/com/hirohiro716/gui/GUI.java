@@ -265,6 +265,9 @@ public class GUI {
      * @param graphicsDevice
      */
     public static void setDefaultGraphicsDevice(GraphicsDevice graphicsDevice) {
+        if (graphicsDevice == null) {
+            return;
+        }
         GUI.defaultGraphicsDevice = graphicsDevice;
     }
     
