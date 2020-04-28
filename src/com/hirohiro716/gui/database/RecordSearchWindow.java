@@ -124,7 +124,13 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
             @Override
             public Void call() throws Exception {
                 S searcher = window.createRecordSearcher();
-                DynamicArray<String>[] rows = searcher.search(window.createSelectSQL(), window.createPartAfterWhereSQL(), whereSets);
+                String selectSQL = window.createSelectSQL();
+                DynamicArray<String>[] rows;
+                if (selectSQL == null) {
+                    rows = searcher.search(window.createPartAfterWhereSQL(), whereSets);
+                } else {
+                    rows = searcher.search(selectSQL, window.createPartAfterWhereSQL(), whereSets);
+                }
                 window.tableView.getRows().clear();
                 for (DynamicArray<String> row : rows) {
                     window.tableView.getRows().add(row);

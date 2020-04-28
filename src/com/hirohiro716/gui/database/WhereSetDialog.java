@@ -28,6 +28,7 @@ import com.hirohiro716.gui.control.AnchorPane;
 import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.CheckBox;
 import com.hirohiro716.gui.control.ContextMenu;
+import com.hirohiro716.gui.control.ContextMenuItem;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.DropDownList;
 import com.hirohiro716.gui.control.HorizontalPane;
@@ -379,7 +380,8 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 dialog.listView.getItems().add(whereSet.clone());
             }
         });
-        contextMenu.addContextMenuItem("削除", new Runnable() {
+        ContextMenuItem contextMenuItemRemove = new ContextMenuItem("削除");
+        contextMenuItemRemove.setAction(new Runnable() {
             
             @Override
             public void run() {
@@ -390,10 +392,15 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 dialog.listView.getItems().remove(whereSet);
             }
         });
+        contextMenu.addContextMenuItem(contextMenuItemRemove);
         this.listView.addMouseClickedEventHandler(MouseButton.BUTTON3, new EventHandler<MouseEvent>() {
 
             @Override
             protected void handle(MouseEvent event) {
+                if (dialog.listView.getSelectedItem() == null || dialog.listView.getSelectedItem().equals(dialog.listView.getMouseHoverItem()) == false) {
+                    return;
+                }
+                contextMenuItemRemove.setDisabled(dialog.listView.getItems().size() <= 1);
                 contextMenu.show(event.getX(), event.getY());
             }
         });

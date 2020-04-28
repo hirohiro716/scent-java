@@ -123,6 +123,19 @@ public class ListView<T> extends ListSelectControl<T> {
 
     private int mouseHoverItemIndex = -1;
     
+    /**
+     * このリストビューのマウスがホバーしているアイテムを取得する。
+     * 
+     * @return 結果。
+     */
+    public T getMouseHoverItem() {
+        try {
+            return this.getItems().get(this.mouseHoverItemIndex);
+        } catch (IndexOutOfBoundsException exception) {
+            return null;
+        }
+    }
+    
     private Color mouseHoverBackgroundColor;
     
     @Override
