@@ -1,7 +1,9 @@
 package com.hirohiro716.gui.database;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import com.hirohiro716.Array;
@@ -68,7 +70,6 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * @return 結果。
      */
     protected abstract WhereSet[] createWhereSetFromWindowContent();
-    
     
     /**
      * レコード検索に使用するインスタンスを作成する。<br>
@@ -312,4 +313,52 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * @return 結果。
      */
     protected abstract Control createContentUsingTableView(TableView<String, DynamicArray<String>> tableView);
+    
+    protected void addProcessWhenKeyTyped(KeyCode keyCode, Runnable runnable) {
+        for (Control control : this.getRootPane().getChildren().findAll()) {
+            control.addKeyPressedEventHandler(new KeyPressedEventHandler(keyCode));
+            control.addKeyReleasedEventHandler(new KeyReleasedEventHandler(keyCode, runnable));
+        }
+    }
+    
+    private Map<Control, Boolean> mapKeyTyped = new HashMap<>();
+    
+    private class KeyPressedEventHandler extends EventHandler<KeyEvent> {
+        
+        public KeyPressedEventHandler(KeyCode keyCode) {
+            this.keyCode = keyCode;
+        }
+        
+        private KeyCode keyCode;
+        
+        @Override
+        protected void handle(KeyEvent event) {
+            RecordSearchWindow<S> window = RecordSearchWindow.this;
+            window.mapKeyTyped.clear();
+            if (event.getKeyCode() == this.keyCode) {
+                window.mapKeyTyped.put(event.getSource(), true);
+            }
+        }
+    }
+
+    private class KeyReleasedEventHandler extends EventHandler<KeyEvent> {
+        
+        public KeyReleasedEventHandler(KeyCode keyCode, Runnable runnable) {
+            this.keyCode = keyCode;
+            this.runnable = runnable;
+        }
+        
+        private KeyCode keyCode;
+        
+        private Runnable runnable;
+        
+        @Override
+        protected void handle(KeyEvent event) {
+            RecordSearchWindow<S> window = RecordSearchWindow.this;
+            if (event.getKeyCode() == this.keyCode && window.mapKeyTyped.containsKey(event.getSource())) {
+                this.runnable.run();
+            }
+            window.mapKeyTyped.clear();
+        }
+    }
 }

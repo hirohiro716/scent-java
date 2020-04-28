@@ -43,6 +43,7 @@ import com.hirohiro716.gui.event.ActionEvent;
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.InnerInstanceCreator;
+import com.hirohiro716.gui.event.KeyEvent;
 import com.hirohiro716.gui.event.MouseEvent;
 import com.hirohiro716.gui.event.MouseEvent.MouseButton;
 
@@ -73,6 +74,25 @@ public abstract class TableView<C, R> extends Control {
         this.getInnerInstance().setDefaultRenderer(Boolean.class, new CheckBoxCellRenderer());
         this.getInnerInstance().setDefaultRenderer(Button.class, new ButtonCellRenderer());
         this.getInnerInstance().setDefaultEditor(Button.class, new ButtonCellRenderer());
+        this.getInnerInstance().setFocusable(true);
+        this.addKeyPressedEventHandler(new EventHandler<KeyEvent>() {
+
+            @Override
+            protected void handle(KeyEvent event) {
+                switch (event.getKeyCode()) {
+                case TAB:
+                    if (event.isShiftDown() == false) {
+                        innerInstance.transferFocus();
+                    } else {
+                        innerInstance.transferFocusBackward();
+                    }
+                    event.consume();
+                    break;
+                default:
+                    break;
+                }
+            }
+        });
         this.adjustRowHeight();
     }
     
