@@ -13,7 +13,8 @@ import com.hirohiro716.StringObject;
 public abstract class SingleRecordMapper extends com.hirohiro716.database.SingleRecordMapper {
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * 接続済みのデータベースを指定する。
      * 
      * @param database
      */

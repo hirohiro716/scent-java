@@ -18,7 +18,8 @@ import com.hirohiro716.filesystem.File;
 public abstract class RecordMapper extends com.hirohiro716.database.RecordMapper implements Closeable {
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * 接続済みのデータベースを指定する。
      * 
      * @param database
      */

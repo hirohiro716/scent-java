@@ -19,7 +19,8 @@ import com.hirohiro716.filesystem.File;
 public abstract class SingleRecordMapper extends com.hirohiro716.database.SingleRecordMapper implements Closeable {
     
     /**
-     * コンストラクタ。
+     * コンストラクタ。<br>
+     * 接続済みのデータベースを指定する。
      * 
      * @param database
      */
