@@ -14,7 +14,7 @@ public abstract class RecordMapper extends com.hirohiro716.database.RecordMapper
     
     /**
      * コンストラクタ。<br>
-     * 接続済みのデータベースを指定する。
+     * 接続済みのデータベースインスタンスを指定する。
      * 
      * @param database
      */

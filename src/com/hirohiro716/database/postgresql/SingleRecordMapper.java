@@ -14,7 +14,7 @@ public abstract class SingleRecordMapper extends com.hirohiro716.database.Single
     
     /**
      * コンストラクタ。<br>
-     * 接続済みのデータベースを指定する。
+     * 接続済みのデータベースインスタンスを指定する。
      * 
      * @param database
      */
