@@ -96,7 +96,7 @@ public class TypingTask {
         try {
             String[] taskStrings = StringObject.newInstance(definitionString).split(TypingTask.DEFINITION_STRING_TASK_DELIMITER);
             for (String taskString: taskStrings) {
-                String[] typeAndValue = taskString.split(TypingTask.DEFINITION_STRING_TYPE_AND_VALUE_DELIMITER);
+                String[] typeAndValue = StringObject.newInstance(taskString).split(TypingTask.DEFINITION_STRING_TYPE_AND_VALUE_DELIMITER);
                 TaskType taskType = TaskType.find(typeAndValue[0]);
                 switch (taskType) {
                 case KEY:
