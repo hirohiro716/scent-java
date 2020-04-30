@@ -335,7 +335,7 @@ public abstract class Editor<T> {
     protected TextField createTextField(PropertyInterface property) {
         TextField textField = new TextField();
         textField.setName(property.getPhysicalName());
-        textField.setMaxLength(property.getMaximumLength());
+        textField.setMaximumLength(property.getMaximumLength());
         return textField;
     }
     
@@ -362,7 +362,7 @@ public abstract class Editor<T> {
     protected AutocompleteTextField createAutocompleteTextField(PropertyInterface property) {
         AutocompleteTextField textField = new AutocompleteTextField();
         textField.setName(property.getPhysicalName());
-        textField.setMaxLength(property.getMaximumLength());
+        textField.setMaximumLength(property.getMaximumLength());
         return textField;
     }
 
@@ -375,7 +375,7 @@ public abstract class Editor<T> {
     protected PasswordField createPasswordField(PropertyInterface property) {
         PasswordField passwordField = new PasswordField();
         passwordField.setName(property.getPhysicalName());
-        passwordField.setMaxLength(property.getMaximumLength());
+        passwordField.setMaximumLength(property.getMaximumLength());
         return passwordField;
     }
 
@@ -400,7 +400,7 @@ public abstract class Editor<T> {
     protected TextArea createTextArea(PropertyInterface property) {
         TextArea textArea = new TextArea();
         textArea.setName(property.getPhysicalName());
-        textArea.setMaxLength(property.getMaximumLength());
+        textArea.setMaximumLength(property.getMaximumLength());
         return textArea;
     }
     
@@ -499,6 +499,7 @@ public abstract class Editor<T> {
     /**
      * 指定されたプロパティのリストビューを作成する。
      * 
+     * @param <I> リストアイテムの型。
      * @param property
      * @return 結果。
      */
@@ -511,6 +512,7 @@ public abstract class Editor<T> {
     /**
      * 指定されたプロパティのドロップダウンリストを作成する。
      * 
+     * @param <I> リストアイテムの型。
      * @param property
      * @return 結果。
      */
@@ -524,10 +526,11 @@ public abstract class Editor<T> {
      * 指定されたプロパティのコントロールを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
+     * @param <C> コントロールの型。
      * @param property
      * @return 結果。
      */
-    public Control findControl(PropertyInterface property) {
+    public <C extends Control> C findControl(PropertyInterface property) {
         return this.getWindow().getRootPane().getChildren().findControlByName(property.getPhysicalName());
     }
     

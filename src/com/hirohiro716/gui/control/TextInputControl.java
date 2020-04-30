@@ -301,7 +301,7 @@ public abstract class TextInputControl extends Control {
      * 
      * @param maximumLength
      */
-    public void setMaxLength(int maximumLength) {
+    public void setMaximumLength(int maximumLength) {
         this.maximumLength = maximumLength;
     }
     
