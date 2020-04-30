@@ -3,6 +3,7 @@ package com.hirohiro716.gui;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.hirohiro716.Regex;
 import com.hirohiro716.gui.Window.CloseOperation;
 import com.hirohiro716.gui.control.AutocompleteTextField;
 import com.hirohiro716.gui.control.Button;
@@ -335,6 +336,20 @@ public abstract class Editor<T> {
         TextField textField = new TextField();
         textField.setName(property.getPhysicalName());
         textField.setMaxLength(property.getMaximumLength());
+        return textField;
+    }
+    
+    /**
+     * 指定されたプロパティの数値入力用テキストフィールドを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    protected TextField createTextFieldForNumber(PropertyInterface property) {
+        TextField textField = this.createTextField(property);
+        textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
+        textField.setDisableInputMethod(true);
+        textField.addLimitByRegex(Regex.INTEGER_NARROW.getPattern(), false);
         return textField;
     }
     

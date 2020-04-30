@@ -28,6 +28,7 @@ public class TextField extends TextInputControl {
      */
     protected TextField(JTextField innerInstance) {
         super(innerInstance);
+        this.setWidth(100);
     }
     
     /**
