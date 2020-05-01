@@ -292,7 +292,7 @@ public abstract class EditableTable<C, R> extends Control {
             return;
         }
         pane.setBackgroundColor(this.activatedBackgroundColor);
-        Map<C, Control> mapRowControls = this.listOfRowControlMap.get(pane);
+        Map<C, Control> mapRowControls = this.mapOfRowControlMap.get(pane);
         for (C columnInstance : this.columnInstances) {
             Control control = mapRowControls.get(columnInstance);
             control.setDisabled(false);
@@ -395,6 +395,44 @@ public abstract class EditableTable<C, R> extends Control {
     }
     
     /**
+     * このテーブルの指定された行情報と列情報のインスタンスに対応したコントロールを取得する。<br>
+     * 対応したコントロールが表示領域内ではない場合はnullを返す。
+     * 
+     * @param <T> コントロールの型。
+     * @param rowInstance
+     * @param columnInstance
+     * @return 結果。
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends Control> T findControl(R rowInstance, C columnInstance) {
+        Pane pane = this.mapRowControlPanes.get(rowInstance);
+        if (pane == null) {
+            return null;
+        }
+        Map<C, Control> mapRowControl = this.mapOfRowControlMap.get(pane);
+        if (mapRowControl == null) {
+            return null;
+        }
+        return (T) mapRowControl.get(columnInstance);
+    }
+    
+    /**
+     * 指定されたコントロールの行情報のインスタンスを取得する。失敗した場合はnullを返す。
+     * 
+     * @param control
+     * @return 結果。
+     */
+    public R findRow(Control control) {
+        for (Pane pane : this.mapOfRowControlMap.keySet()) {
+            Map<C, Control> mapRowControl = this.mapOfRowControlMap.get(pane);
+            if (mapRowControl.containsValue(control)) {
+                return pane.getInstanceForUseLater();
+            }
+        }
+        return null;
+    }
+    
+    /**
      * このテーブルの行情報のインスタンスから値を抽出する。
      * 
      * @param row
@@ -485,7 +523,7 @@ public abstract class EditableTable<C, R> extends Control {
 
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
-                for (Map<C, Control> controls : editableTable.listOfRowControlMap.values()) {
+                for (Map<C, Control> controls : editableTable.mapOfRowControlMap.values()) {
                     Control control = controls.get(columnInstance);
                     editableTable.setControlWidth(control, changedValue.width);
                     control.getInnerInstanceForLayout().doLayout();
@@ -720,7 +758,7 @@ public abstract class EditableTable<C, R> extends Control {
     private void configureRowToEmpty(R rowInstance, int rowIndex) {
         if (this.mapRowControlPanes.containsKey(rowInstance) && this.activeColumnInstance != null) {
             Pane controlPane = this.mapRowControlPanes.get(rowInstance);
-            Map<C, Control> mapRowControls = this.listOfRowControlMap.get(controlPane);
+            Map<C, Control> mapRowControls = this.mapOfRowControlMap.get(controlPane);
             Control control = mapRowControls.get(this.activeColumnInstance);
             ControlFactory<C, R, Control> controlFactory = this.mapControlFactories.get(this.activeColumnInstance);
             controlFactory.setValueToRowInstance(control, rowInstance, this.activeColumnInstance);
@@ -790,6 +828,7 @@ public abstract class EditableTable<C, R> extends Control {
                 this.rowsPane.getChildren().remove(spacer);
             }
             Pane controlPane = this.rowControlPanes.get(index - startDisplayIndex);
+            this.mapRowControlPanes.put(rowInstance, controlPane);
             if (this.rowsPane.getChildren().contains(controlPane) == false) {
                 this.rowsPane.getChildren().add(controlPane);
             }
@@ -799,12 +838,11 @@ public abstract class EditableTable<C, R> extends Control {
                 this.makeInactiveVisible(controlPane);
             }
             controlPane.setInstanceForUseLater(rowInstance);
-            Map<C, Control> mapRowControl = this.listOfRowControlMap.get(controlPane);
+            Map<C, Control> mapRowControl = this.mapOfRowControlMap.get(controlPane);
             for (C columnInstance : this.columnInstances) {
                 Control control = mapRowControl.get(columnInstance);
                 this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
             }
-            this.mapRowControlPanes.put(rowInstance, controlPane);
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
             constraints.gridy = index;
@@ -836,7 +874,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.numberOfDisplayRows = numberOfDisplayRows;
     }
     
-    private Map<Pane, Map<C, Control>> listOfRowControlMap = new HashMap<>();
+    private Map<Pane, Map<C, Control>> mapOfRowControlMap = new HashMap<>();
     
     private List<Pane> rowControlPanes = new ArrayList<>();
     
@@ -881,8 +919,10 @@ public abstract class EditableTable<C, R> extends Control {
                     @Override
                     protected void changed(Component<?> component, String changedValue, String previousValue) {
                         Control control = (Control) component;
-                        R rowInstance = pane.getInstanceForUseLater();
-                        controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
+                        if (control.isFocused()) {
+                            R rowInstance = pane.getInstanceForUseLater();
+                            controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
+                        }
                     }
                 });
                 break;
@@ -902,8 +942,10 @@ public abstract class EditableTable<C, R> extends Control {
                     @Override
                     protected void changed(Component<?> component, String changedValue, String previousValue) {
                         Control control = (Control) component;
-                        R rowInstance = pane.getInstanceForUseLater();
-                        controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
+                        if (control.isFocused()) {
+                            R rowInstance = pane.getInstanceForUseLater();
+                            controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
+                        }
                     }
                 });
                 break;
@@ -915,8 +957,10 @@ public abstract class EditableTable<C, R> extends Control {
                     @Override
                     protected void changed(Component<?> component, Object changedValue, Object previousValue) {
                         Control control = (Control) component;
-                        R rowInstance = pane.getInstanceForUseLater();
-                        controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
+                        if (control.isFocused()) {
+                            R rowInstance = pane.getInstanceForUseLater();
+                            controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
+                        }
                     }
                 });
                 break;
@@ -928,8 +972,10 @@ public abstract class EditableTable<C, R> extends Control {
                     @Override
                     protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                         Control control = (Control) component;
-                        R rowInstance = pane.getInstanceForUseLater();
-                        controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
+                        if (control.isFocused()) {
+                            R rowInstance = pane.getInstanceForUseLater();
+                            controlFactory.setValueToRowInstance(control, rowInstance, columnInstance);
+                        }
                     }
                 });
                 break;
@@ -958,7 +1004,7 @@ public abstract class EditableTable<C, R> extends Control {
             }
         }
         this.rowControlPanes.add(pane);
-        this.listOfRowControlMap.put(pane, mapControls);
+        this.mapOfRowControlMap.put(pane, mapControls);
         Pane spacer = new Pane();
         spacer.setBackgroundColor(null);
         spacer.setSize(0, this.defaultRowHeight);
@@ -1090,7 +1136,7 @@ public abstract class EditableTable<C, R> extends Control {
          */
         private void scrollAndFocus(C columnInstance) {
             EditableTable<C, R> editableTable = EditableTable.this;
-            Map<C, Control> mapRowControls = editableTable.listOfRowControlMap.get(this.rowControlPane);
+            Map<C, Control> mapRowControls = editableTable.mapOfRowControlMap.get(this.rowControlPane);
             Control control = mapRowControls.get(columnInstance);
             if (editableTable.rowsScrollPane.isDisplayedEntireControl(control) == false) {
                 editableTable.rowsScrollPane.scrollTo(control);
@@ -1105,7 +1151,7 @@ public abstract class EditableTable<C, R> extends Control {
             case TAB:
                 event.consume();
                 R rowInstance = this.rowControlPane.getInstanceForUseLater();
-                Map<C, Control> mapRowControls = editableTable.listOfRowControlMap.get(this.rowControlPane);
+                Map<C, Control> mapRowControls = editableTable.mapOfRowControlMap.get(this.rowControlPane);
                 R destinationRowInstance = null;
                 C destinationColumnInstance = null;
                 if (event.isShiftDown() == false) {
@@ -1155,7 +1201,7 @@ public abstract class EditableTable<C, R> extends Control {
                 if (destinationRowInstance != null) {
                     Pane destinationControlPane = editableTable.mapRowControlPanes.get(destinationRowInstance);
                     Control destinationControl = null;
-                    Map<C, Control> mapDestinationRowControls = editableTable.listOfRowControlMap.get(destinationControlPane);
+                    Map<C, Control> mapDestinationRowControls = editableTable.mapOfRowControlMap.get(destinationControlPane);
                     if (mapDestinationRowControls != null) {
                         destinationControl = mapDestinationRowControls.get(destinationColumnInstance);
                     }
