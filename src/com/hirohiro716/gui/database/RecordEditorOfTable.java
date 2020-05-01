@@ -40,6 +40,13 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     protected EditableTable<C, DynamicArray<C>> getEditableTable() {
         return this.editableTable;
     }
+
+    /**
+     * このテーブルコントロールで最初にフォーカスするカラムを取得する。
+     * 
+     * @return 結果。
+     */
+    protected abstract C getInitialFocusColumn();
     
     @Override
     public void outputToEditor() {
@@ -47,6 +54,9 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         DynamicArray<C>[] records = this.getTarget().getRecords();
         for (DynamicArray<C> record : records) {
             this.editableTable.getRows().add(record);
+        }
+        if (records.length > 0) {
+            this.editableTable.activate(records[0], this.getInitialFocusColumn());
         }
     }
 
@@ -83,14 +93,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         anchorPaneButton.setAnchor(buttonSave, null, 0, null, null);
         return rootPane;
     }
-    
-    /**
-     * このテーブルコントロールに行を追加した際にフォーカスするカラムを取得する。
-     * 
-     * @return 結果。
-     */
-    protected abstract C getInitialFocusColumnWhenAdded();
-    
+
     /**
      * レコードの追加イベントハンドラー。
      */
@@ -101,7 +104,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
             RecordEditorOfTable<D, T, C> editor = RecordEditorOfTable.this;
             DynamicArray<C> record = editor.getTarget().createDefaultRecord();
             editor.editableTable.getRows().add(record);
-            editor.editableTable.activate(record, editor.getInitialFocusColumnWhenAdded());
+            editor.editableTable.activate(record, editor.getInitialFocusColumn());
             editor.editableTable.updateLayout();
             editor.editableTable.scrollTo(record);
         }

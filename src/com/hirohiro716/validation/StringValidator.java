@@ -186,19 +186,19 @@ public class StringValidator {
                 break;
             case LENGTH:
                 int length = this.parameters.get(pattern);
-                if (length > -1 && value.length() != length) {
+                if (value.length() > 0 && length > -1 && value.length() != length) {
                     throw createValidationException(pattern);
                 }
                 break;
             case MAXIMUM_LENGTH:
                 int maximumLength = this.parameters.get(pattern);
-                if (maximumLength > -1 && value.length() > maximumLength) {
+                if (value.length() > 0 && maximumLength > -1 && value.length() > maximumLength) {
                     throw createValidationException(pattern);
                 }
                 break;
             case MINIMUM_LENGTH:
                 int minimumLength = this.parameters.get(pattern);
-                if (minimumLength > -1 && value.length() < minimumLength) {
+                if (value.length() > 0 && minimumLength > -1 && value.length() < minimumLength) {
                     throw createValidationException(pattern);
                 }
                 break;
