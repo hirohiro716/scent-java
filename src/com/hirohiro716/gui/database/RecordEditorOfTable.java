@@ -34,7 +34,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     public RecordEditorOfTable(String title, int width, int height) {
         super(title, width, height);
     }
-
+    
     private EditableTable<C, DynamicArray<C>> editableTable;
     
     protected EditableTable<C, DynamicArray<C>> getEditableTable() {
@@ -73,7 +73,12 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         // Root pane
         VerticalPane rootPane = new VerticalPane();
         rootPane.setFillChildToPaneWidth(true);
-        // Content
+        // Top content
+        Control topContent = this.createTopContent();
+        if (topContent != null) {
+            rootPane.getChildren().add(topContent);
+        }
+        // EditableTable
         this.editableTable = this.createEditableTable();
         rootPane.getChildren().add(this.editableTable);
         rootPane.getGrowableControls().add(this.editableTable);
@@ -127,6 +132,14 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         }
     };
 
+    /**
+     * このウィンドウのテーブルコントロールの上部に表示するコントロールを作成する。
+     * 
+     * @return 結果。
+     * @throws Exception
+     */
+    protected abstract Control createTopContent() throws Exception;
+    
     /**
      * レコードを編集するテーブルを作成する。
      * 
