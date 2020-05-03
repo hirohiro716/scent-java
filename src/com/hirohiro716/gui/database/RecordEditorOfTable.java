@@ -140,33 +140,20 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
             editor.editableTable.getRows().add(record);
             editor.editableTable.activate(record, editor.getInitialFocusColumn());
             editor.editableTable.updateLayout();
-            editor.editableTable.scrollTo(record);
-        }
-    };
-
-    /**
-     * レコードの削除イベントハンドラー。
-     */
-    private EventHandler<ActionEvent> removeActiveRecordEventHandler = new EventHandler<ActionEvent>() {
-
-        @Override
-        protected void handle(ActionEvent event) {
-            RecordEditorOfTable<D, T, C> editor = RecordEditorOfTable.this;
-            DynamicArray<C> record = editor.editableTable.getActiveRowInstance();
-            editor.records.remove(record);
-            editor.editableTable.getRows().remove(record);
-            editor.editableTable.updateLayout();
             editor.editableTable.updateDisplay();
+            editor.editableTable.scrollTo(record);
         }
     };
     
     /**
-     * このテーブルコントロールからアクティブな行情報を削除するイベントハンドラーを取得する。
-     * 
-     * @return 結果。
+     * このテーブルコントロールからアクティブな行情報を削除する。
      */
-    protected EventHandler<ActionEvent> getRemoveActiveRecordEventHandler() {
-        return this.removeActiveRecordEventHandler;
+    protected void removeActiveRecord() {
+        DynamicArray<C> record = this.editableTable.getActiveRowInstance();
+        this.records.remove(record);
+        this.editableTable.getRows().remove(record);
+        this.editableTable.updateLayout();
+        this.editableTable.updateDisplay();
     }
     
     /**

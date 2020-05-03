@@ -413,7 +413,12 @@ public abstract class EditableTable<C, R> extends Control {
         if (mapRowControl == null) {
             return null;
         }
-        return (T) mapRowControl.get(columnInstance);
+        Control control = mapRowControl.get(columnInstance);
+        while (control instanceof Pane) {
+            Pane paneOfControl = (Pane) control;
+            control = paneOfControl.getChildren().get(0);
+        }
+        return (T) control;
     }
     
     /**
