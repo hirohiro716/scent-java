@@ -13,9 +13,7 @@ import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.Popup;
-import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;
-import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Label;
@@ -43,28 +41,6 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
      */
     public SortDialog(Frame<?> owner) {
         super(owner);
-        SortDialog<T> dialog = this;
-        this.sortableItems.addListener(new AddListener<T>() {
-            
-            @Override
-            protected void added(T added, int positionIndex) {
-                Label label = dialog.createSortableItemLabel(added);
-                label.addMousePressedEventHandler(MouseButton.BUTTON1, dialog.mousePressedEventHandler);
-                label.addMouseDraggedEventHandler(dialog.mouseDraggedEventHandler);
-                label.addMouseReleasedEventHandler(MouseButton.BUTTON1, dialog.mouseReleasedEventHandler);
-                dialog.verticalPane.getChildren().add(label, positionIndex);
-                dialog.mapSortableItemLabels.put(added, label);
-            }
-        });
-        this.sortableItems.addListener(new RemoveListener<T>() {
-            
-            @Override
-            protected void removed(T removed) {
-                Label label = dialog.mapSortableItemLabels.get(removed);
-                dialog.verticalPane.getChildren().remove(label);
-            }
-        });
-        
         this.getPane().setHeight(this.getPane().getFont().getSize() * 36);
     }
     
@@ -310,6 +286,14 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
         super.processBeforeShowing();
         this.getVerticalPaneOfControls().getGrowableControls().clear();
         this.getVerticalPaneOfControls().getGrowableControls().add(this.scrollPane);
+        for (T item : this.sortableItems) {
+            Label label = this.createSortableItemLabel(item);
+            label.addMousePressedEventHandler(MouseButton.BUTTON1, this.mousePressedEventHandler);
+            label.addMouseDraggedEventHandler(this.mouseDraggedEventHandler);
+            label.addMouseReleasedEventHandler(MouseButton.BUTTON1, this.mouseReleasedEventHandler);
+            this.verticalPane.getChildren().add(label);
+            this.mapSortableItemLabels.put(item, label);
+        }
     }
     
     @Override

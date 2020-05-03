@@ -4,6 +4,7 @@ import com.hirohiro716.DynamicArray;
 import com.hirohiro716.database.ColumnInterface;
 import com.hirohiro716.database.Database;
 import com.hirohiro716.database.RecordMapper;
+import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.control.AnchorPane;
 import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.Control;
@@ -34,13 +35,45 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     public RecordEditorOfTable(String title, int width, int height) {
         super(title, width, height);
     }
+
+    /**
+     * このエディターのテーブルコントロールに指定されたレコードの表示を許可する場合はtrueを返す。
+     * 
+     * @param record
+     * @return 結果。
+     */
+    protected abstract boolean isAllowViewRecord(DynamicArray<C> record);
+    
+    private Collection<DynamicArray<C>> records = new Collection<>();
+    
+    /**
+     * このテーブルコントロールの表示を更新する。
+     */
+    protected void updateDisplayOfEditableTable() {
+        this.editableTable.getRows().clear();
+        for (DynamicArray<C> record : this.records) {
+            if (this.isAllowViewRecord(record)) {
+                this.editableTable.getRows().add(record);
+            }
+        }
+        if (this.editableTable.getRows().size() > 0) {
+            this.editableTable.activate(this.editableTable.getRows().get(0), this.getInitialFocusColumn());
+        }
+        this.editableTable.displayRowControls(0);
+        this.editableTable.updateDisplay();
+    }
     
     private EditableTable<C, DynamicArray<C>> editableTable;
     
+    /**
+     * このエディターのテーブルコントロールを取得する。
+     * 
+     * @return 結果。
+     */
     protected EditableTable<C, DynamicArray<C>> getEditableTable() {
         return this.editableTable;
     }
-
+    
     /**
      * このテーブルコントロールで最初にフォーカスするカラムを取得する。
      * 
@@ -50,20 +83,15 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     
     @Override
     public void outputToEditor() {
-        this.editableTable.getRows().clear();
-        DynamicArray<C>[] records = this.getTarget().getRecords();
-        for (DynamicArray<C> record : records) {
-            this.editableTable.getRows().add(record);
-        }
-        if (records.length > 0) {
-            this.editableTable.activate(records[0], this.getInitialFocusColumn());
-        }
+        this.records.clear();
+        this.records.addAll(this.getTarget().getRecords());
+        this.updateDisplayOfEditableTable();
     }
 
     @Override
     public void inputFromEditor() {
         this.getTarget().clearRecords();
-        for (DynamicArray<C> record : this.editableTable.getRows()) {
+        for (DynamicArray<C> record : this.records) {
             this.getTarget().addRecord(record);
         }
     }
@@ -108,12 +136,38 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         protected void handle(ActionEvent event) {
             RecordEditorOfTable<D, T, C> editor = RecordEditorOfTable.this;
             DynamicArray<C> record = editor.getTarget().createDefaultRecord();
+            editor.records.add(record);
             editor.editableTable.getRows().add(record);
             editor.editableTable.activate(record, editor.getInitialFocusColumn());
             editor.editableTable.updateLayout();
             editor.editableTable.scrollTo(record);
         }
     };
+
+    /**
+     * レコードの削除イベントハンドラー。
+     */
+    private EventHandler<ActionEvent> removeActiveRecordEventHandler = new EventHandler<ActionEvent>() {
+
+        @Override
+        protected void handle(ActionEvent event) {
+            RecordEditorOfTable<D, T, C> editor = RecordEditorOfTable.this;
+            DynamicArray<C> record = editor.editableTable.getActiveRowInstance();
+            editor.records.remove(record);
+            editor.editableTable.getRows().remove(record);
+            editor.editableTable.updateLayout();
+            editor.editableTable.updateDisplay();
+        }
+    };
+    
+    /**
+     * このテーブルコントロールからアクティブな行情報を削除するイベントハンドラーを取得する。
+     * 
+     * @return 結果。
+     */
+    protected EventHandler<ActionEvent> getRemoveActiveRecordEventHandler() {
+        return this.removeActiveRecordEventHandler;
+    }
     
     /**
      * このエディターの情報をデータベースに保存する。

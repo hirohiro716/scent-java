@@ -1,8 +1,8 @@
 package com.hirohiro716.database;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hirohiro716.DynamicArray;

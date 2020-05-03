@@ -1,7 +1,7 @@
 package com.hirohiro716.database;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hirohiro716.Array;
@@ -240,8 +240,8 @@ public class WhereSet {
      * 
      * @return 結果。
      */
-    public List<Where> getWheres() {
-        return this.wheres;
+    public Where[] getWheres() {
+        return this.wheres.toArray(new Where[] {});
     }
     
     /**
@@ -344,8 +344,8 @@ public class WhereSet {
         for (Where where : this.wheres) {
             cloneWheres.add(where.clone());
         }
-        clone.getWheres().clear();
-        clone.getWheres().addAll(cloneWheres);
+        clone.wheres.clear();
+        clone.wheres.addAll(cloneWheres);
         return clone;
     }
     
