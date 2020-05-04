@@ -94,8 +94,8 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
      */
     private Label createSortableItemLabel(T sortableItem) {
         Label label = new Label();
-        if (this.mapSortableItemText.containsKey(sortableItem)) {
-            label.setText(this.mapSortableItemText.get(sortableItem));
+        if (this.mapDisplayTextForSortableItem.containsKey(sortableItem)) {
+            label.setText(this.mapDisplayTextForSortableItem.get(sortableItem));
         } else {
             label.setText(sortableItem.toString());
         }
@@ -114,15 +114,15 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
         return this.mapSortableItemLabels.get(sortableItem);
     }
     
-    private Map<T, String> mapSortableItemText = new HashMap<>();
+    private Map<T, String> mapDisplayTextForSortableItem = new HashMap<>();
     
     /**
      * ソートできるアイテムの文字列表現の代わりに表示するテキストを定義したマップを取得する。
      * 
      * @return 結果。
      */
-    public Map<T, String> getMapSortableItemText() {
-        return this.mapSortableItemText;
+    public Map<T, String> getMapDisplayTextForSortableItem() {
+        return this.mapDisplayTextForSortableItem;
     }
     
     /**
@@ -130,8 +130,8 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
      * 
      * @param map
      */
-    public void setMapSortableItemText(Map<T, String> map) {
-        this.mapSortableItemText = map;
+    public void setMapDisplayTextForSortableItem(Map<T, String> map) {
+        this.mapDisplayTextForSortableItem = map;
     }
     
     private Popup popup = null;

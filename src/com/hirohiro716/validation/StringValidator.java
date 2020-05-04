@@ -175,7 +175,7 @@ public class StringValidator {
                 }
                 break;
             case INTEGER:
-                if (value.length() > 0 && value.toString().matches("(\\-|)[0-9]{1,}") == false) {
+                if (value.length() > 0 && value.toLong() == null) {
                     throw createValidationException(pattern);
                 }
                 break;

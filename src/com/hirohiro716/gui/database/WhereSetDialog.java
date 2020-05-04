@@ -343,7 +343,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             
             @Override
             protected void added(WhereSet added, int positionIndex) {
-                dialog.listView.getMapForDisplayTextAndItem().put(added, "条件セット" + dialog.whereSetNumber);
+                dialog.listView.getMapDisplayTextForItem().put(added, "条件セット" + dialog.whereSetNumber);
                 dialog.whereSetNumber++;
             }
         });
@@ -352,7 +352,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             
             @Override
             protected void removed(WhereSet removed) {
-                dialog.listView.getMapForDisplayTextAndItem().remove(removed);
+                dialog.listView.getMapDisplayTextForItem().remove(removed);
             }
         });
         // When selected items
@@ -519,7 +519,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             @Override
             protected void handle(ActionEvent event) {
                 DropDownListDialog<String> dialog = new DropDownListDialog<>(ownerDialog.getOwner(), ownerDialog.searchableColumns);
-                dialog.getDropDownList().setTextForItem(ownerDialog.mapLogicalName);
+                dialog.getDropDownList().setMapDisplayTextForItem(ownerDialog.mapLogicalName);
                 dialog.setTitle("検索するカラムの追加");
                 dialog.setMessage("検索条件に追加するカラムを選択してください。");
                 dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
@@ -646,7 +646,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         DropDownList<Comparison> dropDownList = new DropDownList<>();
         dropDownList.setMinimumWidth(width);
         dropDownList.getItems().addAll(mapComparison.keySet());
-        dropDownList.setTextForItem(mapComparison);
+        dropDownList.setMapDisplayTextForItem(mapComparison);
         return dropDownList;
     }
     
@@ -776,7 +776,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             Map<Object, String> selectableItems = this.mapSelectableItems.get(searchableColumn);
             if (selectableItems != null) {
                 dropDownList.getItems().addAll(selectableItems.keySet().toArray());
-                dropDownList.setTextForItem(selectableItems);
+                dropDownList.setMapDisplayTextForItem(selectableItems);
             }
             return dropDownList;
         }

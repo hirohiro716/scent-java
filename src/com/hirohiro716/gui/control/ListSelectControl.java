@@ -76,8 +76,8 @@ public abstract class ListSelectControl<T> extends Control {
                     return null;
                 }
                 Label label = new Label(jLabel);
-                if (control.getMapForDisplayTextAndItem() != null && control.getMapForDisplayTextAndItem().containsKey(value)) {
-                    label.setText(control.getMapForDisplayTextAndItem().get(value));
+                if (control.getMapDisplayTextForItem() != null && control.getMapDisplayTextForItem().containsKey(value)) {
+                    label.setText(control.getMapDisplayTextForItem().get(value));
                 }
                 int height = control.getItemHeight();
                 control.graphics.setFont(control.getFont());
@@ -196,15 +196,15 @@ public abstract class ListSelectControl<T> extends Control {
         this.textHorizontalAlignment = horizontalAlignment;
     }
     
-    private Map<T, String> mapForDisplayTextAndItem = new HashMap<>();
+    private Map<T, String> mapDisplayTextForItem = new HashMap<>();
     
     /**
      * リストアイテムの文字列表現の代わりに表示するテキストを定義したマップを取得する。
      * 
      * @return 結果。
      */
-    public Map<T, String> getMapForDisplayTextAndItem() {
-        return this.mapForDisplayTextAndItem;
+    public Map<T, String> getMapDisplayTextForItem() {
+        return this.mapDisplayTextForItem;
     }
     
     /**
@@ -212,8 +212,8 @@ public abstract class ListSelectControl<T> extends Control {
      * 
      * @param map
      */
-    public void setTextForItem(Map<T, String> map) {
-        this.mapForDisplayTextAndItem = map;
+    public void setMapDisplayTextForItem(Map<T, String> map) {
+        this.mapDisplayTextForItem = map;
     }
     
     /**

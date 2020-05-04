@@ -289,8 +289,8 @@ public class DropDownList<T> extends ListSelectControl<T> {
             return null;
         }
         ContextMenu menu = new ContextMenu(this);
-        if (dropDownList.getMapForDisplayTextAndItem().containsKey(value)) {
-            value = dropDownList.getMapForDisplayTextAndItem().get(value);
+        if (dropDownList.getMapDisplayTextForItem().containsKey(value)) {
+            value = dropDownList.getMapDisplayTextForItem().get(value);
         }
         String text = value.toString();
         ContextMenuItem copy = new ContextMenuItem(text + " をコピー(C)");
