@@ -171,7 +171,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     /**
      * このエディターの情報をデータベースに保存する。
      */
-    protected abstract void save();
+    protected abstract void saveToDatabase();
     
     /**
      * データの保存イベントハンドラー。
@@ -181,7 +181,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         @Override
         protected void handle(ActionEvent event) {
             RecordEditorOfTable<D, T, C> editor = RecordEditorOfTable.this;
-            editor.save();
+            editor.saveToDatabase();
         }
     };
 
