@@ -110,6 +110,11 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         this.editableTable = this.createEditableTable();
         rootPane.getChildren().add(this.editableTable);
         rootPane.getGrowableControls().add(this.editableTable);
+        // Bottom content
+        Control bottomContent = this.createBottomContent();
+        if (bottomContent != null) {
+            rootPane.getChildren().add(bottomContent);
+        }
         // Button pane
         AnchorPane anchorPaneButton = new AnchorPane();
         anchorPaneButton.setPadding(15);
@@ -135,15 +140,22 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         @Override
         protected void handle(ActionEvent event) {
             RecordEditorOfTable<D, T, C> editor = RecordEditorOfTable.this;
-            DynamicArray<C> record = editor.getTarget().createDefaultRecord();
-            editor.records.add(record);
-            editor.editableTable.getRows().add(record);
-            editor.editableTable.activate(record, editor.getInitialFocusColumn());
-            editor.editableTable.updateLayout();
-            editor.editableTable.updateDisplay();
-            editor.editableTable.scrollTo(record);
+            editor.addRecord();
         }
     };
+    
+    /**
+     * このテーブルコントロールに新しい行情報を追加する。
+     */
+    protected void addRecord() {
+        DynamicArray<C> record = this.getTarget().createDefaultRecord();
+        this.records.add(record);
+        this.editableTable.getRows().add(record);
+        this.editableTable.activate(record, this.getInitialFocusColumn());
+        this.editableTable.updateLayout();
+        this.editableTable.updateDisplay();
+        this.editableTable.scrollTo(record);
+    }
     
     /**
      * このテーブルコントロールからアクティブな行情報を削除する。
@@ -180,6 +192,14 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
      * @throws Exception
      */
     protected abstract Control createTopContent() throws Exception;
+
+    /**
+     * このウィンドウのテーブルコントロールの下部に表示するコントロールを作成する。
+     * 
+     * @return 結果。
+     * @throws Exception
+     */
+    protected abstract Control createBottomContent() throws Exception;
     
     /**
      * レコードを編集するテーブルを作成する。
