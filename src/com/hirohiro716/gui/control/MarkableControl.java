@@ -2,6 +2,9 @@ package com.hirohiro716.gui.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.AbstractButton;
 import javax.swing.SwingConstants;
 
@@ -131,7 +134,12 @@ public abstract class MarkableControl extends LabeledControl {
      */
     public void setMarked(boolean isMarked) {
         this.getInnerInstance().setSelected(isMarked);
+        for (ChangeListener<Boolean> changeListener : this.markChangeListeners) {
+            changeListener.executeWhenChanged(this, isMarked);
+        }
     }
+    
+    private List<ChangeListener<Boolean>> markChangeListeners = new ArrayList<>();
     
     /**
      * このコントロールのマーク状態が変更された際のリスナーを追加する。
@@ -140,6 +148,7 @@ public abstract class MarkableControl extends LabeledControl {
      */
     public void addMarkChangeListener(ChangeListener<Boolean> changeListener) {
         MarkableControl control = this;
+        this.markChangeListeners.add(changeListener);
         ActionListener innerInstance = changeListener.createInnerInstance(control, new InnerInstanceCreator<>() {
 
             @Override
