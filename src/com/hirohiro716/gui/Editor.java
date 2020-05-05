@@ -340,16 +340,30 @@ public abstract class Editor<T> {
     }
     
     /**
-     * 指定されたプロパティの数値入力用テキストフィールドを作成する。
+     * 指定されたプロパティの整数値入力用テキストフィールドを作成する。
      * 
      * @param property
      * @return 結果。
      */
-    protected TextField createTextFieldForNumber(PropertyInterface property) {
+    protected TextField createTextFieldForInteger(PropertyInterface property) {
         TextField textField = this.createTextField(property);
         textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
         textField.setDisableInputMethod(true);
         textField.addLimitByRegex(Regex.INTEGER_NARROW.getPattern(), false);
+        return textField;
+    }
+
+    /**
+     * 指定されたプロパティの少数値入力用テキストフィールドを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    protected TextField createTextFieldForDecimal(PropertyInterface property) {
+        TextField textField = this.createTextField(property);
+        textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
+        textField.setDisableInputMethod(true);
+        textField.addLimitByRegex(Regex.DECIMAL_NEGATIVE.getPattern(), false);
         return textField;
     }
     

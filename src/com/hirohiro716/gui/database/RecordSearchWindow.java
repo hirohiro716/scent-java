@@ -204,6 +204,15 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
     private ProcessAfterRecordSelection processAfterRecordSelection = null;
     
     /**
+     * レコードの検索結果のうち一つのレコードを選択した後に実行する処理を取得する。
+     * 
+     * @return 結果。
+     */
+    public ProcessAfterRecordSelection getProcessAfterRecordSelection() {
+        return this.processAfterRecordSelection;
+    }
+    
+    /**
      * レコードの検索結果のうち一つのレコードを選択した後に実行する処理をセットする。
      * 
      * @param processAfterRecordSelection
