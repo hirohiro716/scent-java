@@ -17,6 +17,7 @@ import com.hirohiro716.gui.control.table.TableView;
 import com.hirohiro716.gui.dialog.ProcessAfterDialogClosing;
 import com.hirohiro716.gui.dialog.WaitCircleDialog;
 import com.hirohiro716.gui.event.EventHandler;
+import com.hirohiro716.gui.event.FrameEvent;
 import com.hirohiro716.gui.event.KeyEvent;
 
 /**
@@ -38,17 +39,35 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      */
     public RecordSearchWindow(String title, int width, int height) {
         super();
+        RecordSearchWindow<S> window = this;
         this.setTitle(title);
         this.setSize(width, height);
-        this.tableView = this.createTableView();
-        this.setContent(this.createContentUsingTableView(this.tableView));
+        this.addOpenedEventHandler(new EventHandler<FrameEvent>() {
+
+            @Override
+            protected void handle(FrameEvent event) {
+                window.tableView = window.createTableView();
+                window.setContent(window.createContentUsingTableView(window.tableView));
+                window.updateLayout();
+                window.updateDisplay();
+            }
+        });
+        this.addClosedEventHandler(new EventHandler<FrameEvent>() {
+
+            @Override
+            protected void handle(FrameEvent event) {
+                if (window.processAfterSelectingAndClosing != null) {
+                    window.processAfterSelectingAndClosing.execute(window.selectedRecord);
+                }
+            }
+        });
     }
     
     private TableView<String, DynamicArray<String>> tableView;
     
     /**
      * レコード検索結果を表示するテーブルビューを作成する。<br>
-     * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
+     * このメソッドはウィンドウを表示した後に自動的に呼び出される。
      * 
      * @return 結果。
      */
@@ -190,48 +209,43 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
                 List<WhereSet> listWhereSet = new ArrayList<>();
                 for (WhereSet whereSet : dialogResult) {
                     WhereSet copyWhereSet = whereSet.clone();
-                    
-                    
                     listWhereSet.add(copyWhereSet);
                 }
-                
                 window.searchWithDialog(listWhereSet.toArray(new WhereSet[] {}));
             }
         });
         dialog.show();
     }
     
-    private ProcessAfterRecordSelection processAfterRecordSelection = null;
+    private ProcessAfterSelectingAndClosing processAfterSelectingAndClosing = null;
     
     /**
-     * レコードの検索結果のうち一つのレコードを選択した後に実行する処理を取得する。
+     * レコードの検索結果のうち一つのレコードを選択してウィンドウを閉じた後に実行する処理を取得する。
      * 
      * @return 結果。
      */
-    public ProcessAfterRecordSelection getProcessAfterRecordSelection() {
-        return this.processAfterRecordSelection;
+    public ProcessAfterSelectingAndClosing getProcessAfterSelectingAndClosing() {
+        return this.processAfterSelectingAndClosing;
     }
     
     /**
-     * レコードの検索結果のうち一つのレコードを選択した後に実行する処理をセットする。
+     * レコードの検索結果のうち一つのレコードを選択してウィンドウを閉じた後に実行する処理をセットする。
      * 
-     * @param processAfterRecordSelection
+     * @param processAfterSelectingAndClosing
      */
-    public void setProcessAfterRecordSelect(ProcessAfterRecordSelection processAfterRecordSelection) {
-        this.processAfterRecordSelection = processAfterRecordSelection;
+    public void setProcessAfterSelectingAndClosing(ProcessAfterSelectingAndClosing processAfterSelectingAndClosing) {
+        this.processAfterSelectingAndClosing = processAfterSelectingAndClosing;
     }
     
+    private DynamicArray<String> selectedRecord = null;
+    
     /**
-     * レコードの検索結果のうち一つのレコードを選択してウィンドウを閉じる。
+     * レコードの検索結果のうち一つのレコードを選択した状態にする。
      * 
      * @param record
      */
     protected void selectRecord(DynamicArray<String> record) {
-        if (this.processAfterRecordSelection == null || record == null) {
-            return;
-        }
-        this.processAfterRecordSelection.execute(record);
-        this.close();
+        this.selectedRecord = record;
     }
 
     /**
@@ -316,7 +330,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
 
     /**
      * このレコード検索ウィンドウに表示するコンテンツを作成する。<br>
-     * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
+     * このメソッドはウィンドウを表示した後に自動的に呼び出される。
      * 
      * @param tableView 検索結果が表示されるテーブルビュー。
      * @return 結果。

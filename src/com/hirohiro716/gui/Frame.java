@@ -124,6 +124,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     @Override
     public void setDisabled(boolean isDisabled) {
         super.setDisabled(isDisabled);
+        this.setClosable(!isDisabled);
         this.getRootPane().setDisabled(isDisabled);
     }
 
