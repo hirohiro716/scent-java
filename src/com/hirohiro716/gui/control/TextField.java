@@ -99,7 +99,6 @@ public class TextField extends TextInputControl {
                     
                     @Override
                     public void keyPressed(KeyEvent event) {
-                        this.isPressed = false;
                         if (event.getKeyCode() == KeyEvent.VK_ENTER) {
                             this.isPressed = true;
                         }
@@ -110,6 +109,7 @@ public class TextField extends TextInputControl {
                         if (event.getKeyCode() == KeyEvent.VK_ENTER && this.isPressed) {
                             eventHandler.executeWhenControlEnabled(new ActionEvent(textField, event));
                         }
+                        this.isPressed = false;
                     }
                 };
             }
