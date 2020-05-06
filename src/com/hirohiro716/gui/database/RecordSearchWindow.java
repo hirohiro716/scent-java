@@ -2,6 +2,7 @@ package com.hirohiro716.gui.database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -48,6 +49,13 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
             protected void handle(FrameEvent event) {
                 window.tableView = window.createTableView();
                 window.setContent(window.createContentUsingTableView(window.tableView));
+                for (KeyCode keyCode : window.mapProcessWhenKeyTyped.keySet()) {
+                    Runnable runnable = window.mapProcessWhenKeyTyped.get(keyCode);
+                    for (Control control : window.getRootPane().getChildren().findAll()) {
+                        control.addKeyPressedEventHandler(new KeyPressedEventHandler(keyCode));
+                        control.addKeyReleasedEventHandler(new KeyReleasedEventHandler(keyCode, runnable));
+                    }
+                }
                 window.updateLayout();
                 window.updateDisplay();
             }
@@ -337,11 +345,16 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      */
     protected abstract Control createContentUsingTableView(TableView<String, DynamicArray<String>> tableView);
     
+    private Map<KeyCode, Runnable> mapProcessWhenKeyTyped = new LinkedHashMap<>();
+    
+    /**
+     * このレコード検索ウィンドウでキーを押した際の処理を追加する。
+     * 
+     * @param keyCode 対象のキーコード。
+     * @param runnable 実行する処理。
+     */
     protected void addProcessWhenKeyTyped(KeyCode keyCode, Runnable runnable) {
-        for (Control control : this.getRootPane().getChildren().findAll()) {
-            control.addKeyPressedEventHandler(new KeyPressedEventHandler(keyCode));
-            control.addKeyReleasedEventHandler(new KeyReleasedEventHandler(keyCode, runnable));
-        }
+        this.mapProcessWhenKeyTyped.put(keyCode, runnable);
     }
     
     private Map<Control, Boolean> mapKeyTyped = new HashMap<>();
