@@ -426,7 +426,9 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 this.paneWhereSetEditor.getChildren().add(paneOfWhere);
                 // Negate
                 CheckBox checkBoxNegate = paneOfWhere.getChildren().findCheckBoxByName(WhereSetDialog.NAME_OF_NEGATE_CHECKBOX);
-                checkBoxNegate.setMarked(where.isNegate());
+                if (checkBoxNegate != null) {
+                    checkBoxNegate.setMarked(where.isNegate());
+                }
                 // Values
                 if (comparison != null) {
                     ColumnType columnType = this.mapColumnType.get(searchableColumn);
