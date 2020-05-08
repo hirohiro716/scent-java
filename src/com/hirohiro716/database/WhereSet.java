@@ -16,6 +16,42 @@ import com.hirohiro716.Array;
  */
 public class WhereSet {
     
+    private List<Where> wheres = new ArrayList<>();
+
+    /**
+     * 追加済みのWhereインスタンスを取得する。
+     * 
+     * @return 結果。
+     */
+    public List<Where> getWheres() {
+        return this.wheres;
+    }
+    
+    /**
+     * 追加済みのWhereインスタンスをすべて削除する。
+     */
+    public void clear() {
+        this.wheres.clear();
+    }
+    
+    /**
+     * 追加済みのWhereインスタンスの数を取得する。
+     * 
+     * @return 結果。
+     */
+    public int size() {
+        return this.wheres.size();
+    }
+    
+    /**
+     * 新しい検索条件を追加する。
+     * 
+     * @param where
+     */
+    protected void add(Where where) {
+        this.wheres.add(where);
+    }
+    
     /**
      * 新しい検索条件を追加する。
      * 
@@ -27,7 +63,7 @@ public class WhereSet {
     public void add(boolean isNegate, String column, Comparison comparison, Object value) {
         Where where = new Where(column, comparison, value);
         where.setNegate(isNegate);
-        this.wheres.add(where);
+        this.add(where);
     }
     
     /**
@@ -85,7 +121,7 @@ public class WhereSet {
     public void addBetween(boolean isNegate, String column, Object value1, Object value2) {
         Where where = new Where(column, Comparison.BETWEEN, value1, value2);
         where.setNegate(isNegate);
-        this.wheres.add(where);
+        this.add(where);
     }
     
     /**
@@ -142,7 +178,7 @@ public class WhereSet {
     public void addIn(boolean isNegate, String column, Object... values) {
         Where where = new Where(column, Comparison.IN, values);
         where.setNegate(isNegate);
-        this.wheres.add(where);
+        this.add(where);
     }
     
     /**
@@ -194,7 +230,7 @@ public class WhereSet {
     public void addIsNull(boolean isNegate, String column) {
         Where where = new Where(column, Comparison.IS_NULL);
         where.setNegate(isNegate);
-        this.wheres.add(where);
+        this.add(where);
     }
     
     /**
@@ -231,33 +267,6 @@ public class WhereSet {
      */
     public final void addIsNullNegate(String column) {
         this.addIsNull(true, column);
-    }
-    
-    private List<Where> wheres = new ArrayList<>();
-    
-    /**
-     * 追加済みのWhereインスタンスを取得する。
-     * 
-     * @return 結果。
-     */
-    public Where[] getWheres() {
-        return this.wheres.toArray(new Where[] {});
-    }
-    
-    /**
-     * 追加済みのWhereインスタンスをすべて削除する。
-     */
-    public void clear() {
-        this.wheres.clear();
-    }
-    
-    /**
-     * 追加済みのWhereインスタンスの数を取得する。
-     * 
-     * @return 結果。
-     */
-    public int size() {
-        return this.wheres.size();
     }
     
     /**
