@@ -249,7 +249,7 @@ public class DatePicker extends TextField {
      * 
      * @return 結果。
      */
-    public Datetime toDatetime() {
+    public Datetime getDatetime() {
         try {
             Datetime datetime = new Datetime(this.getText(), this.getFormatPattern());
             datetime.modifyHour(0);
@@ -267,8 +267,8 @@ public class DatePicker extends TextField {
      * 
      * @return 結果。
      */
-    public Date toDate() {
-        Datetime datetime = this.toDatetime();
+    public Date getDate() {
+        Datetime datetime = this.getDatetime();
         if (datetime == null) {
             return null;
         }
@@ -330,7 +330,7 @@ public class DatePicker extends TextField {
         if (this.getLocationOnScreen() == null || this.getWidth() < 20 || this.getHeight() == 0) {
             return;
         }
-        Datetime datetime = this.toDatetime();
+        Datetime datetime = this.getDatetime();
         if (datetime == null) {
             datetime = new Datetime();
         }
@@ -371,7 +371,7 @@ public class DatePicker extends TextField {
          */
         public CalendarPane() {
             DatePicker control = DatePicker.this;
-            Datetime defaultDatetime = control.toDatetime();
+            Datetime defaultDatetime = control.getDatetime();
             if (defaultDatetime == null) {
                 defaultDatetime = new Datetime();
             }
@@ -520,7 +520,7 @@ public class DatePicker extends TextField {
                 this.gridPane.getChildren().remove(this.gridPane.getChildren().get(7));
             }
             // Date already selected
-            Datetime picked = control.toDatetime();
+            Datetime picked = control.getDatetime();
             // Determine the first date
             int year = this.yearDropDownList.getSelectedItem();
             int month = this.monthDropDownList.getSelectedItem();
