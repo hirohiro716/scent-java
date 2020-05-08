@@ -10,9 +10,13 @@ import java.util.regex.Pattern;
  */
 public enum Regex {
     /**
-     * 半角数字のみ。
+     * 数字のみ。
      */
-    INTEGER_NARROW("^[0-9]{0,}$"),
+    INTEGER("^[0-9]{0,}$"),
+    /**
+     * 正負数字のみ。
+     */
+    INTEGER_NEGATIVE("^[0-9\\-]{0,}$"),
     /**
      * 全角数字のみ。
      */
@@ -161,7 +165,7 @@ public enum Regex {
                     result.append(")");
                     break convert;
                 }
-                if (Regex.INTEGER_NARROW.getPattern().matcher(one.toString()).matches()) {
+                if (Regex.INTEGER.getPattern().matcher(one.toString()).matches()) {
                     result.append("(");
                     result.append(one);
                     result.append("|");

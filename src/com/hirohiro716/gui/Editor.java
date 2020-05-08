@@ -349,7 +349,7 @@ public abstract class Editor<T> {
         TextField textField = this.createTextField(property);
         textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
         textField.setDisableInputMethod(true);
-        textField.addLimitByRegex(Regex.INTEGER_NARROW.getPattern(), false);
+        textField.addLimitByRegex(Regex.INTEGER_NEGATIVE.getPattern(), false);
         return textField;
     }
 
