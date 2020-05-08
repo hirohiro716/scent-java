@@ -14,7 +14,7 @@ import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
  * @author hiro
  *
  */
-public class ConfirmDialog extends MessageableDialog<ResultButton> {
+public class ConfirmationDialog extends MessageableDialog<ResultButton> {
     
     /**
      * コンストラクタ。<br>
@@ -22,7 +22,7 @@ public class ConfirmDialog extends MessageableDialog<ResultButton> {
      * 
      * @param owner
      */
-    public ConfirmDialog(Frame<?> owner) {
+    public ConfirmationDialog(Frame<?> owner) {
         super(owner);
     }
     
@@ -42,7 +42,7 @@ public class ConfirmDialog extends MessageableDialog<ResultButton> {
     
     @Override
     protected Button[] createButtons() {
-        ConfirmDialog dialog = this;
+        ConfirmationDialog dialog = this;
         this.buttonOfOK = new Button("OK");
         this.buttonOfOK.setMnemonic(KeyCode.O);
         this.buttonOfOK.addActionEventHandler(new EventHandler<ActionEvent>() {

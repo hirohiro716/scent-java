@@ -18,7 +18,7 @@ import com.hirohiro716.gui.control.RadioButton;
 import com.hirohiro716.gui.control.TextArea;
 import com.hirohiro716.gui.control.TextField;
 import com.hirohiro716.gui.control.ToggleButton;
-import com.hirohiro716.gui.dialog.ConfirmDialog;
+import com.hirohiro716.gui.dialog.ConfirmationDialog;
 import com.hirohiro716.gui.dialog.MessageDialog;
 import com.hirohiro716.gui.dialog.ProcessAfterDialogClosing;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
@@ -253,7 +253,7 @@ public abstract class Editor<T> {
         
         private boolean isAgree = false;
         
-        private ConfirmDialog dialog = null;
+        private ConfirmationDialog dialog = null;
         
         private final static String DIALOG_TITLE = "閉じる確認";
         
@@ -267,7 +267,7 @@ public abstract class Editor<T> {
                     return;
                 }
                 editor.window.setCloseOperation(CloseOperation.DO_NOT_CLOSE);
-                this.dialog = new ConfirmDialog(editor.window);
+                this.dialog = new ConfirmationDialog(editor.window);
                 this.dialog.setTitle(CloseEventHandler.DIALOG_TITLE);
                 this.dialog.setMessage(CloseEventHandler.DIALOG_MESSAGE);
                 this.dialog.setDefaultValue(ResultButton.OK);
