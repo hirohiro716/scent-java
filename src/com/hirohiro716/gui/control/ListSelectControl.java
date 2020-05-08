@@ -14,7 +14,6 @@ import javax.swing.JList;
 import com.hirohiro716.Array;
 import com.hirohiro716.DynamicArray;
 import com.hirohiro716.graphics.GraphicalString;
-import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.event.ChangeListener;
 
@@ -87,7 +86,6 @@ public abstract class ListSelectControl<T> extends Control {
                 int padding = (int) (height * 0.32);
                 label.setPadding(0, padding);
                 label.setDisabled(control.isDisabled());
-                label.setTextHorizontalAlignment(control.getTextHorizontalAlignment());
                 control.itemLabelCallback(label, (T) value, index, isSelected);
                 return label.getInnerInstance();
             }
@@ -175,26 +173,6 @@ public abstract class ListSelectControl<T> extends Control {
      * @param changeListener
      */
     public abstract void addSelectedItemChangeListener(ChangeListener<T> changeListener);
-    
-    private HorizontalAlignment textHorizontalAlignment = HorizontalAlignment.LEFT;
-    
-    /**
-     * このコントロールの水平方向のテキスト表示位置を取得する。
-     * 
-     * @return 結果。
-     */
-    public HorizontalAlignment getTextHorizontalAlignment() {
-        return this.textHorizontalAlignment;
-    }
-
-    /**
-     * このコントロールの水平方向のテキスト表示位置を指定する。
-     * 
-     * @param horizontalAlignment
-     */
-    public void setTextHorizontalAlignment(HorizontalAlignment horizontalAlignment) {
-        this.textHorizontalAlignment = horizontalAlignment;
-    }
     
     private Map<T, String> mapDisplayTextForItem = new HashMap<>();
     
