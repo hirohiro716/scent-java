@@ -226,8 +226,10 @@ public class StringValidator {
                 break;
             case TELEPHONE_NUMBER:
                 DynamicArray<Integer> telephoneNumberParts = new DynamicArray<>(value.split("-"));
-                if (value.length() > 0 && value.toString().matches("^[\\+\\-0-9]{10,}$") == false || telephoneNumberParts.size() < 3 || telephoneNumberParts.containsValue("")) {
-                    throw createValidationException(pattern);
+                if (value.length() > 0) {
+                    if (value.toString().matches("^[\\+\\-0-9]{10,}$") == false || telephoneNumberParts.size() < 3 || telephoneNumberParts.containsValue("")) {
+                        throw createValidationException(pattern);
+                    }
                 }
                 break;
             case REGEX:
