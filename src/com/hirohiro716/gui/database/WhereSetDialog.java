@@ -103,7 +103,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
      * @param columnType カラムの種類。
      */
     public void addSearchableColumn(ColumnInterface column, ColumnType columnType) {
-        this.addSearchableColumn(column.getPhysicalName(), column.getLogicalName(), columnType);
+        this.addSearchableColumn(column.getFullPhysicalName(), column.getLogicalName(), columnType);
     }
 
     /**
