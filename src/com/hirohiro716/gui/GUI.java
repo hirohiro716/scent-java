@@ -34,6 +34,9 @@ public class GUI {
      * @param runnable
      */
     public static void executeLater(Runnable runnable) {
+        if (runnable == null) {
+            return;
+        }
         SwingUtilities.invokeLater(runnable);
     }
     
@@ -44,6 +47,9 @@ public class GUI {
      * @param runnable
      */
     public static void executeLater(int generationToExecute, Runnable runnable) {
+        if (runnable == null) {
+            return;
+        }
         if (generationToExecute <= 0) {
             GUI.executeLater(runnable);
         } else {

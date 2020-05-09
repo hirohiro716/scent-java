@@ -54,7 +54,7 @@ public abstract class LabeledControl extends Control {
         html.replaceLF("<br>");
         html.replaceCRLF("<br>");
         if (this.isWrapText) {
-            html.insert("<html>", 0);
+            html.prepend("<html>");
             html.append("</html>");
         }
         this.setTextToInnerInstance(html.toString());
