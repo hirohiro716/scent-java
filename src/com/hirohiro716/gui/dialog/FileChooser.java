@@ -63,14 +63,14 @@ public abstract class FileChooser extends Control implements DialogInterface {
     
     @Override
     @SuppressWarnings("unchecked")
-    public Pane getPane() {
+    public <P extends Pane> P getPane() {
         if (this.getInnerInstance().getRootPane() == null) {
             return null;
         }
         if (this.pane == null) {
             this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getRootPane().getComponent(0));
         }
-        return this.pane;
+        return (P) this.pane;
     }
     
     @Override
