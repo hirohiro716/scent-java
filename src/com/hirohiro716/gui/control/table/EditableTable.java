@@ -1152,6 +1152,7 @@ public abstract class EditableTable<C, R> extends Control {
                 editableTable.rowsScrollPane.scrollTo(control);
             }
             editableTable.activate(editableTable.activeRowInstance, columnInstance);
+            editableTable.updateDisplay();
         }
         
         @Override
