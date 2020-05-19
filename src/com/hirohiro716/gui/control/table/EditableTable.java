@@ -750,6 +750,9 @@ public abstract class EditableTable<C, R> extends Control {
      * @param rowInstance
      */
     private void removeRow(R rowInstance) {
+        if (this.mapRowSpacers.containsKey(rowInstance) == false) {
+            return;
+        }
         this.rowsPane.getChildren().remove(this.mapRowSpacers.get(rowInstance));
         this.mapRowSpacers.remove(rowInstance);
     }
@@ -768,16 +771,18 @@ public abstract class EditableTable<C, R> extends Control {
             ControlFactory<C, R, Control> controlFactory = this.mapControlFactories.get(this.activeColumnInstance);
             controlFactory.setValueToRowInstance(control, rowInstance, this.activeColumnInstance);
         }
-        Pane spacer = this.mapRowSpacers.get(rowInstance);
-        if (this.rowsPane.getChildren().contains(spacer) == false) {
-            this.rowsPane.getChildren().add(spacer);
+        if (this.mapRowSpacers.containsKey(rowInstance)) {
+            Pane spacer = this.mapRowSpacers.get(rowInstance);
+            if (this.rowsPane.getChildren().contains(spacer) == false) {
+                this.rowsPane.getChildren().add(spacer);
+            }
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = rowIndex;
+            constraints.weightx = 1;
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+            this.rowsLayout.setConstraints(spacer.getInnerInstance(), constraints);
         }
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = rowIndex;
-        constraints.weightx = 1;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.rowsLayout.setConstraints(spacer.getInnerInstance(), constraints);
     }
     
     private Map<R, Pane> mapRowControlPanes = new HashMap<>();

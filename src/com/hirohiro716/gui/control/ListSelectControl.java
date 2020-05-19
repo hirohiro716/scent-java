@@ -15,6 +15,7 @@ import com.hirohiro716.Array;
 import com.hirohiro716.DynamicArray;
 import com.hirohiro716.graphics.GraphicalString;
 import com.hirohiro716.gui.collection.Collection;
+import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.event.ChangeListener;
 
 /**
@@ -35,7 +36,17 @@ public abstract class ListSelectControl<T> extends Control {
      */
     protected ListSelectControl(JComponent innerInstance, JComponent innerInstanceForLayout) {
         super(innerInstance, innerInstanceForLayout);
+        ListSelectControl<T> control = this;
         this.updateItemDisplay();
+        this.items.addListener(new RemoveListener<T>() {
+
+            @Override
+            protected void removed(T removed) {
+                if (control.getSelectedItem().equals(removed)) {
+                    control.setSelectedItem(null);
+                }
+            }
+        });
     }
 
     /**
