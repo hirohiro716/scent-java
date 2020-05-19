@@ -731,9 +731,6 @@ public abstract class EditableTable<C, R> extends Control {
      * @param rowInstance
      */
     private void addRow(R rowInstance) {
-        if (this.activeRowInstance == null) {
-            this.activateRow(rowInstance);
-        }
         Pane spacer = new Pane();
         spacer.setSize(0, this.defaultRowHeight);
         spacer.setInstanceForUseLater(rowInstance);
