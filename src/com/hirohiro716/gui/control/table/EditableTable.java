@@ -184,6 +184,13 @@ public abstract class EditableTable<C, R> extends Control {
             for (Pane pane : this.rowControlPanes) {
                 this.makeInactiveVisible(pane);
             }
+        } else {
+            for (Pane pane : this.rowControlPanes) {
+                R rowInstance = pane.getInstanceForUseLater();
+                if (rowInstance.equals(this.activeRowInstance)) {
+                    this.makeActiveVisible(pane);
+                }
+            }
         }
     }
 
@@ -508,9 +515,6 @@ public abstract class EditableTable<C, R> extends Control {
     @SuppressWarnings("unchecked")
     protected <T extends Control> void addColumn(C columnInstance, ColumnType columnType, ControlFactory<C, R, T> controlFactory) {
         EditableTable<C, R> editableTable = this;
-        if (this.activeColumnInstance == null) {
-            this.activateColumn(columnInstance);
-        }
         // Clear rows
         this.rowInstances.clear();
         this.mapRowSpacers.clear();
