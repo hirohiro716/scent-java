@@ -22,6 +22,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -118,6 +119,28 @@ public abstract class TableView<C, R> extends Control {
         return (JScrollPane) super.getInnerInstanceForLayout();
     }
 
+    /**
+     * このリストビューで複数選択が可能な場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isAllowMultipleSelection() {
+        return this.getInnerInstance().getSelectionModel().getSelectionMode() == ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
+    }
+    
+    /**
+     * このリストビューで複数選択を可能にする場合はtrueをセットする。
+     * 
+     * @param isAllowMultipleSelection
+     */
+    public void setAllowMultipleSelection(boolean isAllowMultipleSelection) {
+        if (isAllowMultipleSelection) {
+            this.getInnerInstance().getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        } else {
+            this.getInnerInstance().getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        }
+    }
+    
     @Override
     public void setFont(Font font) {
         super.setFont(font);
@@ -349,6 +372,14 @@ public abstract class TableView<C, R> extends Control {
             int index = this.rowInstances.indexOf(rowInstance);
             this.getInnerInstance().getSelectionModel().addSelectionInterval(index, index);
         }
+        if (selectedRows.size() > 0) {
+            for (ChangeListener<R> changeListener : this.selectedRowChangeListeners) {
+                changeListener.executeWhenChanged(this, this.getSelectedRow());
+            }
+        }
+        for (ChangeListener<Array<R>> changeListener : this.selectedRowsChangeListeners) {
+            changeListener.executeWhenChanged(this, this.getSelectedRows());
+        }
     }
     
     /**
@@ -369,6 +400,7 @@ public abstract class TableView<C, R> extends Control {
         List<R> list = new ArrayList<>();
         list.add(selectedRow);
         this.setSelectedRows(list);
+        
     }
     
     /**
@@ -377,6 +409,8 @@ public abstract class TableView<C, R> extends Control {
     public final void clearSelection() {
         this.setSelectedRows(new ArrayList<>());
     }
+    
+    private List<ChangeListener<R>> selectedRowChangeListeners = new ArrayList<>();
 
     /**
      * このテーブルビューの選択範囲の1番目が変更された際のリスナーを追加する。
@@ -385,6 +419,7 @@ public abstract class TableView<C, R> extends Control {
      */
     public void addSelectedRowChangeListener(ChangeListener<R> changeListener) {
         TableView<C, R> tableView = this;
+        this.selectedRowChangeListeners.add(changeListener);
         ListSelectionListener innerInstance = changeListener.createInnerInstance(tableView, new InnerInstanceCreator<>() {
 
             @Override
@@ -402,7 +437,9 @@ public abstract class TableView<C, R> extends Control {
         });
         this.getInnerInstance().getSelectionModel().addListSelectionListener(innerInstance);
     }
-    
+
+    private List<ChangeListener<Array<R>>> selectedRowsChangeListeners = new ArrayList<>();
+
     /**
      * このテーブルビューの選択範囲が変更された際のリスナーを追加する。
      * 
@@ -410,6 +447,7 @@ public abstract class TableView<C, R> extends Control {
      */
     public void addSelectedRowsChangeListener(ChangeListener<Array<R>> changeListener) {
         TableView<C, R> tableView = this;
+        this.selectedRowsChangeListeners.add(changeListener);
         ListSelectionListener innerInstance = changeListener.createInnerInstance(tableView, new InnerInstanceCreator<>() {
 
             @Override
@@ -436,6 +474,8 @@ public abstract class TableView<C, R> extends Control {
                 this.getInnerInstance().getSelectionModel().removeListSelectionListener((ListSelectionListener) innerInstance);
             }
         }
+        this.selectedRowChangeListeners.remove(changeListener);
+        this.selectedRowsChangeListeners.remove(changeListener);
     }
 
     @Override

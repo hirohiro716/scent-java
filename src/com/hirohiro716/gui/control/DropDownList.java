@@ -2,7 +2,10 @@ package com.hirohiro716.gui.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import com.hirohiro716.Array;
@@ -200,11 +203,17 @@ public class DropDownList<T> extends ListSelectControl<T> {
             this.getInnerInstance().setSelectedItem(item);
             break;
         }
+        for (ChangeListener<T> changeListener : this.selectedRowChangeListeners) {
+            changeListener.executeWhenChanged(this, this.getSelectedItem());
+        }
     }
+
+    private List<ChangeListener<T>> selectedRowChangeListeners = new ArrayList<>();
     
     @Override
     public void addSelectedItemChangeListener(ChangeListener<T> changeListener) {
         DropDownList<T> dropDownList = this;
+        this.selectedRowChangeListeners.add(changeListener);
         ActionListener innerInstance = changeListener.createInnerInstance(dropDownList, new InnerInstanceCreator<>() {
 
             @Override
@@ -229,6 +238,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
                 this.getInnerInstance().removeActionListener((ActionListener) innerInstance);
             }
         }
+        this.selectedRowChangeListeners.remove(changeListener);
     }
     
     @Override

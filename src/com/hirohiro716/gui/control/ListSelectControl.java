@@ -42,7 +42,7 @@ public abstract class ListSelectControl<T> extends Control {
 
             @Override
             protected void removed(T removed) {
-                if (control.getSelectedItem().equals(removed)) {
+                if (control.getSelectedItem() != null && control.getSelectedItem().equals(removed)) {
                     control.setSelectedItem(null);
                 }
             }

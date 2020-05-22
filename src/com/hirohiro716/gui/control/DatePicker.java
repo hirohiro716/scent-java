@@ -7,8 +7,6 @@ import java.awt.Rectangle;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
-import javax.swing.UIManager;
-
 import com.hirohiro716.StringObject;
 import com.hirohiro716.datetime.Datetime;
 import com.hirohiro716.datetime.Datetime.DayOfWeek;
@@ -377,7 +375,7 @@ public class DatePicker extends TextField {
             }
             // Inherit color information
             this.baseSize = control.getFont().getSize();
-            this.borderColor = new Color(UIManager.getColor("controlDkShadow").getRGB());
+            this.borderColor = GUI.getBorderColor();
             this.focusedBackground = new Color(control.getInnerInstance().getSelectionColor().getRGB());
             this.focusedForeground = new Color(control.getInnerInstance().getSelectedTextColor().getRGB());
             this.inactiveForeground = new Color(control.getInnerInstance().getDisabledTextColor().getRGB());

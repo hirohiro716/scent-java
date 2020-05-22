@@ -173,5 +173,6 @@ public abstract class MarkableControl extends LabeledControl {
                 this.getInnerInstance().removeActionListener((ActionListener) innerInstance);
             }
         }
+        this.markChangeListeners.remove(changeListener);
     }
 }

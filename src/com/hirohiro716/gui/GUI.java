@@ -27,7 +27,7 @@ import com.hirohiro716.StringObject;
  *
  */
 public class GUI {
-
+    
     /**
      * GUIライブラリに依存した処理を、専用スレッドで後で安全に実行するようスケジュールする。
      * 
@@ -136,7 +136,7 @@ public class GUI {
     public static Font createFont(Font baseFont, String fontName) {
         return new Font(fontName, baseFont.getStyle(), baseFont.getSize());
     }
-
+    
     /**
      * 指定されたフォントをベースに、指定された拡大率で新しいサイズのフォントを作成する。
      * 
@@ -187,7 +187,18 @@ public class GUI {
     public static void setFontSizeToAdd(int fontSizeToAdd) {
         GUI.FONT_SIZE_TO_ADD = fontSizeToAdd;
     }
-
+    
+    private static Color BORDER_COLOR = new Color(UIManager.getColor("controlDkShadow").getRGB());
+    
+    /**
+     * 境界線色を取得する。
+     * 
+     * @return 結果。
+     */
+    public static Color getBorderColor() {
+        return GUI.BORDER_COLOR;
+    }
+    
     /**
      * 指定されたHTMLやCSSで使用する "#000000" や "#fff" のような形式の色を作成する。
      * 
@@ -255,7 +266,7 @@ public class GUI {
     }
     
     private static GraphicsDevice defaultGraphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-
+    
     /**
      * デフォルトのグラフィックデバイスを取得する。
      * 

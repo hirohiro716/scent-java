@@ -62,7 +62,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.root.getInnerInstance().setLayout(layout);
         this.root.setBorder(Border.createLine(this.borderColor, 1));
         this.root.addSizeChangeListener(new ChangeListener<>() {
-
+            
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 editableTable.updateDisplay();
@@ -100,7 +100,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.bottomSpacer.setBackgroundColor(null);
         this.rowsPane.getChildren().add(this.bottomSpacer);
         this.rowsPane.addLocationChangeListener(new ChangeListener<Point>() {
-
+            
             @Override
             protected void changed(Component<?> component, Point changedValue, Point previousValue) {
                 editableTable.headerPane.setX(changedValue.x);
@@ -120,14 +120,14 @@ public abstract class EditableTable<C, R> extends Control {
         layout.setConstraints(this.rowsScrollPane.getInnerInstance(), rowsConstraints);
         // Rows listener
         this.rowInstances.addListener(new AddListener<R>() {
-
+            
             @Override
             protected void added(R added, int positionIndex) {
                 editableTable.addRow(added);
             }
         });
         this.rowInstances.addListener(new RemoveListener<R>() {
-
+            
             @Override
             protected void removed(R removed) {
                 editableTable.removeRow(removed);
@@ -135,7 +135,7 @@ public abstract class EditableTable<C, R> extends Control {
         });
     }
     
-    private Color borderColor = new Color(UIManager.getColor("controlDkShadow").getRGB());
+    private Color borderColor = GUI.getBorderColor();
     
     private Color lightBorderColor = new Color(UIManager.getColor("controlShadow").getRGB());
     
@@ -156,7 +156,7 @@ public abstract class EditableTable<C, R> extends Control {
     private Pane rowsPane = new Pane();
     
     private GridBagLayout rowsLayout = new GridBagLayout();
-
+    
     private Pane bottomSpacer = new Pane();
     
     /**
@@ -170,12 +170,12 @@ public abstract class EditableTable<C, R> extends Control {
         constraints.fill = GridBagConstraints.VERTICAL;
         this.rowsLayout.setConstraints(this.bottomSpacer.getInnerInstance(), constraints);
     }
-
+    
     @Override
     public JPanel getInnerInstance() {
         return (JPanel) super.getInnerInstance();
     }
-
+    
     @Override
     public void setDisabled(boolean isDisabled) {
         super.setDisabled(isDisabled);
@@ -193,7 +193,7 @@ public abstract class EditableTable<C, R> extends Control {
             }
         }
     }
-
+    
     private int defaultRowHeight = 0;
     
     /**
@@ -227,7 +227,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.headerPane.updateLayout();
         this.rowsPane.updateLayout();
     }
-
+    
     @Override
     public void updateDisplay() {
         this.rowsPane.getChildren().clear();
@@ -243,7 +243,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.headerPane.updateDisplay();
         this.rowsPane.updateDisplay();
     }
-
+    
     private R activeRowInstance = null;
     
     /**
@@ -375,7 +375,7 @@ public abstract class EditableTable<C, R> extends Control {
             }
         }
     }
-
+    
     /**
      * このテーブルの指定された行、指定されたカラムをアクティブにする。
      * 
@@ -510,7 +510,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param <T> 追加するカラムのコントロール型。
      * @param columnInstance
      * @param columnType
-     * @param controlFactory 
+     * @param controlFactory
      */
     @SuppressWarnings("unchecked")
     protected <T extends Control> void addColumn(C columnInstance, ColumnType columnType, ControlFactory<C, R, T> controlFactory) {
@@ -529,7 +529,7 @@ public abstract class EditableTable<C, R> extends Control {
             label.setBorder(Border.createLine(this.borderColor, 0, 0, 0, 1));
         }
         label.addSizeChangeListener(new ChangeListener<Dimension>() {
-
+            
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 for (Map<C, Control> controls : editableTable.mapOfRowControlMap.values()) {
@@ -563,7 +563,7 @@ public abstract class EditableTable<C, R> extends Control {
         spacerConstraints.weightx = 1;
         this.headerLayout.setConstraints(this.headerSpacer.getInnerInstance(), spacerConstraints);
     }
-
+    
     private Map<C, TableColumn> mapTableColumns = new HashMap<>();
     
     private Map<Label, TableColumn> mapHeaderLabels = new HashMap<>();
@@ -582,7 +582,7 @@ public abstract class EditableTable<C, R> extends Control {
      * ヘッダーラベルの端でカラムをリサイズするイベントハンドラー。
      */
     private EventHandler<MouseEvent> headerLabelMouseMovedEventHandler = new EventHandler<MouseEvent>() {
-
+        
         @Override
         protected void handle(MouseEvent event) {
             EditableTable<C, R> editableTable = EditableTable.this;
@@ -610,7 +610,7 @@ public abstract class EditableTable<C, R> extends Control {
      * ヘッダーラベルの端でカラムをリサイズするイベントハンドラー。
      */
     private EventHandler<MouseEvent> headerLabelMousePressedEventHandler = new EventHandler<MouseEvent>() {
-
+        
         @Override
         protected void handle(MouseEvent event) {
             EditableTable<C, R> editableTable = EditableTable.this;
@@ -628,14 +628,13 @@ public abstract class EditableTable<C, R> extends Control {
      * ヘッダーラベルの端でカラムをリサイズするイベントハンドラー。
      */
     private EventHandler<MouseEvent> headerLabelMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
-
+        
         @Override
         protected void handle(MouseEvent event) {
             EditableTable<C, R> editableTable = EditableTable.this;
             TableColumn tableColumn = editableTable.mapHeaderLabels.get(event.getSource());
             int labelWidth = editableTable.headerLabelWidthBeforeResizing - editableTable.headerLabelResizeStartPointX + event.getScreenX();
-            if (tableColumn.isResizable() == false || editableTable.isStartedResizeHeaderLabel == false
-                    || labelWidth <= tableColumn.getMinimumWidth() || labelWidth >= tableColumn.getMaximumWidth()) {
+            if (tableColumn.isResizable() == false || editableTable.isStartedResizeHeaderLabel == false || labelWidth <= tableColumn.getMinimumWidth() || labelWidth >= tableColumn.getMaximumWidth()) {
                 return;
             }
             editableTable.headerPane.setWidth(editableTable.headerPaneWidthBeforeResizing - editableTable.headerLabelResizeStartPointX + event.getScreenX());
@@ -643,7 +642,7 @@ public abstract class EditableTable<C, R> extends Control {
             editableTable.headerPane.getInnerInstance().doLayout();
         }
     };
-
+    
     /**
      * このテーブルにラベルを表示するカラムを追加する。
      * 
@@ -744,7 +743,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.rowIndex++;
         this.updateBottomSpacerLayout();
     }
-
+    
     /**
      * このテーブルの行情報のインスタンスが削除された際の処理。
      * 
@@ -866,7 +865,7 @@ public abstract class EditableTable<C, R> extends Control {
     }
     
     private int numberOfDisplayRows = 30;
-
+    
     /**
      * このテーブルのコントロールを表示できる行数を取得する。
      * 
@@ -926,7 +925,7 @@ public abstract class EditableTable<C, R> extends Control {
             case PASSWORD_FIELD:
                 TextField textField = (TextField) control;
                 textField.addTextChangeListener(new ChangeListener<String>() {
-
+                    
                     @Override
                     protected void changed(Component<?> component, String changedValue, String previousValue) {
                         Control control = (Control) component;
@@ -941,7 +940,7 @@ public abstract class EditableTable<C, R> extends Control {
                 DatePicker datePicker = (DatePicker) control;
                 datePicker.setDisabledPopup(true);
                 datePicker.addMouseClickedEventHandler(new EventHandler<MouseEvent>() {
-
+                    
                     @Override
                     protected void handle(MouseEvent event) {
                         datePicker.setDisabledPopup(false);
@@ -949,7 +948,7 @@ public abstract class EditableTable<C, R> extends Control {
                     }
                 });
                 datePicker.addTextChangeListener(new ChangeListener<String>() {
-
+                    
                     @Override
                     protected void changed(Component<?> component, String changedValue, String previousValue) {
                         Control control = (Control) component;
@@ -964,7 +963,7 @@ public abstract class EditableTable<C, R> extends Control {
                 @SuppressWarnings("unchecked")
                 DropDownList<Object> dropDownList = (DropDownList<Object>) control;
                 dropDownList.addSelectedItemChangeListener(new ChangeListener<Object>() {
-
+                    
                     @Override
                     protected void changed(Component<?> component, Object changedValue, Object previousValue) {
                         Control control = (Control) component;
@@ -979,7 +978,7 @@ public abstract class EditableTable<C, R> extends Control {
                 CheckBox checkBox = (CheckBox) control;
                 checkBox.setBackgroundColor(null);
                 checkBox.addMarkChangeListener(new ChangeListener<Boolean>() {
-
+                    
                     @Override
                     protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                         Control control = (Control) component;
@@ -1050,7 +1049,7 @@ public abstract class EditableTable<C, R> extends Control {
             }
         });
     }
-
+    
     /**
      * このテーブルの行に配置されたコントロールのフォーカスが変更された場合のリスナー。
      * 
@@ -1093,7 +1092,7 @@ public abstract class EditableTable<C, R> extends Control {
          * コントロールが配置されているペインと、属するカラムのインスタンスを指定する。
          * 
          * @param rowControlPane
-         * @param columnInstance 
+         * @param columnInstance
          */
         private ControlClickEventHandler(Pane rowControlPane, C columnInstance) {
             this.controlPane = rowControlPane;
@@ -1129,7 +1128,7 @@ public abstract class EditableTable<C, R> extends Control {
          * コントロールが配置されているペインと、属するカラムのインスタンスを指定する。
          * 
          * @param rowControlPane
-         * @param columnInstance 
+         * @param columnInstance
          */
         private ControlKeyPressedEventHandler(Pane rowControlPane, C columnInstance) {
             this.rowControlPane = rowControlPane;
@@ -1275,7 +1274,7 @@ public abstract class EditableTable<C, R> extends Control {
             }
         }
     };
-
+    
     /**
      * テーブルカラムのクラス。
      * 
@@ -1325,99 +1324,99 @@ public abstract class EditableTable<C, R> extends Control {
         public String getHeaderText() {
             return this.headerLabel.getText();
         }
-
+        
         @Override
         public void setHeaderText(String headerText) {
             this.headerLabel.setText(headerText);
         }
-
+        
         @Override
         public HorizontalAlignment getHeaderHorizontalAlignment() {
             return this.headerLabel.getTextHorizontalAlignment();
         }
-
+        
         @Override
         public void setHeaderHorizontalAlignment(HorizontalAlignment horizontalAlignment) {
             this.headerLabel.setTextHorizontalAlignment(horizontalAlignment);
         }
-
+        
         @Override
         public Integer getWidth() {
             return this.headerLabel.getWidth();
         }
-
+        
         @Override
         public void setWidth(Integer width) {
             this.headerLabel.setWidth(width);
         }
-
+        
         @Override
         public Integer getMinimumWidth() {
             return this.headerLabel.getMinimumWidth();
         }
-
+        
         @Override
         public void setMinimumWidth(Integer width) {
             this.headerLabel.setMinimumWidth(width);
         }
-
+        
         @Override
         public Integer getMaximumWidth() {
             return this.headerLabel.getMaximumWidth();
         }
-
+        
         @Override
         public void setMaximumWidth(Integer width) {
             this.headerLabel.setMaximumWidth(width);
         }
         
         private boolean isResizable = true;
-
+        
         @Override
         public boolean isResizable() {
             return this.isResizable;
         }
-
+        
         @Override
         public void setResizable(boolean isResizable) {
             this.isResizable = isResizable;
         }
-
+        
         @Override
         public void addHeaderMouseClickedEventHandler(EventHandler<MouseEvent> eventHandler) {
             this.headerLabel.addMouseClickedEventHandler(eventHandler);
         }
-
+        
         @Override
         public void addHeaderMouseClickedEventHandler(MouseButton mouseButton, EventHandler<MouseEvent> eventHandler) {
             this.headerLabel.addMouseClickedEventHandler(mouseButton, eventHandler);
         }
-
+        
         @Override
         public void addHeaderMousePressedEventHandler(EventHandler<MouseEvent> eventHandler) {
             this.headerLabel.addMousePressedEventHandler(eventHandler);
         }
-
+        
         @Override
         public void addHeaderMousePressedEventHandler(MouseButton mouseButton, EventHandler<MouseEvent> eventHandler) {
             this.headerLabel.addMouseClickedEventHandler(mouseButton, eventHandler);
         }
-
+        
         @Override
         public void addHeaderMouseReleasedEventHandler(EventHandler<MouseEvent> eventHandler) {
             this.headerLabel.addMouseReleasedEventHandler(eventHandler);
         }
-
+        
         @Override
         public void addHeaderMouseReleasedEventHandler(MouseButton mouseButton, EventHandler<MouseEvent> eventHandler) {
             this.headerLabel.addMouseReleasedEventHandler(mouseButton, eventHandler);
         }
-
+        
         @Override
         public void addHeaderMouseWheelEventHandler(EventHandler<MouseEvent> eventHandler) {
             this.headerLabel.addMouseWheelEventHandler(eventHandler);
         }
-
+        
         @Override
         public void removeEventHandler(EventHandler<?> eventHandler) {
             this.headerLabel.removeEventHandler(eventHandler);

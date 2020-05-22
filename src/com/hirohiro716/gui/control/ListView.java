@@ -2,6 +2,8 @@ package com.hirohiro716.gui.control;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.DefaultListCellRenderer;
@@ -167,11 +169,20 @@ public class ListView<T> extends ListSelectControl<T> {
                 this.getInnerInstance().getSelectionModel().setAnchorSelectionIndex(index);
             }
         }
+        for (ChangeListener<T> changeListener : this.selectedRowChangeListeners) {
+            changeListener.executeWhenChanged(this, this.getSelectedItem());
+        }
+        for (ChangeListener<Array<T>> changeListener : this.selectedRowsChangeListeners) {
+            changeListener.executeWhenChanged(this, this.getSelectedItems());
+        }
     }
+    
+    private List<ChangeListener<T>> selectedRowChangeListeners = new ArrayList<>();
     
     @Override
     public void addSelectedItemChangeListener(ChangeListener<T> changeListener) {
         ListView<T> listView = this;
+        this.selectedRowChangeListeners.add(changeListener);
         ListSelectionListener innerInstance = changeListener.createInnerInstance(listView, new InnerInstanceCreator<>() {
 
             @Override
@@ -187,6 +198,34 @@ public class ListView<T> extends ListSelectControl<T> {
         });
         this.getInnerInstance().getSelectionModel().addListSelectionListener(innerInstance);
     }
+
+    private List<ChangeListener<Array<T>>> selectedRowsChangeListeners = new ArrayList<>();
+
+    /**
+     * このリストビューの選択範囲が変更された際のリスナーを追加する。
+     * 
+     * @param changeListener
+     */
+    public void addSelectedRowsChangeListener(ChangeListener<Array<T>> changeListener) {
+        ListView<T> listView = this;
+        this.selectedRowsChangeListeners.add(changeListener);
+        ListSelectionListener innerInstance = changeListener.createInnerInstance(listView, new InnerInstanceCreator<>() {
+
+            @Override
+            public ListSelectionListener create() {
+                return new ListSelectionListener() {
+                    
+                    @Override
+                    public void valueChanged(ListSelectionEvent event) {
+                        if (event.getValueIsAdjusting()) {
+                            changeListener.executeWhenChanged(listView, listView.getSelectedItems());
+                        }
+                    }
+                };
+            }
+        });
+        this.getInnerInstance().getSelectionModel().addListSelectionListener(innerInstance);
+    }
     
     @Override
     public void removeChangeListener(ChangeListener<?> changeListener) {
@@ -196,6 +235,8 @@ public class ListView<T> extends ListSelectControl<T> {
                 this.getInnerInstance().getSelectionModel().removeListSelectionListener((ListSelectionListener) innerInstance);
             }
         }
+        this.selectedRowChangeListeners.remove(changeListener);
+        this.selectedRowsChangeListeners.remove(changeListener);
     }
     
     @Override
