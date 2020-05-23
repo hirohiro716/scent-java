@@ -146,8 +146,8 @@ public class ListViewDialog<T> extends MessageableDialog<Array<T>> {
     }
     
     @Override
-    public void setDefaultValue(Array<T> defaultResultValue) {
-        this.listView.setSelectedItems(defaultResultValue.getUnmodifiableList());
+    public void setDefaultValue(Array<T> defaultValue) {
+        this.listView.setSelectedItems(defaultValue.getUnmodifiableList());
     }
     
     private Array<T> result = null;

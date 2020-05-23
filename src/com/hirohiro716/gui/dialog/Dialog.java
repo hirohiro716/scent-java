@@ -140,9 +140,9 @@ public abstract class Dialog<R> implements DialogInterface {
     /**
      * このダイアログにデフォルトの値をセットする。
      * 
-     * @param defaultResultValue
+     * @param defaultValue
      */
-    public abstract void setDefaultValue(R defaultResultValue);
+    public abstract void setDefaultValue(R defaultValue);
     
     /**
      * このダイアログの表示結果を取得する。

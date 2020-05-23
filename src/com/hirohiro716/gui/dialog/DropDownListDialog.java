@@ -129,8 +129,8 @@ public class DropDownListDialog<T> extends MessageableDialog<T> {
     }
     
     @Override
-    public void setDefaultValue(T defaultResultValue) {
-        this.dropDownList.setSelectedItem(defaultResultValue);
+    public void setDefaultValue(T defaultValue) {
+        this.dropDownList.setSelectedItem(defaultValue);
     }
     
     private T result = null;

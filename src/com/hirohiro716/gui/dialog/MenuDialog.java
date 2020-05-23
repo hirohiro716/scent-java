@@ -120,8 +120,8 @@ public class MenuDialog extends TitledDialog<Button> {
     private Button defaultValue = null;
     
     @Override
-    public void setDefaultValue(Button defaultResultValue) {
-        this.defaultValue = defaultResultValue;
+    public void setDefaultValue(Button defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     private Button result = null;

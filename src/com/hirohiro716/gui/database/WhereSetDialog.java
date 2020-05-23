@@ -194,8 +194,8 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     private Array<WhereSet> defaultWhereSets = null;
     
     @Override
-    public void setDefaultValue(Array<WhereSet> defaultResultValue) {
-        this.defaultWhereSets = defaultResultValue;
+    public void setDefaultValue(Array<WhereSet> defaultValue) {
+        this.defaultWhereSets = defaultValue;
     }
     
     private Array<WhereSet> result = null;

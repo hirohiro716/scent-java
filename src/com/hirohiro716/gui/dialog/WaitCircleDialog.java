@@ -177,8 +177,8 @@ public class WaitCircleDialog<R> extends MessageableDialog<R> {
     private R result;
     
     @Override
-    public void setDefaultValue(R defaultResultValue) {
-        this.result = defaultResultValue;
+    public void setDefaultValue(R defaultValue) {
+        this.result = defaultValue;
     }
 
     @Override

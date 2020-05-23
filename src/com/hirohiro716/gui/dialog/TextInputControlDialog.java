@@ -118,8 +118,8 @@ public abstract class TextInputControlDialog<C extends TextInputControl> extends
     private String defaultValue = null;
     
     @Override
-    public void setDefaultValue(String defaultResultValue) {
-        this.defaultValue = defaultResultValue;
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     private String result = null;

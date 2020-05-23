@@ -10,9 +10,7 @@ import com.hirohiro716.Array;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.KeyCode;
-import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;
-import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.FlowPane;
@@ -39,29 +37,6 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
      */
     public ToggleButtonDialog(Frame<?> owner) {
         super(owner);
-        ToggleButtonDialog<T> dialog = this;
-        this.pickableItems.addListener(new AddListener<T>() {
-            
-            @Override
-            protected void added(T added, int positionIndex) {
-                ToggleButton toggleButton = new ToggleButton();
-                if (dialog.mapPickableItemText.containsKey(added)) {
-                    toggleButton.setText(dialog.mapPickableItemText.get(added));
-                } else {
-                    toggleButton.setText(added.toString());
-                }
-                dialog.flowPane.getChildren().add(toggleButton, positionIndex);
-                dialog.mapToggleButton.put(added, toggleButton);
-            }
-        });
-        this.pickableItems.addListener(new RemoveListener<T>() {
-            
-            @Override
-            protected void removed(T removed) {
-                ToggleButton toggleButton = dialog.mapToggleButton.get(removed);
-                dialog.flowPane.getChildren().remove(toggleButton);
-            }
-        });
         this.getPane().setHeight(this.getPane().getFont().getSize() * 36);
     }
 
@@ -106,6 +81,22 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
     }
     
     private Map<T, ToggleButton> mapToggleButton = new HashMap<>();
+
+    /**
+     * 指定されたアイテムに関連づいたトグルボタンを作成する。
+     * 
+     * @param pickableItem
+     * @return 結果。
+     */
+    private ToggleButton createToggleButton(T pickableItem) {
+        ToggleButton toggleButton = new ToggleButton();
+        if (this.mapDisplayTextForPickableItem.containsKey(pickableItem)) {
+            toggleButton.setText(this.mapDisplayTextForPickableItem.get(pickableItem));
+        } else {
+            toggleButton.setText(pickableItem.toString());
+        }
+        return toggleButton;
+    }
     
     /**
      * 指定されたアイテムに関連づいたトグルボタンを取得する。
@@ -117,15 +108,15 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
         return this.mapToggleButton.get(pickableItem);
     }
     
-    private Map<T, String> mapPickableItemText = new HashMap<>();
+    private Map<T, String> mapDisplayTextForPickableItem = new HashMap<>();
 
     /**
      * 選択できるアイテムの文字列表現の代わりに表示するテキストを定義したマップを取得する。
      * 
      * @return 結果。
      */
-    public Map<T, String> getMapPickableItemText() {
-        return this.mapPickableItemText;
+    public Map<T, String> getMapDisplayTextForPickableItem() {
+        return this.mapDisplayTextForPickableItem;
     }
     
     /**
@@ -133,8 +124,8 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
      * 
      * @param map
      */
-    public void setMapPickableItemText(Map<T, String> map) {
-        this.mapPickableItemText = map;
+    public void setMapDisplayTextForPickableItem(Map<T, String> map) {
+        this.mapDisplayTextForPickableItem = map;
     }
 
     private FlowPane flowPane;
@@ -144,6 +135,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
     @Override
     protected Control createInputControl() {
         this.flowPane = new FlowPane();
+        this.flowPane.setPadding(this.flowPane.getFont().getSize());
         this.scrollPane = new ScrollPane(this.flowPane);
         return this.scrollPane;
     }
@@ -220,20 +212,21 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
                 dialog.flowPane.setMaximumWidth(changedValue.width);
             }
         });
+        for (T item : this.pickableItems) {
+            ToggleButton toggleButton = this.createToggleButton(item);
+            if (this.defaultValue != null && this.defaultValue.contains(item)) {
+                toggleButton.setMarked(true);
+            }
+            this.flowPane.getChildren().add(toggleButton);
+            this.mapToggleButton.put(item, toggleButton);
+        }
     }
     
-    private Array<T> result = null;
+    private List<T> defaultValue = null;
     
     @Override
     public void setDefaultValue(Array<T> value) {
-        if (value != null) {
-            for (T key : value) {
-                ToggleButton toggleButton = this.mapToggleButton.get(key);
-                if (toggleButton != null) {
-                    toggleButton.setMarked(true);
-                }
-            }
-        }
+        this.defaultValue = value.getUnmodifiableList();
     }
 
     /**
@@ -244,6 +237,8 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
     public void setDefaultSingleValue(T value) {
         this.setDefaultValue(new Array<>(value));
     }
+
+    private Array<T> result = null;
     
     @Override
     public Array<T> getDialogResult() {

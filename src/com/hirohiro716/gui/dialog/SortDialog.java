@@ -286,6 +286,20 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
         super.processBeforeShowing();
         this.getVerticalPaneOfControls().getGrowableControls().clear();
         this.getVerticalPaneOfControls().getGrowableControls().add(this.scrollPane);
+        // Default sort
+        if (this.defaultValue != null) {
+            List<T> items = new ArrayList<>();
+            items.addAll(this.sortableItems.toArray().getUnmodifiableList());
+            this.sortableItems.clear();
+            for (T value : this.defaultValue) {
+                this.sortableItems.add(value);
+                items.remove(value);
+            }
+            for (T value : items) {
+                this.sortableItems.add(value);
+            }
+        }
+        // Create sortable labels
         for (T item : this.sortableItems) {
             Label label = this.createSortableItemLabel(item);
             label.addMousePressedEventHandler(MouseButton.BUTTON1, this.mousePressedEventHandler);
@@ -296,18 +310,11 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
         }
     }
     
+    private Array<T> defaultValue = null;
+    
     @Override
-    public void setDefaultValue(Array<T> defaultResultValue) {
-        List<T> items = new ArrayList<>();
-        items.addAll(this.sortableItems.toArray().getUnmodifiableList());
-        this.sortableItems.clear();
-        for (T value : defaultResultValue) {
-            this.sortableItems.add(value);
-            items.remove(value);
-        }
-        for (T value : items) {
-            this.sortableItems.add(value);
-        }
+    public void setDefaultValue(Array<T> defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     private Array<T> result = null;

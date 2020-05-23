@@ -245,13 +245,13 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
     }
     
     @Override
-    public void setDefaultValue(Datetime defaultResultValue) {
-        if (defaultResultValue == null) {
+    public void setDefaultValue(Datetime defaultValue) {
+        if (defaultValue == null) {
             return;
         }
-        this.datePicker.setDatetime(defaultResultValue);
-        this.textFieldHour.setText(String.valueOf(defaultResultValue.toHour()));
-        this.textFieldMinute.setText(String.valueOf(defaultResultValue.toMinute()));
+        this.datePicker.setDatetime(defaultValue);
+        this.textFieldHour.setText(String.valueOf(defaultValue.toHour()));
+        this.textFieldMinute.setText(String.valueOf(defaultValue.toMinute()));
     }
     
     private Datetime result = null;
