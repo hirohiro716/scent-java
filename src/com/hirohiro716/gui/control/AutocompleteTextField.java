@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -304,7 +305,7 @@ public class AutocompleteTextField extends TextField {
      * 
      * @param listItems
      */
-    public void setListItems(List<String> listItems) {
+    public void setListItems(Collection<String> listItems) {
         this.listItems.addAll(listItems);
     }
     
