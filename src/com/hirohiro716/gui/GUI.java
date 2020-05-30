@@ -109,7 +109,7 @@ public class GUI {
      */
     public static String[] getAvailableFontNames() {
         List<String> list = new ArrayList<>();
-        for (Font font : getAvailableFonts()) {
+        for (Font font : GUI.getAvailableFonts()) {
             list.add(font.getFontName());
         }
         return list.toArray(new String[] {});

@@ -78,13 +78,8 @@ public abstract class RecordMapper {
      * 
      * @return 結果。
      */
-    @SuppressWarnings("unchecked")
     public <C extends ColumnInterface> DynamicArray<C> createDefaultRecord() {
-        DynamicArray<C> record = new DynamicArray<>();
-        for (ColumnInterface column: this.getColumns()) {
-            record.put((C) column, column.getDefaultValue());
-        }
-        return record;
+        return this.getTable().createRecord();
     }
     
     private WhereSet whereSet = null;
@@ -116,11 +111,7 @@ public abstract class RecordMapper {
      */
     @SuppressWarnings("unchecked")
     public <C extends ColumnInterface> DynamicArray<C>[] getRecords() {
-        List<DynamicArray<C>> list = new ArrayList<>();
-        for (DynamicArray<ColumnInterface> record : this.editingRecords) {
-            list.add((DynamicArray<C>) record);
-        }
-        return list.toArray(new DynamicArray[] {});
+        return this.editingRecords.toArray(new DynamicArray[] {});
     }
     
     /**
@@ -198,13 +189,7 @@ public abstract class RecordMapper {
     public void edit() throws SQLException {
         List<DynamicArray<ColumnInterface>> records = new ArrayList<>();
         for (DynamicArray<String> fetchedRecord : this.fetchRecordsForEdit(this.getOrderByColumnsForEdit())) {
-            DynamicArray<ColumnInterface> record = new DynamicArray<>();
-            for (String key : fetchedRecord.getKeys()) {
-                ColumnInterface column = this.getTable().findColumn(key);
-                if (column != null) {
-                    record.put(column, fetchedRecord.get(key));
-                }
-            }
+            DynamicArray<ColumnInterface> record = this.getTable().createRecord(fetchedRecord);
             records.add(record);
         }
         this.setRecords(records);

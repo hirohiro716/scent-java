@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,10 +29,7 @@ public class CSV {
      * @param headers
      */
     public void setHeaders(String... headers) {
-        this.headers = new ArrayList<>();
-        for (String header : headers) {
-            this.headers.add(header);
-        }
+        this.headers = Arrays.asList(headers);
     }
     
     /**
@@ -84,11 +82,7 @@ public class CSV {
      * @param values
      */
     public void addRows(String... values) {
-        List<String> list = new ArrayList<>();
-        for (String value : values) {
-            list.add(value);
-        }
-        this.rows.add(list);
+        this.rows.add(Arrays.asList(values));
     }
     
     /**

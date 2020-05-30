@@ -1,5 +1,7 @@
 package com.hirohiro716.database;
 
+import com.hirohiro716.DynamicArray;
+
 /**
  * データベーステーブルのインターフェース。
  * 
@@ -69,5 +71,38 @@ public interface TableInterface {
             }
         }
         return null;
+    }
+    
+    /**
+     * 初期値が入力された、キーがカラム列挙型のレコード配列を作成する。
+     * 
+     * @param <C>
+     * @return 結果。
+     */
+    @SuppressWarnings("unchecked")
+    public default <C extends ColumnInterface> DynamicArray<C> createRecord() {
+        DynamicArray<C> record = new DynamicArray<>();
+        for (ColumnInterface column : this.getColumns()) {
+            record.put((C) column, column.getDefaultValue());
+        }
+        return record;
+    }
+    
+    /**
+     * キーがカラム文字列の配列から、キーがカラム列挙型のレコード配列を作成する。
+     * 
+     * @param <C>
+     * @param stringKeyRecord
+     * @return 結果。
+     */
+    public default <C extends ColumnInterface> DynamicArray<C> createRecord(DynamicArray<String> stringKeyRecord) {
+        DynamicArray<C> record = new DynamicArray<>();
+        for (String columnString : stringKeyRecord.getKeys()) {
+            C column = this.findColumn(columnString);
+            if (column != null) {
+                record.put(column, stringKeyRecord.get(columnString));
+            }
+        }
+        return record;
     }
 }
