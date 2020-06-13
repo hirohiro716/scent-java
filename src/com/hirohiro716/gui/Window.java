@@ -24,6 +24,7 @@ public class Window extends Frame<JFrame> {
      */
     protected Window(JFrame jFrame) {
         super(jFrame);
+        this.setSize(400, 300);
         this.setCloseOperation(CloseOperation.DISPOSE);
         this.rootPane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
         this.rootPane.setParent(this);

@@ -36,7 +36,17 @@ public interface ColumnInterface extends PropertyInterface {
      * @param columnEnumClass このインターフェースを継承している列挙型のクラス。
      * @return 結果。
      */
+    @SuppressWarnings("unchecked")
     public static <C extends ColumnInterface> C columnOf(String physicalName, Class<C> columnEnumClass) {
+        try {
+            for (ColumnInterface columnInterface : columnEnumClass.getEnumConstants()) {
+                if (columnInterface.getFullPhysicalName().equals(physicalName)) {
+                    return (C) columnInterface;
+                }
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         return PropertyInterface.propertyOf(physicalName, columnEnumClass);
     }
     

@@ -9,6 +9,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.InnerInstanceCreator;
 import com.hirohiro716.image.Image;
@@ -525,24 +528,6 @@ public abstract class Component<T extends java.awt.Component> {
     public boolean isFocused() {
         return this.getInnerInstance().isFocusOwner();
     }
-
-    /**
-     * このコンポーネントが無効な状態の場合はtrueを返す。
-     * 
-     * @return 結果。
-     */
-    public boolean isDisabled() {
-        return !this.getInnerInstance().isEnabled();
-    }
-    
-    /**
-     * このコンポーネントを無効にする場合はtrueをセットする。
-     * 
-     * @param isDisabled
-     */
-    public void setDisabled(boolean isDisabled) {
-        this.getInnerInstance().setEnabled(!isDisabled);
-    }
     
     private Object instanceForUseLater;
     
@@ -608,7 +593,7 @@ public abstract class Component<T extends java.awt.Component> {
         }
         return null;
     }
-
+    
     /**
      * このコンポーネントが表示されている場合はtrueを返す。
      * 
@@ -625,6 +610,38 @@ public abstract class Component<T extends java.awt.Component> {
      */
     public void setVisible(boolean isVisible) {
         this.getInnerInstanceForLayout().setVisible(isVisible);
+    }
+
+    private List<ChangeListener<Boolean>> disabledChangeListeners = new ArrayList<>();
+    
+    /**
+     * このコントロールの無効状態が変化した際のリスナーを追加する。
+     * 
+     * @param changeListener
+     */
+    public void addDisabledChangeListener(ChangeListener<Boolean> changeListener) {
+        this.disabledChangeListeners.add(changeListener);
+    }
+
+    /**
+     * このコンポーネントが無効な状態の場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isDisabled() {
+        return !this.getInnerInstance().isEnabled();
+    }
+    
+    /**
+     * このコンポーネントを無効にする場合はtrueをセットする。
+     * 
+     * @param isDisabled
+     */
+    public void setDisabled(boolean isDisabled) {
+        this.getInnerInstance().setEnabled(!isDisabled);
+        for (ChangeListener<Boolean> changeListener : this.disabledChangeListeners) {
+            changeListener.executeWhenChanged(this, isDisabled);
+        }
     }
     
     /**
@@ -706,7 +723,9 @@ public abstract class Component<T extends java.awt.Component> {
         for (Object innerInstance : changeListener.getInnerInstances(this)) {
             if (innerInstance instanceof ComponentListener) {
                 this.getInnerInstance().removeComponentListener((ComponentListener) innerInstance);
+                this.getInnerInstanceForLayout().removeComponentListener((ComponentListener) innerInstance);
             }
         }
+        this.disabledChangeListeners.remove(changeListener);
     }
 }

@@ -169,7 +169,11 @@ public class HorizontalPane extends Pane {
         }
         if (this.growableControls.contains(control)) {
             constraints.weightx = 1;
-            constraints.fill = GridBagConstraints.BOTH;
+            if (this.isFillChildToPaneHeight) {
+                constraints.fill = GridBagConstraints.BOTH;
+            } else {
+                constraints.fill = GridBagConstraints.HORIZONTAL;
+            }
         }
         switch (this.verticalAlignment) {
         case TOP:

@@ -3,6 +3,7 @@ package com.hirohiro716;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -469,6 +470,19 @@ public class DynamicArray<K> implements Cloneable, Serializable {
             }
         }
         return result;
+    }
+
+    /**
+     * 指定されたキーに関連づいた値をもとに連想配列を並び替える。
+     * 
+     * @param arrays
+     * @param sortKey 並び替えに使用する値を取得するためのキー。
+     * @param sortOrder
+     * @return 結果。
+     */
+    public static <K> List<DynamicArray<K>> sort(DynamicArray<K>[] arrays, K sortKey, SortOrder sortOrder) {
+        List<DynamicArray<K>> list = Arrays.asList(arrays);
+        return DynamicArray.sort(list, sortKey, sortOrder);
     }
     
     /**

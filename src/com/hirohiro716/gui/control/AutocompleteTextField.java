@@ -220,8 +220,9 @@ public class AutocompleteTextField extends TextField {
         this.popup.setY(y);
         this.popup.setMinimumWidth(this.getWidth());
         this.listView.clearSelection();
-        if (this.filteredListItems.size() > 0 && this.isFocused() && this.isVisible() && this.isDisabled() == false) {
+        if (this.filteredListItems.size() > 0 && this.isFocused() && this.isVisible() && this.isEditable() && this.isDisabled() == false) {
             this.popup.show();
+            this.popup.updateDisplay();
         }
     }
     
@@ -305,19 +306,22 @@ public class AutocompleteTextField extends TextField {
      * 
      * @param listItems
      */
-    public void setListItems(Collection<String> listItems) {
-        this.listItems.addAll(listItems);
+    public void setListItems(String[] listItems) {
+        this.listItems.clear();
+        for (String item : listItems) {
+            if (item != null && item.length() > 0) {
+                this.listItems.add(item);
+            }
+        }
     }
-    
+
     /**
      * このテキストフィールドでオートコンプリートに使用するリストアイテムをセットする。
      * 
      * @param listItems
      */
-    public void setListItems(String[] listItems) {
-        for (String item : listItems) {
-            this.listItems.add(item);
-        }
+    public void setListItems(Collection<String> listItems) {
+        this.setListItems(listItems.toArray(new String[] {}));
     }
     
     /**

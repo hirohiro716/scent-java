@@ -13,17 +13,31 @@ import java.util.List;
 import java.util.Map;
 
 import com.hirohiro716.ExceptionMessenger;
+import com.hirohiro716.Regex;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.collection.RemoveListener;
+import com.hirohiro716.gui.control.AutocompleteTextField;
+import com.hirohiro716.gui.control.Button;
+import com.hirohiro716.gui.control.CheckBox;
 import com.hirohiro716.gui.control.Control;
+import com.hirohiro716.gui.control.DatePicker;
+import com.hirohiro716.gui.control.DropDownList;
+import com.hirohiro716.gui.control.Label;
+import com.hirohiro716.gui.control.ListView;
 import com.hirohiro716.gui.control.Pane;
+import com.hirohiro716.gui.control.PasswordField;
+import com.hirohiro716.gui.control.RadioButton;
+import com.hirohiro716.gui.control.TextArea;
+import com.hirohiro716.gui.control.TextField;
+import com.hirohiro716.gui.control.ToggleButton;
 import com.hirohiro716.gui.dialog.MessageDialog;
 import com.hirohiro716.gui.dialog.ProcessAfterDialogClosing;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;
 import com.hirohiro716.image.Image;
+import com.hirohiro716.property.PropertyInterface;
 
 /**
  * GUIのウィンドウやダイアログなどの抽象クラス。
@@ -67,7 +81,6 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
                 frame.getInnerInstance().setIconImages(frame.innerIconImages);
             }
         });
-        this.setSize(400, 300);
     }
     
     private Map<Image, java.awt.Image> mapIconImage = new HashMap<>();
@@ -229,18 +242,35 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public boolean isActivated() {
         return this.getInnerInstance().isActive();
     }
+
+    private Map<Label, PropertyInterface> mapLabelAndProperties = new HashMap<>();    
     
     /**
      * このフレームを表示する。
+     * 
+     * @throws Exception 
      */
-    public void show() {
+    public void show() throws Exception {
+        Frame<T> frame = this;
         if (this.isSetLocation == false) {
             if (GUI.getGraphicsDevices().length > 0) {
                 Rectangle screenRectangle = GUI.getMaximumWindowBounds(GUI.getDefaultGraphicsDevice());
                 this.setLocation(screenRectangle.x + screenRectangle.width / 2 - this.getWidth() / 2, screenRectangle.y + screenRectangle.height / 2 - this.getHeight() / 2);
             }
         }
-        this.getInnerInstance().setVisible(true);
+        for (Label label : this.mapLabelAndProperties.keySet()) {
+            Control control = this.getRootPane().getChildren().findControlByName(this.mapLabelAndProperties.get(label).getPhysicalName());
+            if (control != null) {
+                label.setLabelFor(control);
+            }
+        }
+        GUI.executeLater(new Runnable() {
+            
+            @Override
+            public void run() {
+                frame.getInnerInstance().setVisible(true);
+            }
+        });
     }
     
     /**
@@ -395,5 +425,396 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      */
     public void addDeactivatedEventHandler(EventHandler<FrameEvent> eventHandler) {
         this.getInnerInstance().addWindowListener(FrameEvent.createInnerDeactivatedEventHandler(this, eventHandler));
+    }
+
+    /**
+     * 指定されたプロパティのコントロールのためのラベルを、指定されたテキストで作成する。
+     * 
+     * @param property
+     * @param text 
+     * @return 結果。
+     */
+    public Label createLabelFor(PropertyInterface property, String text) {
+        Label label = new Label(text);
+        this.mapLabelAndProperties.put(label, property);
+        return label;
+    }
+
+    /**
+     * 指定されたプロパティのコントロールのためのラベルを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public final Label createLabelFor(PropertyInterface property) {
+        return this.createLabelFor(property, property.getLogicalName());
+    }
+
+    /**
+     * 指定されたプロパティのラベルを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public Label createLabel(PropertyInterface property) {
+        Label label = new Label();
+        label.setName(property.getPhysicalName());
+        return label;
+    }
+    
+    /**
+     * 指定されたプロパティのテキストフィールドを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public TextField createTextField(PropertyInterface property) {
+        TextField textField = new TextField();
+        textField.setName(property.getPhysicalName());
+        textField.setMaximumLength(property.getMaximumLength());
+        return textField;
+    }
+    
+    /**
+     * 指定されたプロパティの整数値入力用テキストフィールドを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public TextField createTextFieldForInteger(PropertyInterface property) {
+        TextField textField = this.createTextField(property);
+        textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
+        textField.setDisableInputMethod(true);
+        textField.addLimitByRegex(Regex.INTEGER_NEGATIVE.getPattern(), false);
+        return textField;
+    }
+
+    /**
+     * 指定されたプロパティの少数値入力用テキストフィールドを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public TextField createTextFieldForDecimal(PropertyInterface property) {
+        TextField textField = this.createTextField(property);
+        textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
+        textField.setDisableInputMethod(true);
+        textField.addLimitByRegex(Regex.DECIMAL_NEGATIVE.getPattern(), false);
+        return textField;
+    }
+    
+    /**
+     * 指定されたプロパティのオートコンプリート機能付きのテキストフィールドを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public AutocompleteTextField createAutocompleteTextField(PropertyInterface property) {
+        AutocompleteTextField textField = new AutocompleteTextField();
+        textField.setName(property.getPhysicalName());
+        textField.setMaximumLength(property.getMaximumLength());
+        return textField;
+    }
+
+    /**
+     * 指定されたプロパティのパスワードフィールドを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public PasswordField createPasswordField(PropertyInterface property) {
+        PasswordField passwordField = new PasswordField();
+        passwordField.setName(property.getPhysicalName());
+        passwordField.setMaximumLength(property.getMaximumLength());
+        return passwordField;
+    }
+
+    /**
+     * 指定されたプロパティの日付の入力に特化したテキストフィールドを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public DatePicker createDatePicker(PropertyInterface property) {
+        DatePicker datePicker = new DatePicker();
+        datePicker.setName(property.getPhysicalName());
+        return datePicker;
+    }
+
+    /**
+     * 指定されたプロパティのテキストエリアを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public TextArea createTextArea(PropertyInterface property) {
+        TextArea textArea = new TextArea();
+        textArea.setName(property.getPhysicalName());
+        textArea.setMaximumLength(property.getMaximumLength());
+        return textArea;
+    }
+    
+    /**
+     * 指定されたプロパティとテキストのチェックボックスを作成する。
+     * 
+     * @param property
+     * @param text 
+     * @return 結果。
+     */
+    public CheckBox createCheckBox(PropertyInterface property, String text) {
+        CheckBox checkBox = new CheckBox(text);
+        checkBox.setName(property.getPhysicalName());
+        return checkBox;
+    }
+
+    /**
+     * 指定されたプロパティのチェックボックスを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public final CheckBox createCheckBox(PropertyInterface property) {
+        return this.createCheckBox(property, property.getLogicalName());
+    }
+
+    /**
+     * 指定されたプロパティとテキストのボタンを作成する。
+     * 
+     * @param property
+     * @param text 
+     * @return 結果。
+     */
+    public Button createButton(PropertyInterface property, String text) {
+        Button button = new Button(text);
+        button.setName(property.getPhysicalName());
+        return button;
+    }
+    
+    /**
+     * 指定されたプロパティのボタンを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public final Button createButton(PropertyInterface property) {
+        return this.createButton(property, property.getLogicalName());
+    }
+    
+    /**
+     * 指定されたプロパティとテキストのラジオボタンを作成する。
+     * 
+     * @param property
+     * @param text 
+     * @return 結果。
+     */
+    public RadioButton createRadioButton(PropertyInterface property, String text) {
+        RadioButton radioButton = new RadioButton(text);
+        radioButton.setName(property.getPhysicalName());
+        return radioButton;
+    }
+
+    /**
+     * 指定されたプロパティのラジオボタンを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public final RadioButton createRadioButton(PropertyInterface property) {
+        return this.createRadioButton(property, property.getLogicalName());
+    }
+
+    /**
+     * 指定されたプロパティとテキストのトグルボタンを作成する。
+     * 
+     * @param property
+     * @param text 
+     * @return 結果。
+     */
+    public ToggleButton createToggleButton(PropertyInterface property, String text) {
+        ToggleButton toggleButton = new ToggleButton(text);
+        toggleButton.setName(property.getPhysicalName());
+        return toggleButton;
+    }
+    
+    /**
+     * 指定されたプロパティのトグルボタンを作成する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public final ToggleButton createToggleButton(PropertyInterface property) {
+        return this.createToggleButton(property, property.getLogicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのリストビューを作成する。
+     * 
+     * @param <I> リストアイテムの型。
+     * @param property
+     * @return 結果。
+     */
+    public <I> ListView<I> createListView(PropertyInterface property) {
+        ListView<I> list = new ListView<>();
+        list.setName(property.getPhysicalName());
+        return list;
+    }
+    
+    /**
+     * 指定されたプロパティのドロップダウンリストを作成する。
+     * 
+     * @param <I> リストアイテムの型。
+     * @param property
+     * @return 結果。
+     */
+    public <I> DropDownList<I> createDropDownList(PropertyInterface property) {
+        DropDownList<I> list = new DropDownList<>();
+        list.setName(property.getPhysicalName());
+        return list;
+    }
+
+    /**
+     * 指定されたプロパティのコントロールを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param <C> コントロールの型。
+     * @param property
+     * @return 結果。
+     */
+    public <C extends Control> C findControl(PropertyInterface property) {
+        return this.getRootPane().getChildren().findControlByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのラベルを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public Label findLabel(PropertyInterface property) {
+        return this.getRootPane().getChildren().findLabelByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public TextField findTextField(PropertyInterface property) {
+        return this.getRootPane().getChildren().findTextFieldByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのオートコンプリート機能付きテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public AutocompleteTextField findAutocompleteTextField(PropertyInterface property) {
+        return this.getRootPane().getChildren().findAutocompleteTextFieldByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのパスワードフィールドを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public PasswordField findPasswordField(PropertyInterface property) {
+        return this.getRootPane().getChildren().findPasswordFieldByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティの日付の入力に特化したテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public DatePicker findDatePicker(PropertyInterface property) {
+        return this.getRootPane().getChildren().findDatePickerByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのテキストエリアを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public TextArea findTextArea(PropertyInterface property) {
+        return this.getRootPane().getChildren().findTextAreaByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのチェックボックスを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public CheckBox findCheckBox(PropertyInterface property) {
+        return this.getRootPane().getChildren().findCheckBoxByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのラジオボタンを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public RadioButton findRadioButton(PropertyInterface property) {
+        return this.getRootPane().getChildren().findRadioButtonByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのトグルボタンを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public ToggleButton findToggleButton(PropertyInterface property) {
+        return this.getRootPane().getChildren().findToggleButtonByName(property.getPhysicalName());
+    }
+
+    /**
+     * 指定されたプロパティのボタンを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public Button findButton(PropertyInterface property) {
+        return this.getRootPane().getChildren().findButtonByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのリストビューを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param <I> リストアイテムの型。
+     * @param property
+     * @return 結果。
+     */
+    public <I> ListView<I> findListView(PropertyInterface property) {
+        return this.getRootPane().getChildren().findListViewByName(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定されたプロパティのドロップダウンリストを検索する。見つからなかった場合はnullを返す。<br>
+     * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
+     * 
+     * @param <I> リストアイテムの型。
+     * @param property
+     * @return 結果。
+     */
+    public <I> DropDownList<I> findDropDownList(PropertyInterface property) {
+        return this.getRootPane().getChildren().findDropDownListByName(property.getPhysicalName());
     }
 }

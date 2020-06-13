@@ -139,7 +139,7 @@ public abstract class EditableTable<C, R> extends Control {
     
     private Color lightBorderColor = new Color(UIManager.getColor("controlShadow").getRGB());
     
-    private Color textColor = new Color(UIManager.getColor("text").getRGB());
+    private Color textColor = GUI.getTextColor();
     
     private Color activatedForegroundColor = new Color(UIManager.getColor("textHighlightText").getRGB());
     

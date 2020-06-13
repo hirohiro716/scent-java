@@ -515,6 +515,7 @@ public abstract class Control extends Component<JComponent> {
         for (Object innerInstance : changeListener.getInnerInstances(this)) {
             if (innerInstance instanceof FocusListener) {
                 this.getInnerInstance().removeFocusListener((FocusListener) innerInstance);
+                this.getInnerInstanceForLayout().removeFocusListener((FocusListener) innerInstance);
             }
         }
         this.visibleChangeListeners.remove(changeListener);

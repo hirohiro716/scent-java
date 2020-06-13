@@ -34,7 +34,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
     public RecordEditor(String title, int width, int height) {
         super(title, width, height);
         RecordEditor<D, T> editor = this;
-        this.getWindow().addClosedEventHandler(new EventHandler<>() {
+        this.addClosedEventHandler(new EventHandler<>() {
             
             @Override
             protected void handle(FrameEvent event) {
@@ -113,7 +113,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
                 processAfterSuccess.execute(database);
             }
         } catch (SQLException exception) {
-            QuestionDialog dialog = new QuestionDialog(this.getWindow());
+            QuestionDialog dialog = new QuestionDialog(this);
             dialog.setTitle("接続再試行の確認");
             StringObject message = new StringObject("データベースへの接続に失敗しました。再試行しますか？");
             message.append(OS.thisOS().getLineSeparator());
@@ -182,7 +182,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
                 processAfterSuccess.execute(this.getTarget());
             }
         } catch (SQLException exception) {
-            QuestionDialog dialog = new QuestionDialog(this.getWindow());
+            QuestionDialog dialog = new QuestionDialog(this);
             dialog.setTitle("編集再試行の確認");
             StringObject message = new StringObject("レコードの編集に失敗しました。再試行しますか？");
             message.append(OS.thisOS().getLineSeparator());

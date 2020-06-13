@@ -341,9 +341,9 @@ public class DatePicker extends TextField {
         }
         this.popup.setY(y);
         this.popup.setMinimumWidth(this.getFont().getSize() * 24);
-        if (this.isFocused() && this.isDisabledPopup == false && this.isVisible() && this.isDisabled() == false) {
-            this.calendarPane.displayCalender();
+        if (this.isFocused() && this.isDisabledPopup == false && this.isVisible() && this.isEditable() && this.isDisabled() == false) {
             this.popup.show();
+            this.calendarPane.displayCalender();
         }
     }
     

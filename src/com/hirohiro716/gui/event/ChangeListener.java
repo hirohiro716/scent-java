@@ -19,9 +19,9 @@ public abstract class ChangeListener<T> {
     /**
      * コントロールの値やプロパティが変更されたときに呼び出される。
      * 
-     * @param component 
-     * @param changedValue
-     * @param previousValue 
+     * @param component 発生元のコンポーネント。
+     * @param changedValue 変更後の値。
+     * @param previousValue 変更前の値。
      */
     protected abstract void changed(Component<?> component, T changedValue, T previousValue);
     
@@ -61,19 +61,30 @@ public abstract class ChangeListener<T> {
         return list.toArray();
     }
     
+    /**
+     * このリスナーの処理を実行する。
+     * 
+     * @param component 発生元のコンポーネント。
+     * @param changed 変更後の値。
+     * @param previousValue 変更前の値。
+     */
+    public void execute(Component<?> component, T changed, T previousValue) {
+        this.changed(component, changed, previousValue);
+        this.mapPreviousValue.put(component, changed);
+    }
+    
     private Map<Component<?>, T> mapPreviousValue = new HashMap<>();
     
     /**
      * このリスナーの前回の値から変更されている場合に処理を実行する。
      * 
-     * @param component 
-     * @param changed
+     * @param component 発生元のコンポーネント。
+     * @param changed 変更後の値。
      */
     public void executeWhenChanged(Component<?> component, T changed) {
         T previousValue = this.mapPreviousValue.get(component);
         if (changed != null && changed.equals(previousValue) == false || changed == null && previousValue != null) {
-            this.changed(component, changed, previousValue);
-            this.mapPreviousValue.put(component, changed);
+            this.execute(component, changed, previousValue);
         }
     }
 }

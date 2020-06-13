@@ -25,9 +25,27 @@ public class ChildWindow extends Frame<JDialog> {
      */
     protected ChildWindow(JDialog jDialog) {
         super(jDialog);
+        ChildWindow window = ChildWindow.this;
         this.getInnerInstance().setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.rootPane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
         this.rootPane.setParent(this);
+        this.addSizeChangeListener(new ChangeListener<Dimension>() {
+            
+            @Override
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
+                Dimension maximumSize = window.getMaximumSize();
+                if (changedValue.width > maximumSize.width) {
+                    window.setWidth(maximumSize.width);
+                    window.setResizable(false);
+                    window.createResizableThread().start();
+                }
+                if (changedValue.height > maximumSize.height) {
+                    window.setHeight(maximumSize.height);
+                    window.setResizable(false);
+                    window.createResizableThread().start();
+                }
+            }
+        });
     }
     
     /**
@@ -90,29 +108,6 @@ public class ChildWindow extends Frame<JDialog> {
     @Override
     public void setMaximumSize(Dimension dimension) {
         this.getInnerInstance().setMaximumSize(dimension);
-        this.getRootPane().addSizeChangeListener(new ChangeListener<Dimension>() {
-            
-            @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
-                ChildWindow dialog = ChildWindow.this;
-                if (changedValue.width > dimension.width || changedValue.height > dimension.height) {
-                    dialog.setSize(dimension);
-                    dialog.setResizable(false);
-                    Thread thread = new Thread(new Runnable() {
-                        
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException exception) {
-                            }
-                            dialog.setResizable(true);
-                        }
-                    });
-                    thread.start();
-                }
-            }
-        });
     }
     
     @Override
@@ -157,5 +152,41 @@ public class ChildWindow extends Frame<JDialog> {
     public void setModal(boolean isModal) {
         this.getInnerInstance().setModal(isModal);
         this.getInnerInstance().setModalityType(ModalityType.DOCUMENT_MODAL);
+    }
+    
+    /**
+     * 遅延してウィンドウをリサイズ可能にするスレッドを作成する。
+     * 
+     * @return 結果。
+     */
+    private ResizableThread createResizableThread() {
+        return new ResizableThread();
+    }
+    
+    /**
+     * 遅延してウィンドウをリサイズ可能にするスレッドクラス。
+     * 
+     * @author hiro
+     *
+     */
+    private class ResizableThread extends Thread {
+        
+        /**
+         * コンストラクタ。
+         */
+        private ResizableThread() {
+            super(new Runnable() {
+                
+                @Override
+                public void run() {
+                    ChildWindow window = ChildWindow.this;
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException exception) {
+                    }
+                    window.setResizable(true);
+                }
+            });
+        }
     }
 }

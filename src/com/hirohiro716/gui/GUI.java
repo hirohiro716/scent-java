@@ -188,7 +188,21 @@ public class GUI {
         GUI.FONT_SIZE_TO_ADD = fontSizeToAdd;
     }
     
-    private static Color BORDER_COLOR = new Color(UIManager.getColor("controlDkShadow").getRGB());
+    private static Color TEXT_COLOR = null;
+    
+    /**
+     * 文字色を取得する。
+     * 
+     * @return 結果。
+     */
+    public static Color getTextColor() {
+        if (GUI.TEXT_COLOR == null) {
+            GUI.TEXT_COLOR = new Color(UIManager.getColor("text").getRGB());
+        }
+        return GUI.TEXT_COLOR;
+    }
+    
+    private static Color BORDER_COLOR = null;
     
     /**
      * 境界線色を取得する。
@@ -196,6 +210,9 @@ public class GUI {
      * @return 結果。
      */
     public static Color getBorderColor() {
+        if (GUI.BORDER_COLOR == null) {
+            GUI.BORDER_COLOR = new Color(UIManager.getColor("controlDkShadow").getRGB());
+        }
         return GUI.BORDER_COLOR;
     }
     

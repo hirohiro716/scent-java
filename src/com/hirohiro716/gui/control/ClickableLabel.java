@@ -116,6 +116,7 @@ public class ClickableLabel extends Button {
                 label.setStyleColor(color);
             }
         });
+        this.setPadding(0);
     }
     
     private Color defaultForegroundColor = this.getForegroundColor();

@@ -1,6 +1,8 @@
 package com.hirohiro716.gui.database;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -56,6 +58,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
                         control.addKeyReleasedEventHandler(new KeyReleasedEventHandler(keyCode, runnable));
                     }
                 }
+                window.tableView.getRows().addAll(window.defaultRecords);
                 window.updateLayout();
                 window.updateDisplay();
             }
@@ -88,6 +91,27 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      */
     public TableView<String, DynamicArray<String>> getTableView() {
         return this.tableView;
+    }
+    
+    private List<DynamicArray<String>> defaultRecords = new ArrayList<>();
+    
+    /**
+     * このレコード検索ウィンドウに初期表示するレコードをセットする。
+     * 
+     * @param records
+     */
+    public void setDefaultRecords(DynamicArray<String>[] records) {
+        this.defaultRecords.clear();
+        this.defaultRecords.addAll(Arrays.asList(records));
+    }
+
+    /**
+     * このレコード検索ウィンドウに初期表示するレコードをセットする。
+     * 
+     * @param records
+     */
+    public final void setDefaultRecords(Collection<DynamicArray<String>> records) {
+        this.setDefaultRecords(records);
     }
     
     /**
@@ -345,6 +369,15 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      */
     protected abstract Control createContentUsingTableView(TableView<String, DynamicArray<String>> tableView);
     
+    @Override
+    public void show() {
+        try {
+            super.show();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
     private Map<KeyCode, Runnable> mapProcessWhenKeyTyped = new LinkedHashMap<>();
     
     /**
