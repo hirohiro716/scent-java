@@ -249,7 +249,9 @@ public class AutocompleteTextField extends TextField {
         if (initialListitems.size() > AutocompleteTextField.NUMBER_OF_INITIAL_LIST_ITEM) {
             initialListitems = initialListitems.subList(0, AutocompleteTextField.NUMBER_OF_INITIAL_LIST_ITEM - 1);
         }
-        this.listView.getItems().addAll(initialListitems);
+        synchronized (this.listView.getItems()) {
+            this.listView.getItems().addAll(initialListitems);
+        }
         this.listView.setFocusable(false);
         this.listView.addKeyPressedEventHandler(new EventHandler<KeyEvent>() {
             
@@ -349,8 +351,10 @@ public class AutocompleteTextField extends TextField {
             @Override
             protected void handle(MouseEvent event) {
                 control.filteredListItems.addAll(control.listItems);
-                control.getListView().getItems().clear();
-                control.getListView().getItems().addAll(control.filteredListItems);
+                synchronized (control.getListView().getItems()) {
+                    control.getListView().getItems().clear();
+                    control.getListView().getItems().addAll(control.filteredListItems);
+                }
                 control.paneForClearFilter.setVisible(false);
             }
         });
@@ -463,8 +467,10 @@ public class AutocompleteTextField extends TextField {
                     } else {
                         control.hidePopup();
                     }
-                    control.getListView().getItems().clear();
-                    control.getListView().getItems().addAll(control.filteredListItems);
+                    synchronized (control.getListView().getItems()) {
+                        control.getListView().getItems().clear();
+                        control.getListView().getItems().addAll(control.filteredListItems);
+                    }
                 }
             });
             this.isFinished = true;
