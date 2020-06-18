@@ -451,7 +451,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
 
     /**
-     * 指定されたプロパティのラベルを作成する。
+     * 指定されたプロパティの物理名を持つラベルを作成する。
      * 
      * @param property
      * @return 結果。
@@ -463,7 +463,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのテキストフィールドを作成する。
+     * 指定されたプロパティの物理名を持つテキストフィールドを作成する。
      * 
      * @param property
      * @return 結果。
@@ -476,7 +476,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティの整数値入力用テキストフィールドを作成する。
+     * 指定されたプロパティの物理名を持つ整数値入力用テキストフィールドを作成する。
      * 
      * @param property
      * @return 結果。
@@ -490,7 +490,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
 
     /**
-     * 指定されたプロパティの少数値入力用テキストフィールドを作成する。
+     * 指定されたプロパティの物理名を持つ少数値入力用テキストフィールドを作成する。
      * 
      * @param property
      * @return 結果。
@@ -504,7 +504,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのオートコンプリート機能付きのテキストフィールドを作成する。
+     * 指定されたプロパティの物理名を持つオートコンプリート機能付きのテキストフィールドを作成する。
      * 
      * @param property
      * @return 結果。
@@ -517,7 +517,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
 
     /**
-     * 指定されたプロパティのパスワードフィールドを作成する。
+     * 指定されたプロパティの物理名を持つパスワードフィールドを作成する。
      * 
      * @param property
      * @return 結果。
@@ -530,7 +530,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
 
     /**
-     * 指定されたプロパティの日付の入力に特化したテキストフィールドを作成する。
+     * 指定されたプロパティの物理名を持つ日付の入力に特化したテキストフィールドを作成する。
      * 
      * @param property
      * @return 結果。
@@ -542,7 +542,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
 
     /**
-     * 指定されたプロパティのテキストエリアを作成する。
+     * 指定されたプロパティの物理名を持つテキストエリアを作成する。
      * 
      * @param property
      * @return 結果。
@@ -568,7 +568,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
 
     /**
-     * 指定されたプロパティのチェックボックスを作成する。
+     * 指定されたプロパティの物理名を持つチェックボックスを作成する。
      * 
      * @param property
      * @return 結果。
@@ -578,7 +578,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
 
     /**
-     * 指定されたプロパティとテキストのボタンを作成する。
+     * 指定されたプロパティの物理名を持つテキストのボタンを作成する。
      * 
      * @param property
      * @param text 
@@ -591,7 +591,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのボタンを作成する。
+     * 指定されたプロパティの物理名を持つボタンを作成する。
      * 
      * @param property
      * @return 結果。
@@ -614,7 +614,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
 
     /**
-     * 指定されたプロパティのラジオボタンを作成する。
+     * 指定されたプロパティの物理名を持つラジオボタンを作成する。
      * 
      * @param property
      * @return 結果。
@@ -637,7 +637,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのトグルボタンを作成する。
+     * 指定されたプロパティの物理名を持つトグルボタンを作成する。
      * 
      * @param property
      * @return 結果。
@@ -647,7 +647,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのリストビューを作成する。
+     * 指定されたプロパティの物理名を持つリストビューを作成する。
      * 
      * @param <I> リストアイテムの型。
      * @param property
@@ -660,7 +660,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのドロップダウンリストを作成する。
+     * 指定されたプロパティの物理名を持つドロップダウンリストを作成する。
      * 
      * @param <I> リストアイテムの型。
      * @param property
@@ -673,7 +673,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
 
     /**
-     * 指定されたプロパティのコントロールを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つコントロールを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param <C> コントロールの型。
@@ -685,7 +685,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのラベルを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つラベルを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param property
@@ -696,7 +696,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param property
@@ -707,7 +707,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのオートコンプリート機能付きテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つオートコンプリート機能付きテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param property
@@ -718,7 +718,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのパスワードフィールドを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つパスワードフィールドを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param property
@@ -729,7 +729,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティの日付の入力に特化したテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つ日付の入力に特化したテキストフィールドを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param property
@@ -740,7 +740,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのテキストエリアを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つテキストエリアを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param property
@@ -751,7 +751,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのチェックボックスを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つチェックボックスを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param property
@@ -762,7 +762,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのラジオボタンを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つラジオボタンを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param property
@@ -773,7 +773,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのトグルボタンを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つトグルボタンを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param property
@@ -784,7 +784,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
 
     /**
-     * 指定されたプロパティのボタンを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つボタンを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param property
@@ -795,7 +795,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのリストビューを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つリストビューを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param <I> リストアイテムの型。
@@ -807,7 +807,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
-     * 指定されたプロパティのドロップダウンリストを検索する。見つからなかった場合はnullを返す。<br>
+     * 指定されたプロパティの物理名を持つドロップダウンリストを検索する。見つからなかった場合はnullを返す。<br>
      * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
      * 
      * @param <I> リストアイテムの型。

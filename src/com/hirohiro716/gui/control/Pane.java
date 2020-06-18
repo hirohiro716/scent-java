@@ -154,6 +154,10 @@ public class Pane extends Control {
                 if (instance.initialFocusControl == null) {
                     instance.initialFocusControl = added;
                 }
+                pane.mapControlDisabled.put(added, added.isDisabled());
+                if (pane.isDisabled()) {
+                    added.setDisabled(true);
+                }
             }
         };
         
@@ -172,6 +176,7 @@ public class Pane extends Control {
                         instance.initialFocusControl = instance.get(0);
                     }
                 }
+                pane.mapControlDisabled.remove(removed);
             }
         };
 

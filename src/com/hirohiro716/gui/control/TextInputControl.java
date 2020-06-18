@@ -125,6 +125,14 @@ public abstract class TextInputControl extends Control {
         this.getInnerInstance().setText(null);
     }
     
+    private boolean isDisabledInputMethod = false;
+    
+    @Override
+    public void setDisableInputMethod(boolean isDisableInputMethod) {
+        super.setDisableInputMethod(isDisableInputMethod);
+        this.isDisabledInputMethod = isDisableInputMethod;
+    }
+
     /**
      * このテキスト入力コントロールが編集可能な場合はtrueを返す。
      * 
@@ -141,6 +149,7 @@ public abstract class TextInputControl extends Control {
      */
     public void setEditable(boolean isEditable) {
         this.getInnerInstance().setEditable(isEditable);
+        this.setDisableInputMethod(this.isDisabledInputMethod);
     }
     
     /**

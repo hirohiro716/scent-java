@@ -140,10 +140,23 @@ public abstract class TableView<C, R> extends Control {
             this.getInnerInstance().getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         }
     }
+
+    private int defaultRowHeight = this.getFont().getSize() * 3;
     
     @Override
     public void setFont(Font font) {
         super.setFont(font);
+        this.defaultRowHeight = font.getSize() * 3;
+        this.adjustRowHeight();
+    }
+    
+    /**
+     * このテーブルビューのデフォルトの行の高さをセットする。
+     * 
+     * @param height
+     */
+    public void setDefaultRowHeight(int height) {
+        this.defaultRowHeight = height;
         this.adjustRowHeight();
     }
     
@@ -151,9 +164,9 @@ public abstract class TableView<C, R> extends Control {
      * このテーブルビューの行の高さをフォントサイズを元に調整する。
      */
     private void adjustRowHeight() {
-        this.getInnerInstance().setRowHeight(this.getFont().getSize() * 3);
+        this.getInnerInstance().setRowHeight(this.defaultRowHeight);
         JTableHeader tableHeader = this.getInnerInstance().getTableHeader();
-        tableHeader.setPreferredSize(new Dimension(tableHeader.getSize().width, this.getFont().getSize() * 3));
+        tableHeader.setPreferredSize(new Dimension(tableHeader.getSize().width, this.defaultRowHeight));
     }
     
     /**
