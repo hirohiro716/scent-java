@@ -593,7 +593,18 @@ public abstract class Component<T extends java.awt.Component> {
         }
         return null;
     }
+
+    private List<ChangeListener<Boolean>> visibleChangeListeners = new ArrayList<>();
     
+    /**
+     * このコントロールの表示状態が変化した際のリスナーを追加する。
+     * 
+     * @param changeListener
+     */
+    public void addVisibleChangeListener(ChangeListener<Boolean> changeListener) {
+        this.visibleChangeListeners.add(changeListener);
+    }
+
     /**
      * このコンポーネントが表示されている場合はtrueを返す。
      * 
@@ -610,8 +621,11 @@ public abstract class Component<T extends java.awt.Component> {
      */
     public void setVisible(boolean isVisible) {
         this.getInnerInstanceForLayout().setVisible(isVisible);
+        for (ChangeListener<Boolean> changeListener : this.visibleChangeListeners) {
+            changeListener.executeWhenChanged(this, isVisible);
+        }
     }
-
+    
     private List<ChangeListener<Boolean>> disabledChangeListeners = new ArrayList<>();
     
     /**
@@ -726,6 +740,7 @@ public abstract class Component<T extends java.awt.Component> {
                 this.getInnerInstanceForLayout().removeComponentListener((ComponentListener) innerInstance);
             }
         }
+        this.visibleChangeListeners.remove(changeListener);
         this.disabledChangeListeners.remove(changeListener);
     }
 }

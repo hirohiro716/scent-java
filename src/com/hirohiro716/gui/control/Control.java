@@ -9,9 +9,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JComponent;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -489,25 +486,6 @@ public abstract class Control extends Component<JComponent> {
         });
         this.getInnerInstance().addFocusListener(innerInstance);
     }
-    
-    private List<ChangeListener<Boolean>> visibleChangeListeners = new ArrayList<>();
-    
-    /**
-     * このコントロールの表示状態が変化した際のリスナーを追加する。
-     * 
-     * @param changeListener
-     */
-    public void addVisibleChangeListener(ChangeListener<Boolean> changeListener) {
-        this.visibleChangeListeners.add(changeListener);
-    }
-    
-    @Override
-    public void setVisible(boolean isVisible) {
-        super.setVisible(isVisible);
-        for (ChangeListener<Boolean> changeListener : this.visibleChangeListeners) {
-            changeListener.executeWhenChanged(this, isVisible);
-        }
-    }
 
     @Override
     public void removeChangeListener(ChangeListener<?> changeListener) {
@@ -518,6 +496,5 @@ public abstract class Control extends Component<JComponent> {
                 this.getInnerInstanceForLayout().removeFocusListener((FocusListener) innerInstance);
             }
         }
-        this.visibleChangeListeners.remove(changeListener);
     }
 }

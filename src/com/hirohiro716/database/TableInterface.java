@@ -96,7 +96,7 @@ public interface TableInterface {
      * @return 結果。
      */
     public default <C extends ColumnInterface> DynamicArray<C> createRecord(DynamicArray<String> stringKeyRecord) {
-        DynamicArray<C> record = new DynamicArray<>();
+        DynamicArray<C> record = this.createRecord();
         for (String columnString : stringKeyRecord.getKeys()) {
             C column = this.findColumn(columnString);
             if (column != null) {

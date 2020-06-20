@@ -1,8 +1,8 @@
 package com.hirohiro716.gui;
 
+import com.hirohiro716.StringObject;
 import com.hirohiro716.io.json.JSONNumber;
 import com.hirohiro716.io.json.JSONObject;
-import com.hirohiro716.io.json.ParseException;
 
 /**
  * コンポーネントの位置とサイズのクラス。
@@ -37,16 +37,14 @@ public class Bounds {
     
     /**
      * コンストラクタ。<br>
-     * 水平方向位置、垂直方向位置、幅、高さをJSONデータ定義文で指定する。
+     * 水平方向位置、垂直方向位置、幅、高さをJSONで指定する。
      * 
      * @param json
-     * @throws ParseException
      */
-    public Bounds(String json) throws ParseException {
-        JSONObject jsonObject = new JSONObject(json);
-        for (String key : jsonObject.getContent().keySet()) {
+    public Bounds(JSONObject json) {
+        for (String key : json.getContent().keySet()) {
             try {
-                JSONNumber jsonNumber = (JSONNumber) jsonObject.getContent().get(key);
+                JSONNumber jsonNumber = (JSONNumber) json.getContent().get(key);
                 switch (key) {
                 case "x":
                     this.x = jsonNumber.getContent().intValue();
@@ -67,6 +65,20 @@ public class Bounds {
         }
     }
     
+    @Override
+    public String toString() {
+        StringObject string = new StringObject();
+        string.append("x: ");
+        string.append(this.x);
+        string.append(", y: ");
+        string.append(this.y);
+        string.append(", width: ");
+        string.append(this.width);
+        string.append(", height: ");
+        string.append(this.height);
+        return string.toString();
+    }
+
     private int x;
     
     /**

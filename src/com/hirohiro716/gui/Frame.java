@@ -269,6 +269,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
             @Override
             public void run() {
                 frame.getInnerInstance().setVisible(true);
+                frame.getInnerInstance().dispatchEvent(new WindowEvent(frame.getInnerInstance(), WindowEvent.WINDOW_OPENED));
             }
         });
     }
