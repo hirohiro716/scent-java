@@ -28,8 +28,10 @@ public abstract class Editor<T> extends Window {
     public Editor(String title, int width, int height) {
         this.setTitle(title);
         this.setSize(width, height);
-        this.addClosingEventHandler(new CloseEventHandler());
+        this.addClosingEventHandler(this.closeEventHandler);
     }
+    
+    private CloseEventHandler closeEventHandler = new CloseEventHandler();
     
     /**
      * ターゲットのインスタンス編集処理を行う。<br>
@@ -159,6 +161,15 @@ public abstract class Editor<T> extends Window {
         this.isShowConfirmationBeforeClosing = false;
         super.close();
     }
+    
+    /**
+     * このエディターを閉じることに既に同意している場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isAgreeToClose() {
+        return this.closeEventHandler.isAgreeToClose;
+    }
 
     /**
      * このエディターを閉じる際のイベントハンドラー。
@@ -168,7 +179,7 @@ public abstract class Editor<T> extends Window {
      */
     private class CloseEventHandler extends EventHandler<FrameEvent> {
         
-        private boolean isAgree = false;
+        private boolean isAgreeToClose = false;
         
         private ConfirmationDialog dialog = null;
         
@@ -179,7 +190,7 @@ public abstract class Editor<T> extends Window {
         @Override
         protected void handle(FrameEvent event) {
             Editor<T> editor = Editor.this;
-            if (editor.isShowConfirmationBeforeClosing && this.isAgree == false) {
+            if (editor.isShowConfirmationBeforeClosing && this.isAgreeToClose == false) {
                 if (this.dialog != null) {
                     return;
                 }
@@ -196,7 +207,7 @@ public abstract class Editor<T> extends Window {
                         if (dialogResult == ResultButton.OK) {
                             try {
                                 editor.processBeforeClosing();
-                                handler.isAgree = true;
+                                handler.isAgreeToClose = true;
                                 editor.close();
                             } catch (Exception exception) {
                             }

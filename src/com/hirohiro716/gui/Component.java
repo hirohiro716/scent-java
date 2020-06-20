@@ -643,7 +643,7 @@ public abstract class Component<T extends java.awt.Component> {
      * @return 結果。
      */
     public boolean isDisabled() {
-        return !this.getInnerInstance().isEnabled();
+        return ! this.getInnerInstance().isEnabled();
     }
     
     /**
@@ -652,7 +652,7 @@ public abstract class Component<T extends java.awt.Component> {
      * @param isDisabled
      */
     public void setDisabled(boolean isDisabled) {
-        this.getInnerInstance().setEnabled(!isDisabled);
+        this.getInnerInstance().setEnabled(! isDisabled);
         for (ChangeListener<Boolean> changeListener : this.disabledChangeListeners) {
             changeListener.executeWhenChanged(this, isDisabled);
         }

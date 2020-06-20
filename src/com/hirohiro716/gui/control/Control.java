@@ -291,7 +291,7 @@ public abstract class Control extends Component<JComponent> {
      * @param isDisableInputMethod
      */
     public void setDisableInputMethod(boolean isDisableInputMethod) {
-        this.getInnerInstance().enableInputMethods(!isDisableInputMethod);
+        this.getInnerInstance().enableInputMethods(! isDisableInputMethod);
     }
     
     /**

@@ -447,9 +447,9 @@ public abstract class TextInputControl extends Control {
             public void show(int xLocationOnInvoker, int yLocationOnInvoker) {
                 super.show(xLocationOnInvoker, yLocationOnInvoker);
                 StringObject selectedText = new StringObject(control.getSelectedText());
-                cut.setDisabled(!control.isEditable() || selectedText.length() == 0);
+                cut.setDisabled(! control.isEditable() || selectedText.length() == 0);
                 copy.setDisabled(selectedText.length() == 0);
-                paste.setDisabled(!control.isEditable());
+                paste.setDisabled(! control.isEditable());
             }
         };
         menu.addContextMenuItem(cut);

@@ -60,7 +60,6 @@ public class Bounds {
                     break;
                 }
             } catch (Exception exception) {
-                exception.printStackTrace();
             }
         }
     }
