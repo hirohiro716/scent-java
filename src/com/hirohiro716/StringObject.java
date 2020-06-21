@@ -80,6 +80,16 @@ public class StringObject implements Cloneable, Iterable<String> {
     public boolean equals(Object object) {
         return this.toString().equals(StringObject.newInstance(object).toString());
     }
+
+    /**
+     * このインスタンスの文字列と、指定された文字列の文字列表現を比較する。
+     * 
+     * @param string
+     * @return 結果。
+     */
+    public boolean equals(String string) {
+        return this.toString().equals(string);
+    }
     
     /**
      * 文字列の長さを返す。

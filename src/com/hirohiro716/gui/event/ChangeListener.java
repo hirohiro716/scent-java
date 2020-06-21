@@ -70,7 +70,6 @@ public abstract class ChangeListener<T> {
      */
     public void execute(Component<?> component, T changed, T previousValue) {
         this.changed(component, changed, previousValue);
-        this.mapPreviousValue.put(component, changed);
     }
     
     private Map<Component<?>, T> mapPreviousValue = new HashMap<>();
@@ -86,5 +85,6 @@ public abstract class ChangeListener<T> {
         if (changed != null && changed.equals(previousValue) == false || changed == null && previousValue != null) {
             this.execute(component, changed, previousValue);
         }
+        this.mapPreviousValue.put(component, changed);
     }
 }
