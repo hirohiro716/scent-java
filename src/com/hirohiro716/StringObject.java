@@ -78,17 +78,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      */
     @Override
     public boolean equals(Object object) {
-        return this.toString().equals(object.toString());
-    }
-
-    /**
-     * このインスタンスの文字列と、指定された文字列を比較する。
-     * 
-     * @param string
-     * @return 結果。
-     */
-    public boolean equals(String string) {
-        return this.toString().equals(string);
+        return this.toString().equals(StringObject.newInstance(object).toString());
     }
     
     /**
