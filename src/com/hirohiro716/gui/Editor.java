@@ -168,9 +168,11 @@ public abstract class Editor<T> extends Window {
      * @return 結果。
      */
     public boolean isAgreeToClose() {
-        return this.closeEventHandler.isAgreeToClose;
+        return this.isAgreeToClose;
     }
-
+    
+    private boolean isAgreeToClose = false;
+    
     /**
      * このエディターを閉じる際のイベントハンドラー。
      * 
@@ -178,8 +180,6 @@ public abstract class Editor<T> extends Window {
      *
      */
     private class CloseEventHandler extends EventHandler<FrameEvent> {
-        
-        private boolean isAgreeToClose = false;
         
         private ConfirmationDialog dialog = null;
         
@@ -190,7 +190,7 @@ public abstract class Editor<T> extends Window {
         @Override
         protected void handle(FrameEvent event) {
             Editor<T> editor = Editor.this;
-            if (editor.isShowConfirmationBeforeClosing && this.isAgreeToClose == false) {
+            if (editor.isShowConfirmationBeforeClosing && editor.isAgreeToClose == false) {
                 if (this.dialog != null) {
                     return;
                 }
@@ -207,7 +207,7 @@ public abstract class Editor<T> extends Window {
                         if (dialogResult == ResultButton.OK) {
                             try {
                                 editor.processBeforeClosing();
-                                handler.isAgreeToClose = true;
+                                editor.isAgreeToClose = true;
                                 editor.close();
                             } catch (Exception exception) {
                             }

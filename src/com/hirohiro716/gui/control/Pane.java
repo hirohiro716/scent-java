@@ -57,8 +57,6 @@ public class Pane extends Control {
         return (JPanel) super.getInnerInstance();
     }
     
-    private Map<Control, Boolean> mapControlDisabled = new HashMap<>();
-    
     @Override
     public void setDisabled(boolean isDisabled) {
         if (isDisabled == this.isDisabled()) {
@@ -66,15 +64,15 @@ public class Pane extends Control {
         }
         if (isDisabled) {
             super.setDisabled(isDisabled);
-            this.mapControlDisabled.clear();
+            this.children.mapControlDisabled.clear();
             for (Control control : this.children) {
-                this.mapControlDisabled.put(control, control.isDisabled());
+                this.children.mapControlDisabled.put(control, control.isDisabled());
                 control.setDisabled(true);
             }
         } else {
             super.setDisabled(isDisabled);
             for (Control control : this.children) {
-                control.setDisabled(this.mapControlDisabled.get(control));
+                control.setDisabled(this.children.mapControlDisabled.get(control));
             }
         }
     }
@@ -141,20 +139,22 @@ public class Pane extends Control {
         }
         
         private Map<Component, Control> mapInnerInstance = new HashMap<>();
+
+        private Map<Control, Boolean> mapControlDisabled = new HashMap<>();
         
         private AddListener<Control> addListener = new AddListener<Control>() {
             
             @Override
             protected void added(Control added, int positionIndex) {
-                Pane pane = Pane.this;
                 Children instance = Children.this;
+                Pane pane = Pane.this;
                 pane.getInnerInstance().add(added.getInnerInstanceForLayout(), positionIndex);
                 added.setParent(pane);
                 instance.mapInnerInstance.put(added.getInnerInstanceForLayout(), added);
                 if (instance.initialFocusControl == null) {
                     instance.initialFocusControl = added;
                 }
-                pane.mapControlDisabled.put(added, added.isDisabled());
+                instance.mapControlDisabled.put(added, added.isDisabled());
                 if (pane.isDisabled()) {
                     added.setDisabled(true);
                 }
@@ -165,8 +165,8 @@ public class Pane extends Control {
             
             @Override
             protected void removed(Control removed) {
-                Pane pane = Pane.this;
                 Children instance = Children.this;
+                Pane pane = Pane.this;
                 pane.getInnerInstance().remove(removed.getInnerInstanceForLayout());
                 removed.setParent(null);
                 instance.mapInnerInstance.remove(removed.getInnerInstanceForLayout());
@@ -176,7 +176,7 @@ public class Pane extends Control {
                         instance.initialFocusControl = instance.get(0);
                     }
                 }
-                pane.mapControlDisabled.remove(removed);
+                instance.mapControlDisabled.remove(removed);
             }
         };
 

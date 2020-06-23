@@ -53,14 +53,23 @@ public class DatePicker extends TextField {
                 textField.showPopup();
             }
         });
+        this.addMouseClickedEventHandler(MouseButton.BUTTON1, new EventHandler<MouseEvent>() {
+
+            @Override
+            protected void handle(MouseEvent event) {
+                if (textField.popup.isVisible()) {
+                    textField.hidePopup();
+                } else {
+                    textField.selectAll();
+                    textField.showPopup();
+                }
+            }
+        });
         this.addFocusChangeListener(new ChangeListener<Boolean>() {
             
             @Override
             protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
-                if (changedValue) {
-                    textField.selectAll();
-                    textField.showPopup();
-                } else {
+                if (changedValue == false) {
                     textField.parseInputString();
                     textField.hidePopup();
                 }
@@ -73,6 +82,7 @@ public class DatePicker extends TextField {
                 switch (event.getKeyCode()) {
                 case ENTER:
                     textField.parseInputString();
+                    textField.hidePopup();
                     break;
                 case ESCAPE:
                     textField.hidePopup();
@@ -247,7 +257,7 @@ public class DatePicker extends TextField {
      * 
      * @return 結果。
      */
-    public Datetime getDatetime() {
+    public Datetime toDatetime() {
         try {
             Datetime datetime = new Datetime(this.getText(), this.getFormatPattern());
             datetime.modifyHour(0);
@@ -265,8 +275,8 @@ public class DatePicker extends TextField {
      * 
      * @return 結果。
      */
-    public Date getDate() {
-        Datetime datetime = this.getDatetime();
+    public Date toDate() {
+        Datetime datetime = this.toDatetime();
         if (datetime == null) {
             return null;
         }
@@ -328,7 +338,7 @@ public class DatePicker extends TextField {
         if (this.getLocationOnScreen() == null || this.getWidth() < 20 || this.getHeight() == 0) {
             return;
         }
-        Datetime datetime = this.getDatetime();
+        Datetime datetime = this.toDatetime();
         if (datetime == null) {
             datetime = new Datetime();
         }
@@ -369,7 +379,7 @@ public class DatePicker extends TextField {
          */
         public CalendarPane() {
             DatePicker control = DatePicker.this;
-            Datetime defaultDatetime = control.getDatetime();
+            Datetime defaultDatetime = control.toDatetime();
             if (defaultDatetime == null) {
                 defaultDatetime = new Datetime();
             }
@@ -518,7 +528,7 @@ public class DatePicker extends TextField {
                 this.gridPane.getChildren().remove(this.gridPane.getChildren().get(7));
             }
             // Date already selected
-            Datetime picked = control.getDatetime();
+            Datetime picked = control.toDatetime();
             // Determine the first date
             int year = this.yearDropDownList.getSelectedItem();
             int month = this.monthDropDownList.getSelectedItem();
@@ -596,6 +606,7 @@ public class DatePicker extends TextField {
                 Datetime datetime = event.getSource().getInstanceForUseLater();
                 control.setText(datetime.toString(control.getFormatPattern()));
                 pane.displayCalender();
+                control.hidePopup();
             }
         };
         

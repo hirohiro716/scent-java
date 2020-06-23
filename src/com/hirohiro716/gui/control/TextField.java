@@ -82,13 +82,12 @@ public class TextField extends TextInputControl {
     }
     
     /**
-     * このボタンが押された際のイベントハンドラを追加する。
+     * このテキストフィールドでEnterキーが押された際のイベントハンドラを追加する。
      * 
      * @param eventHandler
      */
     public void addActionEventHandler(EventHandler<ActionEvent> eventHandler) {
         TextField textField = this;
-        
         KeyListener innerInstance = eventHandler.createInnerInstance(textField, new InnerInstanceCreator<>() {
 
             @Override

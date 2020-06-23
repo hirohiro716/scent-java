@@ -77,7 +77,7 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
      * このダイアログの結果をセットして閉じる。
      */
     private void setResultValueAndClose() {
-        Datetime datetime = this.datePicker.getDatetime();
+        Datetime datetime = this.datePicker.toDatetime();
         if (datetime == null) {
             return;
         }
