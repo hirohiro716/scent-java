@@ -243,7 +243,21 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         return this.getInnerInstance().isActive();
     }
 
-    private Map<Label, PropertyInterface> mapLabelAndProperties = new HashMap<>();    
+    private Map<Label, PropertyInterface> mapLabelAndProperty = new HashMap<>();
+    
+    private Map<PropertyInterface, Control> mapPropertyAndControl = new HashMap<>();
+    
+    /**
+     * このフレームでコントロールのために追加されたすべてのラベルをコントロールにバインドする。
+     */
+    public void bindLabelForControl() {
+        for (Label label : this.mapLabelAndProperty.keySet()) {
+            Control control = this.mapPropertyAndControl.get(this.mapLabelAndProperty.get(label));
+            if (control != null) {
+                label.setLabelFor(control);
+            }
+        }
+    }
     
     /**
      * このフレームを表示する。
@@ -258,12 +272,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
                 this.setLocation(screenRectangle.x + screenRectangle.width / 2 - this.getWidth() / 2, screenRectangle.y + screenRectangle.height / 2 - this.getHeight() / 2);
             }
         }
-        for (Label label : this.mapLabelAndProperties.keySet()) {
-            Control control = this.getRootPane().getChildren().findControlByName(this.mapLabelAndProperties.get(label).getPhysicalName());
-            if (control != null) {
-                label.setLabelFor(control);
-            }
-        }
+        this.bindLabelForControl();
         GUI.executeLater(new Runnable() {
             
             @Override
@@ -436,7 +445,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      */
     public Label createLabelFor(PropertyInterface property, String text) {
         Label label = new Label(text);
-        this.mapLabelAndProperties.put(label, property);
+        this.mapLabelAndProperty.put(label, property);
         return label;
     }
 
@@ -459,6 +468,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public Label createLabel(PropertyInterface property) {
         Label label = new Label();
         label.setName(property.getPhysicalName());
+        this.mapPropertyAndControl.put(property, label);
         return label;
     }
     
@@ -472,6 +482,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         TextField textField = new TextField();
         textField.setName(property.getPhysicalName());
         textField.setMaximumLength(property.getMaximumLength());
+        this.mapPropertyAndControl.put(property, textField);
         return textField;
     }
     
@@ -486,6 +497,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
         textField.setDisableInputMethod(true);
         textField.addLimitByRegex(Regex.INTEGER_NEGATIVE.getPattern(), false);
+        this.mapPropertyAndControl.put(property, textField);
         return textField;
     }
 
@@ -500,6 +512,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
         textField.setDisableInputMethod(true);
         textField.addLimitByRegex(Regex.DECIMAL_NEGATIVE.getPattern(), false);
+        this.mapPropertyAndControl.put(property, textField);
         return textField;
     }
     
@@ -513,6 +526,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         AutocompleteTextField textField = new AutocompleteTextField();
         textField.setName(property.getPhysicalName());
         textField.setMaximumLength(property.getMaximumLength());
+        this.mapPropertyAndControl.put(property, textField);
         return textField;
     }
 
@@ -526,6 +540,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         PasswordField passwordField = new PasswordField();
         passwordField.setName(property.getPhysicalName());
         passwordField.setMaximumLength(property.getMaximumLength());
+        this.mapPropertyAndControl.put(property, passwordField);
         return passwordField;
     }
 
@@ -538,6 +553,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public DatePicker createDatePicker(PropertyInterface property) {
         DatePicker datePicker = new DatePicker();
         datePicker.setName(property.getPhysicalName());
+        this.mapPropertyAndControl.put(property, datePicker);
         return datePicker;
     }
 
@@ -551,6 +567,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         TextArea textArea = new TextArea();
         textArea.setName(property.getPhysicalName());
         textArea.setMaximumLength(property.getMaximumLength());
+        this.mapPropertyAndControl.put(property, textArea);
         return textArea;
     }
     
@@ -564,6 +581,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public CheckBox createCheckBox(PropertyInterface property, String text) {
         CheckBox checkBox = new CheckBox(text);
         checkBox.setName(property.getPhysicalName());
+        this.mapPropertyAndControl.put(property, checkBox);
         return checkBox;
     }
 
@@ -587,6 +605,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public Button createButton(PropertyInterface property, String text) {
         Button button = new Button(text);
         button.setName(property.getPhysicalName());
+        this.mapPropertyAndControl.put(property, button);
         return button;
     }
     
@@ -610,6 +629,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public RadioButton createRadioButton(PropertyInterface property, String text) {
         RadioButton radioButton = new RadioButton(text);
         radioButton.setName(property.getPhysicalName());
+        this.mapPropertyAndControl.put(property, radioButton);
         return radioButton;
     }
 
@@ -633,6 +653,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public ToggleButton createToggleButton(PropertyInterface property, String text) {
         ToggleButton toggleButton = new ToggleButton(text);
         toggleButton.setName(property.getPhysicalName());
+        this.mapPropertyAndControl.put(property, toggleButton);
         return toggleButton;
     }
     
@@ -656,6 +677,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public <I> ListView<I> createListView(PropertyInterface property) {
         ListView<I> list = new ListView<>();
         list.setName(property.getPhysicalName());
+        this.mapPropertyAndControl.put(property, list);
         return list;
     }
     
@@ -669,6 +691,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public <I> DropDownList<I> createDropDownList(PropertyInterface property) {
         DropDownList<I> list = new DropDownList<>();
         list.setName(property.getPhysicalName());
+        this.mapPropertyAndControl.put(property, list);
         return list;
     }
 

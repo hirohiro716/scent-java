@@ -101,6 +101,20 @@ public class StringObject implements Cloneable, Iterable<String> {
     }
     
     /**
+     * このインスタンスの文字列として、指定されたオブジェクトの文字列表現をセットする。
+     * 
+     * @param value
+     * @return 結果。
+     */
+    public StringObject set(Object value) {
+        this.value = new StringBuilder();
+        if (value != null) {
+            this.value.append(value);
+        }
+        return this;
+    }
+    
+    /**
      * 文字列を指定位置に挿入する。<br>
      * Examples:<br>
      * (new StringObject("I have money!")).insert("don't ", 2) returns "I don't

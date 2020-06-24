@@ -152,6 +152,11 @@ public class FlowPane extends Pane {
         if (this.getChildren().size() == 0 || this.getParent() == null || this.isStartedUpdateLayout) {
             return;
         }
+        for (Control control : this.getChildren()) {
+            if (control.getWidth() == 0 || control.getHeight() == 0) {
+                return;
+            }
+        }
         this.isStartedUpdateLayout = true;
         // Maximum width
         int maximumWidth = this.getParent().getWidth();
@@ -195,7 +200,6 @@ public class FlowPane extends Pane {
         int controlHeight = this.fitControlMaximumHeight(height, lineControls);
         height += this.verticalSpacing;
         height += controlHeight;
-        height += this.getPadding().getTop();
         height += this.getPadding().getBottom();
         if (height > this.getMaximumHeight()) {
             height = this.getMaximumHeight();

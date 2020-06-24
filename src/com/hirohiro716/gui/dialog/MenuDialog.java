@@ -92,12 +92,6 @@ public class MenuDialog extends TitledDialog<Button> {
         }
         return this.defaultValue;
     }
-
-    @Override
-    protected void processBeforeShowing() {
-        super.processBeforeShowing();
-        this.getVerticalPaneOfControls().getGrowableControls().add(this.flowPane);
-    }
     
     @Override
     protected void processAfterShowing() {
