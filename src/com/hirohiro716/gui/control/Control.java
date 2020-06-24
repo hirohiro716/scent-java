@@ -131,13 +131,17 @@ public abstract class Control extends Component<JComponent> {
     protected void adjustSize() {
         Dimension minimumSize = this.getInnerInstanceForLayout().getMinimumSize();
         Dimension maximumSize = this.getInnerInstanceForLayout().getMaximumSize();
-        if (this.getWidth() < minimumSize.width && minimumSize.width < maximumSize.width) {
-            this.setWidthToInnerInstance(minimumSize.width);
-            return;
+        if (this.getWidth() > 0) {
+            if (this.getWidth() < minimumSize.width && minimumSize.width < maximumSize.width) {
+                this.setWidthToInnerInstance(minimumSize.width);
+                return;
+            }
         }
-        if (this.getHeight() < minimumSize.height && minimumSize.height < maximumSize.height) {
-            this.setHeightToInnerInstance(minimumSize.height);
-            return;
+        if (this.getHeight() > 0) {
+            if (this.getHeight() < minimumSize.height && minimumSize.height < maximumSize.height) {
+                this.setHeightToInnerInstance(minimumSize.height);
+                return;
+            }
         }
         if (this.getWidth() > maximumSize.width && minimumSize.width < maximumSize.width) {
             this.setWidthToInnerInstance(maximumSize.width);

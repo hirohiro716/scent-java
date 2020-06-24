@@ -195,6 +195,8 @@ public class FlowPane extends Pane {
         int controlHeight = this.fitControlMaximumHeight(height, lineControls);
         height += this.verticalSpacing;
         height += controlHeight;
+        height += this.getPadding().getTop();
+        height += this.getPadding().getBottom();
         if (height > this.getMaximumHeight()) {
             height = this.getMaximumHeight();
         }
