@@ -168,7 +168,9 @@ public class Pane extends Control {
                 Children instance = Children.this;
                 Pane pane = Pane.this;
                 pane.getInnerInstance().remove(removed.getInnerInstanceForLayout());
-                removed.setParent(null);
+                if (pane == removed.getParent()) {
+                    removed.setParent(null);
+                }
                 instance.mapInnerInstance.remove(removed.getInnerInstanceForLayout());
                 if (instance.initialFocusControl == removed) {
                     instance.initialFocusControl = null;

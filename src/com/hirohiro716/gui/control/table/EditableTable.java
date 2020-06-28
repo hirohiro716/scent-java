@@ -13,6 +13,8 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+
+import com.hirohiro716.Array;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.GUI;
@@ -187,7 +189,7 @@ public abstract class EditableTable<C, R> extends Control {
         } else {
             for (Pane pane : this.rowControlPanes) {
                 R rowInstance = pane.getInstanceForUseLater();
-                if (rowInstance.equals(this.activeRowInstance)) {
+                if (rowInstance != null && rowInstance.equals(this.activeRowInstance)) {
                     this.makeActiveVisible(pane);
                 }
             }
@@ -218,10 +220,10 @@ public abstract class EditableTable<C, R> extends Control {
         this.rowsPane.getChildren().add(this.bottomSpacer);
         this.updateBottomSpacerLayout();
         super.updateLayout();
-        if (this.displayedLeadingIndex == null) {
-            return;
-        }
         Integer leadingIndex = this.displayedLeadingIndex;
+        if (leadingIndex == null) {
+            leadingIndex = 0;
+        }
         this.displayedLeadingIndex = null;
         this.displayRowControls(leadingIndex);
         this.headerPane.updateLayout();
@@ -234,10 +236,10 @@ public abstract class EditableTable<C, R> extends Control {
         this.rowsPane.getChildren().add(this.bottomSpacer);
         this.updateBottomSpacerLayout();
         super.updateDisplay();
-        if (this.displayedLeadingIndex == null) {
-            return;
-        }
         Integer leadingIndex = this.displayedLeadingIndex;
+        if (leadingIndex == null) {
+            leadingIndex = 0;
+        }
         this.displayedLeadingIndex = null;
         this.displayRowControls(leadingIndex);
         this.headerPane.updateDisplay();
@@ -252,7 +254,10 @@ public abstract class EditableTable<C, R> extends Control {
      * @return 結果。
      */
     public R getActiveRowInstance() {
-        return this.activeRowInstance;
+        if (this.rowInstances.contains(this.activeRowInstance)) {
+            return this.activeRowInstance;
+        }
+        return null;
     }
     
     private List<ChangeListener<R>> activeRowChangeListeners = new ArrayList<>();
@@ -348,7 +353,10 @@ public abstract class EditableTable<C, R> extends Control {
      * @return 結果。
      */
     public C getActiveColumnInstance() {
-        return this.activeColumnInstance;
+        if (this.columnInstances.contains(this.activeColumnInstance)) {
+            return this.activeColumnInstance;
+        }
+        return null;
     }
     
     private List<ChangeListener<C>> activeColumnChangeListeners = new ArrayList<>();
@@ -483,6 +491,15 @@ public abstract class EditableTable<C, R> extends Control {
     }
     
     private Collection<C> columnInstances = new Collection<>();
+    
+    /**
+     * このテーブルのカラム情報のインスタンスをすべて取得する。
+     * 
+     * @return 結果。
+     */
+    public Array<C> getColumnInstances() {
+        return this.columnInstances.toArray();
+    }
     
     private Map<C, ColumnType> mapColumnTypes = new HashMap<>();
     
@@ -640,6 +657,7 @@ public abstract class EditableTable<C, R> extends Control {
             editableTable.headerPane.setWidth(editableTable.headerPaneWidthBeforeResizing - editableTable.headerLabelResizeStartPointX + event.getScreenX());
             event.getSource().setWidth(labelWidth);
             editableTable.headerPane.getInnerInstance().doLayout();
+            editableTable.rowsScrollPane.getInnerInstanceForLayout().doLayout();
         }
     };
     
@@ -720,7 +738,7 @@ public abstract class EditableTable<C, R> extends Control {
      * 
      * @return 結果。
      */
-    public Collection<R> getRows() {
+    public Collection<R> getRowInstances() {
         return this.rowInstances;
     }
     
@@ -782,6 +800,23 @@ public abstract class EditableTable<C, R> extends Control {
             constraints.weightx = 1;
             constraints.fill = GridBagConstraints.HORIZONTAL;
             this.rowsLayout.setConstraints(spacer.getInnerInstance(), constraints);
+        }
+    }
+    
+    /**
+     * このテーブルの指定された行インスタンスのコントロール値を更新する。
+     * 
+     * @param rowInstance
+     */
+    public void updateRowControlValues(R rowInstance) {
+        try {
+            Pane pane = this.rowControlPanes.get(this.rowInstances.indexOf(rowInstance));
+            Map<C, Control> mapRowControl = this.mapOfRowControlMap.get(pane);
+            for (C columnInstance : this.columnInstances) {
+                Control control = mapRowControl.get(columnInstance);
+                this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
+            }
+        } catch (Exception exception) {
         }
     }
     

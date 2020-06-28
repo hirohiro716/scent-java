@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.hirohiro716.Array;
 import com.hirohiro716.Regex;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.Border;
@@ -384,25 +385,23 @@ public class AutocompleteTextField extends TextField {
                 @Override
                 public void run() {
                     ListItemAdder adder = new ListItemAdder(changedValue);
-                    synchronized (control.listItemAdders) {
-                        int runningAdderSize = control.listItemAdders.size();
-                        while (runningAdderSize > 0) {
-                            runningAdderSize = 0;
-                            for (ListItemAdder activeAdder : control.listItemAdders.toArray(new ListItemAdder[] {})) {
-                                if (activeAdder.isFinished()) {
-                                    control.listItemAdders.remove(activeAdder);
-                                } else {
-                                    activeAdder.cancel();
-                                    runningAdderSize++;
-                                }
-                            }
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException exception) {
+                    int runningAdderSize = control.listItemAdders.size();
+                    while (runningAdderSize > 0) {
+                        runningAdderSize = 0;
+                        for (ListItemAdder activeAdder : control.listItemAdders.toArray(new ListItemAdder[] {})) {
+                            if (activeAdder.isFinished()) {
+                                control.listItemAdders.remove(activeAdder);
+                            } else {
+                                activeAdder.cancel();
+                                runningAdderSize++;
                             }
                         }
-                        control.listItemAdders.add(adder);
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException exception) {
+                        }
                     }
+                    control.listItemAdders.add(adder);
                     adder.run();
                 }
             });
@@ -447,7 +446,7 @@ public class AutocompleteTextField extends TextField {
             this.isCancelRequested = false;
             this.isFinished = false;
             control.filteredListItems.clear();
-            for (String listItem : control.listItems) {
+            for (String listItem : new Array<>(control.listItems)) {
                 StringObject regex = StringObject.join(".{0,}", Regex.makeRoughComparison(this.changedValue), ".{0,}");
                 regex.replace(" ", ".{0,}");
                 regex.replace("　", ".{0,}");
@@ -467,10 +466,8 @@ public class AutocompleteTextField extends TextField {
                     } else {
                         control.hidePopup();
                     }
-                    synchronized (control.getListView().getItems()) {
-                        control.getListView().getItems().clear();
-                        control.getListView().getItems().addAll(control.filteredListItems);
-                    }
+                    control.getListView().getItems().clear();
+                    control.getListView().getItems().addAll(control.filteredListItems);
                 }
             });
             this.isFinished = true;

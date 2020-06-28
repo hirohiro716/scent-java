@@ -71,6 +71,26 @@ public class Array<T> implements Iterable<T> {
     public int length() {
         return this.list.size();
     }
+
+    /**
+     * 指定された値がコレクションに存在する場合はtrueを返す。
+     * 
+     * @param value
+     * @return 結果。
+     */
+    public boolean contains(T value) {
+        return this.list.contains(value);
+    }
+    
+    /**
+     * 指定された値がコレクションのどの位置かを取得する。見つからなかった場合は-1を返す。
+     * 
+     * @param value
+     * @return 結果。
+     */
+    public int indexOf(T value) {
+        return this.list.indexOf(value);
+    }
     
     /**
      * すべての値を格納している読み取り専用のリストを取得する。

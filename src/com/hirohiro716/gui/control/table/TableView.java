@@ -345,7 +345,7 @@ public abstract class TableView<C, R> extends Control {
      * 
      * @return 結果。
      */
-    public Collection<R> getRows() {
+    public Collection<R> getRowInstances() {
         return this.rowInstances;
     }
 
@@ -369,7 +369,9 @@ public abstract class TableView<C, R> extends Control {
      */
     public R getSelectedRow() {
         for (R rowInstance : this.getSelectedRows()) {
-            return rowInstance;
+            if (this.rowInstances.contains(rowInstance)) {
+                return rowInstance;
+            }
         }
         return null;
     }

@@ -149,7 +149,7 @@ public class Collection<T> implements Iterable<T> {
      * @param values
      */
     public final void addAll(java.util.Collection<T> values) {
-        for (T value : values) {
+        for (T value : new Array<>(values)) {
             this.add(value);
         }
     }

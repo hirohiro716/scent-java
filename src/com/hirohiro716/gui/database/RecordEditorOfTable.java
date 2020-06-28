@@ -50,14 +50,14 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
      * このテーブルコントロールの表示を更新する。
      */
     protected void updateDisplayOfEditableTable() {
-        this.editableTable.getRows().clear();
+        this.editableTable.getRowInstances().clear();
         for (DynamicArray<C> record : this.records) {
             if (this.isAllowViewRecord(record)) {
-                this.editableTable.getRows().add(record);
+                this.editableTable.getRowInstances().add(record);
             }
         }
-        if (this.editableTable.getRows().size() > 0) {
-            this.editableTable.activate(this.editableTable.getRows().get(0), this.getInitialFocusColumn());
+        if (this.editableTable.getRowInstances().size() > 0) {
+            this.editableTable.activate(this.editableTable.getRowInstances().get(0), this.getInitialFocusColumn());
         }
         this.editableTable.displayRowControls(0);
         this.editableTable.updateDisplay();
@@ -150,7 +150,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     protected void addRecord() {
         DynamicArray<C> record = this.getTarget().createDefaultRecord();
         this.records.add(record);
-        this.editableTable.getRows().add(record);
+        this.editableTable.getRowInstances().add(record);
         this.editableTable.activate(record, this.getInitialFocusColumn());
         this.editableTable.updateLayout();
         this.editableTable.updateDisplay();
@@ -163,7 +163,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     protected void removeActiveRecord() {
         DynamicArray<C> record = this.editableTable.getActiveRowInstance();
         this.records.remove(record);
-        this.editableTable.getRows().remove(record);
+        this.editableTable.getRowInstances().remove(record);
         this.editableTable.updateLayout();
         this.editableTable.updateDisplay();
     }

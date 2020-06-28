@@ -96,7 +96,7 @@ public abstract class Control extends Component<JComponent> {
     }
     
     /**
-     * このコントロールの親にあたるコンポーネントをセットする。存在しない場合はnullを返す。
+     * このコントロールの親にあたるコンポーネントをセットする。
      * 
      * @param component
      */

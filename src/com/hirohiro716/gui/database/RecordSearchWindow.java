@@ -58,7 +58,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
                         control.addKeyReleasedEventHandler(new KeyReleasedEventHandler(keyCode, runnable));
                     }
                 }
-                window.tableView.getRows().addAll(window.defaultRecords);
+                window.tableView.getRowInstances().addAll(window.defaultRecords);
                 window.updateLayout();
                 window.updateDisplay();
             }
@@ -183,9 +183,9 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
                 } else {
                     rows = searcher.search(selectSQL, window.createPartAfterWhereSQL(), whereSets);
                 }
-                window.tableView.getRows().clear();
+                window.tableView.getRowInstances().clear();
                 for (DynamicArray<String> row : rows) {
-                    window.tableView.getRows().add(row);
+                    window.tableView.getRowInstances().add(row);
                 }
                 return null;
             }
