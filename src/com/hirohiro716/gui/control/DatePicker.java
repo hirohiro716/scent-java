@@ -6,7 +6,10 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import com.hirohiro716.StringObject;
 import com.hirohiro716.datetime.Datetime;
 import com.hirohiro716.datetime.Datetime.DayOfWeek;
@@ -92,6 +95,18 @@ public class DatePicker extends TextField {
                 }
             }
         });
+        this.addTextChangeListener(new ChangeListener<String>() {
+
+            @Override
+            protected void changed(Component<?> component, String changedValue, String previousValue) {
+                if (textField.previousDate != null && (changedValue == null || changedValue.length() == 0)) {
+                    for (ChangeListener<Date> changeListener : textField.dateChangeListeners) {
+                        changeListener.execute(textField, null, textField.previousDate);
+                    }
+                    textField.previousDate = null;
+                }
+            }
+        });
         this.setDisableInputMethod(true);
     }
     
@@ -163,7 +178,41 @@ public class DatePicker extends TextField {
     public DateFormat getFormatPattern() {
         return this.dateFormat;
     }
+
+    private List<ChangeListener<Date>> dateChangeListeners = new ArrayList<>();
     
+    /**
+     * このコントロールの入力文字列が示す日付が変更された際のリスナーを追加する。
+     * 
+     * @param changeListener
+     */
+    public void addDateChangeListener(ChangeListener<Date> changeListener) {
+        this.dateChangeListeners.add(changeListener);
+    }
+    
+    @Override
+    public void removeChangeListener(ChangeListener<?> changeListener) {
+        super.removeChangeListener(changeListener);
+        this.dateChangeListeners.remove(changeListener);
+    }
+    
+    private Date previousDate = null;
+    
+    @Override
+    public void setText(String text) {
+        super.setText(text);
+        if (this.dateChangeListeners == null) {
+            return;
+        }
+        if (this.previousDate == null || Datetime.newInstance(this.previousDate).eqaulsDate(this.toDatetime()) == false) {
+            Date changed = this.toDate();
+            for (ChangeListener<Date> changeListener : this.dateChangeListeners) {
+                changeListener.execute(this, changed, this.previousDate);
+            }
+            this.previousDate = changed;
+        }
+    }
+
     /**
      * このコントロールの入力文字列をフォーマットパターンに従ってパースする。
      */
