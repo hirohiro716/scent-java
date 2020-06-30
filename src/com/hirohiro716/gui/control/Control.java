@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
@@ -125,30 +126,47 @@ public abstract class Control extends Component<JComponent> {
         return null;
     }
     
+    private String sizeStringOfAdjustSize = null;
+    
+    private int numberOfAdjustSize = 0;
+    
     /**
      * このコンポーネントがGUIライブラリによって自動調整されたサイズを更に調整する。
      */
     protected void adjustSize() {
         Dimension minimumSize = this.getInnerInstanceForLayout().getMinimumSize();
         Dimension maximumSize = this.getInnerInstanceForLayout().getMaximumSize();
+        String sizeString = StringObject.join(minimumSize, ":", maximumSize).toString();
+        if (sizeString.equals(this.sizeStringOfAdjustSize)) {
+            if (this.numberOfAdjustSize > 8) {
+                return;
+            }
+        } else {
+            this.sizeStringOfAdjustSize = sizeString;
+            this.numberOfAdjustSize = 0;
+        }
         if (this.getWidth() > 0) {
             if (this.getWidth() < minimumSize.width && minimumSize.width < maximumSize.width) {
                 this.setWidthToInnerInstance(minimumSize.width);
+                this.numberOfAdjustSize++;
                 return;
             }
         }
         if (this.getHeight() > 0) {
             if (this.getHeight() < minimumSize.height && minimumSize.height < maximumSize.height) {
                 this.setHeightToInnerInstance(minimumSize.height);
+                this.numberOfAdjustSize++;
                 return;
             }
         }
         if (this.getWidth() > maximumSize.width && minimumSize.width < maximumSize.width) {
             this.setWidthToInnerInstance(maximumSize.width);
+            this.numberOfAdjustSize++;
             return;
         }
         if (this.getHeight() > maximumSize.height && minimumSize.height < maximumSize.height) {
             this.setHeightToInnerInstance(maximumSize.height);
+            this.numberOfAdjustSize++;
             return;
         }
     }
@@ -156,6 +174,7 @@ public abstract class Control extends Component<JComponent> {
     @Override
     public void setSize(Dimension dimension) {
         super.setSize(dimension);
+        this.numberOfAdjustSize = 0;
         this.adjustSize();
     }
     

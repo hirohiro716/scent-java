@@ -171,7 +171,6 @@ public class DropDownList<T> extends ListSelectControl<T> {
             }
         }
         super.adjustSize();
-        this.updateItemDisplay();
     }
 
     private com.hirohiro716.gui.collection.Collection<T> itemsForInitialization = new com.hirohiro716.gui.collection.Collection<>();

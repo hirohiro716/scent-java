@@ -99,12 +99,13 @@ public class DatePicker extends TextField {
 
             @Override
             protected void changed(Component<?> component, String changedValue, String previousValue) {
-                if (textField.previousDate != null && (changedValue == null || changedValue.length() == 0)) {
-                    for (ChangeListener<Date> changeListener : textField.dateChangeListeners) {
-                        changeListener.execute(textField, null, textField.previousDate);
-                    }
-                    textField.previousDate = null;
+                if (textField.isFocused() == false || textField.previousDate == null || changedValue != null && changedValue.length() > 0) {
+                    return;
                 }
+                for (ChangeListener<Date> changeListener : textField.dateChangeListeners) {
+                    changeListener.execute(textField, null, textField.previousDate);
+                }
+                textField.previousDate = null;
             }
         });
         this.setDisableInputMethod(true);
