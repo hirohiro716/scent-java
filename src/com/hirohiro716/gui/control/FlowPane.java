@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.collection.AddListener;
@@ -142,6 +143,10 @@ public class FlowPane extends Pane {
     public final void setVerticalSpacing(int spacing) {
         this.setSpacing(this.horizontalSpacing, spacing);
     }
+
+    private String sizeStringOfUpdateLayout = null;
+    
+    private int numberOfUpdateLayout = 0;
     
     private boolean isStartedUpdateLayout = false;
     
@@ -149,6 +154,18 @@ public class FlowPane extends Pane {
      * すべての子要素のレイアウトを最新の状態にする。
      */
     private void updateAllChildLayout() {
+        // Up to 2 times with the same size
+        String sizeString = StringObject.join(this.getMinimumSize(), ":", this.getMaximumSize()).toString();
+        if (sizeString.equals(this.sizeStringOfUpdateLayout)) {
+            if (this.numberOfUpdateLayout > 2) {
+                return;
+            }
+        } else {
+            this.sizeStringOfUpdateLayout = sizeString;
+            this.numberOfUpdateLayout = 0;
+        }
+        this.numberOfUpdateLayout++;
+        // Start layout
         if (this.getChildren().size() == 0 || this.getParent() == null || this.isStartedUpdateLayout) {
             return;
         }
