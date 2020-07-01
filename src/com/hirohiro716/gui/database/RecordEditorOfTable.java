@@ -4,6 +4,7 @@ import com.hirohiro716.DynamicArray;
 import com.hirohiro716.database.ColumnInterface;
 import com.hirohiro716.database.Database;
 import com.hirohiro716.database.RecordMapper;
+import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.control.AnchorPane;
 import com.hirohiro716.gui.control.Button;
@@ -120,12 +121,14 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         anchorPaneButton.setPadding(15);
         rootPane.getChildren().add(anchorPaneButton);
         // Add button
-        Button buttonAdd = new Button("追加");
+        Button buttonAdd = new Button("追加(A)");
+        buttonAdd.setMnemonic(KeyCode.A);
         buttonAdd.addActionEventHandler(this.addEventHandler);
         anchorPaneButton.getChildren().add(buttonAdd);
         anchorPaneButton.setAnchor(buttonAdd, null, null, null, 0);
         // Save button
-        Button buttonSave = new Button("保存");
+        Button buttonSave = new Button("保存(S)");
+        buttonSave.setMnemonic(KeyCode.S);
         buttonSave.addActionEventHandler(this.saveEventHandler);
         anchorPaneButton.getChildren().add(buttonSave);
         anchorPaneButton.setAnchor(buttonSave, null, 0, null, null);

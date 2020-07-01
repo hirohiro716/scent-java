@@ -171,6 +171,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
             }
         }
         super.adjustSize();
+        this.updateItemDisplay();
     }
 
     private com.hirohiro716.gui.collection.Collection<T> itemsForInitialization = new com.hirohiro716.gui.collection.Collection<>();
@@ -302,7 +303,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
             value = dropDownList.getMapDisplayTextForItem().get(value);
         }
         String text = value.toString();
-        ContextMenuItem copy = new ContextMenuItem(text + " をコピー(C)");
+        ContextMenuItem copy = new ContextMenuItem("コピー(C)");
         copy.setMnemonic(KeyCode.C);
         copy.setAction(new Runnable() {
             

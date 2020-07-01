@@ -149,6 +149,9 @@ public class Pane extends Control {
                 Children instance = Children.this;
                 Pane pane = Pane.this;
                 pane.getInnerInstance().add(added.getInnerInstanceForLayout(), positionIndex);
+                if (added.getParent() != null) {
+                    new IllegalArgumentException("The added child already has another parent.").printStackTrace();
+                }
                 added.setParent(pane);
                 instance.mapInnerInstance.put(added.getInnerInstanceForLayout(), added);
                 if (instance.initialFocusControl == null) {
