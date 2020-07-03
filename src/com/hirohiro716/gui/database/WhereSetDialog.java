@@ -245,6 +245,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         horizontalPane.getGrowableControls().add(paneLeft);
         // Right pane
         VerticalPane paneRight = new VerticalPane();
+        paneRight.setWidth(100);
         paneRight.setMinimumWidth(100);
         paneRight.setFillChildToPaneWidth(true);
         paneRight.setSpacing(5);
@@ -743,12 +744,12 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         switch (columnType) {
         case STRING:
             textField = new TextField();
-            textField.setMinimumWidth(baseSize * 7);
+            textField.setWidth(baseSize * 7);
             return textField;
         case NUMBER_STRING:
         case NUMBER:
             textField = new TextField();
-            textField.setMinimumWidth(baseSize * 5);
+            textField.setWidth(baseSize * 5);
             textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
             textField.setDisableInputMethod(true);
             textField.addLimitByRegex(Regex.DECIMAL_NEGATIVE.getPattern(), false);
@@ -756,7 +757,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         case DATE:
         case DATE_STRING:
             textField = new TextField();
-            textField.setMinimumWidth(baseSize * 7);
+            textField.setWidth(baseSize * 7);
             textField.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
             textField.setEditable(false);
             textField.addMouseClickedEventHandler(MouseButton.BUTTON1, this.dateMouseClickedEventHandler);
@@ -764,7 +765,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         case DATETIME:
         case DATETIME_STRING:
             textField = new TextField();
-            textField.setMinimumWidth(baseSize * 10);
+            textField.setWidth(baseSize * 10);
             textField.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
             textField.setEditable(false);
             textField.addMouseClickedEventHandler(MouseButton.BUTTON1, this.datetimeMouseClickedEventHandler);
@@ -774,7 +775,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             return checkBox;
         case SELECTABLE:
             dropDownList = new DropDownList<>();
-            dropDownList.setMinimumWidth(baseSize * 9);
+            dropDownList.setWidth(baseSize * 9);
             Map<Object, String> selectableItems = this.mapSelectableItems.get(searchableColumn);
             if (selectableItems != null) {
                 dropDownList.getItems().addAll(selectableItems.keySet().toArray());

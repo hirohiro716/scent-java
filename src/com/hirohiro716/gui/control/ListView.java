@@ -206,7 +206,7 @@ public class ListView<T> extends ListSelectControl<T> {
      * 
      * @param changeListener
      */
-    public void addSelectedRowsChangeListener(ChangeListener<Array<T>> changeListener) {
+    public void addSelectedItemsChangeListener(ChangeListener<Array<T>> changeListener) {
         ListView<T> listView = this;
         this.selectedRowsChangeListeners.add(changeListener);
         ListSelectionListener innerInstance = changeListener.createInnerInstance(listView, new InnerInstanceCreator<>() {

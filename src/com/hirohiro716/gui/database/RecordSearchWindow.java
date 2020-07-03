@@ -58,9 +58,8 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
                         control.addKeyReleasedEventHandler(new KeyReleasedEventHandler(keyCode, runnable));
                     }
                 }
-                window.tableView.getRowInstances().addAll(window.defaultRecords);
-                window.updateLayout();
-                window.updateDisplay();
+                window.searchedRecords.addAll(window.defaultRecords);
+                window.updateDisplayOfTableView();
             }
         });
         this.addClosedEventHandler(new EventHandler<FrameEvent>() {
@@ -73,7 +72,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
             }
         });
     }
-    
+
     private TableView<String, DynamicArray<String>> tableView;
     
     /**
@@ -164,6 +163,38 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
     protected abstract void processAfterSearching();
 
     /**
+     * レコード検索結果テーブルに指定されたレコードの表示を許可する場合はtrueを返す。
+     * 
+     * @param record
+     * @return 結果。
+     */
+    protected abstract boolean isAllowViewRecord(DynamicArray<String> record);
+    
+    private List<DynamicArray<String>> searchedRecords = new ArrayList<>();
+    
+    /**
+     * このウィンドウで検索されたレコードを取得する。
+     * 
+     * @return 結果。
+     */
+    protected List<DynamicArray<String>> getSearchedRecords() {
+        return this.searchedRecords;
+    }
+    
+    /**
+     * レコード検索結果テーブルの表示を更新する。
+     */
+    protected void updateDisplayOfTableView() {
+        this.tableView.getRowInstances().clear();
+        for (DynamicArray<String> record : this.searchedRecords) {
+            if (this.isAllowViewRecord(record)) {
+                this.tableView.getRowInstances().add(record);
+            }
+        }
+        this.tableView.updateDisplay();
+    }
+    
+    /**
      * 検索条件を指定して、ダイアログを表示しながら検索を実行する。
      * 
      * @param whereSets
@@ -183,10 +214,11 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
                 } else {
                     rows = searcher.search(selectSQL, window.createPartAfterWhereSQL(), whereSets);
                 }
-                window.tableView.getRowInstances().clear();
+                window.searchedRecords.clear();
                 for (DynamicArray<String> row : rows) {
-                    window.tableView.getRowInstances().add(row);
+                    window.searchedRecords.add(row);
                 }
+                window.updateDisplayOfTableView();
                 return null;
             }
         });
