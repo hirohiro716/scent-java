@@ -386,20 +386,20 @@ public class AutocompleteTextField extends TextField {
                 public void run() {
                     ListItemAdder adder = new ListItemAdder(changedValue);
                     int runningAdderSize = control.listItemAdders.size();
-                    while (runningAdderSize > 0) {
-                        runningAdderSize = 0;
-                        for (ListItemAdder activeAdder : control.listItemAdders.toArray(new ListItemAdder[] {})) {
-                            if (activeAdder.isFinished()) {
-                                control.listItemAdders.remove(activeAdder);
-                            } else {
-                                activeAdder.cancel();
-                                runningAdderSize++;
+                    try {
+                        while (runningAdderSize > 0) {
+                            runningAdderSize = 0;
+                            for (ListItemAdder activeAdder : control.listItemAdders.toArray(new ListItemAdder[] {})) {
+                                if (activeAdder.isFinished()) {
+                                    control.listItemAdders.remove(activeAdder);
+                                } else {
+                                    activeAdder.cancel();
+                                    runningAdderSize++;
+                                }
                             }
-                        }
-                        try {
                             Thread.sleep(100);
-                        } catch (InterruptedException exception) {
                         }
+                    } catch (Exception exception) {
                     }
                     control.listItemAdders.add(adder);
                     adder.run();

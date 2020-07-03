@@ -61,6 +61,7 @@ public class FlowPane extends Pane {
                 }
                 added.addLocationChangeListener(locationChangeListener);
                 added.addSizeChangeListener(sizeChangeListener);
+                pane.numberOfUpdateLayout = 0;
             }
         });
         this.getChildren().addListener(new RemoveListener<Control>() {
@@ -69,6 +70,7 @@ public class FlowPane extends Pane {
             protected void removed(Control removed) {
                 removed.removeChangeListener(locationChangeListener);
                 removed.removeChangeListener(sizeChangeListener);
+                pane.numberOfUpdateLayout = 0;
             }
         });
     }
