@@ -107,14 +107,28 @@ public class Printer extends PrinterElement<PrintService> {
         return null;
     }
     
+    /**
+     * 指定された用紙サイズに一致する要素を取得する。見つからなかった場合はnullを返す。
+     * 
+     * @param millimeterWidth
+     * @param millimeterHeight
+     * @return 結果。
+     */
+    public PaperSize findPaperSize(float millimeterWidth, float millimeterHeight) {
+        for (PaperSize paperSize : this.getPaperSizes()) {
+            if (paperSize.getMillimeterWidth() == millimeterWidth && paperSize.getMillimeterHeight() == millimeterHeight) {
+                return paperSize;
+            }
+        }
+        return null;
+    }
+    
     private static Map<String, Printer> PRINTERS = new LinkedHashMap<>();
     
     /**
-     * すべてのプリンターを取得する。
-     * 
-     * @return 結果。
+     * すべてのプリンター定数を作成して保持する。
      */
-    public static Printer[] getAll() {
+    private static void addAllPrinters() {
         PrintService[] printServices = java.awt.print.PrinterJob.lookupPrintServices();
         if (Printer.PRINTERS.size() != printServices.length) {
             for (PrintService printService : printServices) {
@@ -124,6 +138,15 @@ public class Printer extends PrinterElement<PrintService> {
                 }
             }
         }
+    }
+    
+    /**
+     * すべてのプリンターを取得する。
+     * 
+     * @return 結果。
+     */
+    public static Printer[] getAll() {
+        Printer.addAllPrinters();
         return Printer.PRINTERS.values().toArray(new Printer[] {});
     }
 
@@ -134,6 +157,7 @@ public class Printer extends PrinterElement<PrintService> {
      * @return 結果。
      */
     public static Printer printerOf(String name) {
+        Printer.addAllPrinters();
         return Printer.PRINTERS.get(name);
     }
 

@@ -33,10 +33,51 @@ public abstract class Printable implements java.awt.print.Printable {
     
     private PageFormat pageFormat = null;
     
+    private int marginTop = 0;
+    
+    /**
+     * この印刷物の上余白を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getMarginTop() {
+        return this.marginTop;
+    }
+    
+    /**
+     * この印刷物の上余白をセットする。
+     * 
+     * @param margin
+     */
+    public void setMarginTop(int margin) {
+        this.marginTop = margin;
+    }
+    
+    private int marginLeft = 0;
+    
+    /**
+     * この印刷物の左余白を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getMarginLeft() {
+        return this.marginLeft;
+    }
+    
+    /**
+     * この印刷物の左余白をセットする。
+     * 
+     * @param margin
+     */
+    public void setMarginLeft(int margin) {
+        this.marginLeft = margin;
+    }
+    
     @Override
     public final int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
         this.graphics2D = (Graphics2D) graphics;
         this.pageFormat = pageFormat;
+        this.graphics2D.translate(this.marginLeft, this.marginTop);
         if (this.print(pageIndex)) {
             return PAGE_EXISTS;
         }

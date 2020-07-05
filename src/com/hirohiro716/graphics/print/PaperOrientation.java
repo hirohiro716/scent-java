@@ -34,10 +34,10 @@ public class PaperOrientation extends PrinterElement<OrientationRequested> {
      */
     public static List<PaperOrientation> createList() {
         List<PaperOrientation> list = new ArrayList<>();
-        list.add(PaperOrientation.LANDSCAPE);
         list.add(PaperOrientation.PORTRAIT);
-        list.add(PaperOrientation.REVERSE_LANDSCAPE);
+        list.add(PaperOrientation.LANDSCAPE);
         list.add(PaperOrientation.REVERSE_PORTRAIT);
+        list.add(PaperOrientation.REVERSE_LANDSCAPE);
         return list;
     }
 
@@ -59,20 +59,20 @@ public class PaperOrientation extends PrinterElement<OrientationRequested> {
     /**
      * 縦向き。
      */
-    public static final PaperOrientation LANDSCAPE = new PaperOrientation(OrientationRequested.LANDSCAPE);
+    public static final PaperOrientation PORTRAIT = new PaperOrientation(OrientationRequested.PORTRAIT);
     
     /**
      * 横向き。
      */
-    public static final PaperOrientation PORTRAIT = new PaperOrientation(OrientationRequested.PORTRAIT);
-
+    public static final PaperOrientation LANDSCAPE = new PaperOrientation(OrientationRequested.LANDSCAPE);
+    
     /**
      * 縦向き逆。
      */
-    public static final PaperOrientation REVERSE_LANDSCAPE = new PaperOrientation(OrientationRequested.REVERSE_LANDSCAPE);
+    public static final PaperOrientation REVERSE_PORTRAIT = new PaperOrientation(OrientationRequested.REVERSE_PORTRAIT);
 
     /**
      * 横向き逆。
      */
-    public static final PaperOrientation REVERSE_PORTRAIT = new PaperOrientation(OrientationRequested.REVERSE_PORTRAIT);
+    public static final PaperOrientation REVERSE_LANDSCAPE = new PaperOrientation(OrientationRequested.REVERSE_LANDSCAPE);
 }

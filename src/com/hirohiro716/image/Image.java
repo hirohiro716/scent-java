@@ -130,19 +130,6 @@ public class Image extends ByteArray implements Cloneable {
     }
     
     /**
-     * この画像の幅と高さを指定された大きさにリサイズする。
-     * 
-     * @param pixelWidth
-     * @param pixelHeight
-     * @param isEnlarged 拡大リサイズを行う場合はtrueを指定。
-     * @throws IOException
-     */
-    public void resize(int pixelWidth, int pixelHeight, boolean isEnlarged) throws IOException {
-        BufferedImage bufferedImage = this.createBufferedImage();
-        this.resize(bufferedImage, pixelWidth, pixelHeight, isEnlarged);
-    }
-    
-    /**
      * この画像の長辺を指定された大きさにリサイズする。短辺は長辺のリサイズ比率に応じて自動的にリサイズされる。
      * 
      * @param longSide 画像の長辺。
@@ -169,21 +156,21 @@ public class Image extends ByteArray implements Cloneable {
      * 指定されたファイルを、指定されたサイズで読み込んで、BufferedImageインスタンスを作成する。
      * 
      * @param file
-     * @param maxPixelWidth
-     * @param maxPixelHeight
+     * @param maximumPixelWidth
+     * @param maximumPixelHeight
      * @return 結果。
      * @throws IOException
      */
-    public static BufferedImage resize(File file, int maxPixelWidth, int maxPixelHeight) throws IOException {
+    public static BufferedImage resize(File file, int maximumPixelWidth, int maximumPixelHeight) throws IOException {
         ImageFormat imageFormat = ImageFormat.find(file);
         if (imageFormat == null) {
             throw new IOException("The specified file couldn't be recognized as an image.");
         }
         BufferedImage originalBufferedImage = ImageIO.read(file);
-        double outputRatio = (double) maxPixelWidth / (double) maxPixelHeight;
+        double outputRatio = (double) maximumPixelWidth / (double) maximumPixelHeight;
         double inputRatio = (double) originalBufferedImage.getWidth() / (double) originalBufferedImage.getHeight();
-        int width = maxPixelWidth;
-        int height = maxPixelHeight;
+        int width = maximumPixelWidth;
+        int height = maximumPixelHeight;
         if (outputRatio < inputRatio) {
             height = (int) (width / inputRatio);
         } else {
@@ -206,13 +193,13 @@ public class Image extends ByteArray implements Cloneable {
      * 指定されたファイルを、指定されたサイズで読み込んでインスタンスを作成する。
      * 
      * @param file
-     * @param maxPixelWidth
-     * @param maxPixelHeight
+     * @param maximumPixelWidth
+     * @param maximumPixelHeight
      * @return 結果。
      * @throws IOException
      */
-    public static Image newInstance(File file, int maxPixelWidth, int maxPixelHeight) throws IOException {
-        BufferedImage bufferedImage = Image.resize(file, maxPixelWidth, maxPixelHeight);
+    public static Image newInstance(File file, int maximumPixelWidth, int maximumPixelHeight) throws IOException {
+        BufferedImage bufferedImage = Image.resize(file, maximumPixelWidth, maximumPixelHeight);
         ImageFormat imageFormat = ImageFormat.find(file);
         Image image = new Image(imageFormat, new byte[] {});
         image.loadBufferedImage(imageFormat, bufferedImage);
