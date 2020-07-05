@@ -330,12 +330,12 @@ public abstract class TableView<C, R> extends Control {
     }
     
     /**
-     * このテーブルビューのカラムを削除する。
-     * 
-     * @param column
+     * このテーブルビューのカラムをクリアする。
      */
-    public void removeColumn(C column) {
-        this.columnInstances.remove(column);
+    public void clearColumnInstances() {
+        this.columnInstances.clear();
+        this.mapTableColumns.clear();
+        this.mapColumnHorizontalAlignment.clear();
     }
 
     private Collection<R> rowInstances = new Collection<>();

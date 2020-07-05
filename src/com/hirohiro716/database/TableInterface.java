@@ -6,6 +6,7 @@ import com.hirohiro716.DynamicArray;
  * データベーステーブルのインターフェース。
  * 
  * @author hiro
+ * 
  */
 public interface TableInterface {
 

@@ -44,7 +44,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
             int index;
             for (index = 0; index < target.length(); index++) {
                 StringObject one = target.clone().extract(index, index + 1);
-                if (one.equals("{") && values.size() == 0 || one.equals(",") && values.size() > 0) {
+                if (one.equals("{") && key == null && values.size() == 0 || one.equals(",") && values.size() > 0) {
                     isOpen = true;
                     key = null;
                     continue;

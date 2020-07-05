@@ -14,15 +14,12 @@ import javax.print.PrintService;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.Size2DSyntax;
-import javax.print.attribute.standard.Chromaticity;
-import javax.print.attribute.standard.Media;
 import javax.print.attribute.standard.MediaPrintableArea;
 import javax.print.attribute.standard.MediaSize;
 import javax.print.attribute.standard.MediaSizeName;
 import javax.print.attribute.standard.MediaTray;
 import javax.print.attribute.standard.OrientationRequested;
 
-import com.hirohiro716.StringObject;
 import com.hirohiro716.image.Image;
 import com.hirohiro716.image.Image.ImageFormat;
 
@@ -36,40 +33,42 @@ public class PrinterJob {
     
     /**
      * コンストラクタ。<br>
-     * 使用するPrintServiceを指定する。
+     * 使用するプリンターを指定する。
      * 
-     * @param printService
+     * @param printer
      * @throws PrinterException
      */
-    public PrinterJob(PrintService printService) throws PrinterException {
+    public PrinterJob(Printer printer) throws PrinterException {
         this.printerJob = java.awt.print.PrinterJob.getPrinterJob();
-        if (printService != null) {
-            this.printerJob.setPrintService(printService);
+        if (printer != null) {
+            this.printerJob.setPrintService(printer.getInnerInstance());
         }
-    }
-
-    /**
-     * コンストラクタ。<br>
-     * 使用するPrintServiceの名前を指定する。
-     * 
-     * @param printServiceName
-     * @throws PrinterException 
-     */
-    public PrinterJob(String printServiceName) throws PrinterException {
-        this(PrinterJob.findPrintService(printServiceName));
     }
     
     /**
      * コンストラクタ。<br>
-     * デフォルトのPrintServiceを使用する。
+     * デフォルトのプリンターを使用する。
      * 
      * @throws PrinterException
      */
     public PrinterJob() throws PrinterException {
-        this((PrintService) null);
+        this(Printer.getDefault());
     }
     
     private java.awt.print.PrinterJob printerJob;
+    
+    /**
+     * このプリンタージョブで使用するプリンターを取得する。
+     * 
+     * @return 結果。
+     */
+    public Printer getPrinter() {
+        PrintService printService = this.printerJob.getPrintService();
+        if (printService == null) {
+            return Printer.getDefault();
+        }
+        return new Printer(printService);
+    }
     
     /**
      * このプリンタージョブの名前を指定する。
@@ -110,31 +109,15 @@ public class PrinterJob {
     private PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
     
     /**
-     * このプリンタージョブで使用するカラー属性を指定する。
-     * 
-     * @param chromaticity
-     */
-    public void setChromaticity(Chromaticity chromaticity) {
-        this.printRequestAttributeSet.add(chromaticity);
-    }
-    
-    /**
-     * このプリンタージョブで使用するカラー属性を取得する。事前に指定されていない場合はnullを返す。
-     * 
-     * @return 結果。
-     */
-    public Chromaticity getChromaticity() {
-        Chromaticity chromaticity = (Chromaticity) this.printRequestAttributeSet.get(Chromaticity.class);
-        return chromaticity;
-    }
-    
-    /**
      * このプリンタージョブの印刷方向を指定する。
      * 
-     * @param orientationRequested
+     * @param paperOrientation
      */
-    public void setOrientationRequested(OrientationRequested orientationRequested) {
-        this.printRequestAttributeSet.add(orientationRequested);
+    public void setPaperOrientation(PaperOrientation paperOrientation) {
+        if (paperOrientation == null) {
+            return;
+        }
+        this.printRequestAttributeSet.add(paperOrientation.getInnerInstance());
     }
     
     /**
@@ -142,59 +125,37 @@ public class PrinterJob {
      * 
      * @return 結果。
      */
-    public OrientationRequested getOrientationRequested() {
-        return (OrientationRequested) this.printRequestAttributeSet.get(OrientationRequested.class);
+    public PaperOrientation getPaperOrientation() {
+        OrientationRequested orientationRequested = (OrientationRequested) this.printRequestAttributeSet.get(OrientationRequested.class);
+        if (orientationRequested == null) {
+            return null;
+        }
+        return new PaperOrientation(orientationRequested);
     }
     
     /**
-     * このプリンタージョブで使用できる、すべてのメディアトレイを取得する。
+     * このプリンタージョブで使用する用紙トレイを指定する。
+     * 
+     * @param paperSource
+     */
+    public void setPaperSource(PaperSource paperSource) {
+        if (paperSource == null) {
+            return;
+        }
+        this.printRequestAttributeSet.add(paperSource.getInnerInstance());
+    }
+    
+    /**
+     * このプリンタージョブで使用する用紙トレイを取得する。事前に指定されていない場合はnullを返す。
      * 
      * @return 結果。
      */
-    public MediaTray[] lookupMediaTrays() {
-        List<MediaTray> mediaTrays = new ArrayList<>();
-        Object values = this.printerJob.getPrintService().getSupportedAttributeValues(Media.class, null, null);
-        if (values instanceof Media[]) {
-            Media[] medias = (Media[]) values;
-            for (Media media : medias) {
-                if (media instanceof MediaTray) {
-                    mediaTrays.add((MediaTray) media);
-                }
-            }
+    public PaperSource getPaperSource() {
+        MediaTray mediaTray = (MediaTray) this.printRequestAttributeSet.get(MediaTray.class);
+        if (mediaTray == null) {
+            return null;
         }
-        return mediaTrays.toArray(new MediaTray[] {});
-    }
-    
-    /**
-     * このプリンタージョブで使用するメディアトレイを指定する。
-     * 
-     * @param mediaTray
-     */
-    public void setMediaTray(MediaTray mediaTray) {
-        this.printRequestAttributeSet.add(mediaTray);
-    }
-    
-    /**
-     * このプリンタージョブで使用するメディアトレイを取得する。事前に指定されていない場合はnullを返す。
-     * 
-     * @return 結果。
-     */
-    public MediaTray getMediaTray() {
-        return (MediaTray) this.printRequestAttributeSet.get(MediaTray.class);
-    }
-    
-    /**
-     * このプリンタージョブで使用するメディアトレイを指定する。
-     * 
-     * @param mediaTrayName
-     */
-    public void setMediaTray(String mediaTrayName) {
-        StringObject mediaTrayNameObject = new StringObject(mediaTrayName);
-        for (MediaTray mediaTray : this.lookupMediaTrays()) {
-            if (mediaTrayNameObject.equals(mediaTray.getName())) {
-                this.setMediaTray(mediaTray);
-            }
-        }
+        return new PaperSource(mediaTray);
     }
     
     private float requestedMediaWidth = 0;
@@ -202,12 +163,12 @@ public class PrinterJob {
     private float requestedMediaHeight = 0;
     
     /**
-     * このプリンタージョブで使用するメディアサイズを指定する。プリンターに該当するサイズがない場合はデフォルトが使用される。
+     * このプリンタージョブで使用する用紙サイズを指定する。プリンターに該当するサイズがない場合はデフォルトが使用される。
      * 
      * @param millimeterWidth
      * @param millimeterHeight
      */
-    public void setMediaSize(float millimeterWidth, float millimeterHeight) {
+    public void setPaperSize(float millimeterWidth, float millimeterHeight) {
         MediaSizeName mediaSizeName = MediaSize.findMedia(millimeterWidth, millimeterHeight, Size2DSyntax.MM);
         MediaSize mediaSize = MediaSize.getMediaSizeForName(mediaSizeName);
         if (mediaSizeName != null && mediaSize.getX(Size2DSyntax.MM) == millimeterWidth && mediaSize.getY(Size2DSyntax.MM) == millimeterHeight) {
@@ -218,37 +179,43 @@ public class PrinterJob {
     }
     
     /**
-     * このプリンタージョブで使用するメディアサイズを指定する。
+     * このプリンタージョブで使用する用紙サイズを指定する。
      * 
-     * @param mediaSizeName
+     * @param paperSize
      */
-    public void setMediaSize(MediaSizeName mediaSizeName) {
-        this.printRequestAttributeSet.add(mediaSizeName);
-        MediaSize mediaSize = MediaSize.getMediaSizeForName(mediaSizeName);
+    public void setPaperSize(PaperSize paperSize) {
+        if (paperSize == null) {
+            return;
+        }
+        this.printRequestAttributeSet.add(paperSize.getInnerInstance());
+        MediaSize mediaSize = MediaSize.getMediaSizeForName(paperSize.getInnerInstance());
         this.requestedMediaWidth = mediaSize.getX(Size2DSyntax.MM);
         this.requestedMediaHeight = mediaSize.getY(Size2DSyntax.MM);
     }
     
     /**
-     * このプリンタージョブで使用するメディアサイズを取得する。事前に指定されていない場合はnullを返す。
+     * このプリンタージョブで使用する用紙サイズを取得する。事前に指定されていない場合はnullを返す。
      * 
      * @return 結果。
      */
-    public MediaSize getMediaSize() {
-        return (MediaSize) this.printRequestAttributeSet.get(MediaSize.class);
+    public PaperSize getPaperSize() {
+        MediaSize mediaSize = (MediaSize) this.printRequestAttributeSet.get(MediaSize.class);
+        if (mediaSize == null) {
+            return null;
+        }
+        return new PaperSize(mediaSize.getMediaSizeName());
     }
     
     /**
      * このプリンタージョブの印刷範囲を指定する。
      * 
-     * @param millimeterX
-     * @param millimeterY
-     * @param millimeterWidth
-     * @param millimeterHeight
+     * @param printableArea
      */
-    public void setMediaPrintableArea(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        MediaPrintableArea area = new MediaPrintableArea(millimeterX, millimeterY, millimeterX, millimeterY, MediaPrintableArea.MM);
-        this.printRequestAttributeSet.add(area);
+    public void setPrintableArea(PrintableArea printableArea) {
+        if (printableArea == null) {
+            return;
+        }
+        this.printRequestAttributeSet.add(printableArea.getInnerInstance());
     }
     
     /**
@@ -256,8 +223,12 @@ public class PrinterJob {
      * 
      * @return 結果。
      */
-    public MediaPrintableArea getMediaPrintableArea() {
-        return (MediaPrintableArea) this.printRequestAttributeSet.get(MediaPrintableArea.class);
+    public PrintableArea getPrintableArea() {
+        MediaPrintableArea mediaPrintableArea = (MediaPrintableArea) this.printRequestAttributeSet.get(MediaPrintableArea.class);
+        if (mediaPrintableArea == null) {
+            return null;
+        }
+        return new PrintableArea(mediaPrintableArea);
     }
     
     private java.awt.print.Printable printable;
@@ -311,8 +282,8 @@ public class PrinterJob {
     public Image[] printToImages(double expansionRatio, ImageFormat imageFormat) throws PrinterException, IOException {
         MillimeterValue width;
         MillimeterValue height;
-        if (this.getOrientationRequested() == null
-                || this.getOrientationRequested() == OrientationRequested.PORTRAIT || this.getOrientationRequested() == OrientationRequested.REVERSE_PORTRAIT) {
+        if (this.getPaperOrientation() == null
+                || this.getPaperOrientation() == PaperOrientation.PORTRAIT || this.getPaperOrientation() == PaperOrientation.REVERSE_PORTRAIT) {
             width = new MillimeterValue(this.requestedMediaWidth * expansionRatio);
             height = new MillimeterValue(this.requestedMediaHeight * expansionRatio);
         } else {
@@ -335,29 +306,5 @@ public class PrinterJob {
             }
         }
         return images.toArray(new Image[] {});
-    }
-    
-    /**
-     * すべてのPrintServiceを取得する。
-     * 
-     * @return 結果。
-     */
-    public static PrintService[] lookupPrintServices() {
-        return java.awt.print.PrinterJob.lookupPrintServices();
-    }
-    
-    /**
-     * 指定された名前のPrintServiceを取得する。
-     * 
-     * @param printServiceName
-     * @return 結果。
-     */
-    public static PrintService findPrintService(String printServiceName) {
-        for (PrintService printService : PrinterJob.lookupPrintServices()) {
-            if (printService.getName().equals(printServiceName)) {
-                return printService;
-            }
-        }
-        return null;
     }
 }
