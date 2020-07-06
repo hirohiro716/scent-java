@@ -243,7 +243,8 @@ public abstract class Printable implements java.awt.print.Printable {
     }
 
     /**
-     * 指定された文字列を印刷した場合の大きさを測定したDimensionを作成する。
+     * 指定された文字列を印刷した場合の大きさを測定したDimensionを作成する。<br>
+     * この処理で自動調整されたフォントはインスタンス内で保持される。
      * 
      * @param string
      * @return 結果。
@@ -260,7 +261,8 @@ public abstract class Printable implements java.awt.print.Printable {
     }
     
     /**
-     * 指定された文字列を印刷した場合の大きさを測定したDimensionを作成する。
+     * 指定された文字列を印刷した場合の大きさを測定したDimensionを作成する。<br>
+     * この処理で自動調整されたフォントはインスタンス内で保持される。
      * 
      * @param string
      * @param millimeterMaxWidth
@@ -283,7 +285,8 @@ public abstract class Printable implements java.awt.print.Printable {
     }
     
     /**
-     * 指定された文字列を指定された位置に印刷する。
+     * 指定された文字列を指定された位置に印刷する。<br>
+     * この処理で自動調整されたフォントはインスタンス内で保持される。
      * 
      * @param string
      * @param millimeterX
@@ -306,7 +309,8 @@ public abstract class Printable implements java.awt.print.Printable {
     }
     
     /**
-     * 指定された位置のボックスの中に文字列を印刷する。
+     * 指定された位置のボックスの中に文字列を印刷する。<br>
+     * この処理で自動調整されたフォントはインスタンス内で保持される。
      * 
      * @param string
      * @param millimeterX

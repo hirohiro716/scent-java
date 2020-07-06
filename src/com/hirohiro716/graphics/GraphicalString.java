@@ -28,6 +28,7 @@ public class GraphicalString {
      */
     public GraphicalString(String string, Graphics2D graphics2D) {
         this.graphics2D = graphics2D;
+        this.graphics2DForFontMetrics = GraphicalString.createGraphics2D();
         this.string = new StringObject(string);
         this.string.replaceCRLF("\n").replaceCR("\n");
     }
@@ -35,6 +36,8 @@ public class GraphicalString {
     private StringObject string;
     
     private Graphics2D graphics2D;
+    
+    private Graphics2D graphics2DForFontMetrics;
 
     private HorizontalPosition horizontalPosition = HorizontalPosition.LEFT;
     
@@ -98,12 +101,23 @@ public class GraphicalString {
     private Float leading = null;
     
     /**
+     * フォントメトリックを取得する。<br>
+     * 元と同じGraphics2Dインスタンスを使用するとLANDSCAPE印刷で異常値を返すバグ(OpenJDK11で確認)が発生する。
+     * 
+     * @return 結果。
+     */
+    private FontMetrics getFontMetrics() {
+        this.graphics2DForFontMetrics.setFont(this.graphics2D.getFont());
+        return this.graphics2DForFontMetrics.getFontMetrics();
+    }
+    
+    /**
      * 行と行との間隔を取得する。
      * 
      * @return 結果。
      */
     public Float getLeading() {
-        float leading = this.graphics2D.getFontMetrics().getLeading();
+        float leading = this.getFontMetrics().getLeading();
         if (this.leading != null) {
             leading = this.leading;
         }
@@ -136,7 +150,7 @@ public class GraphicalString {
         Font font = this.graphics2D.getFont();
         Layout layout = null;
         while (layout == null) {
-            FontMetrics fontMetrics = this.graphics2D.getFontMetrics();
+            FontMetrics fontMetrics = this.getFontMetrics();
             StringObject stringObject = new StringObject();
             for (int index = 0; index < this.string.length(); index++) {
                 StringObject one = this.string.clone().extract(index, index + 1);
@@ -209,7 +223,7 @@ public class GraphicalString {
      * @return 描画した文字列のサイズ。
      */
     private Dimension drawOneLine(String oneLine, float x, float y) {
-        FontMetrics fontMetrics = this.graphics2D.getFontMetrics();
+        FontMetrics fontMetrics = this.getFontMetrics();
         Rectangle2D rectangle = fontMetrics.getStringBounds(oneLine, this.graphics2D);
         switch (this.horizontalPosition) {
         case LEFT:
@@ -237,7 +251,7 @@ public class GraphicalString {
     public Dimension draw(float x, float y) {
         Font defaultFont = this.graphics2D.getFont();
         Layout layout = this.createLayout();
-        FontMetrics fontMetrics = this.graphics2D.getFontMetrics();
+        FontMetrics fontMetrics = this.getFontMetrics();
         float drawingY = y;
         float drawingX = x;
         switch (this.verticalPosition) {
