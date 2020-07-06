@@ -511,7 +511,7 @@ public abstract class Printable implements java.awt.print.Printable {
         int y = (int) MillimeterValue.newInstance(millimeterY).toPoint();
         int width = (int) MillimeterValue.newInstance(millimeterWidth).toPoint();
         int height = (int) MillimeterValue.newInstance(millimeterHeight).toPoint();
-        this.graphics2D.drawImage(bufferedImage, x, y, width, height, null); // Always returns true.
+        this.graphics2D.drawImage(bufferedImage, x, y, width, height, null);
     }
     
     /**

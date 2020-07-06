@@ -3,10 +3,7 @@ package com.hirohiro716.gui.database;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 
 import com.hirohiro716.Array;
@@ -51,13 +48,6 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
             protected void handle(FrameEvent event) {
                 window.tableView = window.createTableView();
                 window.setContent(window.createContentUsingTableView(window.tableView));
-                for (KeyCode keyCode : window.mapProcessWhenKeyTyped.keySet()) {
-                    Runnable runnable = window.mapProcessWhenKeyTyped.get(keyCode);
-                    for (Control control : window.getRootPane().getChildren().findAll()) {
-                        control.addKeyPressedEventHandler(new KeyPressedEventHandler(keyCode));
-                        control.addKeyReleasedEventHandler(new KeyReleasedEventHandler(keyCode, runnable));
-                    }
-                }
                 window.searchedRecords.addAll(window.defaultRecords);
                 window.updateDisplayOfTableView();
             }
@@ -407,83 +397,6 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
             super.show();
         } catch (Exception exception) {
             exception.printStackTrace();
-        }
-    }
-
-    private Map<KeyCode, Runnable> mapProcessWhenKeyTyped = new LinkedHashMap<>();
-    
-    /**
-     * このレコード検索ウィンドウでキーを押した際の処理を追加する。
-     * 
-     * @param keyCode 対象のキーコード。
-     * @param runnable 実行する処理。
-     */
-    protected void addProcessWhenKeyTyped(KeyCode keyCode, Runnable runnable) {
-        this.mapProcessWhenKeyTyped.put(keyCode, runnable);
-    }
-    
-    private Map<Control, Boolean> mapKeyTyped = new HashMap<>();
-    
-    /**
-     * このレコード検索ウィンドウでキーを押した際のイベントハンドラー。
-     * 
-     * @author hiro
-     *
-     */
-    private class KeyPressedEventHandler extends EventHandler<KeyEvent> {
-        
-        /**
-         * コンストラクタ。<br>
-         * 対象のキーコードを指定する。
-         * 
-         * @param keyCode
-         */
-        public KeyPressedEventHandler(KeyCode keyCode) {
-            this.keyCode = keyCode;
-        }
-        
-        private KeyCode keyCode;
-        
-        @Override
-        protected void handle(KeyEvent event) {
-            RecordSearchWindow<S> window = RecordSearchWindow.this;
-            if (event.getKeyCode() == this.keyCode) {
-                window.mapKeyTyped.put(event.getSource(), true);
-            }
-        }
-    }
-
-    /**
-     * このレコード検索ウィンドウでキーを離した際のイベントハンドラー。
-     * 
-     * @author hiro
-     *
-     */
-    private class KeyReleasedEventHandler extends EventHandler<KeyEvent> {
-
-        /**
-         * コンストラクタ。<br>
-         * 対象のキーコード、処理を指定する。
-         * 
-         * @param keyCode
-         * @param runnable 
-         */
-        public KeyReleasedEventHandler(KeyCode keyCode, Runnable runnable) {
-            this.keyCode = keyCode;
-            this.runnable = runnable;
-        }
-        
-        private KeyCode keyCode;
-        
-        private Runnable runnable;
-        
-        @Override
-        protected void handle(KeyEvent event) {
-            RecordSearchWindow<S> window = RecordSearchWindow.this;
-            if (event.getKeyCode() == this.keyCode && window.mapKeyTyped.containsKey(event.getSource())) {
-                this.runnable.run();
-                window.mapKeyTyped.clear();
-            }
         }
     }
 }

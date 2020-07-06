@@ -2,11 +2,18 @@ package com.hirohiro716.gui;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
+import com.hirohiro716.gui.event.EventHandler;
+import com.hirohiro716.gui.event.FrameEvent;
+import com.hirohiro716.gui.event.KeyEvent;
 
 /**
  * GUIのウィンドウのクラス。
@@ -24,10 +31,29 @@ public class Window extends Frame<JFrame> {
      */
     protected Window(JFrame jFrame) {
         super(jFrame);
+        Window window = this;
         this.setSize(400, 300);
         this.setCloseOperation(CloseOperation.DISPOSE);
         this.rootPane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
         this.rootPane.setParent(this);
+        this.addActivatedEventHandler(new EventHandler<FrameEvent>() {
+
+            @Override
+            protected void handle(FrameEvent event) {
+                if (window.isAddedProcessWhenKeyTyped) {
+                    return;
+                }
+                window.isAddedProcessWhenKeyTyped = true;
+                for (KeyCode keyCode : window.mapProcessWhenKeyTyped.keySet()) {
+                    Runnable runnable = window.mapProcessWhenKeyTyped.get(keyCode);
+                    for (Control control : window.getRootPane().getChildren().findAll()) {
+                        control.addKeyPressedEventHandler(new KeyPressedEventHandler(keyCode));
+                        control.addKeyReleasedEventHandler(new KeyReleasedEventHandler(keyCode, runnable));
+                    }
+                }
+            }
+        });
+
     }
     
     /**
@@ -186,6 +212,85 @@ public class Window extends Frame<JFrame> {
         case APPLICATION_EXIT:
             this.getInnerInstance().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             break;
+        }
+    }
+    
+    private Map<KeyCode, Runnable> mapProcessWhenKeyTyped = new LinkedHashMap<>();
+    
+    private boolean isAddedProcessWhenKeyTyped = false;
+    
+    /**
+     * このレコード検索ウィンドウでキーを押した際の処理を追加する。
+     * 
+     * @param keyCode 対象のキーコード。
+     * @param runnable 実行する処理。
+     */
+    protected void addProcessWhenKeyTyped(KeyCode keyCode, Runnable runnable) {
+        this.mapProcessWhenKeyTyped.put(keyCode, runnable);
+    }
+    
+    private Map<Control, Boolean> mapKeyTyped = new HashMap<>();
+    
+    /**
+     * このレコード検索ウィンドウでキーを押した際のイベントハンドラー。
+     * 
+     * @author hiro
+     *
+     */
+    private class KeyPressedEventHandler extends EventHandler<KeyEvent> {
+        
+        /**
+         * コンストラクタ。<br>
+         * 対象のキーコードを指定する。
+         * 
+         * @param keyCode
+         */
+        public KeyPressedEventHandler(KeyCode keyCode) {
+            this.keyCode = keyCode;
+        }
+        
+        private KeyCode keyCode;
+        
+        @Override
+        protected void handle(KeyEvent event) {
+            Window window = Window.this;
+            if (event.getKeyCode() == this.keyCode) {
+                window.mapKeyTyped.put(event.getSource(), true);
+            }
+        }
+    }
+
+    /**
+     * このレコード検索ウィンドウでキーを離した際のイベントハンドラー。
+     * 
+     * @author hiro
+     *
+     */
+    private class KeyReleasedEventHandler extends EventHandler<KeyEvent> {
+
+        /**
+         * コンストラクタ。<br>
+         * 対象のキーコード、処理を指定する。
+         * 
+         * @param keyCode
+         * @param runnable 
+         */
+        public KeyReleasedEventHandler(KeyCode keyCode, Runnable runnable) {
+            this.keyCode = keyCode;
+            this.runnable = runnable;
+        }
+        
+        private KeyCode keyCode;
+        
+        private Runnable runnable;
+        
+        @Override
+        protected void handle(KeyEvent event) {
+            Window window = Window.this;
+            if (event.getKeyCode() == this.keyCode && window.mapKeyTyped.containsKey(event.getSource())) {
+                this.runnable.run();
+                window.mapKeyTyped.clear();
+            }
         }
     }
 }
