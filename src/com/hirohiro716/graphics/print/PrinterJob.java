@@ -12,6 +12,10 @@ import java.util.List;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.MediaPrintableArea;
+import javax.print.attribute.standard.MediaSize;
+import javax.print.attribute.standard.MediaSizeName;
+
 import com.hirohiro716.image.Image;
 import com.hirohiro716.image.Image.ImageFormat;
 
@@ -85,7 +89,7 @@ public class PrinterJob {
      * 
      * @param numberOfCopies
      */
-    public void setCopies(int numberOfCopies) {
+    public void setNumberOfCopies(int numberOfCopies) {
         this.numberOfCopies = numberOfCopies;
     }
     
@@ -94,7 +98,7 @@ public class PrinterJob {
      * 
      * @return 結果。
      */
-    public int getCopies() {
+    public int getNumberOfCopies() {
         return this.numberOfCopies;
     }
     
@@ -228,13 +232,13 @@ public class PrinterJob {
     private java.awt.print.PrinterJob createPrinterJobOfAWT() throws PrinterException {
         java.awt.print.PrinterJob job = java.awt.print.PrinterJob.getPrinterJob();
         job.setPrintService(this.printer.getInnerInstance());
-        job.setCopies(this.numberOfCopies);
         if (this.name != null) {
             job.setJobName(this.name);
         }
         if (this.printable != null) {
             this.printable.setMarginTop((int) MillimeterValue.newInstance(this.millimeterMarginTop).toPoint());
             this.printable.setMarginLeft((int) MillimeterValue.newInstance(this.millimeterMarginLeft).toPoint());
+            this.printable.setNumberOfCopies(this.numberOfCopies);
             job.setPrintable(this.printable);
         }
         return job;
@@ -252,6 +256,10 @@ public class PrinterJob {
         }
         if (this.paperSize != null) {
             printRequestAttributeSet.add(this.paperSize.getInnerInstance());
+            MediaSizeName mediaSizeName = this.paperSize.getInnerInstance();
+            MediaSize mediaSize = MediaSize.getMediaSizeForName(mediaSizeName);
+            MediaPrintableArea mediaPrintableArea = new MediaPrintableArea(0, 0, mediaSize.getX(MediaSize.MM), mediaSize.getY(MediaSize.MM), MediaPrintableArea.MM);
+            printRequestAttributeSet.add(mediaPrintableArea);
         }
         if (this.paperOrientation != null) {
             printRequestAttributeSet.add(this.paperOrientation.getInnerInstance());

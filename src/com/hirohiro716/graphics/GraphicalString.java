@@ -225,15 +225,22 @@ public class GraphicalString {
     private Dimension drawOneLine(String oneLine, float x, float y) {
         FontMetrics fontMetrics = this.getFontMetrics();
         Rectangle2D rectangle = fontMetrics.getStringBounds(oneLine, this.graphics2D);
+        float drawingX = x;
         switch (this.horizontalPosition) {
         case LEFT:
-            this.graphics2D.drawString(oneLine, x, y);
+            this.graphics2D.drawString(oneLine, drawingX, y);
             break;
         case CENTER:
-            this.graphics2D.drawString(oneLine, x - ((float) rectangle.getWidth() / 2), y);
+            if (this.maximumWidth != null) {
+                drawingX += (this.maximumWidth - rectangle.getWidth()) / 2;
+            }
+            this.graphics2D.drawString(oneLine, drawingX, y);
             break;
         case RIGHT:
-            this.graphics2D.drawString(oneLine, x - (float) rectangle.getWidth(), y);
+            if (this.maximumWidth != null) {
+                drawingX += this.maximumWidth - rectangle.getWidth();
+            }
+            this.graphics2D.drawString(oneLine, drawingX, y);
             break;
         }
         Dimension dimension = new Dimension();
@@ -263,8 +270,11 @@ public class GraphicalString {
             }
             break;
         case CENTER:
-            drawingY += fontMetrics.getAscent();
-            drawingY -= layout.getHeight()  / 2;
+            drawingY += fontMetrics.getAscent() * 0.9;
+            if (this.maximumHeight != null) {
+                drawingY += this.maximumHeight / 2;                
+            }
+            drawingY -= layout.getHeight() / 2;                
             for (String line : layout.getLines()) {
                 Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
                 drawingY += dimension.getHeight();
@@ -272,6 +282,9 @@ public class GraphicalString {
             break;
         case BASELINE:
             drawingY += fontMetrics.getAscent() + fontMetrics.getDescent();
+            if (this.maximumHeight != null) {
+                drawingY += this.maximumHeight;
+            }
             drawingY -= layout.getHeight();
             for (String line : layout.getLines()) {
                 Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
@@ -280,6 +293,9 @@ public class GraphicalString {
             break;
         case BOTTOM:
             drawingY += fontMetrics.getAscent();
+            if (this.maximumHeight != null) {
+                drawingY += this.maximumHeight;
+            }
             drawingY -= layout.getHeight();
             for (String line : layout.getLines()) {
                 Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
@@ -305,34 +321,9 @@ public class GraphicalString {
     public Dimension drawInBox(float x, float y, float width, float height) {
         Float defaultMaxWidth = this.maximumWidth;
         Float defaultMaxHeight = this.maximumHeight;
-        float fixX = x;
-        switch (this.horizontalPosition) {
-        case LEFT:
-            break;
-        case CENTER:
-            fixX += width / 2;
-            break;
-        case RIGHT:
-            fixX += width;
-            break;
-        }
-        float fixY = y;
-        switch (this.verticalPosition) {
-        case TOP:
-            break;
-        case CENTER:
-            fixY += height / 2;
-            break;
-        case BASELINE:
-            fixY += height;
-            break;
-        case BOTTOM:
-            fixY += height;
-            break;
-        }
         this.setMaximumWidth(width);
         this.setMaximumHeight(height);
-        Dimension dimension = this.draw(fixX, fixY);
+        Dimension dimension = this.draw(x, y);
         this.maximumWidth = defaultMaxWidth;
         this.maximumHeight = defaultMaxHeight;
         return dimension;

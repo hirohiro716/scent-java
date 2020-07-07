@@ -73,12 +73,46 @@ public abstract class Printable implements java.awt.print.Printable {
         this.marginLeft = margin;
     }
     
+    private int numberOfCopies = 1;
+    
+    /**
+     * この印刷物を印刷する部数を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getNumberOfCopies() {
+        return this.numberOfCopies;
+    }
+    
+    /**
+     * この印刷物を印刷する部数をセットする。初期値は1部。
+     * 
+     * @param numberOfCopies
+     */
+    public void setNumberOfCopies(int numberOfCopies) {
+        this.numberOfCopies = numberOfCopies;
+    }
+    
+    private List<Integer> listOfExistedPage = new ArrayList<>();
+    
     @Override
     public final int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
         this.graphics2D = (Graphics2D) graphics;
         this.pageFormat = pageFormat;
         this.graphics2D.translate(this.marginLeft, this.marginTop);
-        if (this.print(pageIndex)) {
+        this.setVerticalPositionOfString(VerticalPosition.TOP);
+        this.setHorizontalPositionOfString(HorizontalPosition.LEFT);
+        boolean isExistPage = this.print(pageIndex);
+        if (isExistPage) {
+            if (this.listOfExistedPage.contains(pageIndex) == false) {
+                this.listOfExistedPage.add(pageIndex);
+            }
+            return PAGE_EXISTS;
+        }
+        int copyNumber = pageIndex / this.listOfExistedPage.size();
+        if (copyNumber < this.numberOfCopies) {
+            int copyIndex = pageIndex % this.listOfExistedPage.size();
+            this.print(copyIndex);
             return PAGE_EXISTS;
         }
         this.graphics2D = null;
