@@ -384,9 +384,9 @@ public class AutocompleteTextField extends TextField {
                 
                 @Override
                 public void run() {
-                    ListItemAdder adder = new ListItemAdder(changedValue);
-                    int runningAdderSize = control.listItemAdders.size();
                     try {
+                        ListItemAdder adder = new ListItemAdder(changedValue);
+                        int runningAdderSize = control.listItemAdders.size();
                         while (runningAdderSize > 0) {
                             runningAdderSize = 0;
                             for (ListItemAdder activeAdder : control.listItemAdders.toArray(new ListItemAdder[] {})) {
@@ -399,10 +399,10 @@ public class AutocompleteTextField extends TextField {
                             }
                             Thread.sleep(100);
                         }
+                        control.listItemAdders.add(adder);
+                        adder.run();
                     } catch (Exception exception) {
                     }
-                    control.listItemAdders.add(adder);
-                    adder.run();
                 }
             });
             thread.start();
