@@ -478,7 +478,9 @@ public abstract class Database implements Closeable {
     public <C extends ColumnInterface> void insert(DynamicArray<C> values, TableInterface table) throws SQLException {
         DynamicArray<String> stringKeyValues = new DynamicArray<>();
         for (C column : values.getKeys()) {
-            stringKeyValues.put(column.getPhysicalName(), values.get(column));
+            if (column.getTable() == table) {
+                stringKeyValues.put(column.getPhysicalName(), values.get(column));
+            }
         }
         this.insert(stringKeyValues, table.getPhysicalName());
     }
@@ -532,7 +534,9 @@ public abstract class Database implements Closeable {
     public <C extends ColumnInterface> void update(DynamicArray<C> values, TableInterface table, WhereSet whereSet) throws SQLException, DataNotFoundException {
         DynamicArray<String> stringKeyValues = new DynamicArray<>();
         for (C column : values.getKeys()) {
-            stringKeyValues.put(column.getPhysicalName(), values.get(column));
+            if (column.getTable() == table) {
+                stringKeyValues.put(column.getPhysicalName(), values.get(column));
+            }
         }
         this.update(stringKeyValues, table.getPhysicalName(), whereSet);
     }
