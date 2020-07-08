@@ -6,6 +6,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
@@ -413,11 +417,11 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterEndY
      */
     protected void printLine(float millimeterStartX, float millimeterStartY, float millimeterEndX, float millimeterEndY) {
-        int startX = (int) MillimeterValue.newInstance(millimeterStartX).toPoint();
-        int startY = (int) MillimeterValue.newInstance(millimeterStartY).toPoint();
-        int endX = (int) MillimeterValue.newInstance(millimeterEndX).toPoint();
-        int endY = (int) MillimeterValue.newInstance(millimeterEndY).toPoint();
-        this.graphics2D.drawLine(startX, startY, endX, endY);
+        double startX = MillimeterValue.newInstance(millimeterStartX).toPoint();
+        double startY = MillimeterValue.newInstance(millimeterStartY).toPoint();
+        double endX = MillimeterValue.newInstance(millimeterEndX).toPoint();
+        double endY = MillimeterValue.newInstance(millimeterEndY).toPoint();
+        this.graphics2D.draw(new Line2D.Double(startX, startY, endX, endY));
     }
     
     /**
@@ -452,12 +456,12 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterArc 角を丸くする場合の直径。
      */
     protected void printRectangleLine(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight, float millimeterArc) {
-        int x = (int) MillimeterValue.newInstance(millimeterX).toPoint();
-        int y = (int) MillimeterValue.newInstance(millimeterY).toPoint();
-        int width = (int) MillimeterValue.newInstance(millimeterWidth).toPoint();
-        int height = (int) MillimeterValue.newInstance(millimeterHeight).toPoint();
-        int arc = (int) MillimeterValue.newInstance(millimeterArc).toPoint();
-        this.graphics2D.drawRoundRect(x, y, width, height, arc, arc);
+        double x = MillimeterValue.newInstance(millimeterX).toPoint();
+        double y = MillimeterValue.newInstance(millimeterY).toPoint();
+        double width = MillimeterValue.newInstance(millimeterWidth).toPoint();
+        double height = MillimeterValue.newInstance(millimeterHeight).toPoint();
+        double arc = MillimeterValue.newInstance(millimeterArc).toPoint();
+        this.graphics2D.draw(new RoundRectangle2D.Double(x, y, width, height, arc, arc));
     }
 
     /**
@@ -482,12 +486,12 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterArc 角を丸くする場合の直径。
      */
     protected void printRectangleFill(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight, float millimeterArc) {
-        int x = (int) MillimeterValue.newInstance(millimeterX).toPoint();
-        int y = (int) MillimeterValue.newInstance(millimeterY).toPoint();
-        int width = (int) MillimeterValue.newInstance(millimeterWidth).toPoint();
-        int height = (int) MillimeterValue.newInstance(millimeterHeight).toPoint();
-        int arc = (int) MillimeterValue.newInstance(millimeterArc).toPoint();
-        this.graphics2D.fillRoundRect(x, y, width, height, arc, arc);
+        double x = MillimeterValue.newInstance(millimeterX).toPoint();
+        double y = MillimeterValue.newInstance(millimeterY).toPoint();
+        double width = MillimeterValue.newInstance(millimeterWidth).toPoint();
+        double height = MillimeterValue.newInstance(millimeterHeight).toPoint();
+        double arc = MillimeterValue.newInstance(millimeterArc).toPoint();
+        this.graphics2D.fill(new RoundRectangle2D.Double(x, y, width, height, arc, arc));
     }
 
     /**
@@ -511,11 +515,11 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterHeight
      */
     protected void printEllipseLine(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        int x = (int) MillimeterValue.newInstance(millimeterX).toPoint();
-        int y = (int) MillimeterValue.newInstance(millimeterY).toPoint();
-        int width = (int) MillimeterValue.newInstance(millimeterWidth).toPoint();
-        int height = (int) MillimeterValue.newInstance(millimeterHeight).toPoint();
-        this.graphics2D.drawOval(x, y, width, height);
+        double x = MillimeterValue.newInstance(millimeterX).toPoint();
+        double y = MillimeterValue.newInstance(millimeterY).toPoint();
+        double width = MillimeterValue.newInstance(millimeterWidth).toPoint();
+        double height = MillimeterValue.newInstance(millimeterHeight).toPoint();
+        this.graphics2D.draw(new Ellipse2D.Double(x, y, width, height));
     }
 
     /**
@@ -527,11 +531,11 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterHeight
      */
     protected void printEllipseFill(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        int x = (int) MillimeterValue.newInstance(millimeterX).toPoint();
-        int y = (int) MillimeterValue.newInstance(millimeterY).toPoint();
-        int width = (int) MillimeterValue.newInstance(millimeterWidth).toPoint();
-        int height = (int) MillimeterValue.newInstance(millimeterHeight).toPoint();
-        this.graphics2D.fillOval(x, y, width, height);
+        double x = MillimeterValue.newInstance(millimeterX).toPoint();
+        double y = MillimeterValue.newInstance(millimeterY).toPoint();
+        double width = MillimeterValue.newInstance(millimeterWidth).toPoint();
+        double height = MillimeterValue.newInstance(millimeterHeight).toPoint();
+        this.graphics2D.fill(new Ellipse2D.Double(x, y, width, height));
     }
     
     /**
@@ -545,11 +549,15 @@ public abstract class Printable implements java.awt.print.Printable {
      * @throws IOException 
      */
     protected void printImage(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) throws IOException {
-        int x = (int) MillimeterValue.newInstance(millimeterX).toPoint();
-        int y = (int) MillimeterValue.newInstance(millimeterY).toPoint();
-        int width = (int) MillimeterValue.newInstance(millimeterWidth).toPoint();
-        int height = (int) MillimeterValue.newInstance(millimeterHeight).toPoint();
-        this.graphics2D.drawImage(bufferedImage, x, y, width, height, null);
+        AffineTransform transform = this.graphics2D.getTransform();
+        double translateX = transform.getTranslateX() + MillimeterValue.newInstance(millimeterX).toPoint();
+        double translateY = transform.getTranslateY() + MillimeterValue.newInstance(millimeterY).toPoint();
+        double scaleX = MillimeterValue.newInstance(millimeterWidth).toPoint() / bufferedImage.getWidth();
+        double scaleY = MillimeterValue.newInstance(millimeterHeight).toPoint() / bufferedImage.getHeight();
+        this.graphics2D.translate(translateX, translateY);
+        this.graphics2D.scale(scaleX, scaleY);
+        this.graphics2D.drawImage(bufferedImage, 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), null);
+        this.graphics2D.setTransform(transform);
     }
     
     /**

@@ -270,7 +270,7 @@ public class GraphicalString {
             }
             break;
         case CENTER:
-            drawingY += fontMetrics.getAscent() * 0.9;
+            drawingY += fontMetrics.getAscent() * 0.95;
             if (this.maximumHeight != null) {
                 drawingY += this.maximumHeight / 2;                
             }
