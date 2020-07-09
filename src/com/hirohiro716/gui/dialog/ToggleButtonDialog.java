@@ -226,7 +226,11 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
     
     @Override
     public void setDefaultValue(Array<T> value) {
-        this.defaultValue = value.getUnmodifiableList();
+        if (value != null) {
+            this.defaultValue = value.getUnmodifiableList();
+        } else {
+            this.defaultValue = null;
+        }
     }
 
     /**
