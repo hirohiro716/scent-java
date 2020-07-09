@@ -201,20 +201,20 @@ public class File extends FilesystemItem {
      */
     public static class LineCounter implements ProcessAfterReadingLine {
         
-        private int numberOfLine = 0;
+        private int numberOfLines = 0;
         
         /**
          * カウントされたCSVファイルの行数を返す。
          * 
          * @return 結果。
          */
-        public int getNumberOfLine() {
-            return this.numberOfLine;
+        public int getNumberOfLines() {
+            return this.numberOfLines;
         }
         
         @Override
         public void call(String line, BufferedReader bufferedReader) throws IOException {
-            this.numberOfLine++;
+            this.numberOfLines++;
         }
     }
 

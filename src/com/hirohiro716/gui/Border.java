@@ -168,10 +168,10 @@ public class Border {
         @Override
         public void paintBorder(Component component, Graphics graphics, int x, int y, int width, int height) {
             Graphics2D graphics2d = (Graphics2D) graphics;
-            double numberOfBorder = 20;
-            double part = this.width / numberOfBorder;
-            for (int number = 1; number <= numberOfBorder; number++) {
-                graphics.setColor(this.createColor(number, numberOfBorder));
+            double numberOfBorders = 20;
+            double part = this.width / numberOfBorders;
+            for (int number = 1; number <= numberOfBorders; number++) {
+                graphics.setColor(this.createColor(number, numberOfBorders));
                 double offset = part * number;
                 double drawX = x + this.width - offset;
                 double drawY = y + this.width - offset;

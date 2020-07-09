@@ -254,12 +254,12 @@ public class StringObject implements Cloneable, Iterable<String> {
      * Examples:<br>
      * StringObject.newInstance("a").repeat(3) returns "aaa"
      * 
-     * @param numberOfRepeat
+     * @param numberOfRepeats
      * @return このインスタンス。
      */
-    public StringObject repeat(int numberOfRepeat) {
+    public StringObject repeat(int numberOfRepeats) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int number = 0; number < numberOfRepeat; number++) {
+        for (int number = 0; number < numberOfRepeats; number++) {
             stringBuilder.append(this);
         }
         this.value = stringBuilder;

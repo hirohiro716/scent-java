@@ -697,15 +697,15 @@ public abstract class Database implements Closeable {
         
         private java.sql.PreparedStatement statement;
         
-        private int numberOfChanged = 0;
+        private int numberOfChanges = 0;
         
         /**
          * 更新された件数を取得する。
          * 
          * @return 結果。
          */
-        public int getNumberOfChanged() {
-            return this.numberOfChanged;
+        public int getNumberOfChanges() {
+            return this.numberOfChanges;
         }
         
         /**
@@ -718,7 +718,7 @@ public abstract class Database implements Closeable {
             for (int i = 0; i < parameters.length; i++) {
                 this.statement.setObject(i + 1, convertToBindParameter(parameters[i]));
             }
-            this.numberOfChanged += this.statement.executeUpdate();
+            this.numberOfChanges += this.statement.executeUpdate();
         }
         
         @Override

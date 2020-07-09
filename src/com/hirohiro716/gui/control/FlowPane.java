@@ -61,7 +61,7 @@ public class FlowPane extends Pane {
                 }
                 added.addLocationChangeListener(locationChangeListener);
                 added.addSizeChangeListener(sizeChangeListener);
-                pane.numberOfUpdateLayout = 0;
+                pane.numberOfLayoutUpdates = 0;
             }
         });
         this.getChildren().addListener(new RemoveListener<Control>() {
@@ -70,7 +70,7 @@ public class FlowPane extends Pane {
             protected void removed(Control removed) {
                 removed.removeChangeListener(locationChangeListener);
                 removed.removeChangeListener(sizeChangeListener);
-                pane.numberOfUpdateLayout = 0;
+                pane.numberOfLayoutUpdates = 0;
             }
         });
     }
@@ -146,11 +146,11 @@ public class FlowPane extends Pane {
         this.setSpacing(this.horizontalSpacing, spacing);
     }
 
-    private String sizeStringOfUpdateLayout = null;
+    private String sizeStringOfLayoutUpdate = null;
     
-    private int numberOfUpdateLayout = 0;
+    private int numberOfLayoutUpdates = 0;
     
-    private boolean isStartedUpdateLayout = false;
+    private boolean isStartedLayoutUpdate = false;
     
     /**
      * すべての子要素のレイアウトを最新の状態にする。
@@ -158,17 +158,17 @@ public class FlowPane extends Pane {
     private void updateAllChildLayout() {
         // Up to 2 times with the same size
         String sizeString = StringObject.join(this.getMinimumSize(), ":", this.getMaximumSize()).toString();
-        if (sizeString.equals(this.sizeStringOfUpdateLayout)) {
-            if (this.numberOfUpdateLayout > 2) {
+        if (sizeString.equals(this.sizeStringOfLayoutUpdate)) {
+            if (this.numberOfLayoutUpdates > 2) {
                 return;
             }
         } else {
-            this.sizeStringOfUpdateLayout = sizeString;
-            this.numberOfUpdateLayout = 0;
+            this.sizeStringOfLayoutUpdate = sizeString;
+            this.numberOfLayoutUpdates = 0;
         }
-        this.numberOfUpdateLayout++;
+        this.numberOfLayoutUpdates++;
         // Start layout
-        if (this.getChildren().size() == 0 || this.getParent() == null || this.isStartedUpdateLayout) {
+        if (this.getChildren().size() == 0 || this.getParent() == null || this.isStartedLayoutUpdate) {
             return;
         }
         for (Control control : this.getChildren()) {
@@ -176,7 +176,7 @@ public class FlowPane extends Pane {
                 return;
             }
         }
-        this.isStartedUpdateLayout = true;
+        this.isStartedLayoutUpdate = true;
         // Maximum width
         int maximumWidth = this.getParent().getWidth();
         if (this.getParent() instanceof Control) {
@@ -229,7 +229,7 @@ public class FlowPane extends Pane {
             @Override
             public void run() {
                 FlowPane pane = FlowPane.this;
-                pane.isStartedUpdateLayout = false;
+                pane.isStartedLayoutUpdate = false;
             }
         });
     }

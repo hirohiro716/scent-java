@@ -239,8 +239,8 @@ public abstract class RecordMapper {
         sql.append(" WHERE ");
         sql.append(this.getWhereSet().buildPlaceholderClause());
         sql.append(";");
-        Integer numberOfRecord = StringObject.newInstance(this.getDatabase().fetchField(sql.toString(), this.getWhereSet().buildParameters())).toInteger();
-        if (numberOfRecord != null && numberOfRecord > 0) {
+        Integer numberOfRecords = StringObject.newInstance(this.getDatabase().fetchField(sql.toString(), this.getWhereSet().buildParameters())).toInteger();
+        if (numberOfRecords != null && numberOfRecords > 0) {
             return true;
         }
         return false;

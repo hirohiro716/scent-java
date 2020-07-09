@@ -1292,10 +1292,10 @@ public abstract class EditableTable<C, R> extends Control {
                 return;
             }
             Control control = editableTable.rowsPane.getChildren().findControlByPoint(1, changedValue);
-            int numberOfAttempt = 0;
-            while (control == null && numberOfAttempt < 5) {
-                control = editableTable.rowsPane.getChildren().findControlByPoint(1, changedValue + editableTable.defaultRowHeight / 5 * numberOfAttempt);
-                numberOfAttempt++;
+            int numberOfAttempts = 0;
+            while (control == null && numberOfAttempts < 5) {
+                control = editableTable.rowsPane.getChildren().findControlByPoint(1, changedValue + editableTable.defaultRowHeight / 5 * numberOfAttempts);
+                numberOfAttempts++;
             }
             if (control == null) {
                 return;
