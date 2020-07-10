@@ -143,13 +143,13 @@ public abstract class SingleRecordMapper extends RecordMapper {
     }
 
     @Deprecated
-    public <C extends ColumnInterface> void setRecords(Collection<DynamicArray<C>> records) {
-        super.setRecords(records);
+    public final <C extends ColumnInterface> void setRecords(Collection<DynamicArray<C>> records) {
+        this.setRecord(records.iterator().next());
     }
     
     @Deprecated
-    public <C extends ColumnInterface> void setRecords(DynamicArray<C>[] records) {
-        super.setRecords(records);
+    public final <C extends ColumnInterface> void setRecords(DynamicArray<C>[] records) {
+        this.setRecord(records[0]);
     }
     
     @Deprecated

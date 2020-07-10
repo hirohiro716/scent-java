@@ -273,6 +273,9 @@ public class PrinterJob {
      * @throws PrinterException
      */
     public void print() throws PrinterException {
+        if (this.printable == null) {
+            return;
+        }
         this.createPrinterJobOfAWT().print(this.createAttributeOfAWT());
     }
     

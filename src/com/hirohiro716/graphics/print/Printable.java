@@ -212,6 +212,15 @@ public abstract class Printable implements java.awt.print.Printable {
     }
     
     /**
+     * 印刷に使用するフォント名を設定する。
+     * 
+     * @param fontName
+     */
+    protected final void setFontName(String fontName) {
+        this.setFont(GUI.createFont(this.getFont(), fontName));
+    }
+    
+    /**
      * 印刷に使用するフォントのサイズを変更する。
      * 
      * @param size
