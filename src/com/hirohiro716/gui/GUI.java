@@ -18,8 +18,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import com.hirohiro716.StringObject;
-
 /**
  * GUIのグローバルな静的関数のクラス。
  * 
@@ -115,39 +113,6 @@ public class GUI {
         return list.toArray(new String[] {});
     }
     
-    /**
-     * 指定されたフォントをベースに新しいサイズのフォントを作成する。
-     * 
-     * @param baseFont
-     * @param size
-     * @return 結果。
-     */
-    public static Font createFont(Font baseFont, int size) {
-        return new Font(baseFont.getName(), baseFont.getStyle(), size);
-    }
-    
-    /**
-     * 指定されたフォントをベースに新しい種類のフォントを作成する。
-     * 
-     * @param baseFont
-     * @param fontName
-     * @return 結果。
-     */
-    public static Font createFont(Font baseFont, String fontName) {
-        return new Font(fontName, baseFont.getStyle(), baseFont.getSize());
-    }
-    
-    /**
-     * 指定されたフォントをベースに、指定された拡大率で新しいサイズのフォントを作成する。
-     * 
-     * @param baseFont
-     * @param magnificationRatio
-     * @return 結果。
-     */
-    public static Font createFont(Font baseFont, double magnificationRatio) {
-        return new Font(baseFont.getName(), baseFont.getStyle(), (int) (baseFont.getSize2D() * magnificationRatio));
-    }
-    
     private static String FONT_NAME = null;
     
     /**
@@ -214,49 +179,6 @@ public class GUI {
             GUI.BORDER_COLOR = new Color(UIManager.getColor("controlDkShadow").getRGB());
         }
         return GUI.BORDER_COLOR;
-    }
-    
-    /**
-     * 指定されたHTMLやCSSで使用する "#000000" や "#fff" のような形式の色を作成する。
-     * 
-     * @param webColor
-     * @return 結果。
-     */
-    public static Color createColor(String webColor) {
-        StringObject colorString = new StringObject(webColor);
-        if (colorString.toString().indexOf("#") == 0) {
-            try {
-                int red;
-                int green;
-                int blue;
-                switch (colorString.length()) {
-                case 4:
-                    red = Integer.parseInt(colorString.clone().extract(1, 2).repeat(2).toString(), 16);
-                    green = Integer.parseInt(colorString.clone().extract(2, 3).repeat(2).toString(), 16);
-                    blue = Integer.parseInt(colorString.clone().extract(3, 4).repeat(2).toString(), 16);
-                    return new Color(red, green, blue);
-                case 7:
-                    red = Integer.parseInt(colorString.clone().extract(1, 3).toString(), 16);
-                    green = Integer.parseInt(colorString.clone().extract(3, 5).toString(), 16);
-                    blue = Integer.parseInt(colorString.clone().extract(5, 7).toString(), 16);
-                    return new Color(red, green, blue);
-                }
-            } catch (Exception exception) {
-            }
-        }
-        return createAlphaColor(Color.BLACK, 0);
-    }
-    
-    /**
-     * 指定された色をベースに、指定された不透明度で新しい色を作成する。
-     * 
-     * @param baseColor
-     * @param opacity
-     * @return 結果。
-     */
-    public static Color createAlphaColor(Color baseColor, double opacity) {
-        int alpha = (int) (baseColor.getAlpha() * opacity);
-        return new Color(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), alpha);
     }
     
     /**

@@ -3,6 +3,7 @@ package com.hirohiro716.gui.control;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import com.hirohiro716.graphic.ColorCreator;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.GUI;
@@ -58,7 +59,7 @@ public class ClickableLabel extends Button {
                                 
                                 @Override
                                 public void run() {
-                                    Color color = GUI.createAlphaColor(label.defaultForegroundColor, opacityForLater);
+                                    Color color = ColorCreator.createTransparent(label.defaultForegroundColor, opacityForLater);
                                     label.setStyleColor(color);
                                 }
                             });
@@ -90,7 +91,7 @@ public class ClickableLabel extends Button {
                                 
                                 @Override
                                 public void run() {
-                                    Color color = GUI.createAlphaColor(label.defaultForegroundColor, opacityForLater);
+                                    Color color = ColorCreator.createTransparent(label.defaultForegroundColor, opacityForLater);
                                     label.setStyleColor(color);
                                 }
                             });
@@ -104,7 +105,7 @@ public class ClickableLabel extends Button {
 
             @Override
             protected void handle(MouseEvent event) {
-                Color color = GUI.createAlphaColor(label.defaultForegroundColor, 0.2);
+                Color color = ColorCreator.createTransparent(label.defaultForegroundColor, 0.2);
                 label.setStyleColor(color);
             }
         });
@@ -112,7 +113,7 @@ public class ClickableLabel extends Button {
 
             @Override
             protected void handle(MouseEvent event) {
-                Color color = GUI.createAlphaColor(label.defaultForegroundColor, 1);
+                Color color = ColorCreator.createTransparent(label.defaultForegroundColor, 1);
                 label.setStyleColor(color);
             }
         });

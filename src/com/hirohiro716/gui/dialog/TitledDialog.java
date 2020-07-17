@@ -6,10 +6,11 @@ import java.awt.Font;
 
 import javax.swing.UIManager;
 
+import com.hirohiro716.graphic.ColorCreator;
+import com.hirohiro716.graphic.FontCreator;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
-import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.control.AnchorPane;
 import com.hirohiro716.gui.control.ClickableLabel;
 import com.hirohiro716.gui.control.Control;
@@ -81,7 +82,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
         this.labelOfTitle = new Label();
         this.labelOfTitle.setBorder(Border.createLine(borderColor, 0, 0, 1, 0));
         int padding2 = padding * 2;
-        Font fontTitle = GUI.createFont(font, 1.2);
+        Font fontTitle = FontCreator.create(font, 1.2);
         this.labelOfTitle.setFont(fontTitle);
         this.labelOfTitle.setPadding(0, 0, padding2, 0);
         pane.getChildren().add(this.labelOfTitle);
@@ -91,7 +92,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
             pane.setAnchor(this.labelOfTitle, padding2, padding2 + padding2, null, padding2);
             // Close label
             ClickableLabel clickableLabel = new ClickableLabel("×");
-            clickableLabel.setForegroundColor(GUI.createAlphaColor(clickableLabel.getForegroundColor(), 0.8));
+            clickableLabel.setForegroundColor(ColorCreator.createTransparent(clickableLabel.getForegroundColor(), 0.8));
             clickableLabel.setDisabledUnderline(true);
             clickableLabel.addActionEventHandler(new EventHandler<ActionEvent>() {
                 

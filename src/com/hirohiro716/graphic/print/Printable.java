@@ -18,12 +18,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.hirohiro716.graphic.ColorCreator;
+import com.hirohiro716.graphic.FontCreator;
 import com.hirohiro716.graphic.GraphicalString;
 import com.hirohiro716.graphic.JAN13Writer;
 import com.hirohiro716.graphic.NW7Writer;
 import com.hirohiro716.graphic.GraphicalString.HorizontalPosition;
 import com.hirohiro716.graphic.GraphicalString.VerticalPosition;
-import com.hirohiro716.gui.GUI;
 
 /**
  * 印刷物の抽象クラス。
@@ -166,7 +167,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param webColor
      */
     protected void setWebColor(String webColor) {
-        Color color = GUI.createColor(webColor);
+        Color color = ColorCreator.create(webColor);
         if (color.getAlpha() > 0) {
             this.graphics2D.setColor(color);
         }
@@ -217,7 +218,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param fontName
      */
     protected final void setFontName(String fontName) {
-        this.setFont(GUI.createFont(this.getFont(), fontName));
+        this.setFont(FontCreator.create(this.getFont(), fontName));
     }
     
     /**
@@ -226,7 +227,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param size
      */
     protected final void setFontSize(float size) {
-        this.setFont(GUI.createFont(this.getFont(), (int) size));
+        this.setFont(FontCreator.create(this.getFont(), (int) size));
     }
     
     /**

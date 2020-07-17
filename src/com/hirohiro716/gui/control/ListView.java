@@ -14,8 +14,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.hirohiro716.Array;
+import com.hirohiro716.graphic.ColorCreator;
 import com.hirohiro716.gui.Border;
-import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.event.ChangeListener;
@@ -148,7 +148,7 @@ public class ListView<T> extends ListSelectControl<T> {
         if (index == this.mouseHoverItemIndex) {
             if (this.mouseHoverBackgroundColor == null) {
                 Color foregroundColor = this.getInnerInstance().getForeground();
-                this.mouseHoverBackgroundColor = GUI.createAlphaColor(foregroundColor, 0.05);
+                this.mouseHoverBackgroundColor = ColorCreator.createTransparent(foregroundColor, 0.05);
             }
             label.setBackgroundColor(this.mouseHoverBackgroundColor);
         }

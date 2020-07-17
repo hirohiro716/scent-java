@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import com.hirohiro716.Array;
 import com.hirohiro716.Regex;
 import com.hirohiro716.StringObject;
+import com.hirohiro716.graphic.FontCreator;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
@@ -345,7 +346,7 @@ public class AutocompleteTextField extends TextField {
         this.paneOfPopup.getChildren().add(this.paneForClearFilter);
         ClickableLabel button = new ClickableLabel("すべて表示");
         button.setFocusable(false);
-        button.setFont(GUI.createFont(button.getFont(), 0.8));
+        button.setFont(FontCreator.create(button.getFont(), 0.8));
         AutocompleteTextField control = this;
         button.addMouseClickedEventHandler(MouseButton.BUTTON1, new EventHandler<MouseEvent>() {
 
