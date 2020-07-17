@@ -23,7 +23,7 @@ import com.hirohiro716.graphic.JAN13Writer;
 import com.hirohiro716.graphic.NW7Writer;
 import com.hirohiro716.graphic.GraphicalString.HorizontalPosition;
 import com.hirohiro716.graphic.GraphicalString.VerticalPosition;
-import com.hirohiro716.graphic.ui.GUI;
+import com.hirohiro716.gui.GUI;
 
 /**
  * 印刷物の抽象クラス。
