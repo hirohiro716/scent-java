@@ -2,7 +2,6 @@ package com.hirohiro716.graphic.print;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.hirohiro716.graphic.ColorCreator;
+import com.hirohiro716.graphic.Dimension;
 import com.hirohiro716.graphic.FontCreator;
 import com.hirohiro716.graphic.GraphicalString;
 import com.hirohiro716.graphic.JAN13Writer;
@@ -247,7 +247,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterLeading
      */
     protected void setLeading(float millimeterLeading) {
-        this.leading = (float) MillimeterValue.newInstance(millimeterLeading).toPoint();
+        this.leading = MillimeterValue.newInstance(millimeterLeading).toPoint();
     }
 
     /**
@@ -304,7 +304,7 @@ public abstract class Printable implements java.awt.print.Printable {
         }
         Dimension dimension = graphicalString.createDimension();
         this.lastAutomaticallyAdjustedFont = graphicalString.getLastAutomaticallyAdjustedFont();
-        dimension.setSize(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
+        dimension = new Dimension(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
         return dimension;
     }
     
@@ -322,13 +322,13 @@ public abstract class Printable implements java.awt.print.Printable {
         if (this.leading != null) {
             graphicalString.setLeading(this.leading);
         }
-        float maximumWidth = (float) MillimeterValue.newInstance(millimeterMaximumWidth).toPoint();
-        float maximumHeight = (float) MillimeterValue.newInstance(millimeterMaximumHeight).toPoint();
+        float maximumWidth = MillimeterValue.newInstance(millimeterMaximumWidth).toPoint();
+        float maximumHeight = MillimeterValue.newInstance(millimeterMaximumHeight).toPoint();
         graphicalString.setMaximumWidth(maximumWidth);
         graphicalString.setMaximumHeight(maximumHeight);
         Dimension dimension = graphicalString.createDimension();
         this.lastAutomaticallyAdjustedFont = graphicalString.getLastAutomaticallyAdjustedFont();
-        dimension.setSize(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
+        dimension = new Dimension(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
         return dimension;
     }
     
@@ -348,11 +348,11 @@ public abstract class Printable implements java.awt.print.Printable {
         }
         graphicalString.setHorizontalPosition(this.horizontalPosition);
         graphicalString.setVerticalPosition(this.verticalPosition);
-        float x = (float) MillimeterValue.newInstance(millimeterX).toPoint();
-        float y = (float) MillimeterValue.newInstance(millimeterY).toPoint();
+        float x = MillimeterValue.newInstance(millimeterX).toPoint();
+        float y = MillimeterValue.newInstance(millimeterY).toPoint();
         Dimension dimension = graphicalString.draw(x, y);
         this.lastAutomaticallyAdjustedFont = graphicalString.getLastAutomaticallyAdjustedFont();
-        dimension.setSize(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
+        dimension = new Dimension(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
         return dimension;
     }
     
@@ -374,13 +374,13 @@ public abstract class Printable implements java.awt.print.Printable {
         }
         graphicalString.setHorizontalPosition(this.horizontalPosition);
         graphicalString.setVerticalPosition(this.verticalPosition);
-        float width = (float) MillimeterValue.newInstance(millimeterWidth).toPoint();
-        float height = (float) MillimeterValue.newInstance(millimeterHeight).toPoint();
-        float x = (float) MillimeterValue.newInstance(millimeterX).toPoint();
-        float y = (float) MillimeterValue.newInstance(millimeterY).toPoint();
-        Dimension dimension = graphicalString.drawInBox(x, y, width, height); // TODO
+        float width = MillimeterValue.newInstance(millimeterWidth).toPoint();
+        float height = MillimeterValue.newInstance(millimeterHeight).toPoint();
+        float x = MillimeterValue.newInstance(millimeterX).toPoint();
+        float y = MillimeterValue.newInstance(millimeterY).toPoint();
+        Dimension dimension = graphicalString.drawInBox(x, y, width, height);
         this.lastAutomaticallyAdjustedFont = graphicalString.getLastAutomaticallyAdjustedFont();
-        dimension.setSize(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
+        dimension = new Dimension(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
         return dimension;
     }
     
@@ -391,7 +391,7 @@ public abstract class Printable implements java.awt.print.Printable {
      */
     protected void setStrokeWidth(float millimeterWidth) {
         BasicStroke basicStroke = (BasicStroke) this.graphics2D.getStroke();
-        this.graphics2D.setStroke(new BasicStroke((float) MillimeterValue.newInstance(millimeterWidth).toPoint(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke.getMiterLimit(), basicStroke.getDashArray(), basicStroke.getDashPhase()));
+        this.graphics2D.setStroke(new BasicStroke(MillimeterValue.newInstance(millimeterWidth).toPoint(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke.getMiterLimit(), basicStroke.getDashArray(), basicStroke.getDashPhase()));
     }
     
     /**
@@ -403,7 +403,7 @@ public abstract class Printable implements java.awt.print.Printable {
         if (millimeterDashes.length > 0) {
             float[] dashes = new float[millimeterDashes.length];
             for (int index = 0; index < millimeterDashes.length; index++) {
-                dashes[index] = (float) MillimeterValue.newInstance(millimeterDashes[index]).toPoint();
+                dashes[index] = MillimeterValue.newInstance(millimeterDashes[index]).toPoint();
             }
             BasicStroke basicStroke = (BasicStroke) this.graphics2D.getStroke();
             this.graphics2D.setStroke(new BasicStroke(basicStroke.getLineWidth(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke.getMiterLimit(), dashes, basicStroke.getDashPhase()));
@@ -610,10 +610,10 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterWidth
      */
     protected void printNW7(String barcode, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        float x = (float) MillimeterValue.newInstance(millimeterX).toPoint();
-        float y = (float) MillimeterValue.newInstance(millimeterY).toPoint();
-        float width = (float) MillimeterValue.newInstance(millimeterWidth).toPoint();
-        float height = (float) MillimeterValue.newInstance(millimeterHeight).toPoint();
+        float x = MillimeterValue.newInstance(millimeterX).toPoint();
+        float y = MillimeterValue.newInstance(millimeterY).toPoint();
+        float width = MillimeterValue.newInstance(millimeterWidth).toPoint();
+        float height = MillimeterValue.newInstance(millimeterHeight).toPoint();
         NW7Writer nw7Writer = new NW7Writer(barcode, this.graphics2D);
         nw7Writer.write(x, y, width, height);
     }
@@ -628,10 +628,10 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterHeight
      */
     protected void printJAN13(String barcode, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        float x = (float) MillimeterValue.newInstance(millimeterX).toPoint();
-        float y = (float) MillimeterValue.newInstance(millimeterY).toPoint();
-        float width = (float) MillimeterValue.newInstance(millimeterWidth).toPoint();
-        float height = (float) MillimeterValue.newInstance(millimeterHeight).toPoint();
+        float x = MillimeterValue.newInstance(millimeterX).toPoint();
+        float y = MillimeterValue.newInstance(millimeterY).toPoint();
+        float width = MillimeterValue.newInstance(millimeterWidth).toPoint();
+        float height = MillimeterValue.newInstance(millimeterHeight).toPoint();
         JAN13Writer jan13Writer = new JAN13Writer(barcode, this.graphics2D);
         jan13Writer.write(x, y, width, height);
     }
@@ -644,8 +644,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterY 
      */
     protected void setRotate(int angle, float millimeterX, float millimeterY) {
-        float x = (float) MillimeterValue.newInstance(millimeterX).toPoint();
-        float y = (float) MillimeterValue.newInstance(millimeterY).toPoint();
+        float x = MillimeterValue.newInstance(millimeterX).toPoint();
+        float y = MillimeterValue.newInstance(millimeterY).toPoint();
         this.graphics2D.rotate(Math.toRadians(angle), x, y);
     }
     

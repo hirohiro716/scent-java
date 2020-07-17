@@ -92,7 +92,7 @@ public abstract class ListSelectControl<T> extends Control {
                 int height = control.getItemHeight();
                 control.graphics.setFont(control.getFont());
                 GraphicalString graphicalString = new GraphicalString(label.getText(), control.graphics);
-                int width = graphicalString.createDimension().width + control.getItemHeight();
+                int width = (int) graphicalString.createDimension().getWidth() + control.getItemHeight();
                 label.setSize(width, height);
                 int padding = (int) (height * 0.32);
                 label.setPadding(0, padding);

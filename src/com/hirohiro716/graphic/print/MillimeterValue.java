@@ -13,20 +13,20 @@ public class MillimeterValue {
      * 
      * @param millimeter
      */
-    public MillimeterValue(double millimeter) {
+    public MillimeterValue(float millimeter) {
         this.millimeter = millimeter;
     }
     
-    private static final double MILLIMETER_TO_POINT_RATIO = 72.0 / 25.4;
+    private static final float MILLIMETER_TO_POINT_RATIO = 72.0f / 25.4f;
     
-    private double millimeter = 0;
+    private float millimeter = 0;
     
     /**
-     * ミリメートル単位の値をdoubleで取得する。
+     * ミリメートル単位の値をfloatで取得する。
      * 
      * @return 結果。
      */
-    public double get() {
+    public float get() {
         return this.millimeter;
     }
     
@@ -35,7 +35,7 @@ public class MillimeterValue {
      * 
      * @return 結果。
      */
-    public double toPoint() {
+    public float toPoint() {
         return this.millimeter * MillimeterValue.MILLIMETER_TO_POINT_RATIO;
     }
 
@@ -45,7 +45,7 @@ public class MillimeterValue {
      * @param millimeter
      * @return 結果。
      */
-    public static MillimeterValue newInstance(double millimeter) {
+    public static MillimeterValue newInstance(float millimeter) {
         return new MillimeterValue(millimeter);
     }
     
@@ -55,7 +55,7 @@ public class MillimeterValue {
      * @param point
      * @return 結果。
      */
-    public static MillimeterValue fromPoint(double point) {
+    public static MillimeterValue fromPoint(float point) {
         return new MillimeterValue(point / MillimeterValue.MILLIMETER_TO_POINT_RATIO);
     }
 }

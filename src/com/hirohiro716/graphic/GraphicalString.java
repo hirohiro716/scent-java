@@ -1,6 +1,5 @@
 package com.hirohiro716.graphic;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -163,12 +162,12 @@ public class GraphicalString {
                 }
             }
             lines.add(stringObject.toString());
-            double width = 0;
-            double height = 0;
+            float width = 0;
+            float height = 0;
             for (String line : lines) {
                 Rectangle2D rectangle = fontMetrics.getStringBounds(line, this.graphics2D);
                 if (width < rectangle.getWidth()) {
-                    width = rectangle.getWidth();
+                    width = (float) rectangle.getWidth();
                 }
                 if (height > 0) {
                     height += this.getLeading();
@@ -215,8 +214,7 @@ public class GraphicalString {
     public Dimension createDimension() {
         Font font = this.graphics2D.getFont();
         Layout layout = this.createLayout();
-        Dimension dimension = new Dimension();
-        dimension.setSize(layout.getWidth(), layout.getHeight());
+        Dimension dimension = new Dimension(layout.getWidth(), layout.getHeight());
         this.graphics2D.setFont(font);
         return dimension;
     }
@@ -252,8 +250,7 @@ public class GraphicalString {
             this.graphics2D.drawString(oneLine, drawingX, y);
             break;
         }
-        Dimension dimension = new Dimension();
-        dimension.setSize(rectangle.getWidth(), fontMetrics.getAscent() + fontMetrics.getDescent() + this.getLeading());
+        Dimension dimension = new Dimension((float) rectangle.getWidth(), fontMetrics.getAscent() + fontMetrics.getDescent() + this.getLeading());
         return dimension;
     }
     
@@ -312,8 +309,7 @@ public class GraphicalString {
             }
             break;
         }
-        Dimension dimension = new Dimension();
-        dimension.setSize(layout.getWidth(), layout.getHeight());
+        Dimension dimension = new Dimension(layout.getWidth(), layout.getHeight());
         this.graphics2D.setFont(defaultFont);
         return dimension;
     }
@@ -410,7 +406,7 @@ public class GraphicalString {
          * @param width 描画するすべての行の最大の幅。
          * @param height 描画するすべての行の高さ。
          */
-        public Layout(String[] lines, Font font, double width, double height) {
+        public Layout(String[] lines, Font font, float width, float height) {
             this.lines = lines;
             this.width = width;
             this.height = height;
@@ -439,25 +435,25 @@ public class GraphicalString {
             return this.font;
         }
         
-        private double width;
+        private float width;
         
         /**
          * 描画するすべての行の最大の幅を取得する。
          * 
          * @return 結果。
          */
-        public double getWidth() {
+        public float getWidth() {
             return this.width;
         }
         
-        private double height;
+        private float height;
         
         /**
          * 描画するすべての行の高さを取得する。
          * 
          * @return 結果。
          */
-        public double getHeight() {
+        public float getHeight() {
             return this.height;
         }
     }

@@ -274,10 +274,10 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
             int maximumWidth = this.instantMessage.owner.getWidth() - paddingX * 4;
             GraphicalString graphicalString = new GraphicalString(this.instantMessage.text, graphics2D);
             graphicalString.setMaximumWidth(maximumWidth);
-            Dimension textSize = graphicalString.createDimension();
+            com.hirohiro716.graphic.Dimension textSize = graphicalString.createDimension();
             // Calculate window size
-            int windowWidth = textSize.width + paddingX * 2;
-            int windowHeight = textSize.height + paddingY * 2;
+            int windowWidth = (int) textSize.getWidth() + paddingX * 2;
+            int windowHeight = (int) textSize.getHeight() + paddingY * 2;
             if (windowWidth != this.getWidth() || windowHeight != this.getHeight()) {
                 this.setSize(windowWidth, windowHeight);
                 this.instantMessage.updateLocation();
@@ -293,7 +293,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
             graphics2D.setColor(this.instantMessage.foregroundColor);
             graphicalString.setHorizontalPosition(HorizontalPosition.LEFT);
             graphicalString.setVerticalPosition(VerticalPosition.CENTER);
-            graphicalString.drawInBox(paddingX, paddingY, textSize.width, textSize.height);
+            graphicalString.drawInBox(paddingX, paddingY, textSize.getWidth(), textSize.getHeight());
         }
     }
     
