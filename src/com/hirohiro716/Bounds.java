@@ -1,11 +1,10 @@
-package com.hirohiro716.gui;
+package com.hirohiro716;
 
-import com.hirohiro716.StringObject;
 import com.hirohiro716.io.json.JSONNumber;
 import com.hirohiro716.io.json.JSONObject;
 
 /**
- * コンポーネントの位置とサイズのクラス。
+ * 位置とサイズのクラス。
  * 
  * @author hiro
  *
@@ -94,7 +93,7 @@ public class Bounds {
      * 
      * @param x
      */
-    protected void setX(int x) {
+    public void setX(int x) {
         this.x = x;
     }
     
@@ -114,7 +113,7 @@ public class Bounds {
      * 
      * @param y
      */
-    protected void setY(int y) {
+    public void setY(int y) {
         this.y = y;
     }
     
@@ -134,7 +133,7 @@ public class Bounds {
      * 
      * @param width
      */
-    protected void setWidth(int width) {
+    public void setWidth(int width) {
         this.width = width;
     }
     
@@ -154,7 +153,7 @@ public class Bounds {
      * 
      * @param height
      */
-    protected void setHeight(int height) {
+    public void setHeight(int height) {
         this.height = height;
     }
     

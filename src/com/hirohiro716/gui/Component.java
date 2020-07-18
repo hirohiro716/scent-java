@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hirohiro716.Bounds;
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.InnerInstanceCreator;
 import com.hirohiro716.image.Image;
