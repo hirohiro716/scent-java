@@ -1,8 +1,8 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.graphic.ColorCreator;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;

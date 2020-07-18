@@ -20,7 +20,7 @@ public class Bounds {
      * @param width
      * @param height
      */
-    public Bounds(int x, int y, int width, int height) {
+    public Bounds(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -46,16 +46,16 @@ public class Bounds {
                 JSONNumber jsonNumber = (JSONNumber) json.getContent().get(key);
                 switch (key) {
                 case "x":
-                    this.x = jsonNumber.getContent().intValue();
+                    this.x = jsonNumber.getContent().floatValue();
                     break;
                 case "y":
-                    this.y = jsonNumber.getContent().intValue();
+                    this.y = jsonNumber.getContent().floatValue();
                     break;
                 case "width":
-                    this.width = jsonNumber.getContent().intValue();
+                    this.width = jsonNumber.getContent().floatValue();
                     break;
                 case "height":
-                    this.height = jsonNumber.getContent().intValue();
+                    this.height = jsonNumber.getContent().floatValue();
                     break;
                 }
             } catch (Exception exception) {
@@ -77,15 +77,34 @@ public class Bounds {
         return string.toString();
     }
 
-    private int x;
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Bounds) {
+            Bounds bounds = (Bounds) object;
+            return this.getX() == bounds.getX() && this.getY() == bounds.getY()
+                    && this.getWidth() == bounds.getWidth() && this.getHeight() == bounds.getHeight();
+        }
+        return super.equals(object);
+    }
+
+    private float x;
     
     /**
      * 水平方向位置を取得する。
      * 
      * @return 結果。
      */
-    public int getX() {
+    public float getX() {
         return this.x;
+    }
+
+    /**
+     * 水平方向位置を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getIntegerX() {
+        return (int) this.x;
     }
     
     /**
@@ -93,19 +112,28 @@ public class Bounds {
      * 
      * @param x
      */
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
     
-    private int y;
+    private float y;
     
     /**
      * 垂直方向位置を取得する。
      * 
      * @return 結果。
      */
-    public int getY() {
+    public float getY() {
         return this.y;
+    }
+
+    /**
+     * 垂直方向位置を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getIntegerY() {
+        return (int) this.y;
     }
     
     /**
@@ -113,19 +141,28 @@ public class Bounds {
      * 
      * @param y
      */
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
     
-    private int width;
+    private float width;
     
     /**
      * 幅を取得する。
      * 
      * @return 結果。
      */
-    public int getWidth() {
+    public float getWidth() {
         return this.width;
+    }
+
+    /**
+     * 幅を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getIntegerWidth() {
+        return (int) this.width;
     }
     
     /**
@@ -133,19 +170,28 @@ public class Bounds {
      * 
      * @param width
      */
-    public void setWidth(int width) {
+    public void setWidth(float width) {
         this.width = width;
     }
     
-    private int height;
+    private float height;
     
     /**
      * 高さを取得する。
      * 
      * @return 結果。
      */
-    public int getHeight() {
+    public float getHeight() {
         return this.height;
+    }
+
+    /**
+     * 高さを取得する。
+     * 
+     * @return 結果。
+     */
+    public int getIntegerHeight() {
+        return (int) this.height;
     }
     
     /**
@@ -153,7 +199,7 @@ public class Bounds {
      * 
      * @param height
      */
-    public void setHeight(int height) {
+    public void setHeight(float height) {
         this.height = height;
     }
     

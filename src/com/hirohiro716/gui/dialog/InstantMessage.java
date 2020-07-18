@@ -1,7 +1,6 @@
 package com.hirohiro716.gui.dialog;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -13,6 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JPanel;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.graphic.GraphicalString;
 import com.hirohiro716.graphic.GraphicalString.HorizontalPosition;
 import com.hirohiro716.graphic.GraphicalString.VerticalPosition;
@@ -274,7 +274,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
             int maximumWidth = this.instantMessage.owner.getWidth() - paddingX * 4;
             GraphicalString graphicalString = new GraphicalString(this.instantMessage.text, graphics2D);
             graphicalString.setMaximumWidth(maximumWidth);
-            com.hirohiro716.graphic.Dimension textSize = graphicalString.createDimension();
+            com.hirohiro716.Dimension textSize = graphicalString.createDimension();
             // Calculate window size
             int windowWidth = (int) textSize.getWidth() + paddingX * 2;
             int windowHeight = (int) textSize.getHeight() + paddingY * 2;

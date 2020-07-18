@@ -1,7 +1,6 @@
 package com.hirohiro716.gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -12,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.ExceptionMessenger;
 import com.hirohiro716.Regex;
 import com.hirohiro716.gui.collection.AddListener;

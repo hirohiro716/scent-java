@@ -1,6 +1,5 @@
 package com.hirohiro716.gui.control;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.GUI;

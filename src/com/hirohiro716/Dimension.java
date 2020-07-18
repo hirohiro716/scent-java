@@ -1,6 +1,5 @@
-package com.hirohiro716.graphic;
+package com.hirohiro716;
 
-import com.hirohiro716.StringObject;
 import com.hirohiro716.io.json.JSONNumber;
 import com.hirohiro716.io.json.JSONObject;
 
@@ -64,6 +63,15 @@ public class Dimension {
         return string.toString();
     }
     
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Dimension) {
+            Dimension dimension = (Dimension) object;
+            return this.getWidth() == dimension.getWidth() && this.getHeight() == dimension.getHeight();
+        }
+        return super.equals(object);
+    }
+
     private float width;
     
     /**
@@ -74,13 +82,22 @@ public class Dimension {
     public float getWidth() {
         return this.width;
     }
+
+    /**
+     * 幅を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getIntegerWidth() {
+        return (int) this.width;
+    }
     
     /**
      * 幅をセットする。
      * 
      * @param width
      */
-    protected void setWidth(float width) {
+    public void setWidth(float width) {
         this.width = width;
     }
     
@@ -94,13 +111,22 @@ public class Dimension {
     public float getHeight() {
         return this.height;
     }
+
+    /**
+     * 高さを取得する。
+     * 
+     * @return 結果。
+     */
+    public int getIntegerHeight() {
+        return (int) this.height;
+    }
     
     /**
      * 高さをセットする。
      * 
      * @param height
      */
-    protected void setHeight(float height) {
+    public void setHeight(float height) {
         this.height = height;
     }
     

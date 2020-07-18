@@ -1,9 +1,9 @@
 package com.hirohiro716.gui.dialog;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.VerticalAlignment;
@@ -128,7 +128,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 MessageableDialog<R> dialog = MessageableDialog.this;
-                dialog.labelOfMessage.setMaximumWidth(changedValue.width);
+                dialog.labelOfMessage.setMaximumWidth(changedValue.getIntegerWidth());
             }
         });
         this.labelOfMessage.setText(this.getMessage());

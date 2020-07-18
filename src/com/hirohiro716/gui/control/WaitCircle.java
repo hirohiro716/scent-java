@@ -1,11 +1,11 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.event.ChangeListener;
@@ -50,7 +50,7 @@ public class WaitCircle extends Control {
         @Override
         protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
             WaitCircle waitCircle = WaitCircle.this;
-            waitCircle.getInnerInstance().setCircleSize(changedValue.width / 12d * 5, changedValue.height / 12d * 5, (int) (changedValue.width / 12d * 2), (int) (changedValue.height / 12d * 2));
+            waitCircle.getInnerInstance().setCircleSize(changedValue.getWidth() / 12d * 5, changedValue.getHeight() / 12d * 5, (int) (changedValue.getWidth() / 12d * 2), (int) (changedValue.getHeight() / 12d * 2));
         }
     };
     

@@ -1,12 +1,12 @@
 package com.hirohiro716.gui.dialog;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.hirohiro716.Array;
+import com.hirohiro716.Dimension;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.KeyCode;
@@ -209,7 +209,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
             
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
-                dialog.flowPane.setMaximumWidth(changedValue.width);
+                dialog.flowPane.setMaximumWidth(changedValue.getIntegerWidth());
             }
         });
         for (T item : this.pickableItems) {

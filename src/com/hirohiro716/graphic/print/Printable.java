@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.graphic.ColorCreator;
-import com.hirohiro716.graphic.Dimension;
 import com.hirohiro716.graphic.FontCreator;
 import com.hirohiro716.graphic.GraphicalString;
 import com.hirohiro716.graphic.JAN13Writer;

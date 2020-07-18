@@ -1,7 +1,6 @@
 package com.hirohiro716.gui.dialog;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -10,6 +9,7 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;

@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.StringObject;
 
 /**

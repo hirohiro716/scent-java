@@ -1,7 +1,6 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -13,6 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
@@ -134,8 +134,8 @@ public abstract class Control extends Component<JComponent> {
      * このコンポーネントがGUIライブラリによって自動調整されたサイズを更に調整する。
      */
     protected void adjustSize() {
-        Dimension minimumSize = this.getInnerInstanceForLayout().getMinimumSize();
-        Dimension maximumSize = this.getInnerInstanceForLayout().getMaximumSize();
+        java.awt.Dimension minimumSize = this.getInnerInstanceForLayout().getMinimumSize();
+        java.awt.Dimension maximumSize = this.getInnerInstanceForLayout().getMaximumSize();
         String sizeString = StringObject.join(minimumSize, ":", maximumSize).toString();
         if (sizeString.equals(this.sizeStringOfAdjustSize)) {
             if (this.numberOfAdjustSize > 8) {

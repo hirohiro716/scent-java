@@ -1,10 +1,10 @@
 package com.hirohiro716.gui;
 
 import java.awt.Dialog.ModalityType;
-import java.awt.Dimension;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
 import com.hirohiro716.gui.event.ChangeListener;
@@ -34,13 +34,13 @@ public class ChildWindow extends Frame<JDialog> {
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 Dimension maximumSize = window.getMaximumSize();
-                if (changedValue.width > maximumSize.width) {
-                    window.setWidth(maximumSize.width);
+                if (changedValue.getWidth() > maximumSize.getWidth()) {
+                    window.setWidth(maximumSize.getIntegerWidth());
                     window.setResizable(false);
                     window.createResizableThread().start();
                 }
-                if (changedValue.height > maximumSize.height) {
-                    window.setHeight(maximumSize.height);
+                if (changedValue.getHeight() > maximumSize.getHeight()) {
+                    window.setHeight(maximumSize.getIntegerHeight());
                     window.setResizable(false);
                     window.createResizableThread().start();
                 }
@@ -100,14 +100,23 @@ public class ChildWindow extends Frame<JDialog> {
         this.getInnerInstance().setTitle(title);
     }
     
+    private Dimension maximumSize = null;
+    
     @Override
     public Dimension getMaximumSize() {
-        return this.getInnerInstance().getMaximumSize();
+        if (this.maximumSize == null) {
+            java.awt.Dimension awtDimension = this.getInnerInstance().getMaximumSize();
+            this.maximumSize = new Dimension(awtDimension.width, awtDimension.height);
+        }
+        return this.maximumSize;
+
     }
     
     @Override
     public void setMaximumSize(Dimension dimension) {
-        this.getInnerInstance().setMaximumSize(dimension);
+        this.maximumSize = dimension;
+        java.awt.Dimension awtDimension = new java.awt.Dimension(dimension.getIntegerWidth(), dimension.getIntegerHeight());
+        this.getInnerInstance().setMaximumSize(awtDimension);
     }
     
     @Override

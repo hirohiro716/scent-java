@@ -1,7 +1,6 @@
 package com.hirohiro716.gui.control.table;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
@@ -15,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import com.hirohiro716.Array;
+import com.hirohiro716.Dimension;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.GUI;
@@ -83,9 +83,9 @@ public abstract class EditableTable<C, R> extends Control {
             
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
-                headerScrollPane.setMinimumHeight(changedValue.height);
+                headerScrollPane.setMinimumHeight(changedValue.getIntegerHeight());
                 for (Pane controlPane : editableTable.rowControlPanes) {
-                    controlPane.setWidth(changedValue.width);
+                    controlPane.setWidth(changedValue.getIntegerWidth());
                     controlPane.getInnerInstance().doLayout();
                 }
             }
@@ -551,7 +551,7 @@ public abstract class EditableTable<C, R> extends Control {
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 for (Map<C, Control> controls : editableTable.mapOfRowControlMap.values()) {
                     Control control = controls.get(columnInstance);
-                    editableTable.setControlWidth(control, changedValue.width);
+                    editableTable.setControlWidth(control, changedValue.getIntegerWidth());
                     control.getInnerInstanceForLayout().doLayout();
                 }
             }

@@ -1,11 +1,11 @@
 package com.hirohiro716.gui.dialog;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.UIManager;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.graphic.ColorCreator;
 import com.hirohiro716.graphic.FontCreator;
 import com.hirohiro716.gui.Border;
@@ -121,7 +121,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
                 AnchorPane pane = dialog.getPane();
                 int padding = pane.getFont().getSize() * 4;
-                dialog.verticalPane.setWidth(changedValue.width - padding);
+                dialog.verticalPane.setWidth(changedValue.getIntegerWidth() - padding);
             }
         });
         // Change anchor when other control resizing

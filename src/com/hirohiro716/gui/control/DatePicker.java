@@ -1,7 +1,6 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.text.DateFormat;
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.datetime.Datetime;
 import com.hirohiro716.datetime.Datetime.DayOfWeek;

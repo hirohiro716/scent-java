@@ -1,6 +1,5 @@
 package com.hirohiro716.gui;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -9,6 +8,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
 import com.hirohiro716.gui.event.EventHandler;
@@ -85,18 +85,24 @@ public class Window extends Frame<JFrame> {
     public void setTitle(String title) {
         this.getInnerInstance().setTitle(title);
     }
+
+    private Dimension maximumSize = new Dimension();
     
     @Override
     public Dimension getMaximumSize() {
+        java.awt.Dimension awtDimension = this.getInnerInstance().getMaximumSize();
         if (this.getInnerInstance().getMaximizedBounds() != null) {
-            return this.getInnerInstance().getMaximizedBounds().getSize();
+            awtDimension = this.getInnerInstance().getMaximizedBounds().getSize();
         }
-        return this.getInnerInstance().getMaximumSize();
+        this.maximumSize.setWidth(awtDimension.width);
+        this.maximumSize.setHeight(awtDimension.height);
+        return this.maximumSize;
     }
 
     @Override
     public void setMaximumSize(Dimension dimension) {
-        this.getInnerInstance().setMaximizedBounds(new Rectangle(dimension));
+        this.maximumSize = dimension;
+        this.getInnerInstance().setMaximizedBounds(new Rectangle(dimension.getIntegerWidth(), dimension.getIntegerHeight()));
     }
     
     @Override

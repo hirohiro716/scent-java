@@ -1,7 +1,6 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.hirohiro716.Array;
+import com.hirohiro716.Dimension;
 import com.hirohiro716.Regex;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.graphic.FontCreator;
