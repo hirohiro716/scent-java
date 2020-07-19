@@ -122,6 +122,9 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
      */
     public void add(Object value) {
         JSONValue<?> jsonValue = null;
+        if (value instanceof JSONValue<?>) {
+            jsonValue = (JSONValue<?>) value;
+        }
         if (value instanceof String || value instanceof StringObject) {
             jsonValue = new JSONString();
             JSONString jsonString = (JSONString) jsonValue;
@@ -150,7 +153,7 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
         jsonArray.setContent(value);
         this.getContent().add(jsonArray);
     }
-
+    
     /**
      * この配列の中に連想配列を追加する。
      * 

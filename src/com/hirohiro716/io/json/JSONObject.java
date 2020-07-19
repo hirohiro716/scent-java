@@ -147,6 +147,9 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
      */
     public void put(String key, Object value) {
         JSONValue<?> jsonValue = null;
+        if (value instanceof JSONValue<?>) {
+            jsonValue = (JSONValue<?>) value;
+        }
         if (value instanceof String || value instanceof StringObject) {
             jsonValue = new JSONString();
             JSONString jsonString = (JSONString) jsonValue;
