@@ -60,7 +60,7 @@ public class DatePicker extends TextField {
 
             @Override
             protected void handle(MouseEvent event) {
-                if (textField.popup.isVisible()) {
+                if (textField.popup != null && textField.popup.isVisible()) {
                     textField.hidePopup();
                 } else {
                     textField.selectAll();

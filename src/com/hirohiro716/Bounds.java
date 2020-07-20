@@ -28,13 +28,6 @@ public class Bounds {
     }
     
     /**
-     * コンストラクタ。
-     */
-    public Bounds() {
-        this(0, 0, 0, 0);
-    }
-    
-    /**
      * コンストラクタ。<br>
      * 水平方向位置、垂直方向位置、幅、高さをJSONで指定する。
      * 
@@ -112,7 +105,7 @@ public class Bounds {
      * 
      * @param x
      */
-    public void setX(float x) {
+    protected void setX(float x) {
         this.x = x;
     }
     
@@ -141,7 +134,7 @@ public class Bounds {
      * 
      * @param y
      */
-    public void setY(float y) {
+    protected void setY(float y) {
         this.y = y;
     }
     
@@ -170,7 +163,7 @@ public class Bounds {
      * 
      * @param width
      */
-    public void setWidth(float width) {
+    protected void setWidth(float width) {
         this.width = width;
     }
     
@@ -199,7 +192,7 @@ public class Bounds {
      * 
      * @param height
      */
-    public void setHeight(float height) {
+    protected void setHeight(float height) {
         this.height = height;
     }
     

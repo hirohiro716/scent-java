@@ -131,7 +131,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
                 dialog.labelOfMessage.setMaximumWidth(changedValue.getIntegerWidth());
             }
         });
-        this.labelOfMessage.setText(this.getMessage());
+        this.labelOfMessage.setText(this.message);
     }
     
     /**

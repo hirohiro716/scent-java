@@ -86,7 +86,7 @@ public class Window extends Frame<JFrame> {
         this.getInnerInstance().setTitle(title);
     }
 
-    private Dimension maximumSize = new Dimension();
+    private Dimension maximumSize = new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     
     @Override
     public Dimension getMaximumSize() {
@@ -94,8 +94,9 @@ public class Window extends Frame<JFrame> {
         if (this.getInnerInstance().getMaximizedBounds() != null) {
             awtDimension = this.getInnerInstance().getMaximizedBounds().getSize();
         }
-        this.maximumSize.setWidth(awtDimension.width);
-        this.maximumSize.setHeight(awtDimension.height);
+        if (this.maximumSize.getWidth() != awtDimension.getWidth() || this.maximumSize.getHeight() != awtDimension.getHeight()) {
+            this.maximumSize = new Dimension(awtDimension.width, awtDimension.height);
+        }
         return this.maximumSize;
     }
 

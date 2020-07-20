@@ -1,9 +1,14 @@
 package com.hirohiro716.gui.control;
 
+import java.awt.Font;
+import java.awt.Graphics2D;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import com.hirohiro716.Dimension;
 import com.hirohiro716.IdentifiableEnum;
+import com.hirohiro716.graphic.GraphicalString;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.VerticalAlignment;
@@ -72,6 +77,45 @@ public class Label extends LabeledControl {
         this.getInnerInstance().setText(text);
     }
     
+    /**
+     * このラベルに設定されているテキストに合わせてサイズを自動調整する。
+     */
+    public void adjustSizeToFitText() {
+        Graphics2D graphics2D = GraphicalString.createGraphics2D();
+        Font font = this.getFont();
+        graphics2D.setFont(font);
+        GraphicalString graphicalString = new GraphicalString(this.getText(), graphics2D);
+        graphicalString.setMaximumWidth(this.getMaximumWidth());
+        graphicalString.setMaximumHeight(this.getMaximumHeight());
+        Dimension dimension = graphicalString.createDimension();
+        this.setWidthToInnerInstance(dimension.getIntegerWidth() + this.getPadding().getLeft() + this.getPadding().getRight());
+        this.setHeightToInnerInstance(dimension.getIntegerHeight() + this.getPadding().getTop() + this.getPadding().getBottom());
+    }
+    
+    @Override
+    public void setText(String text) {
+        super.setText(text);
+        if (this.isAlreadySetSize == false) {
+            this.adjustSizeToFitText();
+        }
+    }
+    
+    private boolean isAlreadySetSize = false;
+
+    @Override
+    public void setSize(Dimension dimension) {
+        super.setSize(dimension);
+        this.isAlreadySetSize = true;
+    }
+
+    @Override
+    public void setMaximumSize(Dimension dimension) {
+        super.setMaximumSize(dimension);
+        if (this.isAlreadySetSize == false) {
+            this.adjustSizeToFitText();
+        }
+    }
+
     @Override
     public HorizontalAlignment getTextHorizontalAlignment() {
         switch (this.getInnerInstance().getHorizontalAlignment()) {

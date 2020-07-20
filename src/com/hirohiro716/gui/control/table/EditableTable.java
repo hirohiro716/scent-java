@@ -516,8 +516,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param width
      */
     private void setControlWidth(Control control, int width) {
-        control.setMinimumWidth(width);
-        control.setMaximumWidth(width);
+        control.setMinimumWidth(width - 4);
         control.setWidth(width);
     }
     
@@ -538,8 +537,9 @@ public abstract class EditableTable<C, R> extends Control {
         this.rowIndex = 0;
         // Header label
         Label label = new Label(columnInstance.toString());
-        label.setWidth(this.defaultColumnWidth);
-        label.setPadding(label.getFont().getSize());
+        int headerHeight = this.getFont().getSize() * 3;
+        label.setSize(this.defaultColumnWidth, headerHeight);
+        label.setMaximumHeight(headerHeight);
         label.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
         label.setFont(this.getFont());
         if (this.columnInstances.size() > 0) {
@@ -553,6 +553,7 @@ public abstract class EditableTable<C, R> extends Control {
                     Control control = controls.get(columnInstance);
                     editableTable.setControlWidth(control, changedValue.getIntegerWidth());
                     control.getInnerInstanceForLayout().doLayout();
+                    control.getParent().updateLayout();
                 }
             }
         });

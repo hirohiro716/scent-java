@@ -134,8 +134,8 @@ public abstract class Control extends Component<JComponent> {
      * このコンポーネントがGUIライブラリによって自動調整されたサイズを更に調整する。
      */
     protected void adjustSize() {
-        java.awt.Dimension minimumSize = this.getInnerInstanceForLayout().getMinimumSize();
-        java.awt.Dimension maximumSize = this.getInnerInstanceForLayout().getMaximumSize();
+        Dimension minimumSize = this.getMinimumSize();
+        Dimension maximumSize = this.getMaximumSize();
         String sizeString = StringObject.join(minimumSize, ":", maximumSize).toString();
         if (sizeString.equals(this.sizeStringOfAdjustSize)) {
             if (this.numberOfAdjustSize > 8) {
@@ -146,26 +146,26 @@ public abstract class Control extends Component<JComponent> {
             this.numberOfAdjustSize = 0;
         }
         if (this.getWidth() > 0) {
-            if (this.getWidth() < minimumSize.width && minimumSize.width < maximumSize.width) {
-                this.setWidthToInnerInstance(minimumSize.width);
+            if (this.getWidth() < minimumSize.getWidth() && minimumSize.getWidth() < maximumSize.getWidth()) {
+                this.setWidthToInnerInstance(minimumSize.getIntegerWidth());
                 this.numberOfAdjustSize++;
                 return;
             }
         }
         if (this.getHeight() > 0) {
-            if (this.getHeight() < minimumSize.height && minimumSize.height < maximumSize.height) {
-                this.setHeightToInnerInstance(minimumSize.height);
+            if (this.getHeight() < minimumSize.getHeight() && minimumSize.getHeight() < maximumSize.getHeight()) {
+                this.setHeightToInnerInstance(minimumSize.getIntegerHeight());
                 this.numberOfAdjustSize++;
                 return;
             }
         }
-        if (this.getWidth() > maximumSize.width && minimumSize.width < maximumSize.width) {
-            this.setWidthToInnerInstance(maximumSize.width);
+        if (this.getWidth() > maximumSize.getWidth() && minimumSize.getWidth() < maximumSize.getWidth()) {
+            this.setWidthToInnerInstance(maximumSize.getIntegerWidth());
             this.numberOfAdjustSize++;
             return;
         }
-        if (this.getHeight() > maximumSize.height && minimumSize.height < maximumSize.height) {
-            this.setHeightToInnerInstance(maximumSize.height);
+        if (this.getHeight() > maximumSize.getHeight() && minimumSize.getHeight() < maximumSize.getHeight()) {
+            this.setHeightToInnerInstance(maximumSize.getIntegerHeight());
             this.numberOfAdjustSize++;
             return;
         }

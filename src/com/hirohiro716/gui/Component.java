@@ -181,7 +181,7 @@ public abstract class Component<T extends java.awt.Component> {
         return null;
     }
     
-    private Dimension size = new Dimension();
+    private Dimension size = new Dimension(0, 0);
     
     /**
      * このコンポーネントのサイズを取得する。
@@ -189,9 +189,10 @@ public abstract class Component<T extends java.awt.Component> {
      * @return 結果。
      */
     public Dimension getSize() {
-        java.awt.Dimension dimension = this.getInnerInstanceForLayout().getSize();
-        this.size.setWidth(dimension.width);
-        this.size.setHeight(dimension.height);
+        java.awt.Dimension awtDimension = this.getInnerInstanceForLayout().getSize();
+        if (this.size.getWidth() != awtDimension.getWidth() || this.size.getHeight() != awtDimension.getHeight()) {
+            this.size = new Dimension(awtDimension.width, awtDimension.height);
+        }
         return this.size;
     }
     
@@ -435,7 +436,7 @@ public abstract class Component<T extends java.awt.Component> {
         this.setMaximumSize(this.getMaximumWidth(), height);
     }
     
-    private Bounds bounds = new Bounds();
+    private Bounds bounds = new Bounds(0, 0, 0, 0);
     
     /**
      * このコンポーネントの位置とサイズを取得する。
@@ -443,10 +444,10 @@ public abstract class Component<T extends java.awt.Component> {
      * @return 結果。
      */
     public Bounds getBounds() {
-        this.bounds.setX(this.getX());
-        this.bounds.setY(this.getY());
-        this.bounds.setWidth(this.getWidth());
-        this.bounds.setHeight(this.getHeight());
+        if (this.bounds.getX() != this.getX() || this.bounds.getY() != this.getY()
+                || this.bounds.getWidth() != this.getWidth() || this.bounds.getHeight() != this.getHeight()) {
+            this.bounds = new Bounds(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        }
         return this.bounds;
     }
     
@@ -479,10 +480,7 @@ public abstract class Component<T extends java.awt.Component> {
      * @param height
      */
     public final void setBounds(int x, int y, int width, int height) {
-        this.bounds.setX(x);
-        this.bounds.setY(y);
-        this.bounds.setWidth(width);
-        this.bounds.setHeight(height);
+        this.bounds = new Bounds(x, y, width, height);
         this.importFromBounds();
     }
     

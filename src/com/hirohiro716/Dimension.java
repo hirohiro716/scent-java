@@ -24,13 +24,6 @@ public class Dimension {
     }
     
     /**
-     * コンストラクタ。
-     */
-    public Dimension() {
-        this(0, 0);
-    }
-    
-    /**
      * コンストラクタ。<br>
      * 幅、高さをJSONで指定する。
      * 
@@ -97,7 +90,7 @@ public class Dimension {
      * 
      * @param width
      */
-    public void setWidth(float width) {
+    protected void setWidth(float width) {
         this.width = width;
     }
     
@@ -126,7 +119,7 @@ public class Dimension {
      * 
      * @param height
      */
-    public void setHeight(float height) {
+    protected void setHeight(float height) {
         this.height = height;
     }
     
