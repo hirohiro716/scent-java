@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import com.hirohiro716.Dimension;
 import com.hirohiro716.gui.control.Control;
-import com.hirohiro716.gui.control.Pane;
+import com.hirohiro716.gui.control.RootPane;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;
 import com.hirohiro716.gui.event.KeyEvent;
@@ -34,7 +34,7 @@ public class Window extends Frame<JFrame> {
         Window window = this;
         this.setSize(400, 300);
         this.setCloseOperation(CloseOperation.DISPOSE);
-        this.rootPane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
+        this.rootPane = new RootPane((JPanel) this.getInnerInstance().getContentPane());
         this.rootPane.setParent(this);
         this.addActivatedEventHandler(new EventHandler<FrameEvent>() {
 
@@ -63,10 +63,10 @@ public class Window extends Frame<JFrame> {
         this(new JFrame());
     }
     
-    private Pane rootPane;
+    private RootPane rootPane;
 
     @Override
-    public Pane getRootPane() {
+    public RootPane getRootPane() {
         return this.rootPane;
     }
     

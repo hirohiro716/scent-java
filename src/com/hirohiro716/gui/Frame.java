@@ -25,9 +25,9 @@ import com.hirohiro716.gui.control.DatePicker;
 import com.hirohiro716.gui.control.DropDownList;
 import com.hirohiro716.gui.control.Label;
 import com.hirohiro716.gui.control.ListView;
-import com.hirohiro716.gui.control.Pane;
 import com.hirohiro716.gui.control.PasswordField;
 import com.hirohiro716.gui.control.RadioButton;
+import com.hirohiro716.gui.control.RootPane;
 import com.hirohiro716.gui.control.TextArea;
 import com.hirohiro716.gui.control.TextField;
 import com.hirohiro716.gui.control.ToggleButton;
@@ -103,7 +103,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * 
      * @return 結果。
      */
-    public abstract Pane getRootPane();
+    public abstract RootPane getRootPane();
     
     /**
      * このフレーム内に表示するコントロールをセットする。

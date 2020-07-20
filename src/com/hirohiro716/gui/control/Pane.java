@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
-import javax.swing.OverlayLayout;
-
 import com.hirohiro716.Array;
 import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.collection.AddListener;
@@ -32,7 +30,7 @@ public class Pane extends Control {
      */
     protected Pane(JPanel innerInstance) {
         super(innerInstance);
-        this.getInnerInstance().setLayout(new OverlayLayout(this.getInnerInstance()));
+        this.getInnerInstance().setLayout(null);
     }
     
     /**
