@@ -3,7 +3,6 @@ package com.hirohiro716.gui.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
 
@@ -27,8 +26,8 @@ public class ContextMenuItem extends LabeledControl {
      * 
      * @param innerInstance
      */
-    protected ContextMenuItem(JComponent innerInstance) {
-        super(innerInstance);
+    protected ContextMenuItem(JMenuItem innerInstance) {
+        super(innerInstance, innerInstance.getText());
         this.setPadding(this.getFont().getSize() / 2);
     }
     
@@ -45,11 +44,6 @@ public class ContextMenuItem extends LabeledControl {
     @Override
     public JMenuItem getInnerInstance() {
         return (JMenuItem) super.getInnerInstance();
-    }
-
-    @Override
-    public String getText() {
-        return this.getInnerInstance().getText();
     }
     
     @Override

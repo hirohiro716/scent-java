@@ -30,17 +30,12 @@ public abstract class MarkableControl extends LabeledControl {
      * @param innerInstance
      */
     protected MarkableControl(AbstractButton innerInstance) {
-        super(innerInstance);
+        super(innerInstance, innerInstance.getText());
     }
     
     @Override
     public AbstractButton getInnerInstance() {
         return (AbstractButton) super.getInnerInstance();
-    }
-    
-    @Override
-    public String getText() {
-        return this.getInnerInstance().getText();
     }
     
     @Override

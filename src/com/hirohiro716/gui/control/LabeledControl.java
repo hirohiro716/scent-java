@@ -17,21 +17,27 @@ public abstract class LabeledControl extends Control {
     
     /**
      * コンストラクタ。<br>
-     * このコンポーネントがラップする、GUIライブラリに依存したインスタンスを指定する。
+     * このコンポーネントがラップする、GUIライブラリに依存したインスタンスと表示するテキストを指定する。
      * 
      * @param innerInstance
+     * @param text
      */
-    protected LabeledControl(JComponent innerInstance) {
+    protected LabeledControl(JComponent innerInstance, String text) {
         super(innerInstance);
         this.setDisableInputMethod(true);
+        this.text = text;
     }
+    
+    private String text;
 
     /**
      * このコントロールに表示されている文字列を取得する。
      * 
      * @return 結果。
      */
-    public abstract String getText();
+    public String getText() {
+        return this.text;
+    }
     
     /**
      * このコンポーネントがラップする、GUIライブラリに依存したインスタンスに対して表示文字列をセットする。
@@ -57,6 +63,7 @@ public abstract class LabeledControl extends Control {
             html.prepend("<html>");
             html.append("</html>");
         }
+        this.text = text;
         this.setTextToInnerInstance(html.toString());
     }
     

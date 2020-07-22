@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hirohiro716.Bounds;
+import com.hirohiro716.Dimension;
 import com.hirohiro716.gui.Border;
+import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.MouseCursor;
+import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.MouseEvent;
 import com.hirohiro716.gui.event.MouseEvent.MouseButton;
@@ -27,11 +30,29 @@ public class MovableLabel extends Label {
      */
     public MovableLabel(String text) {
         super(text);
+        MovableLabel label = this;
         this.setBorder(Border.createLine(GUI.getBorderColor(), 1));
         this.addMouseMovedEventHandler(this.mouseMoveEventHandler);
         this.addMousePressedEventHandler(MouseButton.BUTTON1, this.mousePressedEventHandler);
         this.addMouseReleasedEventHandler(MouseButton.BUTTON1, this.mouseReleasedEventHandler);
         this.addMouseDraggedEventHandler(this.mouseDraggedEventHandler);
+        this.addSizeChangeListener(new ChangeListener<Dimension>() {
+            
+            @Override
+            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
+                if (changedValue.getWidth() < changedValue.getHeight()) {
+                    label.edgeSizeOfResize = changedValue.getIntegerWidth() / 10;
+                } else {
+                    label.edgeSizeOfResize = changedValue.getIntegerHeight() / 10;
+                }
+                if (label.edgeSizeOfResize < 2) {
+                    label.edgeSizeOfResize = 2;
+                }
+                if (label.edgeSizeOfResize > 10) {
+                    label.edgeSizeOfResize = 10;
+                }
+            }
+        });
     }
     
     /**
@@ -41,7 +62,7 @@ public class MovableLabel extends Label {
         this(null);
     }
     
-    private int edgeSizeOfResize = 8;
+    private int edgeSizeOfResize = 10;
     
     private List<Operation> operations = new ArrayList<>();
     
@@ -157,6 +178,9 @@ public class MovableLabel extends Label {
         @Override
         protected void handle(MouseEvent event) {
             MovableLabel label = MovableLabel.this;
+            if (label.isPressedMouseButton == false) {
+                return;
+            }
             int differenceX = event.getScreenX() - label.startScreenPositionX;
             int differenceY = event.getScreenY() - label.startScreenPositionY;
             for (Operation operation : label.operations) {

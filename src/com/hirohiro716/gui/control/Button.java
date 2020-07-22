@@ -30,7 +30,7 @@ public class Button extends LabeledControl {
      * @param innerInstance
      */
     protected Button(JButton innerInstance) {
-        super(innerInstance);
+        super(innerInstance, innerInstance.getText());
     }
     
     /**
@@ -64,11 +64,6 @@ public class Button extends LabeledControl {
     @Override
     public JButton getInnerInstance() {
         return (JButton) super.getInnerInstance();
-    }
-    
-    @Override
-    public String getText() {
-        return this.getInnerInstance().getText();
     }
     
     @Override

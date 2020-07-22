@@ -8,6 +8,7 @@ import javax.swing.SwingConstants;
 
 import com.hirohiro716.Dimension;
 import com.hirohiro716.IdentifiableEnum;
+import com.hirohiro716.graphic.FontCreator;
 import com.hirohiro716.graphic.GraphicalString;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.KeyCode;
@@ -31,7 +32,7 @@ public class Label extends LabeledControl {
      * @param innerInstance
      */
     protected Label(JLabel innerInstance) {
-        super(innerInstance);
+        super(innerInstance, innerInstance.getText());
         innerInstance.setFocusable(false);
     }
 
@@ -68,13 +69,25 @@ public class Label extends LabeledControl {
     }
     
     @Override
-    public String getText() {
-        return this.getInnerInstance().getText();
-    }
-    
-    @Override
     public void setTextToInnerInstance(String text) {
         this.getInnerInstance().setText(text);
+    }
+
+    /**
+     * このラベルのサイズに合わせてフォントを自動調整する。
+     */
+    public void adjustFontToFitSize() {
+        Graphics2D graphics2D = GraphicalString.createGraphics2D();
+        Font font = this.getFont();
+        graphics2D.setFont(FontCreator.create(font, this.getHeight()));
+        GraphicalString graphicalString = new GraphicalString(this.getText(), graphics2D);
+        int maximumWidth = this.getWidth() - 2 - this.getPadding().getLeft() + this.getPadding().getRight();
+        graphicalString.setMaximumWidth(maximumWidth);
+        int maximumHeight = this.getHeight() - this.getPadding().getTop() + this.getPadding().getBottom();
+        graphicalString.setMaximumHeight(maximumHeight);
+        graphicalString.setDisabledMultipleLine(! this.isWrapText());
+        graphicalString.createDimension();
+        this.setFont(graphicalString.getLastAutomaticallyAdjustedFont());
     }
     
     /**
