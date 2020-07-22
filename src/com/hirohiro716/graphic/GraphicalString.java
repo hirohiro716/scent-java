@@ -140,6 +140,26 @@ public class GraphicalString {
         this.leading = null;
     }
     
+    private boolean isDisabledMultipleLine = false;
+    
+    /**
+     * 文字列を描画する際の自動改行が無効になっている場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isDisabledMultipleLine() {
+        return this.isDisabledMultipleLine;
+    }
+    
+    /**
+     * 文字列を描画する際の自動改行を無効にする場合はtrueをセットする。初期値はfalse。
+     * 
+     * @param isDisabledMultipleLine
+     */
+    public void setDisabledMultipleLine(boolean isDisabledMultipleLine) {
+        this.isDisabledMultipleLine = isDisabledMultipleLine;
+    }
+    
     /**
      * 文字列を描画するレイアウトを作成する。
      * 
@@ -155,7 +175,7 @@ public class GraphicalString {
             for (int index = 0; index < this.string.length(); index++) {
                 StringObject one = this.string.clone().extract(index, index + 1);
                 Rectangle2D rectangle = fontMetrics.getStringBounds(stringObject.clone().append(one).toString(), this.graphics2D);
-                if (this.maximumWidth != null && this.maximumWidth < rectangle.getWidth() || one.equals("\n")) {
+                if (this.isDisabledMultipleLine == false && this.maximumWidth != null && this.maximumWidth < rectangle.getWidth() || one.equals("\n")) {
                     lines.add(stringObject.toString());
                     stringObject = one;
                 } else {

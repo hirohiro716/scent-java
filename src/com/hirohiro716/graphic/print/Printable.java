@@ -105,8 +105,6 @@ public abstract class Printable implements java.awt.print.Printable {
         this.graphics2D = (Graphics2D) graphics;
         this.pageFormat = pageFormat;
         this.graphics2D.translate(this.marginLeft, this.marginTop);
-        this.setVerticalPositionOfString(VerticalPosition.TOP);
-        this.setHorizontalPositionOfString(HorizontalPosition.LEFT);
         boolean isExistPage = this.print(pageIndex);
         if (isExistPage) {
             if (this.listOfExistedPage.contains(pageIndex) == false) {
@@ -257,6 +255,27 @@ public abstract class Printable implements java.awt.print.Printable {
         this.leading = null;
     }
     
+    private boolean isDisabledMultipleLine = false;
+    
+    /**
+     * 印刷する文字列の自動改行が無効になっている場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isDisabledMultipleLine() {
+        return this.isDisabledMultipleLine;
+    }
+    
+    /**
+     * 印刷する文字列の自動改行を無効にする場合はtrueをセットする。初期値はfalse。
+     * 
+     * @param isDisabledMultipleLine
+     */
+    public void setDisabledMultipleLine(boolean isDisabledMultipleLine) {
+        this.isDisabledMultipleLine = isDisabledMultipleLine;
+    }
+    
+    
     private HorizontalPosition horizontalPosition = HorizontalPosition.LEFT;
     
     /**
@@ -302,6 +321,7 @@ public abstract class Printable implements java.awt.print.Printable {
         if (this.leading != null) {
             graphicalString.setLeading(this.leading);
         }
+        graphicalString.setDisabledMultipleLine(this.isDisabledMultipleLine);
         Dimension dimension = graphicalString.createDimension();
         this.lastAutomaticallyAdjustedFont = graphicalString.getLastAutomaticallyAdjustedFont();
         dimension = new Dimension(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
@@ -322,6 +342,7 @@ public abstract class Printable implements java.awt.print.Printable {
         if (this.leading != null) {
             graphicalString.setLeading(this.leading);
         }
+        graphicalString.setDisabledMultipleLine(this.isDisabledMultipleLine);
         float maximumWidth = MillimeterValue.newInstance(millimeterMaximumWidth).toPoint();
         float maximumHeight = MillimeterValue.newInstance(millimeterMaximumHeight).toPoint();
         graphicalString.setMaximumWidth(maximumWidth);
@@ -346,6 +367,7 @@ public abstract class Printable implements java.awt.print.Printable {
         if (this.leading != null) {
             graphicalString.setLeading(this.leading);
         }
+        graphicalString.setDisabledMultipleLine(this.isDisabledMultipleLine);
         graphicalString.setHorizontalPosition(this.horizontalPosition);
         graphicalString.setVerticalPosition(this.verticalPosition);
         float x = MillimeterValue.newInstance(millimeterX).toPoint();
@@ -372,6 +394,7 @@ public abstract class Printable implements java.awt.print.Printable {
         if (this.leading != null) {
             graphicalString.setLeading(this.leading);
         }
+        graphicalString.setDisabledMultipleLine(this.isDisabledMultipleLine);
         graphicalString.setHorizontalPosition(this.horizontalPosition);
         graphicalString.setVerticalPosition(this.verticalPosition);
         float width = MillimeterValue.newInstance(millimeterWidth).toPoint();
@@ -383,7 +406,7 @@ public abstract class Printable implements java.awt.print.Printable {
         dimension = new Dimension(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
         return dimension;
     }
-    
+
     /**
      * 印刷に使用する線の幅を設定する。
      * 
