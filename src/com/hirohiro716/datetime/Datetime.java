@@ -537,7 +537,16 @@ public class Datetime implements Cloneable {
         }
         return null;
     }
-    
+
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、現在の時刻を初期値とした新しいインスタンスを作成する。
+     * 
+     * @return 新しいインスタンス。
+     */
+    public static Datetime newInstance() {
+        return new Datetime();
+    }
+
     /**
      * このメソッドはコンストラクタの呼び出しと同じで、<br>
      * 指定されたjava.util.Dateの日時を初期値とした新しいインスタンスを作成する。

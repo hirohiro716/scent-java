@@ -17,8 +17,18 @@ public class RootPane extends Pane {
      * 
      * @param innerInstance
      */
-    public RootPane(JPanel innerInstance) {
+    protected RootPane(JPanel innerInstance) {
         super(innerInstance);
         this.getInnerInstance().setLayout(new OverlayLayout(this.getInnerInstance()));
+    }
+
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param innerInstance GUIライブラリに依存したインスタンス。
+     * @return 新しいインスタンス。
+     */
+    public static RootPane newInstance(JPanel innerInstance) {
+        return new RootPane(innerInstance);
     }
 }

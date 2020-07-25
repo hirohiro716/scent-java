@@ -34,7 +34,7 @@ public class Window extends Frame<JFrame> {
         Window window = this;
         this.setSize(400, 300);
         this.setCloseOperation(CloseOperation.DISPOSE);
-        this.rootPane = new RootPane((JPanel) this.getInnerInstance().getContentPane());
+        this.rootPane = RootPane.newInstance((JPanel) this.getInnerInstance().getContentPane());
         this.rootPane.setParent(this);
         this.addActivatedEventHandler(new EventHandler<FrameEvent>() {
 

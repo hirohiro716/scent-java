@@ -10,6 +10,7 @@ import javax.swing.JWindow;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Pane;
+import com.hirohiro716.gui.control.RootPane;
 
 /**
  * GUIでポップアップを表示するクラス。
@@ -27,7 +28,7 @@ public class Popup extends Component<JWindow> {
      */
     protected Popup(JWindow innerInstance) {
         super(innerInstance, innerInstance);
-        this.pane = Pane.newInstance((JPanel) this.getInnerInstance().getContentPane());
+        this.pane = RootPane.newInstance((JPanel) this.getInnerInstance().getContentPane());
         this.pane.setParent(this);
         this.getInnerInstance().addWindowListener(this.windowListener);
     }

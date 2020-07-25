@@ -262,7 +262,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * 
      * @return 結果。
      */
-    public boolean isDisabledMultipleLine() {
+    protected boolean isDisabledMultipleLine() {
         return this.isDisabledMultipleLine;
     }
     
@@ -271,7 +271,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * 
      * @param isDisabledMultipleLine
      */
-    public void setDisabledMultipleLine(boolean isDisabledMultipleLine) {
+    protected void setDisabledMultipleLine(boolean isDisabledMultipleLine) {
         this.isDisabledMultipleLine = isDisabledMultipleLine;
     }
     
