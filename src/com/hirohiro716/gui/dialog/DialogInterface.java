@@ -20,7 +20,7 @@ public interface DialogInterface {
     
 
     /**
-     * このダイアログのパネルを取得する。
+     * このダイアログのペインを取得する。
      * 
      * @param <P> パネルの型。
      * @return 結果。
