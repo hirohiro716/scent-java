@@ -14,6 +14,7 @@ import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,13 +34,18 @@ import javax.swing.table.TableCellRenderer;
 
 import com.hirohiro716.Array;
 import com.hirohiro716.DynamicArray;
+import com.hirohiro716.StringObject;
 import com.hirohiro716.datetime.Datetime;
+import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.HorizontalAlignment;
+import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.CenterPane;
+import com.hirohiro716.gui.control.ContextMenu;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Label;
+import com.hirohiro716.gui.dialog.InstantMessage;
 import com.hirohiro716.gui.event.ActionEvent;
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.EventHandler;
@@ -226,6 +232,7 @@ public abstract class TableView<C, R> extends Control {
         this.mapTableColumns.put(columnInstance, tableColumn);
         this.mapColumnHorizontalAlignment.put(columnInstance, horizontalAlignment);
         this.tableModel.updateStructure();
+        tableColumn.addHeaderMouseClickedEventHandler(MouseButton.BUTTON3, new HeaderClickedToSortEventHandler(columnInstance));
         return tableColumn;
     }
     
@@ -1216,4 +1223,151 @@ public abstract class TableView<C, R> extends Control {
             this.getJTableHeader().repaint();
         }
     }
+
+    /**
+     * テーブルビューのヘッダーをクリックしてソートするイベントハンドラー。
+     * 
+     * @author hiro
+     *
+     */
+    private class HeaderClickedToSortEventHandler extends EventHandler<MouseEvent> {
+        
+        /**
+         * コンストラクタ。<br>
+         * カラムを識別するインスタンスを指定する。
+         * 
+         * @param columnInstance
+         */
+        protected HeaderClickedToSortEventHandler(C columnInstance) {
+            this.columnInstance = columnInstance;
+        }
+        
+        private C columnInstance;
+        
+        /**
+         * 降順かどうかを指定して並び替えを実行する。
+         * 
+         * @param isDescent
+         */
+        private void sort(boolean isDescent) {
+            TableView<C, R> tableView = TableView.this;
+            HeaderClickedToSortEventHandler handler = this;
+            InstantMessage message = new InstantMessage(tableView.getFrame());
+            message.setText("並び替えを処理しています。");
+            message.show();
+            Thread thread = new Thread(new Runnable() {
+                
+                @Override
+                public void run() {
+                    List<R> sorted = new ArrayList<>(tableView.rowInstances.toUnmodifiableList());
+                    java.util.Comparator<R> comparator = new Comparator(handler.columnInstance);
+                    if (isDescent) {
+                        comparator = comparator.reversed();
+                    }
+                    Collections.sort(sorted, comparator);
+                    GUI.executeLater(new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                            tableView.getRowInstances().clear();
+                            tableView.getRowInstances().addAll(sorted);
+                            tableView.updateDisplay();
+                            message.close();
+                        }
+                    });
+                }
+            });
+            thread.start();
+        }
+        
+        @Override
+        protected void handle(MouseEvent event) {
+            TableView<C, R> tableView = TableView.this;
+            HeaderClickedToSortEventHandler handler = this;
+            if (event.getClickCount() != 1) {
+                return;
+            }
+            ContextMenu menu = new ContextMenu(event.getSource());
+            menu.addContextMenuItem("昇順で並び替え(A)", KeyCode.A, new Runnable() {
+                
+                @Override
+                public void run() {
+                    handler.sort(false);
+                }
+            });
+            menu.addContextMenuItem("降順で並び替え(D)", KeyCode.D, new Runnable() {
+                
+                @Override
+                public void run() {
+                    handler.sort(true);
+                }
+            });
+            menu.show(event.getX(), event.getY() - tableView.getInnerInstance().getTableHeader().getHeight());
+        }
+    }
+
+    /**
+     * 指定されたカラムの値同士を使用して2つの行情報のインスタンスの順序付けをする比較クラス。
+     * 
+     * @author hiro
+     *
+     */
+    private class Comparator implements java.util.Comparator<R> {
+        
+        private C columnInstance;
+        
+        /**
+         * コンストラクタ。
+         * 
+         * @param sortKey 比較に使用する値を取得するためのキー。
+         */
+        public Comparator(C sortKey) {
+            this.columnInstance = sortKey;
+        }
+        
+        @Override
+        public int compare(R row1, R row2) {
+            TableView<C, R> tableView = TableView.this;
+            Object value1 = tableView.getValueFromRow(row1, this.columnInstance);
+            Object value2 = tableView.getValueFromRow(row2, this.columnInstance);
+            if (value1 instanceof Number || value2 instanceof Number) {
+                Number number1 = StringObject.newInstance(value1).toDouble();
+                if (number1 == null) {
+                    number1 = Double.MIN_VALUE;
+                }
+                Number number2 = StringObject.newInstance(value2).toDouble();
+                if (number2 == null) {
+                    number2 = Double.MIN_VALUE;
+                }
+                if (number1.doubleValue() > number2.doubleValue()) {
+                    return 1;
+                } else if (number1.doubleValue() == number2.doubleValue()) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+            if (value1 instanceof Date || value2 instanceof Date) {
+                Date date1 = (Date) value1;
+                if (date1 == null) {
+                    date1 = new Date(Long.MIN_VALUE);
+                }
+                Date date2 = (Date) value2;
+                if (date2 == null) {
+                    date2 = new Date(Long.MIN_VALUE);
+                }
+                if (date1.getTime() > date2.getTime()) {
+                    return 1;
+                } else if (date1.getTime() == date2.getTime()) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+            String string1 = new StringObject(value1).toString();
+            String string2 = new StringObject(value2).toString();
+            return string1.compareTo(string2);
+        }
+    }
+    
 }
