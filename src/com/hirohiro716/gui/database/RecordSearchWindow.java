@@ -10,6 +10,7 @@ import com.hirohiro716.Array;
 import com.hirohiro716.DynamicArray;
 import com.hirohiro716.database.RecordSearcher;
 import com.hirohiro716.database.WhereSet;
+import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.Window;
 import com.hirohiro716.gui.control.Control;
@@ -204,11 +205,17 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
                 } else {
                     rows = searcher.search(selectSQL, window.createPartAfterWhereSQL(), whereSets);
                 }
-                window.searchedRecords.clear();
-                for (DynamicArray<String> row : rows) {
-                    window.searchedRecords.add(row);
-                }
-                window.updateDisplayOfTableView();
+                GUI.executeLater(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        window.searchedRecords.clear();
+                        for (DynamicArray<String> row : rows) {
+                            window.searchedRecords.add(row);
+                        }
+                        window.updateDisplayOfTableView();
+                    }
+                });
                 return null;
             }
         });
