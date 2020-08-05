@@ -507,18 +507,45 @@ public class DynamicArray<K> implements Cloneable, Serializable {
         
         @Override
         public int compare(DynamicArray<K> array1, DynamicArray<K> array2) {
-            if (array1.get(this.sortKey) instanceof Number && array2.get(this.sortKey) instanceof Number) {
-                Number value1 = array1.getDouble(this.sortKey);
-                Number value2 = array2.getDouble(this.sortKey);
-                if (value1.doubleValue() > value2.doubleValue()) {
+            Object value1 = array1.get(this.sortKey);
+            Object value2 = array2.get(this.sortKey);
+            if (value1 instanceof Number || value2 instanceof Number) {
+                Number number1 = StringObject.newInstance(value1).toDouble();
+                if (number1 == null) {
+                    number1 = Double.MIN_VALUE;
+                }
+                Number number2 = StringObject.newInstance(value2).toDouble();
+                if (number2 == null) {
+                    number2 = Double.MIN_VALUE;
+                }
+                if (number1.doubleValue() > number2.doubleValue()) {
                     return 1;
-                } else if (value1.doubleValue() == value2.doubleValue()) {
+                } else if (number1.doubleValue() == number2.doubleValue()) {
                     return 0;
                 } else {
                     return -1;
                 }
             }
-            return 0;
+            if (value1 instanceof Date || value2 instanceof Date) {
+                Date date1 = (Date) value1;
+                if (date1 == null) {
+                    date1 = new Date(Long.MIN_VALUE);
+                }
+                Date date2 = (Date) value2;
+                if (date2 == null) {
+                    date2 = new Date(Long.MIN_VALUE);
+                }
+                if (date1.getTime() > date2.getTime()) {
+                    return 1;
+                } else if (date1.getTime() == date2.getTime()) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+            String string1 = new StringObject(value1).toString();
+            String string2 = new StringObject(value2).toString();
+            return string1.compareTo(string2);
         }
     }
     
