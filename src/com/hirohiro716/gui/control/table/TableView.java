@@ -751,7 +751,8 @@ public abstract class TableView<C, R> extends Control {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             TableView<C, R> tableView = TableView.this;
-            JCheckBox checkBox = (JCheckBox) this.defaultRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            Boolean booleanValue = StringObject.newInstance(value).toBoolean();
+            JCheckBox checkBox = (JCheckBox) this.defaultRenderer.getTableCellRendererComponent(table, booleanValue, isSelected, hasFocus, row, column);
             checkBox.setFont(tableView.getFont());
             checkBox.setBackground(new Color(checkBox.getBackground().getRGB()));
             checkBox.setOpaque(true);

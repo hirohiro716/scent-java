@@ -1,10 +1,15 @@
 package com.hirohiro716.gui.control;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+
+import com.hirohiro716.gui.Component;
+import com.hirohiro716.gui.event.ChangeListener;
 
 /**
  * マーク可能なコントロールをグループ化するクラス。
@@ -13,6 +18,39 @@ import javax.swing.ButtonGroup;
  *
  */
 public class MarkableGroup {
+    
+    private List<ChangeListener<MarkableControl>> markedControlChangeListener = new ArrayList<>();
+    
+    /**
+     * マークされているコントロールが変更された際のリスナーを追加する。
+     * 
+     * @param changeListener
+     */
+    public void addMarkedControlChangeListener(ChangeListener<MarkableControl> changeListener) {
+        this.markedControlChangeListener.add(changeListener);
+    }
+
+    /**
+     * マークされているコントロールが変更された際のリスナーを削除する。
+     * 
+     * @param changeListener
+     */
+    public void removeMarkedControlChangeListener(ChangeListener<MarkableControl> changeListener) {
+        this.markedControlChangeListener.remove(changeListener);
+    }
+    
+    private ChangeListener<Boolean> markedChangeListener = new ChangeListener<Boolean>() {
+
+        @Override
+        protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
+            MarkableGroup group = MarkableGroup.this;
+            if (changedValue) {
+                for (ChangeListener<MarkableControl> changeListener : group.markedControlChangeListener) {
+                    changeListener.executeWhenChanged(component, (MarkableControl) component);
+                }
+            }
+        }
+    };
     
     private ButtonGroup buttonGroup = new ButtonGroup();
     
@@ -35,6 +73,7 @@ public class MarkableGroup {
     public void add(MarkableControl markableControl) {
         this.buttonGroup.add(markableControl.getInnerInstance());
         this.hashMap.put(markableControl.getInnerInstance(), markableControl);
+        markableControl.addMarkChangeListener(this.markedChangeListener);
     }
     
     /**
@@ -45,6 +84,7 @@ public class MarkableGroup {
     public void remove(MarkableControl markableControl) {
         this.buttonGroup.remove(markableControl.getInnerInstance());
         this.hashMap.remove(markableControl.getInnerInstance());
+        markableControl.removeChangeListener(this.markedChangeListener);
     }
     
     /**

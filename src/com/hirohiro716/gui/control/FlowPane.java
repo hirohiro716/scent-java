@@ -38,7 +38,6 @@ public class FlowPane extends Pane {
 
             @Override
             protected void changed(Component<?> component, Point changedValue, Point previousValue) {
-                pane.updateAllChildLayout();
                 pane.updateLayout();
             }
         };
@@ -46,7 +45,13 @@ public class FlowPane extends Pane {
 
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
-                pane.updateAllChildLayout();
+                pane.updateLayout();
+            }
+        };
+        ChangeListener<Boolean> visibleChangeListener = new ChangeListener<Boolean>() {
+
+            @Override
+            protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                 pane.updateLayout();
             }
         };
@@ -58,9 +63,11 @@ public class FlowPane extends Pane {
                 for (Control child : pane.getChildren()) {
                     child.removeChangeListener(locationChangeListener);
                     child.removeChangeListener(sizeChangeListener);
+                    child.removeChangeListener(visibleChangeListener);
                 }
                 added.addLocationChangeListener(locationChangeListener);
                 added.addSizeChangeListener(sizeChangeListener);
+                added.addVisibleChangeListener(visibleChangeListener);
                 pane.numberOfLayoutUpdates = 0;
             }
         });
@@ -70,6 +77,7 @@ public class FlowPane extends Pane {
             protected void removed(Control removed) {
                 removed.removeChangeListener(locationChangeListener);
                 removed.removeChangeListener(sizeChangeListener);
+                removed.removeChangeListener(visibleChangeListener);
                 pane.numberOfLayoutUpdates = 0;
             }
         });
@@ -148,6 +156,8 @@ public class FlowPane extends Pane {
 
     private String sizeStringOfLayoutUpdate = null;
     
+    private String childrenSizeStringOfLayoutUpdate = null;
+    
     private int numberOfLayoutUpdates = 0;
     
     private boolean isStartedLayoutUpdate = false;
@@ -157,13 +167,26 @@ public class FlowPane extends Pane {
      */
     private void updateAllChildLayout() {
         // Up to 2 times with the same size
-        String sizeString = StringObject.join(this.getMinimumSize(), ":", this.getMaximumSize()).toString();
-        if (sizeString.equals(this.sizeStringOfLayoutUpdate)) {
+        StringObject sizeString = StringObject.join(this.getMinimumSize(), ":", this.getMaximumSize());
+        StringObject childrenSizeString = new StringObject();
+        for (Control control : this.getChildren()) {
+            if (control.isVisible() == false) {
+                continue;
+            }
+            if (childrenSizeString.length() > 0) {
+                childrenSizeString.append(";");
+            }
+            childrenSizeString.append(this.getMinimumSize());
+            childrenSizeString.append(":");
+            childrenSizeString.append(this.getMaximumSize());
+        }
+        if (sizeString.equals(this.sizeStringOfLayoutUpdate) && childrenSizeString.equals(this.childrenSizeStringOfLayoutUpdate)) {
             if (this.numberOfLayoutUpdates > 2) {
                 return;
             }
         } else {
-            this.sizeStringOfLayoutUpdate = sizeString;
+            this.sizeStringOfLayoutUpdate = sizeString.toString();
+            this.childrenSizeStringOfLayoutUpdate = childrenSizeString.toString();
             this.numberOfLayoutUpdates = 0;
         }
         this.numberOfLayoutUpdates++;
@@ -194,6 +217,9 @@ public class FlowPane extends Pane {
         int lineWidth = 0;
         List<Control> lineControls = new ArrayList<>();
         for (Control control : this.getChildren()) {
+            if (control.isVisible() == false) {
+                continue;
+            }
             this.layout.removeLayoutComponent(control.getInnerInstanceForLayout());
             // Initialize variables
             if (maximumWidth < lineWidth + this.horizontalSpacing + control.getWidth() && lineControls.size() > 0) {
@@ -220,6 +246,9 @@ public class FlowPane extends Pane {
         height += controlHeight;
         height += this.getPadding().getTop();
         height += this.getPadding().getBottom();
+        if (height < this.getMinimumHeight()) {
+            height = this.getMinimumHeight();
+        }
         if (height > this.getMaximumHeight()) {
             height = this.getMaximumHeight();
         }
@@ -252,5 +281,17 @@ public class FlowPane extends Pane {
             this.layout.putConstraint(SpringLayout.SOUTH, control.getInnerInstanceForLayout(), locationY + maximumHeight, SpringLayout.NORTH, this.getInnerInstanceForLayout());
         }
         return maximumHeight;
+    }
+    
+    @Override
+    public void updateLayout() {
+        this.updateAllChildLayout();
+        super.updateLayout();
+    }
+    
+    @Override
+    public void updateDisplay() {
+        this.updateAllChildLayout();
+        super.updateDisplay();
     }
 }

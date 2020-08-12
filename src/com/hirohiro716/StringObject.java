@@ -589,7 +589,7 @@ public class StringObject implements Cloneable, Iterable<String> {
         try {
             return Boolean.valueOf(this.toString());
         } catch (Exception exception) {
-            return false;
+            return null;
         }
     }
     

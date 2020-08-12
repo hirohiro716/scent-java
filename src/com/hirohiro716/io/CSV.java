@@ -24,6 +24,15 @@ public class CSV {
     private List<String> headers = null;
     
     /**
+     * このインスタンスのヘッダーの情報を取得する。
+     * 
+     * @return 結果。
+     */
+    public List<String> getHeaders() {
+        return this.headers;
+    }
+    
+    /**
      * このインスタンスにヘッダーの情報をセットする。
      * 
      * @param headers
@@ -411,6 +420,7 @@ public class CSV {
          * @throws IOException
          */
         private void parseValueOfString(BufferedReader bufferedReader) throws IOException {
+            boolean isChangeToNewRow = false;
             StringObject result = new StringObject();
             char character = (char) bufferedReader.read();
             while (character > -1) {
@@ -422,7 +432,7 @@ public class CSV {
                         result.append("\"");
                     } else {
                         if (second.equals("\n") || second.equals("\r")) {
-                            this.changeToNewRow();
+                            isChangeToNewRow = true;
                         }
                         break;
                     }
@@ -432,6 +442,9 @@ public class CSV {
                 character = (char) bufferedReader.read();
             }
             this.values.add(result.toString());
+            if (isChangeToNewRow) {
+                this.changeToNewRow();
+            }
         }
     }
 }
