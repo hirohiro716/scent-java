@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.SwingConstants;
-
 import com.hirohiro716.IdentifiableEnum;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.KeyCode;

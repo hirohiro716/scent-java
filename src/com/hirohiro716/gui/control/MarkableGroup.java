@@ -10,6 +10,9 @@ import javax.swing.ButtonGroup;
 
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.event.ChangeListener;
+import com.hirohiro716.gui.event.EventHandler;
+import com.hirohiro716.gui.event.KeyEvent;
+import com.hirohiro716.gui.event.MouseEvent;
 
 /**
  * マーク可能なコントロールをグループ化するクラス。
@@ -39,16 +42,50 @@ public class MarkableGroup {
         this.markedControlChangeListener.remove(changeListener);
     }
     
-    private ChangeListener<Boolean> markedChangeListener = new ChangeListener<Boolean>() {
+    private MarkableControl previousMarkedControl = null;
+    
+    /**
+     * 登録されているコントロールマーク変更時のリスナーを実行する。
+     * 
+     * @param eventSourceControl
+     */
+    private void executeMarkedChangeListener(MarkableControl eventSourceControl) {
+        
+        MarkableControl markableControl = this.getMarkedControl();
+        if (this.previousMarkedControl != null && this.previousMarkedControl.equals(markableControl) || markableControl == null) {
+            return;
+        }
+        
+        for (ChangeListener<MarkableControl> changeListener : this.markedControlChangeListener) {
+            changeListener.execute(eventSourceControl, markableControl, this.previousMarkedControl);
+        }
+        this.previousMarkedControl = markableControl;
+    }
+    
+    private EventHandler<KeyEvent> keyReleasedEventHandler = new EventHandler<KeyEvent>() {
 
+        @Override
+        protected void handle(KeyEvent event) {
+            MarkableGroup group = MarkableGroup.this;
+            group.executeMarkedChangeListener((MarkableControl) event.getSource());
+        }
+    };
+    
+    private EventHandler<MouseEvent> mouseClickedEventHandler = new EventHandler<MouseEvent>() {
+
+        @Override
+        protected void handle(MouseEvent event) {
+            MarkableGroup group = MarkableGroup.this;
+            group.executeMarkedChangeListener((MarkableControl) event.getSource());
+        }
+    };
+    
+    private ChangeListener<Boolean> markedChangeListener = new ChangeListener<Boolean>() {
+        
         @Override
         protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
             MarkableGroup group = MarkableGroup.this;
-            if (changedValue) {
-                for (ChangeListener<MarkableControl> changeListener : group.markedControlChangeListener) {
-                    changeListener.executeWhenChanged(component, (MarkableControl) component);
-                }
-            }
+            group.executeMarkedChangeListener((MarkableControl) component);
         }
     };
     
@@ -73,6 +110,8 @@ public class MarkableGroup {
     public void add(MarkableControl markableControl) {
         this.buttonGroup.add(markableControl.getInnerInstance());
         this.hashMap.put(markableControl.getInnerInstance(), markableControl);
+        markableControl.addKeyReleasedEventHandler(this.keyReleasedEventHandler);
+        markableControl.addMouseClickedEventHandler(this.mouseClickedEventHandler);
         markableControl.addMarkChangeListener(this.markedChangeListener);
     }
     
@@ -84,6 +123,8 @@ public class MarkableGroup {
     public void remove(MarkableControl markableControl) {
         this.buttonGroup.remove(markableControl.getInnerInstance());
         this.hashMap.remove(markableControl.getInnerInstance());
+        markableControl.removeEventHandler(this.keyReleasedEventHandler);
+        markableControl.removeEventHandler(this.mouseClickedEventHandler);
         markableControl.removeChangeListener(this.markedChangeListener);
     }
     
