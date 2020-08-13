@@ -407,7 +407,12 @@ public class Pane extends Control {
          * @return 結果。
          */
         public final Label findLabelByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof Label) {
+                    return (Label) control;
+                }
+            }
+            return null;
         }
         
         /**
@@ -418,7 +423,12 @@ public class Pane extends Control {
          * @return 結果。
          */
         public final TextField findTextFieldByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof TextField) {
+                    return (TextField) control;
+                }
+            }
+            return null;
         }
         
         /**
@@ -429,7 +439,12 @@ public class Pane extends Control {
          * @return 結果。
          */
         public final AutocompleteTextField findAutocompleteTextFieldByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof AutocompleteTextField) {
+                    return (AutocompleteTextField) control;
+                }
+            }
+            return null;
         }
         
         /**
@@ -440,7 +455,12 @@ public class Pane extends Control {
          * @return 結果。
          */
         public final PasswordField findPasswordFieldByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof PasswordField) {
+                    return (PasswordField) control;
+                }
+            }
+            return null;
         }
         
         /**
@@ -451,7 +471,12 @@ public class Pane extends Control {
          * @return 結果。
          */
         public final DatePicker findDatePickerByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof DatePicker) {
+                    return (DatePicker) control;
+                }
+            }
+            return null;
         }
         
         /**
@@ -462,7 +487,12 @@ public class Pane extends Control {
          * @return 結果。
          */
         public final TextArea findTextAreaByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof TextArea) {
+                    return (TextArea) control;
+                }
+            }
+            return null;
         }
         
         /**
@@ -473,7 +503,12 @@ public class Pane extends Control {
          * @return 結果。
          */
         public final CheckBox findCheckBoxByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof CheckBox) {
+                    return (CheckBox) control;
+                }
+            }
+            return null;
         }
 
         /**
@@ -484,7 +519,12 @@ public class Pane extends Control {
          * @return 結果。
          */
         public final Button findButtonByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof Button) {
+                    return (Button) control;
+                }
+            }
+            return null;
         }
         
         /**
@@ -495,7 +535,12 @@ public class Pane extends Control {
          * @return 結果。
          */
         public final RadioButton findRadioButtonByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof RadioButton) {
+                    return (RadioButton) control;
+                }
+            }
+            return null;
         }
         
         /**
@@ -506,7 +551,12 @@ public class Pane extends Control {
          * @return 結果。
          */
         public final ToggleButton findToggleButtonByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof ToggleButton) {
+                    return (ToggleButton) control;
+                }
+            }
+            return null;
         }
         
         /**
@@ -517,8 +567,14 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
+        @SuppressWarnings("unchecked")
         public final <T> ListView<T> findListViewByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof ListView) {
+                    return (ListView<T>) control;
+                }
+            }
+            return null;
         }
         
         /**
@@ -529,8 +585,14 @@ public class Pane extends Control {
          * @param name
          * @return 結果。
          */
+        @SuppressWarnings("unchecked")
         public final <T> DropDownList<T> findDropDownListByName(String name) {
-            return this.findControlByName(name);
+            for (Control control : this.findControlsByNameAsList(name)) {
+                if (control instanceof DropDownList) {
+                    return (DropDownList<T>) control;
+                }
+            }
+            return null;
         }
     }
 }
