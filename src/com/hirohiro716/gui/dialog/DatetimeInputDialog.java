@@ -134,6 +134,7 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
         pane.getChildren().add(this.labelTime);
         // TextField of hour
         this.textFieldHour = new TextField();
+        this.textFieldHour.setWidth(baseSize * 4);
         this.textFieldHour.setMinimumWidth(baseSize * 4);
         this.textFieldHour.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
         this.textFieldHour.addLimitByRegex(Regex.INTEGER.getPattern(), false);
@@ -145,6 +146,7 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
         pane.getChildren().add(this.labelColon);
         // TextField of minute
         this.textFieldMinute = new TextField();
+        this.textFieldMinute.setWidth(baseSize * 4);
         this.textFieldMinute.setMinimumWidth(baseSize * 4);
         this.textFieldMinute.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
         this.textFieldMinute.addLimitByRegex(Regex.INTEGER.getPattern(), false);

@@ -13,6 +13,7 @@ import com.hirohiro716.Dimension;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.datetime.Datetime;
 import com.hirohiro716.datetime.Datetime.DayOfWeek;
+import com.hirohiro716.graphic.ColorCreator;
 import com.hirohiro716.gui.Border;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
@@ -438,6 +439,7 @@ public class DatePicker extends TextField {
             this.borderColor = GUI.getBorderColor();
             this.focusedBackground = new Color(control.getInnerInstance().getSelectionColor().getRGB());
             this.focusedForeground = new Color(control.getInnerInstance().getSelectedTextColor().getRGB());
+            this.todayForeground = ColorCreator.createTransparent(this.getForegroundColor(), 0.3);
             this.inactiveForeground = new Color(control.getInnerInstance().getDisabledTextColor().getRGB());
             // Pane settings
             this.setFillChildToPaneWidth(true);
@@ -471,6 +473,8 @@ public class DatePicker extends TextField {
         private Color focusedBackground;
         
         private Color focusedForeground;
+        
+        private Color todayForeground;
         
         private Color inactiveForeground;
         
@@ -610,6 +614,11 @@ public class DatePicker extends TextField {
                         label.setForegroundColor(this.focusedForeground);
                     } else {
                         label.setBackgroundColor(this.getBackgroundColor());
+                        if (datetime.eqaulsDate(new Datetime())) {
+                            label.setForegroundColor(this.todayForeground);
+                        } else {
+                            label.setForegroundColor(this.getForegroundColor());
+                        }
                     }
                     label.addMouseWheelEventHandler(this.mouseWheelEventHandler);
                     label.addMouseEnteredEventHandler(this.mouseEnteredEventHandler);
