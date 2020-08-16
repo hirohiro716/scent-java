@@ -23,7 +23,6 @@ import com.hirohiro716.gui.MouseCursor;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.collection.RemoveListener;
-import com.hirohiro716.gui.control.AnchorPane;
 import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.CheckBox;
 import com.hirohiro716.gui.control.Control;
@@ -74,29 +73,33 @@ public abstract class EditableTable<C, R> extends Control {
         this.headerPane.getInnerInstance().setLayout(this.headerLayout);
         this.headerSpacer.setBackgroundColor(null);
         this.headerPane.getChildren().add(this.headerSpacer);
-        ScrollPane headerScrollPane = new ScrollPane(this.headerPane);
-        headerScrollPane.setHorizontalScrollBarDisplayPolicy(ScrollBarDisplayPolicy.NEVER);
-        headerScrollPane.setVerticalScrollBarDisplayPolicy(ScrollBarDisplayPolicy.NEVER);
-        headerScrollPane.setBorder(Border.createLine(this.borderColor, 0, 0, 1, 0));
-        headerScrollPane.getInnerInstance().setWheelScrollingEnabled(false);
+        this.headerScrollPane.setContent(this.headerPane);
+        this.headerScrollPane.setHorizontalScrollBarDisplayPolicy(ScrollBarDisplayPolicy.NEVER);
+        this.headerScrollPane.setVerticalScrollBarDisplayPolicy(ScrollBarDisplayPolicy.NEVER);
+        this.headerScrollPane.setBorder(Border.createLine(this.borderColor, 0, 0, 1, 0));
+        this.headerScrollPane.getInnerInstance().setWheelScrollingEnabled(false);
         this.headerPane.addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
-                headerScrollPane.setMinimumHeight(changedValue.getIntegerHeight());
+                editableTable.headerScrollPane.setMinimumHeight(changedValue.getIntegerHeight());
+                editableTable.rowsPane.setWidth(changedValue.getIntegerWidth());
+                editableTable.rowsPane.setMinimumWidth(changedValue.getIntegerWidth());
                 for (Pane controlPane : editableTable.rowControlPanes) {
                     controlPane.setWidth(changedValue.getIntegerWidth());
+                    controlPane.setMinimumWidth(changedValue.getIntegerWidth());
                     controlPane.getInnerInstance().doLayout();
                 }
+                editableTable.headerScrollPane.getHorizontalScrollBar().setScrollPosition(editableTable.rowsScrollPane.getHorizontalScrollBar().getScrollPosition());
             }
         });
-        this.root.getChildren().add(headerScrollPane);
+        this.root.getChildren().add(this.headerScrollPane);
         GridBagConstraints headerConstraints = new GridBagConstraints();
         headerConstraints.gridx = 0;
         headerConstraints.gridy = 0;
         headerConstraints.weightx = 1;
         headerConstraints.fill = GridBagConstraints.HORIZONTAL;
-        layout.setConstraints(headerScrollPane.getInnerInstance(), headerConstraints);
+        layout.setConstraints(this.headerScrollPane.getInnerInstance(), headerConstraints);
         // Rows pane
         this.rowsPane.getInnerInstance().setLayout(this.rowsLayout);
         this.bottomSpacer.setBackgroundColor(null);
@@ -149,6 +152,8 @@ public abstract class EditableTable<C, R> extends Control {
     
     private Pane root;
     
+    private ScrollPane headerScrollPane = new ScrollPane();
+    
     private Pane headerPane = new Pane();
     
     private GridBagLayout headerLayout = new GridBagLayout();
@@ -160,19 +165,7 @@ public abstract class EditableTable<C, R> extends Control {
     private GridBagLayout rowsLayout = new GridBagLayout();
     
     private Pane bottomSpacer = new Pane();
-    
-    /**
-     * このテーブルの行情報を表示するペインのスペースレイアウトを更新する。
-     */
-    private void updateBottomSpacerLayout() {
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = this.rowIndex;
-        constraints.weighty = 1;
-        constraints.fill = GridBagConstraints.VERTICAL;
-        this.rowsLayout.setConstraints(this.bottomSpacer.getInnerInstance(), constraints);
-    }
-    
+
     @Override
     public JPanel getInnerInstance() {
         return (JPanel) super.getInnerInstance();
@@ -213,6 +206,29 @@ public abstract class EditableTable<C, R> extends Control {
     private void adjustRowHeight() {
         this.defaultRowHeight = this.getFont().getSize() * 3;
     }
+
+    private int fixedRowHeight = -1;
+    
+    /**
+     * このテーブルの行情報を表示するペインの高さを調整する。
+     */
+    private void adjustRowsPaneHeight() {
+        int height = this.fixedRowHeight * (this.rowInstances.size() + 1);
+        this.rowsPane.setHeight(height);
+        this.rowsPane.setMinimumHeight(height);
+    }
+    
+    /**
+     * このテーブルの行情報を表示するペインのスペースレイアウトを更新する。
+     */
+    private void updateBottomSpacerLayout() {
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = this.rowIndex;
+        constraints.weighty = 1;
+        constraints.fill = GridBagConstraints.VERTICAL;
+        this.rowsLayout.setConstraints(this.bottomSpacer.getInnerInstance(), constraints);
+    }
     
     @Override
     public void updateLayout() {
@@ -228,6 +244,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.displayRowControls(leadingIndex);
         this.headerPane.updateLayout();
         this.rowsPane.updateLayout();
+        this.adjustRowsPaneHeight();
     }
     
     @Override
@@ -244,6 +261,7 @@ public abstract class EditableTable<C, R> extends Control {
         this.displayRowControls(leadingIndex);
         this.headerPane.updateDisplay();
         this.rowsPane.updateDisplay();
+        this.adjustRowsPaneHeight();
     }
     
     private R activeRowInstance = null;
@@ -333,7 +351,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param pane
      */
     private void makeInactiveVisible(Pane pane) {
-        pane.setBackgroundColor(null);
+        pane.setBackgroundColor(this.getBackgroundColor());
         for (Control control : pane.getChildren()) {
             control.setDisabled(true);
             if (control instanceof Label) {
@@ -516,7 +534,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param width
      */
     private void setControlWidth(Control control, int width) {
-        control.setMinimumWidth(width - 4);
+        control.setMinimumWidth(width);
         control.setWidth(width);
     }
     
@@ -531,6 +549,10 @@ public abstract class EditableTable<C, R> extends Control {
     @SuppressWarnings("unchecked")
     protected <T extends Control> void addColumn(C columnInstance, ColumnType columnType, ControlFactory<C, R, T> controlFactory) {
         EditableTable<C, R> editableTable = this;
+        // Fix row height
+        if (this.fixedRowHeight == -1) {
+            this.fixedRowHeight = this.defaultRowHeight;
+        }
         // Clear rows
         this.rowInstances.clear();
         this.mapRowSpacers.clear();
@@ -754,13 +776,13 @@ public abstract class EditableTable<C, R> extends Control {
      */
     private void addRow(R rowInstance) {
         Pane spacer = new Pane();
-        spacer.setSize(0, this.defaultRowHeight);
+        spacer.setSize(0, this.fixedRowHeight);
+        spacer.setMinimumHeight(this.fixedRowHeight);
         spacer.setInstanceForUseLater(rowInstance);
         this.rowsPane.getChildren().add(spacer);
         this.mapRowSpacers.put(rowInstance, spacer);
         this.configureRowToEmpty(rowInstance, this.rowIndex);
         this.rowIndex++;
-        this.updateBottomSpacerLayout();
     }
     
     /**
@@ -932,6 +954,7 @@ public abstract class EditableTable<C, R> extends Control {
     private void createOneRowControls() {
         EditableTable<C, R> editableTable = this;
         Pane pane = new Pane();
+        pane.setMinimumHeight(this.fixedRowHeight);
         pane.setBorder(Border.createLine(this.lightBorderColor, 0, 0, 1, 0));
         pane.addMouseClickedEventHandler(MouseButton.BUTTON1, new EventHandler<MouseEvent>() {
             
@@ -1026,13 +1049,6 @@ public abstract class EditableTable<C, R> extends Control {
                 });
                 break;
             case BUTTON:
-                Button button = (Button) control;
-                button.setMinimumSize(button.getFont().getSize(), button.getHeight());
-                AnchorPane buttonPane = new AnchorPane();
-                buttonPane.setBackgroundColor(null);
-                buttonPane.getChildren().add(control);
-                buttonPane.setAnchor(control, null, 5, null, 5);
-                control = buttonPane;
                 break;
             }
             if (control.getWidth() < tableColumn.getWidth()) {
@@ -1040,20 +1056,12 @@ public abstract class EditableTable<C, R> extends Control {
             }
             pane.getChildren().add(control);
             mapControls.put(columnInstance, control);
-            if (control instanceof Pane == false) {
-                GridBagConstraints constraints = new GridBagConstraints();
-                constraints.gridx = this.columnInstances.indexOf(columnInstance);
-                constraints.gridy = 0;
-                constraints.weightx = 0;
-                constraints.anchor = GridBagConstraints.CENTER;
-                layout.setConstraints(control.getInnerInstanceForLayout(), constraints);
-            }
         }
         this.rowControlPanes.add(pane);
         this.mapOfRowControlMap.put(pane, mapControls);
         Pane spacer = new Pane();
         spacer.setBackgroundColor(null);
-        spacer.setSize(0, this.defaultRowHeight);
+        spacer.setSize(0, this.fixedRowHeight);
         pane.getChildren().add(spacer);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = this.columnInstances.size();
@@ -1062,15 +1070,21 @@ public abstract class EditableTable<C, R> extends Control {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         layout.setConstraints(spacer.getInnerInstance(), constraints);
     }
-    
+
     /**
-     * このテーブルの指定された行にスクロールする。
+     * このテーブルの指定された行情報のインスタンス、カラム情報のインスタンスにスクロールする。
      * 
      * @param rowInstance
+     * @param columnInstance
      */
-    public void scrollTo(R rowInstance) {
+    public void scrollTo(R rowInstance, C columnInstance) {
         EditableTable<C, R> editableTable = this;
-        int index = this.rowInstances.indexOf(rowInstance) - this.numberOfDisplayRows + 2;
+        int index;
+        if (this.rowInstances.size() - this.rowInstances.indexOf(rowInstance) + 1 < this.numberOfDisplayRows) {
+            index = this.rowInstances.size() - this.numberOfDisplayRows + 2;
+        } else {
+            index = this.rowInstances.indexOf(rowInstance) - this.numberOfDisplayRows + 2;
+        }
         if (index < 0) {
             index = 0;
         }
@@ -1080,10 +1094,25 @@ public abstract class EditableTable<C, R> extends Control {
             @Override
             public void run() {
                 if (editableTable.mapRowControlPanes.containsKey(rowInstance)) {
-                    editableTable.rowsScrollPane.scrollTo(editableTable.mapRowControlPanes.get(rowInstance));
+                    Pane rowControlPane = editableTable.mapRowControlPanes.get(rowInstance);
+                    if (columnInstance == null) {
+                        editableTable.rowsScrollPane.scrollTo(rowControlPane);
+                    } else {
+                        Map<C, Control> mapControl = editableTable.mapOfRowControlMap.get(rowControlPane);
+                        editableTable.rowsScrollPane.scrollTo(mapControl.get(columnInstance));
+                    }
                 }
             }
         });
+    }
+    
+    /**
+     * このテーブルの指定された行情報のインスタンスにスクロールする。
+     * 
+     * @param rowInstance
+     */
+    public void scrollTo(R rowInstance) {
+        this.scrollTo(rowInstance, null);
     }
     
     /**
@@ -1176,21 +1205,38 @@ public abstract class EditableTable<C, R> extends Control {
         private C columnInstance;
         
         /**
-         * 同じ行の別のコントロールにスクロールしてフォーカスする。
+         * 指定された行情報のインスタンス、カラム情報のインスタンスのコントロールにスクロールしてフォーカスする。
+         * 
+         * @param rowInstance 
+         * @param columnInstance
+         */
+        private void scrollAndFocus(R rowInstance, C columnInstance) {
+            GUI.executeLater(new Runnable() {
+                
+                @Override
+                public void run() {
+                    EditableTable<C, R> editableTable = EditableTable.this;
+                    Pane rowControlPane = editableTable.mapRowControlPanes.get(rowInstance);
+                    Map<C, Control> mapRowControls = editableTable.mapOfRowControlMap.get(rowControlPane);
+                    Control control = mapRowControls.get(columnInstance);
+                    editableTable.activate(rowInstance, columnInstance);
+                    if (editableTable.rowsScrollPane.isDisplayedEntireControl(control) == false) {
+                        editableTable.scrollTo(rowInstance, columnInstance);
+                    }
+                }
+            });
+        }
+
+        /**
+         * 指定されたカラム情報のインスタンスのコントロールにスクロールしてフォーカスする。
          * 
          * @param columnInstance
          */
         private void scrollAndFocus(C columnInstance) {
             EditableTable<C, R> editableTable = EditableTable.this;
-            Map<C, Control> mapRowControls = editableTable.mapOfRowControlMap.get(this.rowControlPane);
-            Control control = mapRowControls.get(columnInstance);
-            if (editableTable.rowsScrollPane.isDisplayedEntireControl(control) == false) {
-                editableTable.rowsScrollPane.scrollTo(control);
-            }
-            editableTable.activate(editableTable.activeRowInstance, columnInstance);
-            editableTable.updateDisplay();
+            this.scrollAndFocus(editableTable.activeRowInstance, columnInstance);
         }
-        
+
         @Override
         protected void handle(KeyEvent event) {
             EditableTable<C, R> editableTable = EditableTable.this;
@@ -1255,10 +1301,7 @@ public abstract class EditableTable<C, R> extends Control {
                     if (destinationControl == null) {
                         destinationControl = destinationControlPane;
                     }
-                    if (destinationControlPane == null || editableTable.rowsScrollPane.isDisplayedBounds(destinationControlPane.getX() + destinationControl.getX(), destinationControlPane.getY(), destinationControl.getWidth(), destinationControlPane.getHeight()) == false) {
-                        editableTable.scrollTo(destinationRowInstance);
-                    }
-                    editableTable.activate(destinationRowInstance, destinationColumnInstance);
+                    this.scrollAndFocus(destinationRowInstance, destinationColumnInstance);
                 }
                 break;
             default:
@@ -1295,7 +1338,7 @@ public abstract class EditableTable<C, R> extends Control {
             Control control = editableTable.rowsPane.getChildren().findControlByPoint(1, changedValue);
             int numberOfAttempts = 0;
             while (control == null && numberOfAttempts < 5) {
-                control = editableTable.rowsPane.getChildren().findControlByPoint(1, changedValue + editableTable.defaultRowHeight / 5 * numberOfAttempts);
+                control = editableTable.rowsPane.getChildren().findControlByPoint(1, changedValue + editableTable.fixedRowHeight / 5 * numberOfAttempts);
                 numberOfAttempts++;
             }
             if (control == null) {
