@@ -85,6 +85,7 @@ public abstract class LabeledControl extends Control {
      */
     public void setWrapText(boolean isWrapText) {
         this.isWrapText = isWrapText;
+        this.setText(this.text);
     }
     
     /**

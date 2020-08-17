@@ -176,9 +176,14 @@ public class FlowPane extends Pane {
             if (childrenSizeString.length() > 0) {
                 childrenSizeString.append(";");
             }
-            childrenSizeString.append(this.getMinimumSize());
+            StringObject name = new StringObject(control.getName());
+            if (name.length() > 0) {
+                childrenSizeString.append(name);
+                childrenSizeString.append(":");
+            }
+            childrenSizeString.append(this.getSize());
             childrenSizeString.append(":");
-            childrenSizeString.append(this.getMaximumSize());
+            childrenSizeString.append(this.getSize());
         }
         if (sizeString.equals(this.sizeStringOfLayoutUpdate) && childrenSizeString.equals(this.childrenSizeStringOfLayoutUpdate)) {
             if (this.numberOfLayoutUpdates > 2) {
@@ -285,6 +290,7 @@ public class FlowPane extends Pane {
     
     @Override
     public void updateLayout() {
+        this.numberOfLayoutUpdates = 0;
         this.updateAllChildLayout();
         super.updateLayout();
     }
