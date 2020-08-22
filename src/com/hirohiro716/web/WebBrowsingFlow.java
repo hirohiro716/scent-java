@@ -112,7 +112,7 @@ public class WebBrowsingFlow {
             Datetime timeoutDatetime = new Datetime();
             timeoutDatetime.addSecond(this.timeoutSecond);
             while (thread.isAlive() && timeoutDatetime.getDate().getTime() > Datetime.newInstance().getDate().getTime()) {
-                Thread.sleep(1000);
+                Thread.sleep(200);
             }
             if (thread.isAlive()) {
                 this.isTimedout = true;

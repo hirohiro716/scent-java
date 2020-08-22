@@ -118,6 +118,26 @@ public class WaitCircleDialog<R> extends MessageableDialog<R> {
         return this.isCanceled;
     }
     
+    private boolean isCloseAutomaticallyWhenFinished = true;
+    
+    /**
+     * 実行するコールバックが終了した際に自動的にダイアログを閉じる場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isCloseAutomaticallyWhenFinished() {
+        return this.isCloseAutomaticallyWhenFinished;
+    }
+    
+    /**
+     * 実行するコールバックが終了した際に自動的にダイアログを閉じる場合はtrueをセットする。初期値はtrue。
+     * 
+     * @param isCloseAutomaticallyWhenFinished
+     */
+    public void setCloseAutomaticallyWhenFinished(boolean isCloseAutomaticallyWhenFinished) {
+        this.isCloseAutomaticallyWhenFinished = isCloseAutomaticallyWhenFinished;
+    }
+    
     @Override
     protected Button[] createButtons() {
         WaitCircleDialog<R> dialog = this;
@@ -166,7 +186,9 @@ public class WaitCircleDialog<R> extends MessageableDialog<R> {
                     
                     @Override
                     public void run() {
-                        dialog.close();
+                        if (dialog.isCloseAutomaticallyWhenFinished) {
+                            dialog.close();
+                        }
                     }
                 });
             }
