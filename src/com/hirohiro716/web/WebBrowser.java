@@ -3,7 +3,9 @@ package com.hirohiro716.web;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.w3c.dom.Node;
@@ -16,7 +18,7 @@ import com.hirohiro716.reflection.DynamicClass;
 import com.hirohiro716.reflection.Method;
 
 /**
- * HTML5、CSS3、JavaScriptをサポートするWebBrowserのクラス。
+ * HTML5、CSS3、JavaScriptをサポートするWEBブラウザのクラス。
  * 
  * @author hiro
  *
@@ -37,19 +39,19 @@ public class WebBrowser extends DynamicClass {
         this.webClient = constructor.newInstance();
         Method getCurrentWindowMethod = new Method(this.webClient);
         this.webWindow = getCurrentWindowMethod.invoke("getCurrentWindow");
-        // 警告の非表示
+        // Hide warning
         java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF); 
-        // JavaScriptのリンク先が存在しない場合に例外として処理しない設定
+        // Setting that does not process as an exception if the JavaScript link destination does not exist
         Method getOptionMethod = new Method(this.webClient);
         Object webClientOptions = getOptionMethod.invoke("getOptions");
         Method setThrowExceptionOnFailingStatusCodeMethod = new Method(webClientOptions);
         setThrowExceptionOnFailingStatusCodeMethod.setParameterTypes(boolean.class);
         setThrowExceptionOnFailingStatusCodeMethod.invoke("setThrowExceptionOnFailingStatusCode", false);
-        // JavaScriptのエラーを例外として処理しない設定
+        // Setting that does not handle JavaScript errors as exceptions
         Method setThrowExceptionOnScriptErrorMethod = new Method(webClientOptions);
         setThrowExceptionOnScriptErrorMethod.setParameterTypes(boolean.class);
         setThrowExceptionOnScriptErrorMethod.invoke("setThrowExceptionOnScriptError", false);
-        // ajax通信の終了を待機する設定
+        // Setting to wait for the end of ajax communication
         Constructor ajaxControllerConstructor = new Constructor("com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController");
         Object ajaxController = ajaxControllerConstructor.newInstance();
         Method setAjaxControllerMethod = new Method(this.webClient);
@@ -62,6 +64,8 @@ public class WebBrowser extends DynamicClass {
     private Object webWindow;
     
     private Object webPage = null;
+
+    private Map<Object, Element> mapElement = new HashMap<>();
     
     /**
      * WEBページを読み込む。
@@ -72,6 +76,7 @@ public class WebBrowser extends DynamicClass {
     public void load(URL url) throws Exception {
         Method method = new Method(this.webClient);
         this.webPage = method.invoke("getPage", url);
+        this.mapElement.clear();
         this.clearSelectedElements();
     }
     
@@ -122,6 +127,7 @@ public class WebBrowser extends DynamicClass {
     private void updateWebPage() throws Exception {
         Method method = new Method(this.loadClass("com.gargoylesoftware.htmlunit.WebWindow"), this.webWindow);
         this.webPage = method.invoke("getEnclosedPage");
+        this.mapElement.clear();
     }
     
     /**
@@ -137,6 +143,61 @@ public class WebBrowser extends DynamicClass {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+    
+    /**
+     * WEBページのBODY要素を取得する。
+     * 
+     * @return 結果。
+     */
+    public Element getBodyElement() {
+        try {
+            Method method = new Method(this.webPage);
+            Object bodyHtmlElement = method.invoke("getBody");
+            return this.getElement(bodyHtmlElement);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 親要素の中から子要素を再帰的にすべて取得する。
+     * 
+     * @param parent
+     * @return 結果。
+     */
+    private List<Element> getChildElements(Element parent) {
+        List<Element> elements = new ArrayList<>();
+        try {
+            for (Element element: parent.getChildElements()) {
+                elements.add(element);
+                elements.addAll(this.getChildElements(element));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return elements;
+    }
+    
+    /**
+     * WEBページのすべての要素を取得する。
+     * 
+     * @return 結果。
+     */
+    public Element[] getAllElements() {
+        List<Element> elements = new ArrayList<>();
+        if (this.webPage != null) {
+            try {
+                elements.add(this.getBodyElement());
+                for (Element selectedElement: this.getBodyElement().getChildElements()) {
+                    elements.addAll(this.getChildElements(selectedElement));
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+        return elements.toArray(new Element[] {});
     }
     
     private List<Element> selectedElements = new ArrayList<>();
@@ -163,6 +224,22 @@ public class WebBrowser extends DynamicClass {
     }
     
     /**
+     * 指定されたDOMオブジェクトに対する要素を取得する。
+     * 
+     * @param htmlObject
+     * @return 結果。
+     * @throws ClassNotFoundException 
+     */
+    private Element getElement(Object htmlObject) throws ClassNotFoundException {
+        if (this.mapElement.containsKey(htmlObject)) {
+            return this.mapElement.get(htmlObject);
+        }
+        Element element = new Element(htmlObject);
+        this.mapElement.put(htmlObject, element);
+        return element;
+    }
+    
+    /**
      * 選択状態をすべて解除してBODYだけを選択した状態にする。
      */
     public void clearSelectedElements() {
@@ -170,10 +247,34 @@ public class WebBrowser extends DynamicClass {
         try {
             Method method = new Method(this.webPage);
             Object bodyHtmlElement = method.invoke("getBody");
-            this.selectedElements.add(new Element(bodyHtmlElement));
+            this.selectedElements.add(this.getElement(bodyHtmlElement));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    /**
+     * 親要素の中から、正規表現に一致する属性値を持つ子要素を、再帰的にすべて取得する。
+     * 
+     * @param parent
+     * @param attributeName
+     * @param regexForAttributeValue
+     * @return 結果。
+     */
+    private List<Element> findElementsByAttribute(Element parent, String attributeName, String regexForAttributeValue) {
+        List<Element> elements = new ArrayList<>();
+        try {
+            for (Element element: parent.getChildElements()) {
+                String value = StringObject.newInstance(element.getAttribute(attributeName)).replaceCR("").replaceLF("").replaceCRLF("").toString();
+                if (value.matches(regexForAttributeValue)) {
+                    elements.add(element);
+                }
+                elements.addAll(this.findElementsByAttribute(element, attributeName, regexForAttributeValue));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return elements;
     }
     
     /**
@@ -208,30 +309,6 @@ public class WebBrowser extends DynamicClass {
         this.moreSelectElementsByAttribute(attributeName, regexForAttributeValue);
     }
     
-    /**
-     * 親要素の中から、正規表現に一致する属性値を持つ子要素を、再帰的にすべて取得する。
-     * 
-     * @param parent
-     * @param attributeName
-     * @param regexForAttributeValue
-     * @return 結果。
-     */
-    private List<Element> findElementsByAttribute(Element parent, String attributeName, String regexForAttributeValue) {
-        List<Element> elements = new ArrayList<>();
-        try {
-            for (Element element: parent.getChildElements()) {
-                StringObject value = new StringObject(element.getAttribute(attributeName));
-                if (value.toString().matches(regexForAttributeValue)) {
-                    elements.add(element);
-                }
-                elements.addAll(this.findElementsByAttribute(element, attributeName, regexForAttributeValue));
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        return elements;
-    }
-
     /**
      * すでに選択状態にある要素の子要素から、更に正規表現に一致する属性値を持つ要素が見つかるのを待機する。
      * 
@@ -281,7 +358,31 @@ public class WebBrowser extends DynamicClass {
             exception.printStackTrace();
         }
     }
-    
+
+    /**
+     * 親要素の中から、タグ名が一致していて、内包するテキストが正規表現にも一致する子要素を、再帰的にすべて取得する。
+     * 
+     * @param parent
+     * @param tagName
+     * @param regexForTextContent 
+     * @return 結果。
+     */
+    private List<Element> findElementsByTagName(Element parent, String tagName, String regexForTextContent) {
+        List<Element> elements = new ArrayList<>();
+        try {
+            for (Element element: parent.getChildElements()) {
+                String comparison = StringObject.newInstance(element.getTextContent()).replaceCR("").replaceLF("").replaceCRLF("").toString();
+                if (element.getTagName().toUpperCase().equals(tagName.toUpperCase()) && comparison.matches(regexForTextContent)) {
+                    elements.add(element);
+                }
+                elements.addAll(this.findElementsByTagName(element, tagName, regexForTextContent));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return elements;
+    }
+
     /**
      * すでに選択状態にある要素の子要素から、タグ名が一致していて、内包するテキストが正規表現にも一致する要素を選択状態にする。
      * 
@@ -330,29 +431,6 @@ public class WebBrowser extends DynamicClass {
      */
     public void selectElementsByTagName(String tagName) {
         this.selectElementsByTagName(tagName, ".{0,}");
-    }
-
-    /**
-     * 親要素の中から、タグ名が一致していて、内包するテキストが正規表現にも一致する子要素を、再帰的にすべて取得する。
-     * 
-     * @param parent
-     * @param tagName
-     * @param regexForTextContent 
-     * @return 結果。
-     */
-    private List<Element> findElementsByTagName(Element parent, String tagName, String regexForTextContent) {
-        List<Element> elements = new ArrayList<>();
-        try {
-            for (Element element: parent.getChildElements()) {
-                if (element.getTagName().equals(tagName) && element.getTextContent().matches(regexForTextContent)) {
-                    elements.add(element);
-                }
-                elements.addAll(this.findElementsByTagName(element, tagName, regexForTextContent));
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        return elements;
     }
 
     /**
@@ -527,12 +605,13 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public Element[] getSelectedOptions() throws Exception {
+            WebBrowser browser = WebBrowser.this;
             List<Element> result = new ArrayList<>();
             if (this.getTagName().equalsIgnoreCase("select")) {
                 Method method = new Method(this.classHtmlSelect, this.element);
                 List<?> options = method.invoke("getSelectedOptions");
                 for (Object option: options) {
-                    result.add(new Element(option));
+                    result.add(browser.getElement(option));
                 }
             }
             return result.toArray(new Element[] {});
@@ -572,11 +651,12 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public Array<Element> getChildElements() throws Exception {
+            WebBrowser browser = WebBrowser.this;
             Method method = new Method(this.classDomElement, this.element);
             Iterable<?> elements = method.invoke("getChildElements");
             List<Element> result = new ArrayList<>();
             for (Object element: elements) {
-                result.add(new Element(element));
+                result.add(browser.getElement(element));
             }
             return new Array<>(result);
         }
