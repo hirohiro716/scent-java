@@ -70,6 +70,15 @@ public class WebBrowsingFlow {
     public void setProcessAfterFinishing(ProcessAfterFinishing processAfterFinishing) {
         this.processAfterFinishing = processAfterFinishing;
     }
+
+    private boolean isCanceled = false;
+    
+    /**
+     * WEBブラウザへのタスク実行をキャンセルする。
+     */
+    public void cancel() {
+        this.isCanceled = true;
+    }
     
     private int taskIndex = 0;
     
@@ -82,7 +91,7 @@ public class WebBrowsingFlow {
      */
     private void executeNextTask() {
         WebBrowsingFlow flow = this;
-        if (this.tasks.size() <= this.taskIndex || this.isTimedout || this.isExceptionOccurred) {
+        if (this.tasks.size() <= this.taskIndex || this.isTimedout || this.isCanceled || this.isExceptionOccurred) {
             if (this.processAfterFinishing != null) {
                 this.processAfterFinishing.execute();
             }

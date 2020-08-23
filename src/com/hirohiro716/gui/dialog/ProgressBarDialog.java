@@ -114,7 +114,7 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     }
     
     /**
-     * このダイアログをキャンセル可能にする場合はtrueをセットする。初期値はtrue。
+     * このダイアログをキャンセル可能にする場合はtrueをセットする。初期値はfalse。
      * 
      * @param isCancelable
      */
