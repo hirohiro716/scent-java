@@ -42,6 +42,17 @@ public class Directory extends FilesystemItem {
 
     /**
      * コンストラクタ。<br>
+     * 指定されたディレクトリ内、ディレクトリ名で新しいインスタンスを作成する。
+     * 
+     * @param parentDirectory 
+     * @param directoryName 
+     */
+    public Directory(Directory parentDirectory, String directoryName) {
+        this(new java.io.File(parentDirectory.toJavaIoFile(), directoryName));
+    }
+    
+    /**
+     * コンストラクタ。<br>
      * 指定されたディレクトリのURIで新しいインスタンスを作成する。
      * 
      * @param uri
@@ -129,11 +140,11 @@ public class Directory extends FilesystemItem {
     private List<FilesystemItem> searchItems(java.io.File directory, String regexToFilterDirectoryName, String regexToFilterFileName) {
         List<FilesystemItem> items = new ArrayList<>();
         for (java.io.File file : directory.listFiles()) {
-            if (file.isDirectory() && file.getAbsolutePath().matches(regexToFilterDirectoryName)) {
+            if (file.isDirectory() && file.getName().matches(regexToFilterDirectoryName)) {
                 items.add(new Directory(file));
                 items.addAll(this.searchItems(file, regexToFilterDirectoryName, regexToFilterFileName));
             }
-            if (file.isFile() && file.getAbsolutePath().matches(regexToFilterFileName)) {
+            if (file.isFile() && file.getName().matches(regexToFilterFileName)) {
                 items.add(new File(file));
             }
         }

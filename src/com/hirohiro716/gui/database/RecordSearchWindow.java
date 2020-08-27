@@ -47,10 +47,16 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
 
             @Override
             protected void handle(FrameEvent event) {
+                // Create table view
                 window.tableView = window.createTableView();
                 window.setContent(window.createContentUsingTableView(window.tableView));
-                window.searchedRecords.addAll(window.defaultRecords);
-                window.updateDisplayOfTableView();
+                // Default records
+                if (window.defaultRecords.size() > 0) {
+                    window.processBeforeSearching();
+                    window.searchedRecords.addAll(window.defaultRecords);
+                    window.updateDisplayOfTableView();
+                    window.processAfterSearching();
+                }
             }
         });
         this.addClosedEventHandler(new EventHandler<FrameEvent>() {

@@ -43,7 +43,18 @@ public class File extends FilesystemItem {
     public File(String location) {
         this(new java.io.File(location));
     }
-
+    
+    /**
+     * コンストラクタ。<br>
+     * 指定されたディレクトリ内、ファイル名で新しいインスタンスを作成する。
+     * 
+     * @param parentDirectory 
+     * @param fileName 
+     */
+    public File(Directory parentDirectory, String fileName) {
+        this(new java.io.File(parentDirectory.toJavaIoFile(), fileName));
+    }
+    
     /**
      * コンストラクタ。<br>
      * 指定されたファイルのURIで新しいインスタンスを作成する。
