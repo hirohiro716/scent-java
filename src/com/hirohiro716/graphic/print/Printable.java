@@ -124,6 +124,15 @@ public abstract class Printable implements java.awt.print.Printable {
     }
     
     /**
+     * この印刷物で印刷したページ数を取得する。印刷部数は考慮しない。
+     * 
+     * @return 結果。
+     */
+    public int getNumberOfPrintedPages() {
+        return this.listOfExistedPage.size();
+    }
+    
+    /**
      * 指定されたインデックスにあるページを印刷する処理。ページが存在しない場合はfalseを返す。
      * 
      * @param pageIndex

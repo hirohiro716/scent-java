@@ -215,6 +215,15 @@ public class PrinterJob {
     private Printable printable;
     
     /**
+     * 印刷するオブジェクトを取得する。
+     * 
+     * @return 結果。
+     */
+    public Printable getPrintable() {
+        return this.printable;
+    }
+    
+    /**
      * 印刷するオブジェクトを指定する。
      * 
      * @param printable
