@@ -80,6 +80,15 @@ public abstract class FilesystemItem {
     }
 
     /**
+     * ファイルシステムアイテムの名前を取得する。
+     * 
+     * @return 結果。
+     */
+    public String getName() {
+        return this.file.getName();
+    }
+    
+    /**
      * ファイルシステムアイテムの抽象パスを取得する。<br>
      * コンストラクタに相対パスを渡している場合は、戻り値も相対パスになる。
      * 
