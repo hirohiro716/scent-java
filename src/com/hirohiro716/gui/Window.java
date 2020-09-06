@@ -74,6 +74,7 @@ public class Window extends Frame<JFrame> {
     public void setContent(Control control) {
         this.rootPane.getChildren().clear();
         this.rootPane.getChildren().add(control);
+        this.rootPane.updateLayout();
     }
     
     @Override
