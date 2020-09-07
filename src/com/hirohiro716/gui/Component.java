@@ -387,7 +387,7 @@ public abstract class Component<T extends java.awt.Component> {
     public void setMaximumSize(Dimension dimension) {
         this.maximumSize = dimension;
         java.awt.Dimension awtDimension = new java.awt.Dimension(dimension.getIntegerWidth(), dimension.getIntegerHeight());
-        this.getInnerInstanceForLayout().setMinimumSize(awtDimension);
+        this.getInnerInstanceForLayout().setMaximumSize(awtDimension);
     }
     
     /**
