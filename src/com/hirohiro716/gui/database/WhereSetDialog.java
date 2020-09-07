@@ -337,8 +337,6 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         WhereSetDialog dialog = this;
         this.listView = new ListView<>();
         this.listView.setWidth(this.listView.getFont().getSize() * 30);
-        this.listView.setMinimumWidth(this.listView.getFont().getSize() * 30);
-        this.listView.setMaximumWidth(this.listView.getFont().getSize() * 30);
         // When added items
         this.listView.getItems().addListener(new AddListener<>() {
             

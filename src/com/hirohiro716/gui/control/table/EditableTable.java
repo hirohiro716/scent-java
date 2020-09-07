@@ -1376,7 +1376,6 @@ public abstract class EditableTable<C, R> extends Control {
             this.columnType = columnType;
             this.headerLabel = headerLabel;
             headerLabel.setMinimumWidth(editableTable.getFont().getSize() * 2);
-            headerLabel.setMaximumWidth(Short.MAX_VALUE);
         }
         
         private C columnInstance;
