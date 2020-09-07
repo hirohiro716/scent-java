@@ -246,6 +246,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
          */
         public JWindowForInstantMessage(Window owner) {
             super(owner);
+            this.setSize(1, 1);
         }
         
         private InstantMessage instantMessage;
