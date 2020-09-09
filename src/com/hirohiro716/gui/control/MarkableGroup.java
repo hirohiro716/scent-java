@@ -50,12 +50,10 @@ public class MarkableGroup {
      * @param eventSourceControl
      */
     private void executeMarkedChangeListener(MarkableControl eventSourceControl) {
-        
         MarkableControl markableControl = this.getMarkedControl();
         if (this.previousMarkedControl != null && this.previousMarkedControl.equals(markableControl) || markableControl == null) {
             return;
         }
-        
         for (ChangeListener<MarkableControl> changeListener : this.markedControlChangeListener) {
             changeListener.execute(eventSourceControl, markableControl, this.previousMarkedControl);
         }
@@ -71,7 +69,7 @@ public class MarkableGroup {
         }
     };
     
-    private EventHandler<MouseEvent> mouseClickedEventHandler = new EventHandler<MouseEvent>() {
+    private EventHandler<MouseEvent> mouseReleasedEventHandler = new EventHandler<MouseEvent>() {
 
         @Override
         protected void handle(MouseEvent event) {
@@ -111,7 +109,7 @@ public class MarkableGroup {
         this.buttonGroup.add(markableControl.getInnerInstance());
         this.hashMap.put(markableControl.getInnerInstance(), markableControl);
         markableControl.addKeyReleasedEventHandler(this.keyReleasedEventHandler);
-        markableControl.addMouseClickedEventHandler(this.mouseClickedEventHandler);
+        markableControl.addMouseReleasedEventHandler(this.mouseReleasedEventHandler);
         markableControl.addMarkChangeListener(this.markedChangeListener);
     }
     
@@ -124,7 +122,7 @@ public class MarkableGroup {
         this.buttonGroup.remove(markableControl.getInnerInstance());
         this.hashMap.remove(markableControl.getInnerInstance());
         markableControl.removeEventHandler(this.keyReleasedEventHandler);
-        markableControl.removeEventHandler(this.mouseClickedEventHandler);
+        markableControl.removeEventHandler(this.mouseReleasedEventHandler);
         markableControl.removeChangeListener(this.markedChangeListener);
     }
     
