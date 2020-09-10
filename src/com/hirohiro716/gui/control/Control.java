@@ -54,14 +54,6 @@ public abstract class Control extends Component<JComponent> {
             }
             this.setFont(font);
         }
-        this.addSizeChangeListener(new ChangeListener<Dimension>() {
-
-            @Override
-            protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
-                Control control = Control.this;
-                control.adjustSize();
-            }
-        });
     }
     
     /**

@@ -450,9 +450,7 @@ public abstract class TableView<C, R> extends Control {
                     
                     @Override
                     public void valueChanged(ListSelectionEvent event) {
-                        if (event.getValueIsAdjusting()) {
-                            changeListener.executeWhenChanged(tableView, tableView.getSelectedRow());
-                        }
+                        changeListener.executeWhenChanged(tableView, tableView.getSelectedRow());
                     }
                 };
             }
@@ -478,9 +476,7 @@ public abstract class TableView<C, R> extends Control {
                     
                     @Override
                     public void valueChanged(ListSelectionEvent event) {
-                        if (event.getValueIsAdjusting()) {
-                            changeListener.executeWhenChanged(tableView, tableView.getSelectedRows());
-                        }
+                        changeListener.executeWhenChanged(tableView, tableView.getSelectedRows());
                     }
                 };
             }

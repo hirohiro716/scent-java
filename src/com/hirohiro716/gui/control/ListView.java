@@ -217,9 +217,7 @@ public class ListView<T> extends ListSelectControl<T> {
                     
                     @Override
                     public void valueChanged(ListSelectionEvent event) {
-                        if (event.getValueIsAdjusting()) {
-                            changeListener.executeWhenChanged(listView, listView.getSelectedItems());
-                        }
+                        changeListener.executeWhenChanged(listView, listView.getSelectedItems());
                     }
                 };
             }
