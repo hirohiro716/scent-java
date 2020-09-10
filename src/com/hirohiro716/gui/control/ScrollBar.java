@@ -23,6 +23,7 @@ public class ScrollBar extends Control {
      */
     public ScrollBar(JScrollBar innerInstance) {
         super(innerInstance);
+        this.getInnerInstance().setUnitIncrement(10);
     }
     
     @Override

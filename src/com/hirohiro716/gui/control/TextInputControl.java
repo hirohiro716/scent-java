@@ -1,5 +1,6 @@
 package com.hirohiro716.gui.control;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -13,6 +14,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
 import com.hirohiro716.StringObject;
+import com.hirohiro716.graphic.ColorCreator;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.Insets;
@@ -70,6 +72,7 @@ public abstract class TextInputControl extends Control {
             }
         });
         this.getInnerInstance().setDocument(new RestrictedDocument());
+        this.setForegroundColor(this.getInnerInstance().getForeground());
     }
 
     /**
@@ -132,6 +135,14 @@ public abstract class TextInputControl extends Control {
         super.setDisableInputMethod(isDisableInputMethod);
         this.isDisabledInputMethod = isDisableInputMethod;
     }
+    
+    private Color foregroundColor; 
+    
+    @Override
+    public void setForegroundColor(Color color) {
+        super.setForegroundColor(color);
+        this.foregroundColor = color;
+    }
 
     /**
      * このテキスト入力コントロールが編集可能な場合はtrueを返す。
@@ -150,6 +161,12 @@ public abstract class TextInputControl extends Control {
     public void setEditable(boolean isEditable) {
         this.getInnerInstance().setEditable(isEditable);
         this.setDisableInputMethod(this.isDisabledInputMethod);
+        if (isEditable) {
+            this.getInnerInstance().setForeground(this.foregroundColor);
+        } else {
+            this.getInnerInstance().setForeground(ColorCreator.createTransparent(this.foregroundColor, 0.5));
+        }
+        this.updateDisplay();
     }
     
     /**
