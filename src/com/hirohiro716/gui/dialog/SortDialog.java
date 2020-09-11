@@ -99,7 +99,8 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
         } else {
             label.setText(sortableItem.toString());
         }
-        label.setPadding(label.getFont().getSize() / 2);
+        label.setMinimumHeight(label.getFont().getSize() * 2);
+        label.setPadding(0, 10);
         label.setInstanceForUseLater(sortableItem);
         return label;
     }
@@ -220,6 +221,7 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
     protected Control createInputControl() {
         this.verticalPane = new VerticalPane();
         this.verticalPane.setPadding(this.verticalPane.getFont().getSize());
+        this.verticalPane.setFillChildToPaneWidth(true);
         this.scrollPane = new ScrollPane(this.verticalPane);
         return this.scrollPane;
     }
