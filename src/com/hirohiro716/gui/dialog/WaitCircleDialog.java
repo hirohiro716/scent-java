@@ -160,6 +160,7 @@ public class WaitCircleDialog<R> extends MessageableDialog<R> {
         super.processBeforeShowing();
         int size = this.waitCircle.getFont().getSize() * 5;
         this.waitCircle.setMinimumSize(size, size);
+        this.waitCircle.setSize(size, size);
     }
     
     @Override
