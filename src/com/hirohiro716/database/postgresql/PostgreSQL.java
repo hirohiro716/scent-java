@@ -72,7 +72,7 @@ public abstract class PostgreSQL extends Database {
     public void lockTable(String physicalTableName) throws SQLException {
         StringObject sql = new StringObject("LOCK TABLE ");
         sql.append(physicalTableName);
-        sql.append(" IN ACCESS EXCLUSIVE MODE;");
+        sql.append(" IN ACCESS EXCLUSIVE MODE NOWAIT;");
         this.execute(sql.toString());
     }
     
@@ -95,7 +95,7 @@ public abstract class PostgreSQL extends Database {
     public void lockTableReadonly(String physicalTableName) throws SQLException {
         StringObject sql = new StringObject("LOCK TABLE ");
         sql.append(physicalTableName);
-        sql.append(" IN EXCLUSIVE MODE;");
+        sql.append(" IN EXCLUSIVE MODE NOWAIT;");
         this.execute(sql.toString());
     }
     
