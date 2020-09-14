@@ -12,7 +12,6 @@ import java.util.Map;
 
 import com.hirohiro716.StringObject;
 import com.hirohiro716.filesystem.Directory;
-import com.hirohiro716.filesystem.File;
 import com.hirohiro716.filesystem.FilesystemItem;
 
 /**
@@ -38,7 +37,7 @@ public abstract class DynamicClass {
                 }
                 if (item.isDirectory()) {
                     Directory directory = (Directory) item;
-                    for (File childFile : directory.getFiles(null)) {
+                    for (FilesystemItem childFile : directory.searchItems(null, null)) {
                         if (childFile.isFile() && childFile.toString().endsWith(".jar")) {
                             urls.add(childFile.toURI().toURL());
                         }
