@@ -22,8 +22,9 @@ public class Directory extends FilesystemItem {
      * 指定されたjava.io.Fileから新しいインスタンスを作成する。
      * 
      * @param file
+     * @throws IllegalArgumentException 
      */
-    public Directory(java.io.File file) {
+    public Directory(java.io.File file) throws IllegalArgumentException {
         super(file);
         if (this.toJavaIoFile().exists() && this.isDirectory() == false) {
             throw new IllegalArgumentException("Argument must be directory:" + this.getPath());

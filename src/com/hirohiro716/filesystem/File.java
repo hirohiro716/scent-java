@@ -26,8 +26,9 @@ public class File extends FilesystemItem {
      * 指定されたjava.io.Fileから新しいインスタンスを作成する。
      * 
      * @param file
+     * @throws IllegalArgumentException 
      */
-    public File(java.io.File file) {
+    public File(java.io.File file) throws IllegalArgumentException {
         super(file);
         if (this.toJavaIoFile().exists() && this.isFile() == false) {
             throw new IllegalArgumentException("Argument must be file:" + this.getPath());
