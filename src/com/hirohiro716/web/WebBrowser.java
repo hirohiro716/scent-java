@@ -573,7 +573,7 @@ public class WebBrowser extends DynamicClass {
     private List<Element> findElementsByCssSelector(Element parent, String cssSelector) {
         List<Element> elements = new ArrayList<>();
         try {
-            // Search at XPath
+            // Search at CSS selector
             Method byMethod = new Method(this.classBy);
             byMethod.setParameterTypes(String.class);
             Object by = byMethod.invoke("cssSelector", cssSelector);
@@ -654,6 +654,108 @@ public class WebBrowser extends DynamicClass {
                 List<Element> elements = new ArrayList<>();
                 for (Element parent: this.getAllElements()) {
                     elements.addAll(this.findElementsByCssSelector(parent, cssSelector));
+                }
+                if (elements.size() == 0) {
+                    return;
+                }
+                Thread.sleep(1000);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * 指定された親要素の中から、XPathに一致する要素を再帰的にすべて取得する。
+     * 
+     * @param parent
+     * @param xPath
+     * @return 結果。
+     */
+    private List<Element> findElementsByXPath(Element parent, String xPath) {
+        List<Element> elements = new ArrayList<>();
+        try {
+            // Search at XPath
+            Method byMethod = new Method(this.classBy);
+            byMethod.setParameterTypes(String.class);
+            Object by = byMethod.invoke("xpath", xPath);
+            // Search elements
+            Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
+            findElementsMethod.setParameterTypes(this.classBy);
+            List<?> elementObjects = findElementsMethod.invoke("findElements", by);
+            for (Object elementObject : elementObjects) {
+                elements.add(this.getElement(elementObject));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return elements;
+    }
+    
+    /**
+     * すでに選択状態にある要素の子要素から、XPathに一致する要素を選択状態にする。
+     * 
+     * @param xPath
+     */
+    public void moreSelectElementsByXPath(String xPath) {
+        try {
+            List<Element> newSelectedElements = new ArrayList<>();
+            for (Element selectedElement: this.selectedElements) {
+                newSelectedElements.addAll(this.findElementsByXPath(selectedElement, xPath));
+            }
+            this.selectedElements = newSelectedElements;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * BODY要素の子要素から、XPathに一致する要素を選択状態にする。
+     * 
+     * @param xPath
+     */
+    public void selectElementsByXPath(String xPath) {
+        this.clearSelectedElements();
+        this.moreSelectElementsByXPath(xPath);
+    }
+    
+    /**
+     * すべての要素からXPathに一致する要素が見つかるのを待機する。
+     * 
+     * @param xPath
+     * @param timeoutSeconds タイムアウトまでの秒数。
+     */
+    public void waitForXPathFound(String xPath, int timeoutSeconds) {
+        Datetime limit = new Datetime();
+        limit.addSecond(timeoutSeconds);
+        try {
+            while (limit.getDate().getTime() > new Date().getTime()) {
+                for (Element parent: this.getAllElements()) {
+                    if (this.findElementsByXPath(parent, xPath).size() > 0) {
+                        return;
+                    }
+                }
+                Thread.sleep(1000);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+    
+    /**
+     * すべての要素からXPathに一致する要素が失われるのを待機する。
+     * 
+     * @param xPath
+     * @param timeoutSeconds タイムアウトまでの秒数。
+     */
+    public void waitForXPathLost(String xPath, int timeoutSeconds) {
+        Datetime limit = new Datetime();
+        limit.addSecond(timeoutSeconds);
+        try {
+            while (limit.getDate().getTime() > new Date().getTime()) {
+                List<Element> elements = new ArrayList<>();
+                for (Element parent: this.getAllElements()) {
+                    elements.addAll(this.findElementsByXPath(parent, xPath));
                 }
                 if (elements.size() == 0) {
                     return;
