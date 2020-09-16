@@ -118,6 +118,12 @@ public class WebBrowser extends DynamicClass {
         }
         return webDriver;
     }
+
+    private Class<?> classRemoteWebElement = this.loadClass("org.openqa.selenium.remote.RemoteWebElement");
+
+    private Class<?> classWebElement = this.loadClass("org.openqa.selenium.WebElement");
+
+    private Class<?> classBy = this.loadClass("org.openqa.selenium.By");
     
     private Map<Object, Element> mapElement = new HashMap<>();
     
@@ -185,6 +191,7 @@ public class WebBrowser extends DynamicClass {
         try {
             Method method = new Method(this.classJavascriptExecutor, this.webDriver);
             method.invoke("executeScript", javascript, new Object[] {});
+            this.mapElement.clear();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -293,24 +300,33 @@ public class WebBrowser extends DynamicClass {
             exception.printStackTrace();
         }
     }
-
+    
     /**
-     * 親要素の中から、正規表現に一致する属性値を持つ子要素を、再帰的にすべて取得する。
+     * 指定された親要素の中から、指定値に一致する属性値を持つ要素を、再帰的にすべて取得する。
      * 
      * @param parent
      * @param attributeName
-     * @param regexForAttributeValue
+     * @param attributeValue
      * @return 結果。
      */
-    private List<Element> findElementsByAttribute(Element parent, String attributeName, String regexForAttributeValue) {
+    private List<Element> findElementsByAttribute(Element parent, String attributeName, String attributeValue) {
         List<Element> elements = new ArrayList<>();
         try {
-            for (Element element: parent.getChildElements()) {
-                String value = StringObject.newInstance(element.getAttribute(attributeName)).replaceCR("").replaceLF("").replaceCRLF("").toString();
-                if (value.matches(regexForAttributeValue)) {
-                    elements.add(element);
-                }
-                elements.addAll(this.findElementsByAttribute(element, attributeName, regexForAttributeValue));
+            // Search at XPath
+            StringObject xpath = new StringObject(".//*[@");
+            xpath.append(attributeName);
+            xpath.append("='");
+            xpath.append(attributeValue);
+            xpath.append("']");
+            Method byMethod = new Method(this.classBy);
+            byMethod.setParameterTypes(String.class);
+            Object by = byMethod.invoke("xpath", xpath.toString());
+            // Search elements
+            Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
+            findElementsMethod.setParameterTypes(this.classBy);
+            List<?> elementObjects = findElementsMethod.invoke("findElements", by);
+            for (Object elementObject : elementObjects) {
+                elements.add(this.getElement(elementObject));
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -319,16 +335,16 @@ public class WebBrowser extends DynamicClass {
     }
     
     /**
-     * すでに選択状態にある要素の子要素から、更に正規表現に一致する属性値を持つ要素を選択状態にする。
+     * すでに選択状態にある要素の子要素から、指定値に一致する属性値を持つ要素を選択状態にする。
      * 
      * @param attributeName
-     * @param regexForAttributeValue
+     * @param attributeValue
      */
-    public void moreSelectElementsByAttribute(String attributeName, String regexForAttributeValue) {
+    public void moreSelectElementsByAttribute(String attributeName, String attributeValue) {
         try {
             List<Element> newSelectedElements = new ArrayList<>();
             for (Element selectedElement: this.selectedElements) {
-                newSelectedElements.addAll(this.findElementsByAttribute(selectedElement, attributeName, regexForAttributeValue));
+                newSelectedElements.addAll(this.findElementsByAttribute(selectedElement, attributeName, attributeValue));
             }
             this.selectedElements = newSelectedElements;
         } catch (Exception exception) {
@@ -337,30 +353,30 @@ public class WebBrowser extends DynamicClass {
     }
 
     /**
-     * BODY要素の子要素から、正規表現に一致する属性値を持つ要素を選択状態にする。
+     * BODY要素の子要素から、指定値に一致する属性値を持つ要素を選択状態にする。
      * 
      * @param attributeName
-     * @param regexForAttributeValue
+     * @param attributeValue
      */
-    public void selectElementsByAttribute(String attributeName, String regexForAttributeValue) {
+    public void selectElementsByAttribute(String attributeName, String attributeValue) {
         this.clearSelectedElements();
-        this.moreSelectElementsByAttribute(attributeName, regexForAttributeValue);
+        this.moreSelectElementsByAttribute(attributeName, attributeValue);
     }
     
     /**
-     * すべての要素から正規表現に一致する属性値を持つ要素が見つかるのを待機する。
+     * すべての要素から指定値に一致する属性値を持つ要素が見つかるのを待機する。
      * 
      * @param attributeName
-     * @param regexForAttributeValue
+     * @param attributeValue
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForAttributeFound(String attributeName, String regexForAttributeValue, int timeoutSeconds) {
+    public void waitForAttributeFound(String attributeName, String attributeValue, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         try {
             while (limit.getDate().getTime() > new Date().getTime()) {
                 for (Element parent: this.getAllElements()) {
-                    if (this.findElementsByAttribute(parent, attributeName, regexForAttributeValue).size() > 0) {
+                    if (this.findElementsByAttribute(parent, attributeName, attributeValue).size() > 0) {
                         return;
                     }
                 }
@@ -372,20 +388,20 @@ public class WebBrowser extends DynamicClass {
     }
     
     /**
-     * すべての要素から正規表現に一致する属性値を持つ要素が失われるのを待機する。
+     * すべての要素から指定値に一致する属性値を持つ要素が失われるのを待機する。
      * 
      * @param attributeName
-     * @param regexForAttributeValue
+     * @param attributeValue
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForAttributeLost(String attributeName, String regexForAttributeValue, int timeoutSeconds) {
+    public void waitForAttributeLost(String attributeName, String attributeValue, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         try {
             while (limit.getDate().getTime() > new Date().getTime()) {
                 List<Element> elements = new ArrayList<>();
                 for (Element parent: this.getAllElements()) {
-                    elements.addAll(this.findElementsByAttribute(parent, attributeName, regexForAttributeValue));
+                    elements.addAll(this.findElementsByAttribute(parent, attributeName, attributeValue));
                 }
                 if (elements.size() == 0) {
                     return;
@@ -398,22 +414,31 @@ public class WebBrowser extends DynamicClass {
     }
 
     /**
-     * 親要素の中から、タグ名が一致していて、内包するテキストが正規表現にも一致する子要素を、再帰的にすべて取得する。
+     * 親要素の中から、タグ名が一致していて、内包するテキストが指定値を含む要素を、再帰的にすべて取得する。
      * 
      * @param parent
      * @param tagName
-     * @param regexForTextContent 
+     * @param textContent 
      * @return 結果。
      */
-    private List<Element> findElementsByTagName(Element parent, String tagName, String regexForTextContent) {
+    private List<Element> findElementsByTagName(Element parent, String tagName, String textContent) {
         List<Element> elements = new ArrayList<>();
         try {
-            for (Element element: parent.getChildElements()) {
-                String comparison = StringObject.newInstance(element.getTextContent()).replaceCR("").replaceLF("").replaceCRLF("").toString();
-                if (element.getTagName().toUpperCase().equals(tagName.toUpperCase()) && comparison.matches(regexForTextContent)) {
-                    elements.add(element);
-                }
-                elements.addAll(this.findElementsByTagName(element, tagName, regexForTextContent));
+            // Search at XPath
+            StringObject xpath = new StringObject(".//");
+            xpath.append(tagName);
+            xpath.append("[contains(text(), '");
+            xpath.append(textContent);
+            xpath.append("')]");
+            Method byMethod = new Method(this.classBy);
+            byMethod.setParameterTypes(String.class);
+            Object by = byMethod.invoke("xpath", xpath.toString());
+            // Search elements
+            Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
+            findElementsMethod.setParameterTypes(this.classBy);
+            List<?> elementObjects = findElementsMethod.invoke("findElements", by);
+            for (Object elementObject : elementObjects) {
+                elements.add(this.getElement(elementObject));
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -422,16 +447,16 @@ public class WebBrowser extends DynamicClass {
     }
 
     /**
-     * すでに選択状態にある要素の子要素から、タグ名が一致していて、内包するテキストが正規表現にも一致する要素を選択状態にする。
+     * すでに選択状態にある要素の子要素から、タグ名が一致していて、内包するテキストが指定値を含む要素を選択状態にする。
      * 
      * @param tagName
-     * @param regexForTextContent 
+     * @param textContent 
      */
-    public void moreSelectElementsByTagName(String tagName, String regexForTextContent) {
+    public void moreSelectElementsByTagName(String tagName, String textContent) {
         try {
             List<Element> newSelectedElements = new ArrayList<>();
             for (Element selectedElement: this.selectedElements) {
-                newSelectedElements.addAll(this.findElementsByTagName(selectedElement, tagName, regexForTextContent));
+                newSelectedElements.addAll(this.findElementsByTagName(selectedElement, tagName, textContent));
             }
             this.selectedElements = newSelectedElements;
         } catch (Exception exception) {
@@ -445,18 +470,18 @@ public class WebBrowser extends DynamicClass {
      * @param tagName
      */
     public void moreSelectElementsByTagName(String tagName) {
-        this.moreSelectElementsByTagName(tagName, ".{0,}");
+        this.moreSelectElementsByTagName(tagName, "");
     }
 
     /**
-     * BODY要素の子要素から、タグ名が一致していて、内包するテキストが正規表現にも一致する要素を選択状態にする。
+     * BODY要素の子要素から、タグ名が一致していて、内包するテキストが指定値を含む要素を選択状態にする。
      * 
      * @param tagName
-     * @param regexForTextContent 
+     * @param textContent 
      */
-    public void selectElementsByTagName(String tagName, String regexForTextContent) {
+    public void selectElementsByTagName(String tagName, String textContent) {
         this.clearSelectedElements();
-        this.moreSelectElementsByTagName(tagName, regexForTextContent);
+        this.moreSelectElementsByTagName(tagName, textContent);
     }
 
     /**
@@ -465,23 +490,23 @@ public class WebBrowser extends DynamicClass {
      * @param tagName
      */
     public void selectElementsByTagName(String tagName) {
-        this.selectElementsByTagName(tagName, ".{0,}");
+        this.selectElementsByTagName(tagName, "");
     }
 
     /**
-     * すべての要素から、タグ名が一致していて、内包するテキストが正規表現にも一致する要素が見つかるのを待機する。
+     * すべての要素から、タグ名が一致していて、内包するテキストが指定値を含む要素が見つかるのを待機する。
      * 
      * @param tagName
-     * @param regexForTextContent
+     * @param textContent
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForTagNameFound(String tagName, String regexForTextContent, int timeoutSeconds) {
+    public void waitForTagNameFound(String tagName, String textContent, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         try {
             while (limit.getDate().getTime() > new Date().getTime()) {
                 for (Element parent: this.getAllElements()) {
-                    if (this.findElementsByTagName(parent, tagName, regexForTextContent).size() > 0) {
+                    if (this.findElementsByTagName(parent, tagName, textContent).size() > 0) {
                         return;
                     }
                 }
@@ -499,24 +524,24 @@ public class WebBrowser extends DynamicClass {
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
     public void waitForTagNameFound(String tagName, int timeoutSeconds) {
-        this.waitForTagNameFound(tagName, ".{0,}", timeoutSeconds);
+        this.waitForTagNameFound(tagName, "", timeoutSeconds);
     }
     
     /**
-     * すべての要素から、タグ名が一致していて、内包するテキストが正規表現にも一致する要素が失われるのを待機する。
+     * すべての要素から、タグ名が一致していて、内包するテキストが指定値を含む要素が失われるのを待機する。
      * 
      * @param tagName
-     * @param regexForTextContent
+     * @param textContent
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForTagNameLost(String tagName, String regexForTextContent, int timeoutSeconds) {
+    public void waitForTagNameLost(String tagName, String textContent, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         try {
             while (limit.getDate().getTime() > new Date().getTime()) {
                 List<Element> elements = new ArrayList<>();
                 for (Element parent: this.getAllElements()) {
-                    elements.addAll(this.findElementsByAttribute(parent, tagName, regexForTextContent));
+                    elements.addAll(this.findElementsByTagName(parent, tagName, textContent));
                 }
                 if (elements.size() == 0) {
                     return;
@@ -535,9 +560,111 @@ public class WebBrowser extends DynamicClass {
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
     public void waitForTagNameLost(String tagName, int timeoutSeconds) {
-        this.waitForTagNameLost(tagName, ".{0,}", timeoutSeconds);
+        this.waitForTagNameLost(tagName, "", timeoutSeconds);
+    }
+    
+    /**
+     * 指定された親要素の中から、CSSセレクタに一致する要素を再帰的にすべて取得する。
+     * 
+     * @param parent
+     * @param cssSelector
+     * @return 結果。
+     */
+    private List<Element> findElementsByCssSelector(Element parent, String cssSelector) {
+        List<Element> elements = new ArrayList<>();
+        try {
+            // Search at XPath
+            Method byMethod = new Method(this.classBy);
+            byMethod.setParameterTypes(String.class);
+            Object by = byMethod.invoke("cssSelector", cssSelector);
+            // Search elements
+            Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
+            findElementsMethod.setParameterTypes(this.classBy);
+            List<?> elementObjects = findElementsMethod.invoke("findElements", by);
+            for (Object elementObject : elementObjects) {
+                elements.add(this.getElement(elementObject));
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return elements;
+    }
+    
+    /**
+     * すでに選択状態にある要素の子要素から、CSSセレクタに一致する要素を選択状態にする。
+     * 
+     * @param cssSelector
+     */
+    public void moreSelectElementsByCssSelector(String cssSelector) {
+        try {
+            List<Element> newSelectedElements = new ArrayList<>();
+            for (Element selectedElement: this.selectedElements) {
+                newSelectedElements.addAll(this.findElementsByCssSelector(selectedElement, cssSelector));
+            }
+            this.selectedElements = newSelectedElements;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
+    /**
+     * BODY要素の子要素から、CSSセレクタに一致する要素を選択状態にする。
+     * 
+     * @param cssSelector
+     */
+    public void selectElementsByCssSelector(String cssSelector) {
+        this.clearSelectedElements();
+        this.moreSelectElementsByCssSelector(cssSelector);
+    }
+    
+    /**
+     * すべての要素からCSSセレクタに一致する要素が見つかるのを待機する。
+     * 
+     * @param cssSelector
+     * @param timeoutSeconds タイムアウトまでの秒数。
+     */
+    public void waitForCssSelectionFound(String cssSelector, int timeoutSeconds) {
+        Datetime limit = new Datetime();
+        limit.addSecond(timeoutSeconds);
+        try {
+            while (limit.getDate().getTime() > new Date().getTime()) {
+                for (Element parent: this.getAllElements()) {
+                    if (this.findElementsByCssSelector(parent, cssSelector).size() > 0) {
+                        return;
+                    }
+                }
+                Thread.sleep(1000);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+    
+    /**
+     * すべての要素からCSSセレクタに一致する要素が失われるのを待機する。
+     * 
+     * @param cssSelector
+     * @param timeoutSeconds タイムアウトまでの秒数。
+     */
+    public void waitForCssSelectionLost(String cssSelector, int timeoutSeconds) {
+        Datetime limit = new Datetime();
+        limit.addSecond(timeoutSeconds);
+        try {
+            while (limit.getDate().getTime() > new Date().getTime()) {
+                List<Element> elements = new ArrayList<>();
+                for (Element parent: this.getAllElements()) {
+                    elements.addAll(this.findElementsByCssSelector(parent, cssSelector));
+                }
+                if (elements.size() == 0) {
+                    return;
+                }
+                Thread.sleep(1000);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+    
     /**
      * WebBrowserにおけるHTML文書内の要素を表す。
      * 
@@ -556,8 +683,6 @@ public class WebBrowser extends DynamicClass {
             this.element = element;
         }
         
-        private Class<?> classRemoteWebElement = WebBrowser.this.loadClass("org.openqa.selenium.remote.RemoteWebElement");
-        
         private Object element;
         
         /**
@@ -567,7 +692,8 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public String getTagName() throws Exception {
-            Method method = new Method(this.classRemoteWebElement, this.element);
+            WebBrowser browser = WebBrowser.this;
+            Method method = new Method(browser.classRemoteWebElement, this.element);
             return method.invoke("getTagName");
         }
         
@@ -578,7 +704,8 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public String getSource() throws Exception {
-            Method method = new Method(this.classRemoteWebElement, this.element);
+            WebBrowser browser = WebBrowser.this;
+            Method method = new Method(browser.classRemoteWebElement, this.element);
             return method.invoke("getAttribute", "outerHTML");
         }
         
@@ -589,7 +716,8 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public String getTextContent() throws Exception {
-            Method method = new Method(this.classRemoteWebElement, this.element);
+            WebBrowser browser = WebBrowser.this;
+            Method method = new Method(browser.classRemoteWebElement, this.element);
             return method.invoke("getAttribute", "outerText");
         }
         
@@ -601,7 +729,8 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public String getAttribute(String name) throws Exception {
-            Method method = new Method(this.classRemoteWebElement, this.element);
+            WebBrowser browser = WebBrowser.this;
+            Method method = new Method(browser.classRemoteWebElement, this.element);
             return method.invoke("getAttribute", name);
         }
         
@@ -627,10 +756,9 @@ public class WebBrowser extends DynamicClass {
             WebBrowser browser = WebBrowser.this;
             Method method = new Method(browser.classJavascriptExecutor, browser.webDriver);
             method.invoke("executeScript", "arguments[0].click();", new Object[] {this.element});
+            browser.mapElement.clear();
         }
 
-        private Class<?> classWebElement = WebBrowser.this.loadClass("org.openqa.selenium.WebElement");
-        
         /**
          * select要素の中で、選択されているoption要素を取得する。
          * 
@@ -642,7 +770,7 @@ public class WebBrowser extends DynamicClass {
             List<Element> result = new ArrayList<>();
             if (this.getTagName().equalsIgnoreCase("select")) {
                 Constructor constructor = new Constructor("org.openqa.selenium.support.ui.Select");
-                constructor.setParameterTypes(this.classWebElement);
+                constructor.setParameterTypes(browser.classWebElement);
                 Object selectElement = constructor.newInstance(this.element);
                 Method method = new Method(selectElement);
                 List<?> options = method.invoke("getAllSelectedOptions");
@@ -660,9 +788,10 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public void addSelectedOption(String value) throws Exception {
+            WebBrowser browser = WebBrowser.this;
             if (this.getTagName().equalsIgnoreCase("select")) {
                 Constructor constructor = new Constructor("org.openqa.selenium.support.ui.Select");
-                constructor.setParameterTypes(this.classWebElement);
+                constructor.setParameterTypes(browser.classWebElement);
                 Object selectElement = constructor.newInstance(this.element);
                 Method method = new Method(selectElement);
                 method.invoke("selectByValue", value);
@@ -675,16 +804,15 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public void clearSelectedOptions() throws Exception {
+            WebBrowser browser = WebBrowser.this;
             if (this.getTagName().equalsIgnoreCase("select")) {
                 Constructor constructor = new Constructor("org.openqa.selenium.support.ui.Select");
-                constructor.setParameterTypes(this.classWebElement);
+                constructor.setParameterTypes(browser.classWebElement);
                 Object selectElement = constructor.newInstance(this.element);
                 Method method = new Method(selectElement);
                 method.invoke("deselectAll");
             }
         }
-        
-        private Class<?> classBy = WebBrowser.this.loadClass("org.openqa.selenium.By");
         
         /**
          * この要素の子要素を取得する。
@@ -695,18 +823,37 @@ public class WebBrowser extends DynamicClass {
         public Array<Element> getChildElements() throws Exception {
             WebBrowser browser = WebBrowser.this;
             // By.xpath method
-            Method byMethod = new Method(this.classBy);
+            Method byMethod = new Method(browser.classBy);
             byMethod.setParameterTypes(String.class);
-            Object by = byMethod.invoke("xpath", "*");
+            Object by = byMethod.invoke("xpath", "./*");
             // findElements method
-            Method findElementsMethod = new Method(this.classRemoteWebElement, this.element);
-            findElementsMethod.setParameterTypes(this.classBy);
+            Method findElementsMethod = new Method(browser.classRemoteWebElement, this.element);
+            findElementsMethod.setParameterTypes(browser.classBy);
             List<?> elements = findElementsMethod.invoke("findElements", by);
             List<Element> result = new ArrayList<>();
             for (Object element: elements) {
                 result.add(browser.getElement(element));
             }
             return new Array<>(result);
+        }
+        
+        /**
+         * この要素の親要素を取得する。
+         * 
+         * @return 結果。
+         * @throws Exception
+         */
+        public Element getParentElement() throws Exception {
+            WebBrowser browser = WebBrowser.this;
+            // By.xpath method
+            Method byMethod = new Method(browser.classBy);
+            byMethod.setParameterTypes(String.class);
+            Object by = byMethod.invoke("xpath", "./..");
+            // findElement method
+            Method findElementsMethod = new Method(browser.classRemoteWebElement, this.element);
+            findElementsMethod.setParameterTypes(browser.classBy);
+            Object element = findElementsMethod.invoke("findElement", by);
+            return browser.getElement(element);
         }
     }
 
