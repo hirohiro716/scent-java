@@ -1,26 +1,26 @@
 package com.hirohiro716.web;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+
+import org.w3c.dom.Node;
+
 import com.hirohiro716.Array;
-import com.hirohiro716.IdentifiableEnum;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.datetime.Datetime;
 import com.hirohiro716.filesystem.Directory;
-import com.hirohiro716.filesystem.File;
 import com.hirohiro716.reflection.DynamicClass;
 import com.hirohiro716.reflection.Method;
 
 /**
- * HTML5、CSS3、JavaScriptをサポートするWEBブラウザのクラス。<br>
- * Selenium - <a href="https://www.selenium.dev/downloads/">https://www.selenium.dev/downloads/</a><br>
- * WebDriver - <a href="https://www.selenium.dev/documentation/en/webdriver/driver_requirements/">https://www.selenium.dev/documentation/en/webdriver/driver_requirements/</a>
- * 
+ * HTML5、CSS3、JavaScriptをサポートするWEBブラウザのクラス。
+ * HtmlUnit - <a href="https://htmlunit.sourceforge.io/">https://htmlunit.sourceforge.io/</a>
+ *
  * @author hiro
  *
  */
@@ -28,97 +28,44 @@ public class WebBrowser extends DynamicClass {
     
     /**
      * コンストラクタ。<br>
-     * パラメーターにseleniumライブラリの各jarファイルが入ったディレクトリ、WEBブラウザの種類、seleniumのWEBドライバー実行ファイルを指定する。
+     * パラメーターにHtmlUnitライブラリの各jarファイルが入ったディレクトリを指定する。
      * 
-     * @param seleniumLibraryDirectory
-     * @param type 
-     * @param seleniumWebDriver 
+     * @param htmlUnitLibraryDirectory
      * @throws ClassNotFoundException
      * @throws Exception
      */
-    public WebBrowser(Directory seleniumLibraryDirectory, Type type, File seleniumWebDriver) throws ClassNotFoundException, Exception {
-        super(seleniumLibraryDirectory);
-        if (type == null && seleniumWebDriver == null) {
-            throw new IOException("WebDriver is not specified.");
-        }
-        Type usingType = type;
-        if (usingType == null) {
-            usingType = Type.enumOf(seleniumWebDriver);
-        }
-        if (usingType == null) {
-            throw new IOException("The type of WebDriver could not be determined.");
-        }
-        if (seleniumWebDriver != null) {
-            System.setProperty(usingType.getSystemPropertyName(), seleniumWebDriver.getAbsolutePath());
-        }
-        this.webDriver = this.createWebDriver(usingType);
+    public WebBrowser(Directory htmlUnitLibraryDirectory) throws ClassNotFoundException, Exception {
+        super(htmlUnitLibraryDirectory);
+        Constructor constructor = new Constructor("com.gargoylesoftware.htmlunit.WebClient");
+        this.webClient = constructor.newInstance();
+        Method getCurrentWindowMethod = new Method(this.webClient);
+        this.webWindow = getCurrentWindowMethod.invoke("getCurrentWindow");
+        // Hide warning
+        java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF); 
+        // Setting that does not process as an exception if the JavaScript link destination does not exist
+        Method getOptionMethod = new Method(this.webClient);
+        Object webClientOptions = getOptionMethod.invoke("getOptions");
+        Method setThrowExceptionOnFailingStatusCodeMethod = new Method(webClientOptions);
+        setThrowExceptionOnFailingStatusCodeMethod.setParameterTypes(boolean.class);
+        setThrowExceptionOnFailingStatusCodeMethod.invoke("setThrowExceptionOnFailingStatusCode", false);
+        // Setting that does not handle JavaScript errors as exceptions
+        Method setThrowExceptionOnScriptErrorMethod = new Method(webClientOptions);
+        setThrowExceptionOnScriptErrorMethod.setParameterTypes(boolean.class);
+        setThrowExceptionOnScriptErrorMethod.invoke("setThrowExceptionOnScriptError", false);
+        // Setting to wait for the end of ajax communication
+        Constructor ajaxControllerConstructor = new Constructor("com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController");
+        Object ajaxController = ajaxControllerConstructor.newInstance();
+        Method setAjaxControllerMethod = new Method(this.webClient);
+        setAjaxControllerMethod.setParameterTypes(this.loadClass("com.gargoylesoftware.htmlunit.AjaxController"));
+        setAjaxControllerMethod.invoke("setAjaxController", ajaxController);
     }
     
-    /**
-     * コンストラクタ。<br>
-     * パラメーターにseleniumライブラリの各jarファイルが入ったディレクトリ、seleniumのWEBドライバー実行ファイルを指定する。
-     * 
-     * @param seleniumLibraryDirectory
-     * @param seleniumWebDriver 
-     * @throws ClassNotFoundException
-     * @throws Exception
-     */
-    public WebBrowser(Directory seleniumLibraryDirectory, File seleniumWebDriver) throws ClassNotFoundException, Exception {
-        this(seleniumLibraryDirectory, null, seleniumWebDriver);
-    }
+    private Object webClient;
+    
+    private Object webWindow;
+    
+    private Object webPage = null;
 
-    /**
-     * コンストラクタ。<br>
-     * パラメーターにseleniumライブラリの各jarファイルが入ったディレクトリ、WEBブラウザの種類を指定する。
-     * 
-     * @param seleniumLibraryDirectory
-     * @param type 
-     * @throws ClassNotFoundException
-     * @throws Exception
-     */
-    public WebBrowser(Directory seleniumLibraryDirectory, Type type) throws ClassNotFoundException, Exception {
-        this(seleniumLibraryDirectory, type, null);
-    }
-
-    private Class<?> classWebDriver = this.loadClass("org.openqa.selenium.WebDriver");
-    
-    private Object webDriver;
-    
-    /**
-     * 指定されたタイプのWEBドライバーを作成する。
-     * 
-     * @param type
-     * @return 結果。
-     * @throws Exception
-     */
-    public Object createWebDriver(Type type) throws Exception {
-        Object webDriver = null;
-        Constructor constructor;
-        switch (type) {
-        case CHROME:
-            constructor = new Constructor("org.openqa.selenium.chrome.ChromeDriver");
-            webDriver = constructor.newInstance();
-            break;
-        case FIREFOX:
-            constructor = new Constructor("org.openqa.selenium.firefox.FirefoxDriver");
-            webDriver = constructor.newInstance();
-            break;
-        case OPERA:
-            constructor = new Constructor("org.openqa.selenium.opera.OperaDriver");
-            webDriver = constructor.newInstance();
-            break;
-        case EDGE:
-            constructor = new Constructor("org.openqa.selenium.edge.EdgeDriver");
-            webDriver = constructor.newInstance();
-            break;
-        case SAFARI:
-            constructor = new Constructor("org.openqa.selenium.safari.SafariDriver");
-            webDriver = constructor.newInstance();
-            break;
-        }
-        return webDriver;
-    }
-    
     private Map<Object, Element> mapElement = new HashMap<>();
     
     /**
@@ -128,8 +75,8 @@ public class WebBrowser extends DynamicClass {
      * @throws Exception 
      */
     public void load(URL url) throws Exception {
-        Method method = new Method(this.classWebDriver, this.webDriver);
-        method.invoke("get", url.toExternalForm());
+        Method method = new Method(this.webClient);
+        this.webPage = method.invoke("getPage", url);
         this.mapElement.clear();
         this.clearSelectedElements();
     }
@@ -151,8 +98,8 @@ public class WebBrowser extends DynamicClass {
      */
     public String getTitle() {
         try {
-            Method method = new Method(this.classWebDriver, this.webDriver);
-            return method.invoke("getTitle");
+            Method method = new Method(this.webPage);
+            return method.invoke("getTitleText");
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;
@@ -166,15 +113,25 @@ public class WebBrowser extends DynamicClass {
      */
     public String getSource() {
         try {
-            Method method = new Method(this.classWebDriver, this.webDriver);
-            return method.invoke("getPageSource");
+            Method method = new Method(this.loadClass("com.gargoylesoftware.htmlunit.SgmlPage"), this.webPage);
+            return method.invoke("asXml");
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;
         }
     }
-    
-    private Class<?> classJavascriptExecutor = this.loadClass("org.openqa.selenium.JavascriptExecutor");
+
+    /**
+     * JavaScriptなどから変更されたWEBページを再読み込みする。
+     * 
+     * @throws Exception 
+     */
+    private void updateWebPage() throws Exception {
+        Method method = new Method(this.loadClass("com.gargoylesoftware.htmlunit.WebWindow"), this.webWindow);
+        this.webPage = method.invoke("getEnclosedPage");
+        this.mapElement.clear();
+        this.clearSelectedElements();
+    }
     
     /**
      * 指定されたJavaScriptを実行する。
@@ -183,8 +140,9 @@ public class WebBrowser extends DynamicClass {
      */
     public void executeJavaScript(String javascript) {
         try {
-            Method method = new Method(this.classJavascriptExecutor, this.webDriver);
-            method.invoke("executeScript", javascript, new Object[] {});
+            Method method = new Method(this.webPage);
+            method.invoke("executeJavaScript", javascript);
+            this.updateWebPage();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -197,8 +155,8 @@ public class WebBrowser extends DynamicClass {
      */
     public Element getBodyElement() {
         try {
-            Method method = new Method(this.classJavascriptExecutor, this.webDriver);
-            Object bodyHtmlElement = method.invoke("executeScript", "return document.body;", new Object[] {});
+            Method method = new Method(this.webPage);
+            Object bodyHtmlElement = method.invoke("getBody");
             return this.getElement(bodyHtmlElement);
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -232,13 +190,15 @@ public class WebBrowser extends DynamicClass {
      */
     public Element[] getAllElements() {
         List<Element> elements = new ArrayList<>();
-        try {
-            elements.add(this.getBodyElement());
-            for (Element selectedElement: this.getBodyElement().getChildElements()) {
-                elements.addAll(this.getChildElements(selectedElement));
+        if (this.webPage != null) {
+            try {
+                elements.add(this.getBodyElement());
+                for (Element selectedElement: this.getBodyElement().getChildElements()) {
+                    elements.addAll(this.getChildElements(selectedElement));
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
         }
         return elements.toArray(new Element[] {});
     }
@@ -288,7 +248,9 @@ public class WebBrowser extends DynamicClass {
     public void clearSelectedElements() {
         this.selectedElements.clear();
         try {
-            this.selectedElements.add(this.getBodyElement());
+            Method method = new Method(this.webPage);
+            Object bodyHtmlElement = method.invoke("getBody");
+            this.selectedElements.add(this.getElement(bodyHtmlElement));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -325,6 +287,9 @@ public class WebBrowser extends DynamicClass {
      * @param regexForAttributeValue
      */
     public void moreSelectElementsByAttribute(String attributeName, String regexForAttributeValue) {
+        if (this.webPage == null) {
+            return;
+        }
         try {
             List<Element> newSelectedElements = new ArrayList<>();
             for (Element selectedElement: this.selectedElements) {
@@ -365,6 +330,7 @@ public class WebBrowser extends DynamicClass {
                     }
                 }
                 Thread.sleep(1000);
+                this.updateWebPage();
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -391,6 +357,7 @@ public class WebBrowser extends DynamicClass {
                     return;
                 }
                 Thread.sleep(1000);
+                this.updateWebPage();
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -428,6 +395,9 @@ public class WebBrowser extends DynamicClass {
      * @param regexForTextContent 
      */
     public void moreSelectElementsByTagName(String tagName, String regexForTextContent) {
+        if (this.webPage == null) {
+            return;
+        }
         try {
             List<Element> newSelectedElements = new ArrayList<>();
             for (Element selectedElement: this.selectedElements) {
@@ -486,6 +456,7 @@ public class WebBrowser extends DynamicClass {
                     }
                 }
                 Thread.sleep(1000);
+                this.updateWebPage();
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -522,6 +493,7 @@ public class WebBrowser extends DynamicClass {
                     return;
                 }
                 Thread.sleep(1000);
+                this.updateWebPage();
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -537,7 +509,7 @@ public class WebBrowser extends DynamicClass {
     public void waitForTagNameLost(String tagName, int timeoutSeconds) {
         this.waitForTagNameLost(tagName, ".{0,}", timeoutSeconds);
     }
-
+    
     /**
      * WebBrowserにおけるHTML文書内の要素を表す。
      * 
@@ -556,8 +528,12 @@ public class WebBrowser extends DynamicClass {
             this.element = element;
         }
         
-        private Class<?> classRemoteWebElement = WebBrowser.this.loadClass("org.openqa.selenium.remote.RemoteWebElement");
+        private Class<?> classDomNode = WebBrowser.this.loadClass("com.gargoylesoftware.htmlunit.html.DomNode");
         
+        private Class<?> classDomElement = WebBrowser.this.loadClass("com.gargoylesoftware.htmlunit.html.DomElement");
+        
+        private Class<?> classHtmlSelect = WebBrowser.this.loadClass("com.gargoylesoftware.htmlunit.html.HtmlSelect");
+
         private Object element;
         
         /**
@@ -567,7 +543,7 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public String getTagName() throws Exception {
-            Method method = new Method(this.classRemoteWebElement, this.element);
+            Method method = new Method(this.classDomElement, this.element);
             return method.invoke("getTagName");
         }
         
@@ -578,8 +554,8 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public String getSource() throws Exception {
-            Method method = new Method(this.classRemoteWebElement, this.element);
-            return method.invoke("getAttribute", "outerHTML");
+            Method method = new Method(this.classDomNode, this.element);
+            return method.invoke("asXml");
         }
         
         /**
@@ -589,8 +565,8 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public String getTextContent() throws Exception {
-            Method method = new Method(this.classRemoteWebElement, this.element);
-            return method.invoke("getAttribute", "outerText");
+            Method method = new Method(Node.class, this.element);
+            return method.invoke("getTextContent");
         }
         
         /**
@@ -601,7 +577,7 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public String getAttribute(String name) throws Exception {
-            Method method = new Method(this.classRemoteWebElement, this.element);
+            Method method = new Method(this.classDomElement, this.element);
             return method.invoke("getAttribute", name);
         }
         
@@ -613,9 +589,8 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public void setAttribute(String name, String value) throws Exception {
-            WebBrowser browser = WebBrowser.this;
-            Method method = new Method(browser.classJavascriptExecutor, browser.webDriver);
-            method.invoke("executeScript", "arguments[0].setAttribute(arguments[1], arguments[2]);", new Object[] {this.element, name, value});
+            Method method = new Method(this.classDomElement, this.element);
+            method.invoke("setAttribute", name, value);
         }
         
         /**
@@ -625,11 +600,10 @@ public class WebBrowser extends DynamicClass {
          */
         public void click() throws Exception {
             WebBrowser browser = WebBrowser.this;
-            Method method = new Method(browser.classJavascriptExecutor, browser.webDriver);
-            method.invoke("executeScript", "arguments[0].click();", new Object[] {this.element});
+            Method method = new Method(this.classDomElement, this.element);
+            browser.webPage = method.invoke("click");
+            browser.clearSelectedElements();
         }
-
-        private Class<?> classWebElement = WebBrowser.this.loadClass("org.openqa.selenium.WebElement");
         
         /**
          * select要素の中で、選択されているoption要素を取得する。
@@ -641,11 +615,8 @@ public class WebBrowser extends DynamicClass {
             WebBrowser browser = WebBrowser.this;
             List<Element> result = new ArrayList<>();
             if (this.getTagName().equalsIgnoreCase("select")) {
-                Constructor constructor = new Constructor("org.openqa.selenium.support.ui.Select");
-                constructor.setParameterTypes(this.classWebElement);
-                Object selectElement = constructor.newInstance(this.element);
-                Method method = new Method(selectElement);
-                List<?> options = method.invoke("getAllSelectedOptions");
+                Method method = new Method(this.classHtmlSelect, this.element);
+                List<?> options = method.invoke("getSelectedOptions");
                 for (Object option: options) {
                     result.add(browser.getElement(option));
                 }
@@ -661,11 +632,9 @@ public class WebBrowser extends DynamicClass {
          */
         public void addSelectedOption(String value) throws Exception {
             if (this.getTagName().equalsIgnoreCase("select")) {
-                Constructor constructor = new Constructor("org.openqa.selenium.support.ui.Select");
-                constructor.setParameterTypes(this.classWebElement);
-                Object selectElement = constructor.newInstance(this.element);
-                Method method = new Method(selectElement);
-                method.invoke("selectByValue", value);
+                Method method = new Method(this.classHtmlSelect, this.element);
+                method.setParameterTypes(String.class, boolean.class);
+                method.invoke("setSelectedAttribute", value, true);
             }
         }
         
@@ -675,16 +644,12 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public void clearSelectedOptions() throws Exception {
-            if (this.getTagName().equalsIgnoreCase("select")) {
-                Constructor constructor = new Constructor("org.openqa.selenium.support.ui.Select");
-                constructor.setParameterTypes(this.classWebElement);
-                Object selectElement = constructor.newInstance(this.element);
-                Method method = new Method(selectElement);
-                method.invoke("deselectAll");
+            for (Element element: this.getSelectedOptions()) {
+                Method method = new Method(this.classHtmlSelect, this.element);
+                method.setParameterTypes(String.class, boolean.class);
+                method.invoke("setSelectedAttribute", element.getAttribute("value"), false);
             }
         }
-        
-        private Class<?> classBy = WebBrowser.this.loadClass("org.openqa.selenium.By");
         
         /**
          * この要素の子要素を取得する。
@@ -694,14 +659,8 @@ public class WebBrowser extends DynamicClass {
          */
         public Array<Element> getChildElements() throws Exception {
             WebBrowser browser = WebBrowser.this;
-            // By.xpath method
-            Method byMethod = new Method(this.classBy);
-            byMethod.setParameterTypes(String.class);
-            Object by = byMethod.invoke("xpath", "*");
-            // findElements method
-            Method findElementsMethod = new Method(this.classRemoteWebElement, this.element);
-            findElementsMethod.setParameterTypes(this.classBy);
-            List<?> elements = findElementsMethod.invoke("findElements", by);
+            Method method = new Method(this.classDomElement, this.element);
+            Iterable<?> elements = method.invoke("getChildElements");
             List<Element> result = new ArrayList<>();
             for (Object element: elements) {
                 result.add(browser.getElement(element));
@@ -709,103 +668,4 @@ public class WebBrowser extends DynamicClass {
             return new Array<>(result);
         }
     }
-
-    /**
-     * WEBブラウザ種類の列挙型。
-     * 
-     * @author hiro
-     *
-     */
-    public enum Type implements IdentifiableEnum<String> {
-        /**
-         * Google Chrome。
-         */
-        CHROME("chrome", "Google Chrome", "webdriver.chrome.driver"),
-        /**
-         * Mozilla Firefox。
-         */
-        FIREFOX("gecko", "Mozilla Firefox", "webdriver.gecko.driver"),
-        /**
-         * Opera。
-         */
-        OPERA("opera", "Opera", "webdriver.opera.driver"),
-        /**
-         * Microsoft Edge。
-         */
-        EDGE("edge", "Microsoft Edge", "webdriver.edge.driver"),
-        /**
-         * Safari。
-         */
-        SAFARI("safari", "Safari", "webdriver.safari.driver"),
-        ;
-        
-        /**
-         * コンストラクタ。<br>
-         * ID、名前、システムにセットするプロパティ名を指定する。
-         * 
-         * @param id
-         * @param name 
-         * @param systemPropertyName
-         */
-        private Type(String id, String name, String systemPropertyName) {
-            this.id = id;
-            this.name = name;
-            this.systemPropertyName = systemPropertyName;
-        }
-        
-        private String id;
-        
-        @Override
-        public String getID() {
-            return this.id;
-        }
-        
-        private String name;
-
-        @Override
-        public String getName() {
-            return this.name;
-        }
-        
-        private String systemPropertyName;
-        
-        /**
-         * システムにセットするプロパティ名を取得する。
-         * 
-         * @return 結果。
-         */
-        public String getSystemPropertyName() {
-            return this.systemPropertyName;
-        }
-        
-        /**
-         * 指定されたWEBドライバーのファイルから、該当する列挙子を取得する。該当するものがない場合はnullを返す。
-         * 
-         * @param seleniumWebDriver 
-         * @return 結果。
-         */
-        public static Type enumOf(File seleniumWebDriver) {
-            StringObject absolutePath = new StringObject();
-            if (seleniumWebDriver != null) {
-                absolutePath.append(seleniumWebDriver.getAbsolutePath());
-            }
-            if (absolutePath.toString().toLowerCase().indexOf("chrome") > -1) {
-                return Type.CHROME;
-            }
-            if (absolutePath.toString().toLowerCase().indexOf("gecko") > -1) {
-                return Type.FIREFOX;
-            }
-            if (absolutePath.toString().toLowerCase().indexOf("opera") > -1) {
-                return Type.OPERA;
-            }
-            if (absolutePath.toString().toLowerCase().indexOf("edge") > -1) {
-                return Type.EDGE;
-            }
-            if (absolutePath.toString().toLowerCase().indexOf("safari") > -1) {
-                return Type.SAFARI;
-            }
-            return null;
-        }
-    }
-
 }
