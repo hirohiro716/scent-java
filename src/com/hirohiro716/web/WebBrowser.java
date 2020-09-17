@@ -308,28 +308,25 @@ public class WebBrowser extends DynamicClass {
      * @param attributeName
      * @param attributeValue
      * @return 結果。
+     * @throws Exception
      */
-    private List<Element> findElementsByAttribute(Element parent, String attributeName, String attributeValue) {
+    private List<Element> findElementsByAttribute(Element parent, String attributeName, String attributeValue) throws Exception {
         List<Element> elements = new ArrayList<>();
-        try {
-            // Search at XPath
-            StringObject xpath = new StringObject(".//*[@");
-            xpath.append(attributeName);
-            xpath.append("='");
-            xpath.append(attributeValue);
-            xpath.append("']");
-            Method byMethod = new Method(this.classBy);
-            byMethod.setParameterTypes(String.class);
-            Object by = byMethod.invoke("xpath", xpath.toString());
-            // Search elements
-            Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
-            findElementsMethod.setParameterTypes(this.classBy);
-            List<?> elementObjects = findElementsMethod.invoke("findElements", by);
-            for (Object elementObject : elementObjects) {
-                elements.add(this.getElement(elementObject));
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        // Search at XPath
+        StringObject xpath = new StringObject(".//*[@");
+        xpath.append(attributeName);
+        xpath.append("='");
+        xpath.append(attributeValue);
+        xpath.append("']");
+        Method byMethod = new Method(this.classBy);
+        byMethod.setParameterTypes(String.class);
+        Object by = byMethod.invoke("xpath", xpath.toString());
+        // Search elements
+        Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
+        findElementsMethod.setParameterTypes(this.classBy);
+        List<?> elementObjects = findElementsMethod.invoke("findElements", by);
+        for (Object elementObject : elementObjects) {
+            elements.add(this.getElement(elementObject));
         }
         return elements;
     }
@@ -340,16 +337,12 @@ public class WebBrowser extends DynamicClass {
      * @param attributeName
      * @param attributeValue
      */
-    public void moreSelectElementsByAttribute(String attributeName, String attributeValue) {
-        try {
-            List<Element> newSelectedElements = new ArrayList<>();
-            for (Element selectedElement: this.selectedElements) {
-                newSelectedElements.addAll(this.findElementsByAttribute(selectedElement, attributeName, attributeValue));
-            }
-            this.selectedElements = newSelectedElements;
-        } catch (Exception exception) {
-            exception.printStackTrace();
+    public void moreSelectElementsByAttribute(String attributeName, String attributeValue) throws Exception {
+        List<Element> newSelectedElements = new ArrayList<>();
+        for (Element selectedElement: this.selectedElements) {
+            newSelectedElements.addAll(this.findElementsByAttribute(selectedElement, attributeName, attributeValue));
         }
+        this.selectedElements = newSelectedElements;
     }
 
     /**
@@ -357,8 +350,9 @@ public class WebBrowser extends DynamicClass {
      * 
      * @param attributeName
      * @param attributeValue
+     * @throws Exception 
      */
-    public void selectElementsByAttribute(String attributeName, String attributeValue) {
+    public void selectElementsByAttribute(String attributeName, String attributeValue) throws Exception {
         this.clearSelectedElements();
         this.moreSelectElementsByAttribute(attributeName, attributeValue);
     }
@@ -373,17 +367,14 @@ public class WebBrowser extends DynamicClass {
     public void waitForAttributeFound(String attributeName, String attributeValue, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
-        try {
-            while (limit.getDate().getTime() > new Date().getTime()) {
-                for (Element parent: this.getAllElements()) {
-                    if (this.findElementsByAttribute(parent, attributeName, attributeValue).size() > 0) {
-                        return;
-                    }
-                }
-                Thread.sleep(1000);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        while (limit.getDate().getTime() > new Date().getTime()) {
+        	try {
+		        if (this.findElementsByAttribute(this.getBodyElement(), attributeName, attributeValue).size() > 0) {
+		            return;
+		        }
+		        Thread.sleep(1000);
+        	} catch (Exception exception) {
+        	}
         }
     }
     
@@ -397,19 +388,14 @@ public class WebBrowser extends DynamicClass {
     public void waitForAttributeLost(String attributeName, String attributeValue, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
-        try {
-            while (limit.getDate().getTime() > new Date().getTime()) {
-                List<Element> elements = new ArrayList<>();
-                for (Element parent: this.getAllElements()) {
-                    elements.addAll(this.findElementsByAttribute(parent, attributeName, attributeValue));
-                }
-                if (elements.size() == 0) {
-                    return;
-                }
-                Thread.sleep(1000);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        while (limit.getDate().getTime() > new Date().getTime()) {
+        	try {
+	            if (this.findElementsByAttribute(this.getBodyElement(), attributeName, attributeValue).size() == 0) {
+	                return;
+	            }
+	            Thread.sleep(1000);
+        	} catch (Exception exception) {
+        	}
         }
     }
 
@@ -421,27 +407,23 @@ public class WebBrowser extends DynamicClass {
      * @param textContent 
      * @return 結果。
      */
-    private List<Element> findElementsByTagName(Element parent, String tagName, String textContent) {
+    private List<Element> findElementsByTagName(Element parent, String tagName, String textContent) throws Exception {
         List<Element> elements = new ArrayList<>();
-        try {
-            // Search at XPath
-            StringObject xpath = new StringObject(".//");
-            xpath.append(tagName);
-            xpath.append("[contains(text(), '");
-            xpath.append(textContent);
-            xpath.append("')]");
-            Method byMethod = new Method(this.classBy);
-            byMethod.setParameterTypes(String.class);
-            Object by = byMethod.invoke("xpath", xpath.toString());
-            // Search elements
-            Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
-            findElementsMethod.setParameterTypes(this.classBy);
-            List<?> elementObjects = findElementsMethod.invoke("findElements", by);
-            for (Object elementObject : elementObjects) {
-                elements.add(this.getElement(elementObject));
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        // Search at XPath
+        StringObject xpath = new StringObject(".//");
+        xpath.append(tagName);
+        xpath.append("[contains(text(), '");
+        xpath.append(textContent);
+        xpath.append("')]");
+        Method byMethod = new Method(this.classBy);
+        byMethod.setParameterTypes(String.class);
+        Object by = byMethod.invoke("xpath", xpath.toString());
+        // Search elements
+        Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
+        findElementsMethod.setParameterTypes(this.classBy);
+        List<?> elementObjects = findElementsMethod.invoke("findElements", by);
+        for (Object elementObject : elementObjects) {
+            elements.add(this.getElement(elementObject));
         }
         return elements;
     }
@@ -451,25 +433,23 @@ public class WebBrowser extends DynamicClass {
      * 
      * @param tagName
      * @param textContent 
+     * @throws Exception 
      */
-    public void moreSelectElementsByTagName(String tagName, String textContent) {
-        try {
-            List<Element> newSelectedElements = new ArrayList<>();
-            for (Element selectedElement: this.selectedElements) {
-                newSelectedElements.addAll(this.findElementsByTagName(selectedElement, tagName, textContent));
-            }
-            this.selectedElements = newSelectedElements;
-        } catch (Exception exception) {
-            exception.printStackTrace();
+    public void moreSelectElementsByTagName(String tagName, String textContent) throws Exception {
+        List<Element> newSelectedElements = new ArrayList<>();
+        for (Element selectedElement: this.selectedElements) {
+            newSelectedElements.addAll(this.findElementsByTagName(selectedElement, tagName, textContent));
         }
+        this.selectedElements = newSelectedElements;
     }
 
     /**
      * すでに選択状態にある要素の子要素から、タグ名が一致している要素を選択状態にする。
      * 
      * @param tagName
+     * @throws Exception 
      */
-    public void moreSelectElementsByTagName(String tagName) {
+    public void moreSelectElementsByTagName(String tagName) throws Exception {
         this.moreSelectElementsByTagName(tagName, "");
     }
 
@@ -478,8 +458,9 @@ public class WebBrowser extends DynamicClass {
      * 
      * @param tagName
      * @param textContent 
+     * @throws Exception 
      */
-    public void selectElementsByTagName(String tagName, String textContent) {
+    public void selectElementsByTagName(String tagName, String textContent) throws Exception {
         this.clearSelectedElements();
         this.moreSelectElementsByTagName(tagName, textContent);
     }
@@ -488,8 +469,9 @@ public class WebBrowser extends DynamicClass {
      * BODY要素の子要素から、タグ名が一致している要素を選択状態にする。
      * 
      * @param tagName
+     * @throws Exception 
      */
-    public void selectElementsByTagName(String tagName) {
+    public void selectElementsByTagName(String tagName) throws Exception {
         this.selectElementsByTagName(tagName, "");
     }
 
@@ -503,17 +485,14 @@ public class WebBrowser extends DynamicClass {
     public void waitForTagNameFound(String tagName, String textContent, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
-        try {
-            while (limit.getDate().getTime() > new Date().getTime()) {
-                for (Element parent: this.getAllElements()) {
-                    if (this.findElementsByTagName(parent, tagName, textContent).size() > 0) {
-                        return;
-                    }
-                }
-                Thread.sleep(1000);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        while (limit.getDate().getTime() > new Date().getTime()) {
+        	try {
+		        if (this.findElementsByTagName(this.getBodyElement(), tagName, textContent).size() > 0) {
+		            return;
+		        }
+		        Thread.sleep(1000);
+        	} catch (Exception exception) {
+        	}
         }
     }
 
@@ -537,19 +516,14 @@ public class WebBrowser extends DynamicClass {
     public void waitForTagNameLost(String tagName, String textContent, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
-        try {
-            while (limit.getDate().getTime() > new Date().getTime()) {
-                List<Element> elements = new ArrayList<>();
-                for (Element parent: this.getAllElements()) {
-                    elements.addAll(this.findElementsByTagName(parent, tagName, textContent));
-                }
-                if (elements.size() == 0) {
-                    return;
-                }
-                Thread.sleep(1000);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        while (limit.getDate().getTime() > new Date().getTime()) {
+        	try {
+	            if (this.findElementsByTagName(this.getBodyElement(), tagName, textContent).size() == 0) {
+	                return;
+	            }
+	            Thread.sleep(1000);
+        	} catch (Exception exception) {
+        	}
         }
     }
 
@@ -569,23 +543,20 @@ public class WebBrowser extends DynamicClass {
      * @param parent
      * @param cssSelector
      * @return 結果。
+     * @throws Exception
      */
-    private List<Element> findElementsByCssSelector(Element parent, String cssSelector) {
+    private List<Element> findElementsByCssSelector(Element parent, String cssSelector) throws Exception {
         List<Element> elements = new ArrayList<>();
-        try {
-            // Search at CSS selector
-            Method byMethod = new Method(this.classBy);
-            byMethod.setParameterTypes(String.class);
-            Object by = byMethod.invoke("cssSelector", cssSelector);
-            // Search elements
-            Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
-            findElementsMethod.setParameterTypes(this.classBy);
-            List<?> elementObjects = findElementsMethod.invoke("findElements", by);
-            for (Object elementObject : elementObjects) {
-                elements.add(this.getElement(elementObject));
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        // Search at CSS selector
+        Method byMethod = new Method(this.classBy);
+        byMethod.setParameterTypes(String.class);
+        Object by = byMethod.invoke("cssSelector", cssSelector);
+        // Search elements
+        Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
+        findElementsMethod.setParameterTypes(this.classBy);
+        List<?> elementObjects = findElementsMethod.invoke("findElements", by);
+        for (Object elementObject : elementObjects) {
+            elements.add(this.getElement(elementObject));
         }
         return elements;
     }
@@ -594,25 +565,23 @@ public class WebBrowser extends DynamicClass {
      * すでに選択状態にある要素の子要素から、CSSセレクタに一致する要素を選択状態にする。
      * 
      * @param cssSelector
+     * @throws Exception 
      */
-    public void moreSelectElementsByCssSelector(String cssSelector) {
-        try {
-            List<Element> newSelectedElements = new ArrayList<>();
-            for (Element selectedElement: this.selectedElements) {
-                newSelectedElements.addAll(this.findElementsByCssSelector(selectedElement, cssSelector));
-            }
-            this.selectedElements = newSelectedElements;
-        } catch (Exception exception) {
-            exception.printStackTrace();
+    public void moreSelectElementsByCssSelector(String cssSelector) throws Exception {
+        List<Element> newSelectedElements = new ArrayList<>();
+        for (Element selectedElement: this.selectedElements) {
+            newSelectedElements.addAll(this.findElementsByCssSelector(selectedElement, cssSelector));
         }
+        this.selectedElements = newSelectedElements;
     }
 
     /**
      * BODY要素の子要素から、CSSセレクタに一致する要素を選択状態にする。
      * 
      * @param cssSelector
+     * @throws Exception 
      */
-    public void selectElementsByCssSelector(String cssSelector) {
+    public void selectElementsByCssSelector(String cssSelector) throws Exception {
         this.clearSelectedElements();
         this.moreSelectElementsByCssSelector(cssSelector);
     }
@@ -626,17 +595,14 @@ public class WebBrowser extends DynamicClass {
     public void waitForCssSelectionFound(String cssSelector, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
-        try {
-            while (limit.getDate().getTime() > new Date().getTime()) {
-                for (Element parent: this.getAllElements()) {
-                    if (this.findElementsByCssSelector(parent, cssSelector).size() > 0) {
-                        return;
-                    }
-                }
-                Thread.sleep(1000);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        while (limit.getDate().getTime() > new Date().getTime()) {
+        	try {
+	            if (this.findElementsByCssSelector(this.getBodyElement(), cssSelector).size() > 0) {
+	                return;
+	            }
+	            Thread.sleep(1000);
+        	} catch (Exception exception) {
+        	}
         }
     }
     
@@ -649,19 +615,14 @@ public class WebBrowser extends DynamicClass {
     public void waitForCssSelectionLost(String cssSelector, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
-        try {
-            while (limit.getDate().getTime() > new Date().getTime()) {
-                List<Element> elements = new ArrayList<>();
-                for (Element parent: this.getAllElements()) {
-                    elements.addAll(this.findElementsByCssSelector(parent, cssSelector));
-                }
-                if (elements.size() == 0) {
-                    return;
-                }
-                Thread.sleep(1000);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        while (limit.getDate().getTime() > new Date().getTime()) {
+        	try {
+	            if (this.findElementsByCssSelector(this.getBodyElement(), cssSelector).size() == 0) {
+	                return;
+	            }
+	            Thread.sleep(1000);
+        	} catch (Exception exception) {
+        	}
         }
     }
 
@@ -671,23 +632,20 @@ public class WebBrowser extends DynamicClass {
      * @param parent
      * @param xPath
      * @return 結果。
+     * @throws Exception
      */
-    private List<Element> findElementsByXPath(Element parent, String xPath) {
+    private List<Element> findElementsByXPath(Element parent, String xPath) throws Exception {
         List<Element> elements = new ArrayList<>();
-        try {
-            // Search at XPath
-            Method byMethod = new Method(this.classBy);
-            byMethod.setParameterTypes(String.class);
-            Object by = byMethod.invoke("xpath", xPath);
-            // Search elements
-            Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
-            findElementsMethod.setParameterTypes(this.classBy);
-            List<?> elementObjects = findElementsMethod.invoke("findElements", by);
-            for (Object elementObject : elementObjects) {
-                elements.add(this.getElement(elementObject));
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        // Search at XPath
+        Method byMethod = new Method(this.classBy);
+        byMethod.setParameterTypes(String.class);
+        Object by = byMethod.invoke("xpath", xPath);
+        // Search elements
+        Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
+        findElementsMethod.setParameterTypes(this.classBy);
+        List<?> elementObjects = findElementsMethod.invoke("findElements", by);
+        for (Object elementObject : elementObjects) {
+            elements.add(this.getElement(elementObject));
         }
         return elements;
     }
@@ -696,25 +654,23 @@ public class WebBrowser extends DynamicClass {
      * すでに選択状態にある要素の子要素から、XPathに一致する要素を選択状態にする。
      * 
      * @param xPath
+     * @throws Exception 
      */
-    public void moreSelectElementsByXPath(String xPath) {
-        try {
-            List<Element> newSelectedElements = new ArrayList<>();
-            for (Element selectedElement: this.selectedElements) {
-                newSelectedElements.addAll(this.findElementsByXPath(selectedElement, xPath));
-            }
-            this.selectedElements = newSelectedElements;
-        } catch (Exception exception) {
-            exception.printStackTrace();
+    public void moreSelectElementsByXPath(String xPath) throws Exception {
+        List<Element> newSelectedElements = new ArrayList<>();
+        for (Element selectedElement: this.selectedElements) {
+            newSelectedElements.addAll(this.findElementsByXPath(selectedElement, xPath));
         }
+        this.selectedElements = newSelectedElements;
     }
 
     /**
      * BODY要素の子要素から、XPathに一致する要素を選択状態にする。
      * 
      * @param xPath
+     * @throws Exception 
      */
-    public void selectElementsByXPath(String xPath) {
+    public void selectElementsByXPath(String xPath) throws Exception {
         this.clearSelectedElements();
         this.moreSelectElementsByXPath(xPath);
     }
@@ -728,17 +684,14 @@ public class WebBrowser extends DynamicClass {
     public void waitForXPathFound(String xPath, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
-        try {
-            while (limit.getDate().getTime() > new Date().getTime()) {
-                for (Element parent: this.getAllElements()) {
-                    if (this.findElementsByXPath(parent, xPath).size() > 0) {
-                        return;
-                    }
-                }
-                Thread.sleep(1000);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        while (limit.getDate().getTime() > new Date().getTime()) {
+        	try {
+	            if (this.findElementsByXPath(this.getBodyElement(), xPath).size() > 0) {
+	                return;
+	            }
+	            Thread.sleep(1000);
+        	} catch (Exception exception) {
+        	}
         }
     }
     
@@ -751,19 +704,14 @@ public class WebBrowser extends DynamicClass {
     public void waitForXPathLost(String xPath, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
-        try {
-            while (limit.getDate().getTime() > new Date().getTime()) {
-                List<Element> elements = new ArrayList<>();
-                for (Element parent: this.getAllElements()) {
-                    elements.addAll(this.findElementsByXPath(parent, xPath));
-                }
-                if (elements.size() == 0) {
-                    return;
-                }
-                Thread.sleep(1000);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        while (limit.getDate().getTime() > new Date().getTime()) {
+        	try {
+	            if (this.findElementsByXPath(this.getBodyElement(), xPath).size() == 0) {
+	                return;
+	            }
+	            Thread.sleep(1000);
+        	} catch (Exception exception) {
+        	}
         }
     }
     
@@ -848,6 +796,18 @@ public class WebBrowser extends DynamicClass {
             Method method = new Method(browser.classJavascriptExecutor, browser.webDriver);
             method.invoke("executeScript", "arguments[0].setAttribute(arguments[1], arguments[2]);", new Object[] {this.element, name, value});
         }
+
+        /**
+         * この要素の属性を削除する。
+         * 
+         * @param name
+         * @throws Exception
+         */
+        public void removeAttribute(String name) throws Exception {
+            WebBrowser browser = WebBrowser.this;
+            Method method = new Method(browser.classJavascriptExecutor, browser.webDriver);
+            method.invoke("executeScript", "arguments[0].removeAttribute(arguments[1]);", new Object[] {this.element, name});
+        }
         
         /**
          * この要素をクリックする。
@@ -906,13 +866,8 @@ public class WebBrowser extends DynamicClass {
          * @throws Exception
          */
         public void clearSelectedOptions() throws Exception {
-            WebBrowser browser = WebBrowser.this;
-            if (this.getTagName().equalsIgnoreCase("select")) {
-                Constructor constructor = new Constructor("org.openqa.selenium.support.ui.Select");
-                constructor.setParameterTypes(browser.classWebElement);
-                Object selectElement = constructor.newInstance(this.element);
-                Method method = new Method(selectElement);
-                method.invoke("deselectAll");
+            for (Element element : this.getSelectedOptions()) {
+            	element.removeAttribute("selected");
             }
         }
         
