@@ -119,6 +119,21 @@ public class WebBrowser extends DynamicClass {
         return webDriver;
     }
 
+    /**
+     * WEBブラウザに表示されているダイアログを承認する。
+     */
+    private void acceptDialog() {
+    	try {
+            Method method = new Method(this.classWebDriver, this.webDriver);
+            Object switchTo = method.invoke("switchTo");
+            Method alertMethod = new Method(switchTo);
+            Object alert = alertMethod.invoke("alert");
+            Method acceptMethod = new Method(alert);
+            acceptMethod.invoke("accept");
+    	} catch (Exception exception) {
+    	}
+    }
+    
     private Class<?> classRemoteWebElement = this.loadClass("org.openqa.selenium.remote.RemoteWebElement");
 
     private Class<?> classWebElement = this.loadClass("org.openqa.selenium.WebElement");
@@ -134,6 +149,7 @@ public class WebBrowser extends DynamicClass {
      * @throws Exception 
      */
     public void load(URL url) throws Exception {
+    	this.acceptDialog();
         Method method = new Method(this.classWebDriver, this.webDriver);
         method.invoke("get", url.toExternalForm());
         this.mapElement.clear();
@@ -189,6 +205,7 @@ public class WebBrowser extends DynamicClass {
      */
     public void executeJavaScript(String javascript) {
         try {
+        	this.acceptDialog();
             Method method = new Method(this.classJavascriptExecutor, this.webDriver);
             method.invoke("executeScript", javascript, new Object[] {});
             this.mapElement.clear();
@@ -816,6 +833,7 @@ public class WebBrowser extends DynamicClass {
          */
         public void click() throws Exception {
             WebBrowser browser = WebBrowser.this;
+        	browser.acceptDialog();
             Method method = new Method(browser.classJavascriptExecutor, browser.webDriver);
             method.invoke("executeScript", "arguments[0].click();", new Object[] {this.element});
             browser.mapElement.clear();
