@@ -92,7 +92,31 @@ public class Directory extends FilesystemItem {
             Files.copy(Paths.get(itemCanonicalPath), Paths.get(StringObject.newInstance(itemCanonicalPath).replace(originalCanonicalPath, copyCanonicalPath).toString()));
         }
     }
-    
+
+    /**
+     * 指定されたディレクトリ内にある、すべてのファイルシステムアイテムをサブディレクトリを含めて検索する。
+     * 
+     * @param directory
+     * @param regexToFilterDirectoryName ディレクトリ名をフィルタするための正規表現。
+     * @param regexToFilterFileName ファイル名をフィルタするための正規表現。
+     * @return 結果。
+     */
+    private List<FilesystemItem> searchItems(java.io.File directory, String regexToFilterDirectoryName, String regexToFilterFileName) {
+        List<FilesystemItem> items = new ArrayList<>();
+        if (directory.exists()) {
+            for (java.io.File file : directory.listFiles()) {
+                if (file.isDirectory() && file.getName().matches(regexToFilterDirectoryName)) {
+                    items.add(new Directory(file));
+                    items.addAll(this.searchItems(file, regexToFilterDirectoryName, regexToFilterFileName));
+                }
+                if (file.isFile() && file.getName().matches(regexToFilterFileName)) {
+                    items.add(new File(file));
+                }
+            }
+        }
+        return items;
+    }
+
     /**
      * このディレクトリ直下にあるファイルシステムアイテムを検索する。
      * 
@@ -129,26 +153,4 @@ public class Directory extends FilesystemItem {
         }
         return this.searchItems(this.toJavaIoFile(), directoryRegex.toString(), fileRegex.toString()).toArray(new FilesystemItem[] {});
     }
-    
-    /**
-     * 指定されたディレクトリ内にある、すべてのファイルシステムアイテムをサブディレクトリを含めて検索する。
-     * 
-     * @param directory
-     * @param regexToFilterDirectoryName ディレクトリ名をフィルタするための正規表現。
-     * @param regexToFilterFileName ファイル名をフィルタするための正規表現。
-     * @return 結果。
-     */
-    private List<FilesystemItem> searchItems(java.io.File directory, String regexToFilterDirectoryName, String regexToFilterFileName) {
-        List<FilesystemItem> items = new ArrayList<>();
-        for (java.io.File file : directory.listFiles()) {
-            if (file.isDirectory() && file.getName().matches(regexToFilterDirectoryName)) {
-                items.add(new Directory(file));
-                items.addAll(this.searchItems(file, regexToFilterDirectoryName, regexToFilterFileName));
-            }
-            if (file.isFile() && file.getName().matches(regexToFilterFileName)) {
-                items.add(new File(file));
-            }
-        }
-        return items;
     }
-}

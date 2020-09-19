@@ -890,6 +890,22 @@ public class WebBrowser extends DynamicClass {
         }
         
         /**
+         * タイプ属性がfileのinput要素にファイルパスをセットする。
+         * 
+         * @param file
+         * @throws Exception
+         */
+        public void setFile(File file) throws Exception {
+            WebBrowser browser = WebBrowser.this;
+            if (this.getTagName().equalsIgnoreCase("input") && this.getAttribute("type").equalsIgnoreCase("file")) {
+                Method method = new Method(browser.classRemoteWebElement, this.element);
+                method.setParameterTypes(CharSequence[].class);
+                CharSequence[] parameters = new CharSequence[] {file.getAbsolutePath()};
+                method.invoke("sendKeys", new Object[] {parameters});
+            }
+        }
+        
+        /**
          * この要素の子要素を取得する。
          * 
          * @return 結果。
