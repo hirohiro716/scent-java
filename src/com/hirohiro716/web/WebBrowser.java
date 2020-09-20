@@ -353,6 +353,7 @@ public class WebBrowser extends DynamicClass {
      * 
      * @param attributeName
      * @param attributeValue
+     * @throws Exception 
      */
     public void moreSelectElementsByAttribute(String attributeName, String attributeValue) throws Exception {
         List<Element> newSelectedElements = new ArrayList<>();
@@ -423,6 +424,7 @@ public class WebBrowser extends DynamicClass {
      * @param tagName
      * @param textContent 
      * @return 結果。
+     * @throws Exception 
      */
     private List<Element> findElementsByTagName(Element parent, String tagName, String textContent) throws Exception {
         List<Element> elements = new ArrayList<>();
