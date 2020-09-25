@@ -15,7 +15,6 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.MediaPrintableArea;
 import javax.print.attribute.standard.MediaSize;
 import javax.print.attribute.standard.MediaSizeName;
-
 import com.hirohiro716.image.Image;
 import com.hirohiro716.image.Image.ImageFormat;
 
@@ -260,15 +259,18 @@ public class PrinterJob {
      */
     private PrintRequestAttributeSet createAttributeOfAWT() {
         PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
-        if (this.paperSource != null) {
-            printRequestAttributeSet.add(this.paperSource.getInnerInstance());
-        }
+        // Paper source or paper size, the one specified later has priority.
         if (this.paperSize != null) {
+            // Specified by paper size
             printRequestAttributeSet.add(this.paperSize.getInnerInstance());
             MediaSizeName mediaSizeName = this.paperSize.getInnerInstance();
             MediaSize mediaSize = MediaSize.getMediaSizeForName(mediaSizeName);
             MediaPrintableArea mediaPrintableArea = new MediaPrintableArea(0, 0, mediaSize.getX(MediaSize.MM), mediaSize.getY(MediaSize.MM), MediaPrintableArea.MM);
             printRequestAttributeSet.add(mediaPrintableArea);
+        }
+        if (this.paperSource != null) {
+            // Specified by paper source
+            printRequestAttributeSet.add(this.paperSource.getInnerInstance());
         }
         if (this.paperOrientation != null) {
             printRequestAttributeSet.add(this.paperOrientation.getInnerInstance());
