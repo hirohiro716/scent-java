@@ -668,25 +668,28 @@ public class DatePicker extends TextField {
                 control.hidePopup();
             }
         };
-        
+
         private EventHandler<MouseEvent> mouseEnteredEventHandler = new EventHandler<MouseEvent>() {
-            
+
             @Override
             protected void handle(MouseEvent event) {
                 CalendarPane pane = CalendarPane.this;
-                if (event.getSource().getBackgroundColor() == pane.getBackgroundColor()) {
-                    event.getSource().setBackgroundColor(pane.mouseEnterdBackground);
+                Control control = event.getSource();
+                if (control.getBackgroundColor() == pane.getBackgroundColor()) {
+                    control.setBackgroundColor(pane.mouseEnterdBackground);
+                    control.getParent().updateDisplay();
                 }
             }
         };
-        
+
         private EventHandler<MouseEvent> mouseExitedEventHandler = new EventHandler<MouseEvent>() {
-            
+
             @Override
             protected void handle(MouseEvent event) {
                 CalendarPane pane = CalendarPane.this;
-                if (event.getSource().getBackgroundColor() == pane.mouseEnterdBackground) {
-                    event.getSource().setBackgroundColor(pane.getBackgroundColor());
+                Control control = event.getSource();
+                if (control.getBackgroundColor() == pane.mouseEnterdBackground) {
+                    control.setBackgroundColor(pane.getBackgroundColor());
                 }
             }
         };
