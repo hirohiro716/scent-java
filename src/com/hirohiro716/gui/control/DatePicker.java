@@ -57,7 +57,7 @@ public class DatePicker extends TextField {
                 textField.showPopup();
             }
         });
-        this.addMouseClickedEventHandler(MouseButton.BUTTON1, new EventHandler<MouseEvent>() {
+        this.addMousePressedEventHandler(MouseButton.BUTTON1, new EventHandler<MouseEvent>() {
 
             @Override
             protected void handle(MouseEvent event) {
@@ -623,7 +623,7 @@ public class DatePicker extends TextField {
                     label.addMouseWheelEventHandler(this.mouseWheelEventHandler);
                     label.addMouseEnteredEventHandler(this.mouseEnteredEventHandler);
                     label.addMouseExitedEventHandler(this.mouseExitedEventHandler);
-                    label.addMouseClickedEventHandler(MouseButton.BUTTON1, this.mouseClickedEventHandler);
+                    label.addMousePressedEventHandler(MouseButton.BUTTON1, this.mousePressedEventHandler);
                     this.gridPane.getChildren().add(label);
                     this.gridPane.setGridLayout(label, columnNumber, rowNumber + 1);
                     this.gridPane.getHorizontalGrowableControls().add(label);
@@ -656,7 +656,7 @@ public class DatePicker extends TextField {
             }
         };
         
-        private EventHandler<MouseEvent> mouseClickedEventHandler = new EventHandler<MouseEvent>() {
+        private EventHandler<MouseEvent> mousePressedEventHandler = new EventHandler<MouseEvent>() {
             
             @Override
             protected void handle(MouseEvent event) {

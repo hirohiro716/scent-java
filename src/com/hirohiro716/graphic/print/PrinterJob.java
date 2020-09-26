@@ -124,12 +124,14 @@ public class PrinterJob {
     private PaperSource paperSource = null;
     
     /**
-     * このプリンタージョブで使用する用紙トレイを指定する。
+     * このプリンタージョブで使用する用紙トレイを指定する。<br>
+     * ※ JDKの仕様で用紙サイズと用紙トレイはどちらか一方しかセットできない
      * 
      * @param paperSource
      */
     public void setPaperSource(PaperSource paperSource) {
         this.paperSource = paperSource;
+        this.paperSize = null;
     }
     
     /**
@@ -144,12 +146,14 @@ public class PrinterJob {
     private PaperSize paperSize = null;
     
     /**
-     * このプリンタージョブで使用する用紙サイズを指定する。
+     * このプリンタージョブで使用する用紙サイズを指定する。<br>
+     * ※ JDKの仕様で用紙サイズと用紙トレイはどちらか一方しかセットできない
      * 
      * @param paperSize
      */
     public void setPaperSize(PaperSize paperSize) {
         this.paperSize = paperSize;
+        this.paperSource = null;
     }
     
     /**
@@ -158,8 +162,8 @@ public class PrinterJob {
      * @param millimeterWidth
      * @param millimeterHeight
      */
-    public void setPaperSize(float millimeterWidth, float millimeterHeight) {
-        this.paperSize = this.printer.findPaperSize(millimeterWidth, millimeterHeight);
+    public final void setPaperSize(float millimeterWidth, float millimeterHeight) {
+        this.setPaperSize(this.printer.findPaperSize(millimeterWidth, millimeterHeight));
     }
     
     /**
@@ -267,6 +271,7 @@ public class PrinterJob {
             MediaSize mediaSize = MediaSize.getMediaSizeForName(mediaSizeName);
             MediaPrintableArea mediaPrintableArea = new MediaPrintableArea(0, 0, mediaSize.getX(MediaSize.MM), mediaSize.getY(MediaSize.MM), MediaPrintableArea.MM);
             printRequestAttributeSet.add(mediaPrintableArea);
+            
         }
         if (this.paperSource != null) {
             // Specified by paper source
