@@ -131,7 +131,9 @@ public class PrinterJob {
      */
     public void setPaperSource(PaperSource paperSource) {
         this.paperSource = paperSource;
-        this.paperSize = null;
+        if (paperSource != null) {
+            this.paperSize = null;
+        }
     }
     
     /**
@@ -153,7 +155,9 @@ public class PrinterJob {
      */
     public void setPaperSize(PaperSize paperSize) {
         this.paperSize = paperSize;
-        this.paperSource = null;
+        if (paperSize != null) {
+            this.paperSource = null;
+        }
     }
     
     /**
