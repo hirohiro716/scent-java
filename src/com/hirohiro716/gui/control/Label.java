@@ -106,30 +106,6 @@ public class Label extends LabeledControl {
     }
     
     @Override
-    public void setText(String text) {
-        super.setText(text);
-        if (this.isAlreadySetSize == false) {
-            this.adjustSizeToFitText();
-        }
-    }
-    
-    private boolean isAlreadySetSize = false;
-
-    @Override
-    public void setSize(Dimension dimension) {
-        super.setSize(dimension);
-        this.isAlreadySetSize = true;
-    }
-
-    @Override
-    public void setMaximumSize(Dimension dimension) {
-        super.setMaximumSize(dimension);
-        if (this.isAlreadySetSize == false) {
-            this.adjustSizeToFitText();
-        }
-    }
-
-    @Override
     public HorizontalAlignment getTextHorizontalAlignment() {
         switch (this.getInnerInstance().getHorizontalAlignment()) {
         case SwingConstants.LEFT:
