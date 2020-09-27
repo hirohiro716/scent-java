@@ -280,6 +280,8 @@ public class PrinterJob {
         if (this.paperSource != null) {
             // Specified by paper source
             printRequestAttributeSet.add(this.paperSource.getInnerInstance());
+            MediaPrintableArea mediaPrintableArea = new MediaPrintableArea(0, 0, 2000, 2000, MediaPrintableArea.MM);
+            printRequestAttributeSet.add(mediaPrintableArea);
         }
         if (this.paperOrientation != null) {
             printRequestAttributeSet.add(this.paperOrientation.getInnerInstance());
