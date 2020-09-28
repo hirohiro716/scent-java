@@ -130,6 +130,8 @@ public class WebBrowser extends DynamicClass {
             Object alert = alertMethod.invoke("alert");
             Method acceptMethod = new Method(alert);
             acceptMethod.invoke("accept");
+            Thread.sleep(500);
+            this.acceptDialog();
     	} catch (Exception exception) {
     	}
     }
@@ -787,7 +789,19 @@ public class WebBrowser extends DynamicClass {
         public String getTextContent() throws Exception {
             WebBrowser browser = WebBrowser.this;
             Method method = new Method(browser.classRemoteWebElement, this.element);
-            return method.invoke("getAttribute", "outerText");
+            return method.invoke("getAttribute", "innerText");
+        }
+        
+        /**
+         * この要素が内包する文字列をセットする。
+         * 
+         * @param textContent 
+         * @throws Exception
+         */
+        public void setTextContent(String textContent) throws Exception {
+            WebBrowser browser = WebBrowser.this;
+            Method method = new Method(browser.classJavascriptExecutor, browser.webDriver);
+            method.invoke("executeScript", "arguments[0].innerText = arguments[1];", new Object[] {this.element, textContent});
         }
         
         /**
