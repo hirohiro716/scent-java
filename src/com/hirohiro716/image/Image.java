@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -69,9 +70,24 @@ public class Image extends ByteArray implements Cloneable {
             throw new IOException("The specified file couldn't be recognized as an image.");
         }
     }
+
+    /**
+     * コンストラクタ。<br>
+     * URLから画像を読み込む。
+     * 
+     * @param url
+     * @throws IOException
+     */
+    public Image(URL url) throws IOException {
+        this.imageFormat = ImageFormat.find(url.getFile());
+        if (this.imageFormat == null) {
+            throw new IOException("The specified file couldn't be recognized as an image.");
+        }
+        this.loadBufferedImage(this.imageFormat, ImageIO.read(url));
+    }
     
     private ImageFormat imageFormat;
-
+    
     /**
      * コンストラクタ。<br>
      * ファイルを画像として読み込む。
