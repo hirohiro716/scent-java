@@ -97,76 +97,6 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
         this.connectDatabase(this.database);
         return this.editRecordMapper(this.database);
     }
-
-    /**
-     * データベースの接続処理をする。<br>
-     * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
-     * 
-     * @param processAfterSuccess 接続に成功した場合の処理。
-     * @param processAfterFailure 接続に失敗し再試行しなかった場合の処理。
-     */
-    protected void connectDatabaseWithRetryDialog(ProcessAfterSuccess<D> processAfterSuccess, ProcessAfterFailure processAfterFailure) {
-        try {
-            D database = this.createDatabase();
-            this.connectDatabase(database);
-            if (processAfterSuccess != null) {
-                processAfterSuccess.execute(database);
-            }
-        } catch (SQLException exception) {
-            QuestionDialog dialog = new QuestionDialog(this);
-            dialog.setTitle("接続再試行の確認");
-            StringObject message = new StringObject("データベースへの接続に失敗しました。再試行しますか？");
-            message.append(OS.thisOS().getLineSeparator());
-            message.append(OS.thisOS().getLineSeparator());
-            message.append(exception.getMessage());
-            dialog.setMessage(message.toString());
-            dialog.setDefaultValue(ResultButton.YES);
-            dialog.setCancelable(false);
-            dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
-                
-                @Override
-                public void execute(ResultButton dialogResult) {
-                    RecordEditor<D, T> editor = RecordEditor.this;
-                    if (dialogResult == ResultButton.YES) {
-                        editor.connectDatabaseWithRetryDialog(processAfterSuccess, processAfterFailure);
-                    } else {
-                        if (processAfterFailure != null) {
-                            processAfterFailure.execute();
-                        }
-                    }
-                }
-            });
-            dialog.show();
-        }
-    }
-    
-    /**
-     * データベースの接続処理をする。<br>
-     * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
-     * 
-     * @param processAfterSuccess 接続に成功した場合の処理。
-     */
-    protected void connectDatabaseWithRetryDialog(ProcessAfterSuccess<D> processAfterSuccess) {
-        this.connectDatabaseWithRetryDialog(processAfterSuccess, null);
-    }
-
-    /**
-     * データベースの接続処理をする。<br>
-     * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
-     * 
-     * @param processAfterFailure 接続に失敗し再試行しなかった場合の処理。
-     */
-    protected void connectDatabaseWithRetryDialog(ProcessAfterFailure processAfterFailure) {
-        this.connectDatabaseWithRetryDialog(null, processAfterFailure);
-    }
-    
-    /**
-     * データベースの接続処理をする。<br>
-     * 接続に失敗した場合は確認ダイアログを表示して再帰的に試行する。
-     */
-    protected void connectDatabaseWithRetryDialog() {
-        this.connectDatabaseWithRetryDialog(null, null);
-    }
     
     /**
      * データベースレコードの編集・排他処理を行う。<br>
@@ -177,7 +107,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
      */
     public void editRecordMapperWithRetryDialog(ProcessAfterDialogClosing<T> processAfterSuccess, ProcessAfterFailure processAfterFailure) {
         try {
-            this.setTarget(this.editRecordMapper(this.database));
+            this.setTarget(this.editTarget());
             if (processAfterSuccess != null) {
                 processAfterSuccess.execute(this.getTarget());
             }
@@ -197,17 +127,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
                 public void execute(ResultButton dialogResult) {
                     RecordEditor<D, T> editor = RecordEditor.this;
                     if (dialogResult == ResultButton.YES) {
-                        if (editor.database != null) {
-                            editor.closeDatabase(editor.database);
-                        }
-                        editor.connectDatabaseWithRetryDialog(new ProcessAfterSuccess<>() {
-
-                            @Override
-                            public void execute(D successedInstance) {
-                                editor.database = successedInstance;
-                                editor.editRecordMapperWithRetryDialog(processAfterSuccess, processAfterFailure);
-                            }
-                        }, processAfterFailure);
+                        editor.editRecordMapperWithRetryDialog(processAfterSuccess, processAfterFailure);
                     } else {
                         if (processAfterFailure != null) {
                             processAfterFailure.execute();

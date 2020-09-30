@@ -38,6 +38,15 @@ public abstract class RecordMapper {
     }
     
     /**
+     * コンストラクタで指定したDatabaseインスタンスを新たにセットする。
+     * 
+     * @param database
+     */
+    public void setDatabase(Database database) {
+        this.database = database;
+    }
+    
+    /**
      * レコードが保存されているテーブルを取得する。
      * 
      * @return 結果。
