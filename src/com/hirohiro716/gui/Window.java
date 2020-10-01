@@ -1,8 +1,10 @@
 package com.hirohiro716.gui;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -40,20 +42,9 @@ public class Window extends Frame<JFrame> {
 
             @Override
             protected void handle(FrameEvent event) {
-                if (window.isAddedProcessWhenKeyTyped) {
-                    return;
-                }
-                window.isAddedProcessWhenKeyTyped = true;
-                for (KeyCode keyCode : window.mapProcessWhenKeyTyped.keySet()) {
-                    Runnable runnable = window.mapProcessWhenKeyTyped.get(keyCode);
-                    for (Control control : window.getRootPane().getChildren().findAll()) {
-                        control.addKeyPressedEventHandler(new KeyPressedEventHandler(keyCode));
-                        control.addKeyReleasedEventHandler(new KeyReleasedEventHandler(keyCode, runnable));
-                    }
-                }
+                window.setProcessWhenKeyTyped();
             }
         });
-
     }
     
     /**
@@ -75,6 +66,7 @@ public class Window extends Frame<JFrame> {
         this.rootPane.getChildren().clear();
         this.rootPane.getChildren().add(control);
         this.rootPane.updateLayout();
+        this.setProcessWhenKeyTyped();
     }
     
     @Override
@@ -224,9 +216,7 @@ public class Window extends Frame<JFrame> {
     }
     
     private Map<KeyCode, Runnable> mapProcessWhenKeyTyped = new LinkedHashMap<>();
-    
-    private boolean isAddedProcessWhenKeyTyped = false;
-    
+
     /**
      * このレコード検索ウィンドウでキーを押した際の処理を追加する。
      * 
@@ -235,6 +225,30 @@ public class Window extends Frame<JFrame> {
      */
     protected void addProcessWhenKeyTyped(KeyCode keyCode, Runnable runnable) {
         this.mapProcessWhenKeyTyped.put(keyCode, runnable);
+    }
+
+    private Map<Control, List<Runnable>> mapControlsWithAddedProcessWhenKeyTyped = new HashMap<>();
+    
+    /**
+     * キーを押した際の処理を、このレコード検索ウィンドウに属するコントロールすべてにセットする。
+     */
+    private void setProcessWhenKeyTyped() {
+        for (KeyCode keyCode : this.mapProcessWhenKeyTyped.keySet()) {
+            Runnable runnable = this.mapProcessWhenKeyTyped.get(keyCode);
+            for (Control child : this.getRootPane().getChildren().findAll()) {
+                List<Runnable> runnables = this.mapControlsWithAddedProcessWhenKeyTyped.get(child);
+                if (runnables == null) {
+                    runnables = new ArrayList<>();
+                    this.mapControlsWithAddedProcessWhenKeyTyped.put(child, runnables);
+                }
+                if (runnables.contains(runnable)) {
+                    continue;
+                }
+                child.addKeyPressedEventHandler(new KeyPressedEventHandler(keyCode));
+                child.addKeyReleasedEventHandler(new KeyReleasedEventHandler(keyCode, runnable));
+                runnables.add(runnable);
+            }
+        }
     }
     
     private Map<Control, Boolean> mapKeyTyped = new HashMap<>();
