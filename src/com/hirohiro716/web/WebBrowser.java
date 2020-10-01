@@ -118,6 +118,18 @@ public class WebBrowser extends DynamicClass {
         }
         return webDriver;
     }
+    
+    /**
+     * WEBブラウザを閉じる。
+     */
+    public void close() {
+        try {
+            Method method = new Method(this.classWebDriver, this.webDriver);
+            method.invoke("close");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
 
     /**
      * WEBブラウザに表示されているダイアログを承認する。
