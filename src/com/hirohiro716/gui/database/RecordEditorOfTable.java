@@ -37,13 +37,6 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         super(title, width, height);
     }
     
-    private boolean isRecordChanged = false;
-    
-    @Override
-    public boolean isRecordChanged() {
-        return this.isRecordChanged;
-    }
-
     /**
      * このエディターのテーブルコントロールに指定されたレコードの表示を許可する場合はtrueを返す。
      * 
@@ -192,7 +185,6 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         protected void handle(ActionEvent event) {
             RecordEditorOfTable<D, T, C> editor = RecordEditorOfTable.this;
             editor.saveToDatabase();
-            editor.isRecordChanged = true;
         }
     };
 
