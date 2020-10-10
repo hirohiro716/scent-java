@@ -43,6 +43,13 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
         });
     }
     
+    /**
+     * レコードが変更されている場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public abstract boolean isRecordChanged();
+    
     private D database;
     
     /**
