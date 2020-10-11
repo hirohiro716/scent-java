@@ -495,9 +495,20 @@ public abstract class TableView<C, R> extends Control {
         this.selectedRowChangeListeners.remove(changeListener);
         this.selectedRowsChangeListeners.remove(changeListener);
     }
+    
+    /**
+     * カラムの幅を維持する。
+     */
+    private void keepTableColumnWidth() {
+        for (C column : this.columnInstances) {
+            TableColumn tableColumn = this.getTableColumn(column);
+            tableColumn.setWidth(tableColumn.getWidth());
+        }
+    }
 
     @Override
     public void updateLayout() {
+        this.keepTableColumnWidth();
         super.updateLayout();
         this.tableModel.updateRows();
         this.tableModel.updateStructure();
@@ -505,6 +516,7 @@ public abstract class TableView<C, R> extends Control {
     
     @Override
     public void updateDisplay() {
+        this.keepTableColumnWidth();
         super.updateDisplay();
         this.tableModel.updateRows();
         this.tableModel.updateStructure();
@@ -1201,6 +1213,7 @@ public abstract class TableView<C, R> extends Control {
          */
         public void updateLayoutAndDisplay() {
             javax.swing.table.TableColumn innerInstance = this.getInnerInstance();
+            // TODO
             if (this.width != null) {
                 innerInstance.setWidth(this.width);
                 innerInstance.setPreferredWidth(this.width);
