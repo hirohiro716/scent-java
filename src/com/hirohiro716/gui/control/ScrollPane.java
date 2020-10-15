@@ -46,6 +46,16 @@ public class ScrollPane extends Control {
         this();
         this.setContent(control);
     }
+
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param innerInstance GUIライブラリに依存したインスタンス。
+     * @return 新しいインスタンス。
+     */
+    public static ScrollPane newInstance(JScrollPane innerInstance) {
+        return new ScrollPane(innerInstance);
+    }
     
     @Override
     public JScrollPane getInnerInstance() {

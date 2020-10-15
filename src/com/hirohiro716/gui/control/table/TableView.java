@@ -45,6 +45,7 @@ import com.hirohiro716.gui.control.CenterPane;
 import com.hirohiro716.gui.control.ContextMenu;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Label;
+import com.hirohiro716.gui.control.ScrollPane;
 import com.hirohiro716.gui.dialog.InstantMessage;
 import com.hirohiro716.gui.event.ActionEvent;
 import com.hirohiro716.gui.event.ChangeListener;
@@ -72,6 +73,7 @@ public abstract class TableView<C, R> extends Control {
      */
     protected TableView(JTable innerInstance) {
         super(innerInstance, new JScrollPane(innerInstance));
+        this.scrollPane = ScrollPane.newInstance(this.getInnerInstanceForLayout());
         this.getInnerInstance().setModel(this.tableModel);
         this.getInnerInstance().setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         this.getInnerInstance().getTableHeader().setDefaultRenderer(new HeaderRenderer());
@@ -115,6 +117,8 @@ public abstract class TableView<C, R> extends Control {
     
     private TableModel tableModel = new TableModel();
     
+    private ScrollPane scrollPane;
+    
     @Override
     public JTable getInnerInstance() {
         return (JTable) super.getInnerInstance();
@@ -124,9 +128,18 @@ public abstract class TableView<C, R> extends Control {
     public JScrollPane getInnerInstanceForLayout() {
         return (JScrollPane) super.getInnerInstanceForLayout();
     }
+    
+    /**
+     * このテーブルビューのスクロールペインを取得する。
+     * 
+     * @return 結果。
+     */
+    public ScrollPane getScrollPane() {
+        return this.scrollPane;
+    }
 
     /**
-     * このリストビューで複数選択が可能な場合はtrueを返す。
+     * このテーブルビューで複数選択が可能な場合はtrueを返す。
      * 
      * @return 結果。
      */
@@ -135,7 +148,7 @@ public abstract class TableView<C, R> extends Control {
     }
     
     /**
-     * このリストビューで複数選択を可能にする場合はtrueをセットする。
+     * このテーブルビューで複数選択を可能にする場合はtrueをセットする。
      * 
      * @param isAllowMultipleSelection
      */
@@ -1213,7 +1226,6 @@ public abstract class TableView<C, R> extends Control {
          */
         public void updateLayoutAndDisplay() {
             javax.swing.table.TableColumn innerInstance = this.getInnerInstance();
-            // TODO
             if (this.width != null) {
                 innerInstance.setWidth(this.width);
                 innerInstance.setPreferredWidth(this.width);
@@ -1312,7 +1324,7 @@ public abstract class TableView<C, R> extends Control {
                     handler.sort(true);
                 }
             });
-            menu.show(event.getX(), event.getY() - tableView.getInnerInstance().getTableHeader().getHeight());
+            menu.show(event.getX(), event.getY() + tableView.getScrollPane().getVerticalScrollBar().getScrollPosition() - tableView.getInnerInstance().getTableHeader().getHeight());
         }
     }
 
