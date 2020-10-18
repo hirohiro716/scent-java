@@ -158,6 +158,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
     /**
      * このGUIライブラリにはドロップダウンリストの最小幅をアイテムの文字幅に合わせて無限に拡大するバグがある。
      */
+    @Override
     protected void adjustSize() {
         if (this.isSizeInitialized == false) {
             this.isSizeInitialized = true;

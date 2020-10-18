@@ -318,6 +318,7 @@ public class Pane extends Control {
          * 指定されたクラスのバイナリ名に完全に一致するコントロールのリストを作成する。<br>
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
+         * @param <C> 
          * @param controlClass
          * @return 結果。
          */
@@ -355,6 +356,7 @@ public class Pane extends Control {
          * 指定されたクラスのバイナリ名に完全に一致するコントロールを検索する。<br>
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
+         * @param <C> 
          * @param controlClass
          * @return 結果。
          */
@@ -366,6 +368,7 @@ public class Pane extends Control {
          * 指定された名前かつ、指定されたクラスのバイナリ名に完全に一致するコントロールを検索する。<br>
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
+         * @param <C> 
          * @param name
          * @param controlClass
          * @return 結果。

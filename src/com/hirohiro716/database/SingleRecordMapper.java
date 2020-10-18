@@ -30,6 +30,7 @@ public abstract class SingleRecordMapper extends RecordMapper {
     /**
      * このインスタンスにマップされているレコードを取得する。
      * 
+     * @param <C> 
      * @return 結果。
      */
     @SuppressWarnings("unchecked")
@@ -40,6 +41,7 @@ public abstract class SingleRecordMapper extends RecordMapper {
     /**
      * このインスタンスにマップされているレコードを、指定されたレコードに置き換える。
      * 
+     * @param <C> 
      * @param record
      */
     public <C extends ColumnInterface> void setRecord(DynamicArray<C> record) {
@@ -66,6 +68,7 @@ public abstract class SingleRecordMapper extends RecordMapper {
     protected abstract DynamicArray<String> fetchRecordForEdit() throws SQLException;
     
     @SuppressWarnings("unchecked")
+    @Override
     protected DynamicArray<String>[] fetchRecordsForEdit(String[] orderByColumnsForEdit) throws SQLException {
         return new DynamicArray[] {this.fetchRecordForEdit()};
     }
@@ -133,31 +136,37 @@ public abstract class SingleRecordMapper extends RecordMapper {
     }
 
     @Deprecated
+    @Override
     public <C extends ColumnInterface> DynamicArray<C>[] getRecords() {
         return super.getRecords();
     }
     
     @Deprecated
+    @Override
     public <C extends ColumnInterface> void addRecord(DynamicArray<C> record) {
         super.addRecord(record);
     }
 
     @Deprecated
+    @Override
     public final <C extends ColumnInterface> void setRecords(Collection<DynamicArray<C>> records) {
         this.setRecord(records.iterator().next());
     }
     
     @Deprecated
+    @Override
     public final <C extends ColumnInterface> void setRecords(DynamicArray<C>[] records) {
         this.setRecord(records[0]);
     }
     
     @Deprecated
+    @Override
     public <C extends ColumnInterface> void removeRecord(DynamicArray<C> record) {
         super.removeRecord(record);
     }
     
     @Deprecated
+    @Override
     public void clearRecords() {
         super.clearRecords();
     }

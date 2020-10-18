@@ -53,6 +53,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
         return this.labelOfMessage;
     }
     
+    @Override
     protected Control[] createControls() {
         List<Control> controls = new ArrayList<>();
         // Message

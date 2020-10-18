@@ -48,6 +48,7 @@ public class ValidationException extends Exception {
     /**
      * 検証に失敗した原因のレコードを取得する。
      * 
+     * @param <C> 
      * @return 結果。
      */
     @SuppressWarnings("unchecked")
@@ -70,6 +71,7 @@ public class ValidationException extends Exception {
     /**
      * 検証に失敗した原因のカラムの配列を取得する。
      * 
+     * @param <C> 
      * @return 結果。
      */
     @SuppressWarnings("unchecked")

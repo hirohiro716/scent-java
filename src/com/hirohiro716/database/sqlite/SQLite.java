@@ -160,11 +160,13 @@ public abstract class SQLite extends Database {
     }
 
     @Deprecated
+    @Override
     public void setAutoCommit(boolean isAutoCommit) throws SQLException {
         throw new SQLException("SQLite should not use this method.");
     }
     
     @Deprecated
+    @Override
     public boolean isAutoCommit() throws SQLException {
         return super.isAutoCommit();
     }

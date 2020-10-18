@@ -105,6 +105,7 @@ public abstract class Task<R> {
          * @return 処理結果。
          * @throws Exception タスクがキャンセルされた場合、または処理に失敗した場合。
          */
+        @Override
         public abstract R call() throws Exception;
 
         /**

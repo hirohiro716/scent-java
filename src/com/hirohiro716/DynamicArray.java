@@ -409,6 +409,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     /**
      * serializeされた連想配列のインスタンスを復元する。
      * 
+     * @param <K> 
      * @param byteArray serializeされたByteArrayオブジェクト。
      * @return Array
      * @throws ClassNotFoundException
@@ -421,6 +422,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     /**
      * 指定されたMapをコピーして初期値としたインスタンスを作成する。
      * 
+     * @param <K> 
      * @param map
      * @return 結果。
      */
@@ -451,6 +453,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     /**
      * 指定されたキーに関連づいた値をもとに連想配列を並び替える。
      * 
+     * @param <K> 
      * @param arrays
      * @param sortKey 並び替えに使用する値を取得するためのキー。
      * @param sortOrder
@@ -475,6 +478,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     /**
      * 指定されたキーに関連づいた値をもとに連想配列を並び替える。
      * 
+     * @param <K> 
      * @param arrays
      * @param sortKey 並び替えに使用する値を取得するためのキー。
      * @param sortOrder
@@ -484,14 +488,15 @@ public class DynamicArray<K> implements Cloneable, Serializable {
         List<DynamicArray<K>> list = Arrays.asList(arrays);
         return DynamicArray.sort(list, sortKey, sortOrder);
     }
-    
+
     /**
      * 指定されたキーに関連づいた値同士を使用して2つの連想配列の順序付けをする比較クラス。
      * 
      * @author hiro
+     * 
      * @param <K> 
      *
-     */
+     */    
     private static class Comparator<K> implements java.util.Comparator<DynamicArray<K>> {
         
         private K sortKey;

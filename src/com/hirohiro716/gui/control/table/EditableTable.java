@@ -727,6 +727,7 @@ public abstract class EditableTable<C, R> extends Control {
     /**
      * このテーブルにドロップダウンリストを表示するカラムを追加する。
      * 
+     * @param <T> 
      * @param columnInstance
      * @param controlFactory
      */

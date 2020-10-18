@@ -81,6 +81,7 @@ public abstract class Control extends Component<JComponent> {
     /**
      * このコントロールの親にあたるコントロールを取得する。
      * 
+     * @param <T> 
      * @return 結果。
      */
     @SuppressWarnings("unchecked")

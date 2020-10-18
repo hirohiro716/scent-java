@@ -43,6 +43,7 @@ public abstract class FileChooser extends Control implements DialogInterface {
      * 
      * @return 結果。
      */
+    @Override
     public JFileChooser getInnerInstance() {
         return (JFileChooser) super.getInnerInstance();
     }

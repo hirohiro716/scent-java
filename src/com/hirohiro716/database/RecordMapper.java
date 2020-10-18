@@ -85,6 +85,7 @@ public abstract class RecordMapper {
     /**
      * 初期値が入力されたレコードの配列を作成する。
      * 
+     * @param <C> 
      * @return 結果。
      */
     public <C extends ColumnInterface> DynamicArray<C> createDefaultRecord() {
@@ -116,6 +117,7 @@ public abstract class RecordMapper {
     /**
      * このインスタンスにマップされているレコードを取得する。
      * 
+     * @param <C> 
      * @return 結果。
      */
     @SuppressWarnings("unchecked")
@@ -126,6 +128,7 @@ public abstract class RecordMapper {
     /**
      * このインスタンスにマップされているレコードに、指定されたレコードを追加する。
      * 
+     * @param <C> 
      * @param record
      */
     @SuppressWarnings("unchecked")
@@ -136,6 +139,7 @@ public abstract class RecordMapper {
     /**
      * このインスタンスにマップされているレコードを、指定されたレコードに置き換える。
      * 
+     * @param <C> 
      * @param records
      */
     public <C extends ColumnInterface> void setRecords(Collection<DynamicArray<C>> records) {
@@ -148,6 +152,7 @@ public abstract class RecordMapper {
     /**
      * このインスタンスにマップされているレコードを、指定されたレコードに置き換える。
      * 
+     * @param <C> 
      * @param records
      */
     public <C extends ColumnInterface> void setRecords(DynamicArray<C>[] records) {
@@ -159,6 +164,7 @@ public abstract class RecordMapper {
     /**
      * このインスタンスにマップされているレコードから、指定されたレコードを削除する。
      * 
+     * @param <C> 
      * @param record
      */
     public <C extends ColumnInterface> void removeRecord(DynamicArray<C> record) {

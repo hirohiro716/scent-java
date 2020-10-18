@@ -42,6 +42,7 @@ public abstract class Event<T extends AWTEvent> {
     /**
      * このイベントの発生元コンポーネントを取得する。
      * 
+     * @param <C> 
      * @return 結果。
      */
     @SuppressWarnings("unchecked")
