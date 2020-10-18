@@ -153,6 +153,11 @@ public class ByteArray {
         }
         return string.toString();
     }
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
     
     @Override
     public boolean equals(Object object) {

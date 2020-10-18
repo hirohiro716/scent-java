@@ -157,6 +157,7 @@ public abstract class Editor<T> extends Window {
     /**
      * このエディターを閉じる。
      */
+    @Override
     public void close() {
         this.isShowConfirmationBeforeClosing = false;
         super.close();

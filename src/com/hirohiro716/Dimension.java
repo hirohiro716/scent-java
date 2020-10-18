@@ -55,7 +55,12 @@ public class Dimension {
         string.append(this.height);
         return string.toString();
     }
-    
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object instanceof Dimension) {

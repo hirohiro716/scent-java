@@ -71,6 +71,11 @@ public class Bounds {
     }
 
     @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
+    @Override
     public boolean equals(Object object) {
         if (object instanceof Bounds) {
             Bounds bounds = (Bounds) object;

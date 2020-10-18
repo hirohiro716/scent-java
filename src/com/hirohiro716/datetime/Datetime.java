@@ -382,7 +382,12 @@ public class Datetime implements Cloneable {
     public final String toString() {
         return this.toString(this.dateFormat);
     }
-    
+
+    @Override
+    public int hashCode() {
+        return String.valueOf(this.getDate().getTime()).hashCode();
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object instanceof Date) {

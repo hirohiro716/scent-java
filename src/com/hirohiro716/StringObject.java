@@ -69,7 +69,12 @@ public class StringObject implements Cloneable, Iterable<String> {
             }
         };
     }
-    
+
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
     /**
      * このインスタンスの文字列と、指定されたオブジェクトの文字列表現を比較する。
      * 
