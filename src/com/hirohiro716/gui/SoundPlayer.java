@@ -6,10 +6,6 @@ import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineEvent.Type;
-
 import com.hirohiro716.filesystem.File;
 
 /**
@@ -27,15 +23,6 @@ public class SoundPlayer implements Closeable {
      */
     private SoundPlayer() throws Exception {
         this.clip = AudioSystem.getClip();
-        this.clip.addLineListener(new LineListener() {
-            
-            @Override
-            public void update(LineEvent event) {
-                if (event.getType() == Type.OPEN) {
-                    SoundPlayer.this.isOpen = true;
-                }
-            }
-        });
     }
     
     /**
@@ -67,18 +54,10 @@ public class SoundPlayer implements Closeable {
     
     private Clip clip;
     
-    private boolean isOpen = false;
-    
     /**
      * 音源を再生する。
      */
     public void play() {
-        while (this.isOpen == false) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException exception) {
-            }
-        }
         this.clip.start();
     }
     
