@@ -1,9 +1,8 @@
 package com.hirohiro716.gui;
 
+import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.InputStream;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -29,13 +28,14 @@ public class SoundPlayer implements Closeable {
     
     /**
      * コンストラクタ。<br>
-     * 再生する音源のバイト入力ストリームを指定する。
+     * 再生する音源のバイト配列を指定する。
      * 
-     * @param inputStream
+     * @param bytes 
      * @throws Exception
      */
-    public SoundPlayer(InputStream inputStream) throws Exception {
+    public SoundPlayer(byte[] bytes) throws Exception {
         this();
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputStream);
         this.clip.open(audioInputStream);
     }
