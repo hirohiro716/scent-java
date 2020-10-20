@@ -102,6 +102,9 @@ public class TextArea extends TextInputControl {
         @Override
         protected void handle(KeyEvent event) {
             TextArea control = TextArea.this;
+            if (event.isControlDown() || event.isAltDown()) {
+                return;
+            }
             switch (event.getKeyCode()) {
             case TAB:
                 if (event.isShiftDown()) {
