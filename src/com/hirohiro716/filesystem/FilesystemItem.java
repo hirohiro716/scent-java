@@ -223,4 +223,14 @@ public abstract class FilesystemItem {
     public static FilesystemItem newInstance(String location) {
         return FilesystemItem.newInstance(new File(location));
     }
+
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、指定されたURIから新しいインスタンスを作成する。
+     * 
+     * @param uri
+     * @return 結果。
+     */
+    public static FilesystemItem newInstance(URI uri) {
+        return FilesystemItem.newInstance(new File(uri));
+    }
 }

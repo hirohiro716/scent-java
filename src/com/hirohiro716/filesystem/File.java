@@ -7,11 +7,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import com.hirohiro716.StringObject;
 
 /**
  * ファイルシステム上のファイルクラス。
@@ -278,32 +276,5 @@ public class File extends FilesystemItem {
          * @throws IOException
          */
         public abstract void call(OutputStreamWriter writer) throws IOException;
-    }
-    
-    /**
-     * 指定されたクラスのクラスファイルを取得する。<br>
-     * もしクラスファイルがjarファイルに含まれる場合はjarファイルを取得する。
-     * 
-     * @param clazz
-     * @return クラスファイル(*.class *.jar)
-     * @throws URISyntaxException
-     */
-    public static File findClassFile(Class<?> clazz) throws URISyntaxException {
-        StringObject path = new StringObject();
-        StringObject classURL = new StringObject(clazz.getResource(clazz.getSimpleName() + ".class").toExternalForm());
-        classURL.replace("jar:", "");
-        for (String part: classURL.split(FilesystemItem.getFileSeparator())) {
-            if (path.length() > 0) {
-                path.append(FilesystemItem.getFileSeparator());
-            }
-            if (path.length() > 0 || part.equals("file:")) {
-                if (part.endsWith("!")) {
-                    path.append(part.substring(0, part.length() - 1));
-                    break;
-                }
-                path.append(part);
-            }
-        }
-        return new File(new URI(path.toString()));
     }
 }

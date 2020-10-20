@@ -2,6 +2,7 @@ package com.hirohiro716.filesystem;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -153,4 +154,29 @@ public class Directory extends FilesystemItem {
         }
         return this.searchItems(this.toJavaIoFile(), directoryRegex.toString(), fileRegex.toString()).toArray(new FilesystemItem[] {});
     }
+
+    /**
+     * 指定されたクラスファイルの親ディレクトリを取得する。<br>
+     * もしクラスファイルがjarファイルに含まれる場合はjarファイルの親ディレクトリを取得する。
+     * 
+     * @param clazz
+     * @return 結果。
+     * @throws URISyntaxException
+     */
+    public static Directory findClassDirectory(Class<?> clazz) throws URISyntaxException {
+        StringObject classURL = new StringObject(clazz.getResource(clazz.getSimpleName() + ".class").toExternalForm());
+        String path;
+        if (classURL.toString().indexOf("file:") == 0) {
+            path = File.newInstance(new URI(classURL.toString())).getParentDirectory().getAbsolutePath();
+        } else {
+            FilesystemItem filesystemItem = FilesystemItem.newInstance(clazz.getProtectionDomain().getCodeSource().getLocation().getPath());
+            if (filesystemItem.isDirectory()) {
+                path = filesystemItem.getAbsolutePath();
+            } else {
+                File file = (File) filesystemItem;
+                path = file.getParentDirectory().getAbsolutePath();
+            }
+        }
+        return new Directory(path.toString());
     }
+}
