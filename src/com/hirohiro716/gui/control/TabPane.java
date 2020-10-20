@@ -8,10 +8,14 @@ import java.util.Map;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 
+import com.hirohiro716.gui.Component;
+import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.event.ChangeListener;
+import com.hirohiro716.gui.event.EventHandler;
+import com.hirohiro716.gui.event.KeyEvent;
 
 /**
  * タブによって表示を切り替えるペインのクラス。
@@ -150,7 +154,7 @@ public class TabPane extends Control {
     public void removeChangeListener(ChangeListener<?> changeListener) {
         super.removeChangeListener(changeListener);
         this.selectedTabChangeListeners.remove(changeListener);
-    } 
+    }
     
     /**
      * タブのクラス。
@@ -170,6 +174,10 @@ public class TabPane extends Control {
         public Tab(String title, Pane pane) {
             this.title = title;
             this.pane = pane;
+            for (Control child : this.pane.getChildren().findAll()) {
+                child.removeEventHandler(Tab.KEY_PRESSED_EVENT_HANDLER);
+                child.addKeyPressedEventHandler(Tab.KEY_PRESSED_EVENT_HANDLER);
+            }
         }
         
         private String title;
@@ -195,5 +203,26 @@ public class TabPane extends Control {
         public <P extends Pane> P getPane() {
             return (P) this.pane;
         }
+
+        /**
+         * タブ内のコントロールに対するCtrl+PgUp、Ctrl+PgDownイベントをTabPaneに渡すイベントハンドラー。
+         */
+        private static EventHandler<KeyEvent> KEY_PRESSED_EVENT_HANDLER = new EventHandler<KeyEvent>() {
+
+            @Override
+            protected void handle(KeyEvent event) {
+                if (event.isControlDown() && event.getKeyCode() == KeyCode.PAGE_DOWN || event.isControlDown() && event.getKeyCode() == KeyCode.PAGE_UP) {
+                    Component<?> parent = event.getSource().getParent();
+                    while (parent != null && parent instanceof Control) {
+                        Control control = (Control) parent;
+                        if (control instanceof TabPane) {
+                            event.copy(control);
+                            return;
+                        }
+                        parent = control.getParent();
+                    }
+                }
+            }
+        };
     }
 }

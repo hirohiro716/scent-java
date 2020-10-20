@@ -52,7 +52,10 @@ public abstract class EventHandler<E extends Event<?>> {
      * @return 結果。
      */
     public Object[] getInnerInstances(Component<?> component) {
-        return this.mapInnerInstanceList.get(component).toArray();
+        if (this.mapInnerInstanceList.containsKey(component)) {
+            return this.mapInnerInstanceList.get(component).toArray();
+        }
+        return new Object[] {};
     }
     
     /**
