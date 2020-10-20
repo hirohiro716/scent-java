@@ -73,7 +73,6 @@ public class SoundPlayer implements Closeable {
      */
     public void stop() {
         this.clip.stop();
-        this.clip.flush();
         this.clip.setFramePosition(0);
     }
     
