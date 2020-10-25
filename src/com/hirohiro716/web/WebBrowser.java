@@ -18,8 +18,8 @@ import com.hirohiro716.reflection.Method;
 
 /**
  * HTML5、CSS3、JavaScriptをサポートするWEBブラウザのクラス。<br>
- * Selenium - <a href="https://www.selenium.dev/downloads/">https://www.selenium.dev/downloads/</a><br>
- * WebDriver - <a href="https://www.selenium.dev/documentation/en/webdriver/driver_requirements/">https://www.selenium.dev/documentation/en/webdriver/driver_requirements/</a>
+ * ・Selenium - <a href="https://www.selenium.dev/downloads/">https://www.selenium.dev/downloads/</a><br>
+ * ・WebDriver - <a href="https://www.selenium.dev/documentation/en/webdriver/driver_requirements/">https://www.selenium.dev/documentation/en/webdriver/driver_requirements/</a>
  * 
  * @author hiro
  *

@@ -10,6 +10,7 @@ import com.hirohiro716.reflection.Method;
 
 /**
  * QRコードの画像を作成するクラス。
+ * ・zxing - <a href="https://github.com/zxing/zxing/releases">https://github.com/zxing/zxing/releases</a>
  * 
  * @author hiro
  *
@@ -18,7 +19,7 @@ public class QRCodeCreator extends DynamicClass {
     
     /**
      * コンストラクタ。<br>
-     * パラメーターのzxingライブラリのディレクトリにはcore.jarとjavase.jarが必要。
+     * パラメーターにはcore.jarとjavase.jarが入ったzxingライブラリのディレクトリを指定する。
      * 
      * @param zxingLibraryDirectory
      * @throws ClassNotFoundException

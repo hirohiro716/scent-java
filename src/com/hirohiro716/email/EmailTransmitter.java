@@ -13,6 +13,8 @@ import com.hirohiro716.reflection.Method;
 
 /**
  * JavaMailを使用してE-mailを送信するクラス。 
+ * ・JavaMail - <a href="https://javaee.github.io/javamail/">https://javaee.github.io/javamail/</a><br>
+ * ・JavaBeans Activation Framework - <a href="https://github.com/javaee/activation/">https://github.com/javaee/activation/</a>
  * 
  * @author hiro
  *
@@ -21,9 +23,7 @@ public class EmailTransmitter extends DynamicClass {
     
     /**
      * コンストラクタ。<br>
-     * 下記のjarファイルを指定する。<br>
-     * ・JavaMail - <a href="https://javaee.github.io/javamail/">https://javaee.github.io/javamail/</a><br>
-     * ・JavaBeans Activation Framework - <a href="https://github.com/javaee/activation/">https://github.com/javaee/activation/</a>
+     * JavaMailとJavaBeansActivationFrameworkのjarファイルを指定する。
      * 
      * @param javamailLibraryJar
      * @param activationLibraryJar
