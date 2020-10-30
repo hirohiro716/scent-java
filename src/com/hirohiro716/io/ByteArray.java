@@ -1,11 +1,13 @@
 package com.hirohiro716.io;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -174,6 +176,29 @@ public class ByteArray {
         } catch (Exception exception) {
             return false;
         }
+    }
+    
+    /**
+     * このインスタンスのbyte配列を、指定されたcharsetを使用してテキストとして読み込む。
+     * 
+     * @param charsetName 
+     * @return 結果。
+     * @throws IOException
+     */
+    public String readAllText(String charsetName) throws IOException {
+        StringObject text = new StringObject();
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(this.bytes)) {
+            try (InputStreamReader streamReader = new InputStreamReader(stream, charsetName)) {
+                try (BufferedReader bufferedReader = new BufferedReader(streamReader)) {
+                    String line = bufferedReader.readLine();
+                    while (line != null) {
+                        text.append(line);
+                        line = bufferedReader.readLine();
+                    }
+                }
+            }
+        }
+        return text.toString();
     }
 
     /**
