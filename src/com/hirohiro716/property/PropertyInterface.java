@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 public interface PropertyInterface {
     
     /**
-     * 日本語名を取得する。
+     * 論理名を取得する。
      * 
      * @return 結果。
      */
