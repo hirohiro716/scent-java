@@ -393,7 +393,7 @@ public abstract class EditableTable<C, R> extends Control {
      * 
      * @param columnInstance
      */
-    private void activateColumn(C columnInstance) {
+    public void activateColumn(C columnInstance) {
         this.activeColumnInstance = columnInstance;
         for (ChangeListener<C> changeListener : this.activeColumnChangeListeners) {
             if (changeListener != null) {
