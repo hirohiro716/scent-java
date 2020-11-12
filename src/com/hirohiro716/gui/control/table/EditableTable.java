@@ -828,7 +828,7 @@ public abstract class EditableTable<C, R> extends Control {
     }
     
     /**
-     * このテーブルの指定された行インスタンスのコントロール値を更新する。
+     * このテーブルの指定された行情報インスタンスのコントロール値を更新する。
      * 
      * @param rowInstance
      */
@@ -840,6 +840,22 @@ public abstract class EditableTable<C, R> extends Control {
                 Control control = mapRowControl.get(columnInstance);
                 this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
             }
+        } catch (Exception exception) {
+        }
+    }
+    
+    /**
+     * このテーブルの指定された行情報インスタンスとカラム情報インスタンスのコントロール値を更新する。
+     * 
+     * @param rowInstance
+     * @param columnInstance
+     */
+    public void updateControlValue(R rowInstance, C columnInstance) {
+        try {
+            Pane pane = this.rowControlPanes.get(this.rowInstances.indexOf(rowInstance));
+            Map<C, Control> mapRowControl = this.mapOfRowControlMap.get(pane);
+            Control control = mapRowControl.get(columnInstance);
+            this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
         } catch (Exception exception) {
         }
     }
