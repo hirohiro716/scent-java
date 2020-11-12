@@ -33,7 +33,10 @@ public class ExceptionMessenger {
             message.append(OS.thisOS().getLineSeparator());
         }
         message.append("An exception occurred in ");
-        message.append(this.exception.getStackTrace()[this.exception.getStackTrace().length - 1].getClassName());
+        StackTraceElement stackTraceElement = this.exception.getStackTrace()[this.exception.getStackTrace().length - 1];
+        message.append(stackTraceElement.getClassName());
+        message.append(":");
+        message.append(stackTraceElement.getLineNumber());
         message.append(OS.thisOS().getLineSeparator());
         if (this.exception.getMessage() != null && this.exception.getMessage().length() > 0) {
             message.append(this.exception.getClass().getName());

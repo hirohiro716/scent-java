@@ -64,7 +64,6 @@ public class DatePicker extends TextField {
                 if (textField.popup != null && textField.popup.isVisible()) {
                     textField.hidePopup();
                 } else {
-                    textField.selectAll();
                     textField.showPopup();
                 }
             }
@@ -76,6 +75,8 @@ public class DatePicker extends TextField {
                 if (changedValue == false) {
                     textField.parseInputString();
                     textField.hidePopup();
+                } else {
+                    textField.selectAll();
                 }
             }
         });
