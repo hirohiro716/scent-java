@@ -83,6 +83,17 @@ public class AutocompleteTextField extends TextField {
             }
         });
         this.addTextChangeListener(new TextChangeListener());
+        // Measures that the pop-up remains displayed for some reason
+        this.listView.addMouseMovedEventHandler(new EventHandler<MouseEvent>() {
+
+            @Override
+            protected void handle(MouseEvent event) {
+                if (textField.isFocused()) {
+                    return;
+                }
+                textField.closePopup();
+            }
+        });
     }
     
     /**
@@ -232,9 +243,23 @@ public class AutocompleteTextField extends TextField {
      * このテキストフィールドのオートコンプリート用のポップアップを隠す。
      */
     public void hidePopup() {
-        if (this.getPopup() != null && this.getPopup().isVisible()) {
-            this.getPopup().hide();
+        if (this.popup == null || this.popup.isVisible() == false) {
+            return;
         }
+        this.popup.hide();
+    }
+    
+    /**
+     * このテキストフィールドのオートコンプリート用のポップアップを閉じる。
+     */
+    public void closePopup() {
+        if (this.popup == null) {
+            return;
+        }
+        this.paneOfPopup.getChildren().clear();
+        this.popup.getChildren().clear();
+        this.popup.close();
+        this.popup = null;
     }
     
     private ListView<String> listView = new ListView<>();
