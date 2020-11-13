@@ -828,20 +828,32 @@ public abstract class EditableTable<C, R> extends Control {
     }
     
     /**
-     * このテーブルの指定された行情報インスタンスのコントロール値を更新する。
+     * このテーブルの指定された行情報インスタンスとカラム情報インスタンスのコントロール値を更新する。
      * 
      * @param rowInstance
+     * @param columnInstances
      */
-    public void updateRowControlValues(R rowInstance) {
+    public void updateControlValues(R rowInstance, C[] columnInstances) {
         try {
             Pane pane = this.rowControlPanes.get(this.rowInstances.indexOf(rowInstance));
             Map<C, Control> mapRowControl = this.mapOfRowControlMap.get(pane);
-            for (C columnInstance : this.columnInstances) {
+            for (C columnInstance : columnInstances) {
                 Control control = mapRowControl.get(columnInstance);
                 this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
             }
         } catch (Exception exception) {
         }
+    }
+
+    /**
+     * このテーブルの指定された行情報インスタンスとカラム情報インスタンスのコントロール値を更新する。
+     * 
+     * @param rowInstance
+     * @param columnInstances
+     */
+    @SuppressWarnings("unchecked")
+    public void updateControlValues(R rowInstance, List<C> columnInstances) {
+        this.updateControlValues(rowInstance, (C[]) columnInstances.toArray());
     }
     
     /**
@@ -850,14 +862,18 @@ public abstract class EditableTable<C, R> extends Control {
      * @param rowInstance
      * @param columnInstance
      */
+    @SuppressWarnings("unchecked")
     public void updateControlValue(R rowInstance, C columnInstance) {
-        try {
-            Pane pane = this.rowControlPanes.get(this.rowInstances.indexOf(rowInstance));
-            Map<C, Control> mapRowControl = this.mapOfRowControlMap.get(pane);
-            Control control = mapRowControl.get(columnInstance);
-            this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
-        } catch (Exception exception) {
-        }
+        this.updateControlValues(rowInstance, (C[]) new Object[] {columnInstance});
+    }
+
+    /**
+     * このテーブルの指定された行情報インスタンスのコントロール値を更新する。
+     * 
+     * @param rowInstance
+     */
+    public void updateControlValues(R rowInstance) {
+        this.updateControlValues(rowInstance, this.columnInstances.toUnmodifiableList());
     }
     
     private Map<R, Pane> mapRowControlPanes = new HashMap<>();
