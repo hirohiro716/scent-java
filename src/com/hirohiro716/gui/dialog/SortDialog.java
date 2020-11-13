@@ -99,7 +99,7 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
         } else {
             label.setText(sortableItem.toString());
         }
-        label.setMinimumHeight(label.getFont().getSize() * 2);
+        label.setHeight((int) (label.getFont().getSize() * 1.8));
         label.setPadding(0, 10);
         label.setInstanceForUseLater(sortableItem);
         return label;
