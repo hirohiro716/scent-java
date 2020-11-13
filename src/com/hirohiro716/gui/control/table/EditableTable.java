@@ -23,6 +23,7 @@ import com.hirohiro716.gui.MouseCursor;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.collection.RemoveListener;
+import com.hirohiro716.gui.control.AutocompleteTextField;
 import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.CheckBox;
 import com.hirohiro716.gui.control.Control;
@@ -336,6 +337,12 @@ public abstract class EditableTable<C, R> extends Control {
                 DatePicker datePicker = (DatePicker) control;
                 if (columnInstance != this.activeColumnInstance) {
                     datePicker.setDisabledPopup(false);
+                }
+            }
+            if (control instanceof AutocompleteTextField) {
+                AutocompleteTextField autocompleteTextField = (AutocompleteTextField) control;
+                if (columnInstance != this.activeColumnInstance) {
+                    autocompleteTextField.setDisableAutocomplete(false);
                 }
             }
         }
@@ -879,6 +886,8 @@ public abstract class EditableTable<C, R> extends Control {
     private Map<R, Pane> mapRowControlPanes = new HashMap<>();
     
     private Integer displayedLeadingIndex = null;
+
+    private Map<R, Map<C, Integer[]>> mapTextFieldSelection = new HashMap<>();
     
     /**
      * このテーブルの指定された行インデックスのコントロールを表示する。
@@ -940,12 +949,16 @@ public abstract class EditableTable<C, R> extends Control {
             }
             controlPane.setInstanceForUseLater(rowInstance);
             Map<C, Control> mapRowControl = this.mapOfRowControlMap.get(controlPane);
+            Map<C, Integer[]> selectionOfTextField = this.mapTextFieldSelection.get(rowInstance);
             for (C columnInstance : this.columnInstances) {
                 Control control = mapRowControl.get(columnInstance);
                 this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
                 if (control instanceof TextField) {
                     TextField textField = (TextField) control;
-                    textField.selectAll();
+                    try {
+                        textField.select(selectionOfTextField.get(columnInstance)[0], selectionOfTextField.get(columnInstance)[1]);
+                    } catch (Exception exception) {
+                    }
                 }
             }
             GridBagConstraints constraints = new GridBagConstraints();
@@ -1356,11 +1369,27 @@ public abstract class EditableTable<C, R> extends Control {
         protected void changed(Component<?> component, Integer changedValue, Integer previousValue) {
             EditableTable<C, R> editableTable = EditableTable.this;
             for (Pane rowControlPane : editableTable.rowControlPanes) {
-                for (Control control : rowControlPane.getChildren()) {
+                Map<C, Control> mapControl = editableTable.mapOfRowControlMap.get(rowControlPane);
+                for (C columnInstance : editableTable.columnInstances) {
+                    Control control = mapControl.get(columnInstance);
                     if (control instanceof DatePicker) {
                         DatePicker datePicker = (DatePicker) control;
                         datePicker.hidePopup();
                         datePicker.setDisabledPopup(true);
+                    }
+                    if (control instanceof AutocompleteTextField) {
+                        AutocompleteTextField autocompleteTextField = (AutocompleteTextField) control;
+                        autocompleteTextField.hidePopup();
+                        autocompleteTextField.setDisableAutocomplete(true);
+                    }
+                    if (control instanceof TextField) {
+                        TextField textField = (TextField) control;
+                        R rowInstance = rowControlPane.getInstanceForUseLater();
+                        if (editableTable.mapTextFieldSelection.containsKey(rowInstance) == false) {
+                            editableTable.mapTextFieldSelection.put(rowInstance, new HashMap<>());
+                        }
+                        Map<C, Integer[]> hashMap = editableTable.mapTextFieldSelection.get(rowInstance);
+                        hashMap.put(columnInstance, new Integer[] {textField.getSelectionStart(), textField.getSelectionEnd()});
                     }
                 }
             }
