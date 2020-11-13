@@ -446,7 +446,7 @@ public abstract class TableView<C, R> extends Control {
     }
     
     private List<ChangeListener<R>> selectedRowChangeListeners = new ArrayList<>();
-
+    
     /**
      * このテーブルビューの選択範囲の1番目が変更された際のリスナーを追加する。
      * 
@@ -463,7 +463,14 @@ public abstract class TableView<C, R> extends Control {
                     
                     @Override
                     public void valueChanged(ListSelectionEvent event) {
-                        changeListener.executeWhenChanged(tableView, tableView.getSelectedRow());
+                        // Get focus and then run listener
+                        GUI.executeLater(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                changeListener.executeWhenChanged(tableView, tableView.getSelectedRow());
+                            }
+                        });
                     }
                 };
             }
@@ -489,7 +496,14 @@ public abstract class TableView<C, R> extends Control {
                     
                     @Override
                     public void valueChanged(ListSelectionEvent event) {
-                        changeListener.executeWhenChanged(tableView, tableView.getSelectedRows());
+                        // Get focus and then run listener
+                        GUI.executeLater(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                changeListener.executeWhenChanged(tableView, tableView.getSelectedRows());
+                            }
+                        });
                     }
                 };
             }
