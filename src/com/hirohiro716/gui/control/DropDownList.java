@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import com.hirohiro716.Array;
+import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.collection.AddListener;
@@ -105,6 +106,11 @@ public class DropDownList<T> extends ListSelectControl<T> {
                     }
                     break;
                 default:
+                    Integer number = StringObject.newInstance(event.getKeyCharacter()).toInteger();
+                    if (number != null && number > 0 && number <= control.getItems().size()) {
+                        control.setSelectedItem(control.getItems().get(number - 1));
+                        event.consume();
+                    }
                     break;
                 }
             }
