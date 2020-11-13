@@ -943,6 +943,10 @@ public abstract class EditableTable<C, R> extends Control {
             for (C columnInstance : this.columnInstances) {
                 Control control = mapRowControl.get(columnInstance);
                 this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
+                if (control instanceof TextField) {
+                    TextField textField = (TextField) control;
+                    textField.selectAll();
+                }
             }
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
