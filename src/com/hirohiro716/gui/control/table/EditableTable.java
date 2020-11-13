@@ -1382,16 +1382,18 @@ public abstract class EditableTable<C, R> extends Control {
                         autocompleteTextField.hidePopup();
                         autocompleteTextField.setDisableAutocomplete(true);
                     }
-                    if (control instanceof TextField) {
-                        TextField textField = (TextField) control;
-                        R rowInstance = rowControlPane.getInstanceForUseLater();
-                        if (editableTable.mapTextFieldSelection.containsKey(rowInstance) == false) {
-                            editableTable.mapTextFieldSelection.put(rowInstance, new HashMap<>());
-                        }
-                        Map<C, Integer[]> hashMap = editableTable.mapTextFieldSelection.get(rowInstance);
-                        hashMap.put(columnInstance, new Integer[] {textField.getSelectionStart(), textField.getSelectionEnd()});
-                    }
                 }
+            }
+            R activeRowInstance = editableTable.getActiveRowInstance();
+            C activeColumnInstance = editableTable.getActiveColumnInstance();
+            Control activeControl = editableTable.findControl(activeRowInstance, activeColumnInstance);
+            if (activeControl != null && activeControl instanceof TextField) {
+                TextField textField = (TextField) activeControl;
+                if (editableTable.mapTextFieldSelection.containsKey(activeRowInstance) == false) {
+                    editableTable.mapTextFieldSelection.put(activeRowInstance, new HashMap<>());
+                }
+                Map<C, Integer[]> hashMap = editableTable.mapTextFieldSelection.get(activeRowInstance);
+                hashMap.put(activeColumnInstance, new Integer[] {textField.getSelectionStart(), textField.getSelectionEnd()});
             }
             if (changedValue == editableTable.rowsScrollPane.getVerticalScrollBar().getMinimumScrollPosition()) {
                 editableTable.displayRowControls(0);
