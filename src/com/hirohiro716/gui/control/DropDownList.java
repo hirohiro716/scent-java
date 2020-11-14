@@ -116,6 +116,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
             }
         });
         this.setHeight(this.getItemHeight());
+        this.setDisableInputMethod(true);
         this.adjustSize();
     }
     
