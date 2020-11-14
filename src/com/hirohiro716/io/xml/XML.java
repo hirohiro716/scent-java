@@ -63,6 +63,26 @@ public class XML {
         return this.root;
     }
     
+    private Boolean isStandalone = null;
+    
+    /**
+     * このインスタンスのStandalone属性値を取得する。
+     * 
+     * @return 結果。
+     */
+    public Boolean isStandalone() {
+        return this.isStandalone;
+    }
+    
+    /**
+     * このインスタンスのStandalone属性値をセットする。
+     * 
+     * @param isStandalone
+     */
+    public void setStandalone(Boolean isStandalone) {
+        this.isStandalone = isStandalone;
+    }
+    
     /**
      * 指定されたエンコーディングを使用して、XMLソースを変換する。
      * 
@@ -75,6 +95,14 @@ public class XML {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         Document document = (Document) this.root.getInnerInstance();
+        document.setXmlStandalone(true);
+        if (this.isStandalone != null) {
+            if (this.isStandalone) {
+                transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+            } else {
+                transformer.setOutputProperty(OutputKeys.STANDALONE, "no");
+            }
+        }
         if (encoding != null && document.getXmlEncoding() != null) {
             if (Charset.forName(encoding).equals(Charset.forName(document.getXmlEncoding())) == false) {
                 throw new TransformerException("The encoding specified in the file cannot be changed.");
@@ -147,6 +175,16 @@ public class XML {
             encoding = encodingObject.split("\"")[1];
         } else {
             encoding = "UTF-8";
+        }
+        StringObject isStandaloneObject = new StringObject(source);
+        isStandaloneObject.extract("standalone=\"[^\"]{1,}\"").lower();
+        isStandaloneObject.replace("standalone=", "").replace("\"", "");
+        this.isStandalone = null;
+        if (isStandaloneObject.equals("yes")) {
+            this.isStandalone = true;
+        }
+        if (isStandaloneObject.equals("no")) {
+            this.isStandalone = false;
         }
         this.root = new XMLNode(this.documentBuilder.parse(new ByteArrayInputStream(source.getBytes(encoding))));
     }
