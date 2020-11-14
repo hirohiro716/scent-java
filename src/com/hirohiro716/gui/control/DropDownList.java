@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
+import javax.swing.JComboBox.KeySelectionManager;
+
 import com.hirohiro716.Array;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.GUI;
@@ -113,6 +116,13 @@ public class DropDownList<T> extends ListSelectControl<T> {
                     }
                     break;
                 }
+            }
+        });
+        this.getInnerInstance().setKeySelectionManager(new KeySelectionManager() {
+            
+            @Override
+            public int selectionForKey(char aKey, ComboBoxModel<?> aModel) {
+                return -1;
             }
         });
         this.setHeight(this.getItemHeight());
