@@ -116,7 +116,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
      * @param message
      */
     public void setMessage(String message) {
-        this.message = message;
+        this.message = message + "\n\n";
     }
     
     @Override
