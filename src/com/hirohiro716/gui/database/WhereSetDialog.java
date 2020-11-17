@@ -629,7 +629,6 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         case NUMBER:
         case DATE:
         case DATE_STRING:
-        case SELECTABLE:
             width *= 14;
             mapComparison.put(Comparison.EQUAL, "検索値と等しい");
             mapComparison.put(Comparison.BETWEEN, "検索値１～検索値２の間");
@@ -640,6 +639,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             mapComparison.put(Comparison.BETWEEN, "検索値１～検索値２の間");
             break;
         case BOOLEAN:
+        case SELECTABLE:
             width *= 10;
             mapComparison.put(Comparison.EQUAL, "検索値と等しい");
             break;
