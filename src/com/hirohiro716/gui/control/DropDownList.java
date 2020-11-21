@@ -312,25 +312,35 @@ public class DropDownList<T> extends ListSelectControl<T> {
      */
     public ContextMenu createContextMenu() {
         DropDownList<T> dropDownList = this;
-        Object value = dropDownList.getSelectedItem();
-        if (value == null) {
+        Object selectedValue = dropDownList.getSelectedItem();
+        if (selectedValue == null) {
             return null;
         }
         ContextMenu menu = new ContextMenu(this);
-        if (dropDownList.getMapDisplayTextForItem().containsKey(value)) {
-            value = dropDownList.getMapDisplayTextForItem().get(value);
-        }
-        String text = value.toString();
-        ContextMenuItem copy = new ContextMenuItem("コピー(C)");
+        ContextMenuItem copy = new ContextMenuItem("値をコピー(C)");
         copy.setMnemonic(KeyCode.C);
         copy.setAction(new Runnable() {
             
             @Override
             public void run() {
-                GUI.setClipboardString(text);
+                GUI.setClipboardString(selectedValue.toString());
             }
         });
         menu.addContextMenuItem(copy);
+        
+        String displayedValue = dropDownList.getMapDisplayTextForItem().get(selectedValue);
+        if (displayedValue != null) {
+            ContextMenuItem copyDisplayedValue = new ContextMenuItem("表示値をコピー(C)");
+            copyDisplayedValue.setMnemonic(KeyCode.D);
+            copyDisplayedValue.setAction(new Runnable() {
+                
+                @Override
+                public void run() {
+                    GUI.setClipboardString(displayedValue.toString());
+                }
+            });
+            menu.addContextMenuItem(copyDisplayedValue);
+        }
         return menu;
     }
 }
