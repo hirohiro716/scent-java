@@ -745,6 +745,11 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             textField.setWidth(baseSize * 7);
             return textField;
         case NUMBER_STRING:
+            textField = new TextField();
+            textField.setWidth(baseSize * 5);
+            textField.setDisableInputMethod(true);
+            textField.addLimitByRegex(Regex.INTEGER.getPattern(), false);
+            return textField;
         case NUMBER:
             textField = new TextField();
             textField.setWidth(baseSize * 5);
