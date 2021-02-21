@@ -268,6 +268,10 @@ public class PrinterJob {
     private PrintRequestAttributeSet createAttributeOfAWT() {
         PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
         // Paper source or paper size, the one specified later has priority.
+        if (this.paperSource != null) {
+            // Specified by paper source
+            printRequestAttributeSet.add(this.paperSource.getInnerInstance());
+        }
         if (this.paperSize != null) {
             // Specified by paper size
             printRequestAttributeSet.add(this.paperSize.getInnerInstance());
@@ -275,11 +279,7 @@ public class PrinterJob {
             MediaSize mediaSize = MediaSize.getMediaSizeForName(mediaSizeName);
             MediaPrintableArea mediaPrintableArea = new MediaPrintableArea(0, 0, mediaSize.getX(MediaSize.MM), mediaSize.getY(MediaSize.MM), MediaPrintableArea.MM);
             printRequestAttributeSet.add(mediaPrintableArea);
-            
-        }
-        if (this.paperSource != null) {
-            // Specified by paper source
-            printRequestAttributeSet.add(this.paperSource.getInnerInstance());
+        } else {
             MediaPrintableArea mediaPrintableArea = new MediaPrintableArea(0, 0, 2000, 2000, MediaPrintableArea.MM);
             printRequestAttributeSet.add(mediaPrintableArea);
         }
