@@ -66,6 +66,28 @@ public class WebsiteRequest {
         return this.charsetName;
     }
     
+    private int connectTimeoutMillisecond = 0;
+    
+    /**
+     * サーバーとの通信の接続が確立するまでにかかる時間の上限を設定する。
+     * 
+     * @param millisecond
+     */
+    public void setConnectTimeoutMillisecond(int millisecond) {
+        this.connectTimeoutMillisecond = millisecond;
+    }
+    
+    private int requestTimeoutMillisecond = 0;
+    
+    /**
+     * リクエストしてからレスポンスが返ってくるまでの時間の上限を設定する。
+     * 
+     * @param millisecond
+     */
+    public void setRequestTimeoutMillisecond(int millisecond) {
+        this.requestTimeoutMillisecond = millisecond;
+    }
+    
     /**
      * リクエストを送信して結果を取得する。
      * 
@@ -75,8 +97,8 @@ public class WebsiteRequest {
     public String sendAndGetResult() throws IOException {
         URL url = new URL(this.url);
         URLConnection connection = url.openConnection();
-        connection.setReadTimeout(0);
-        connection.setConnectTimeout(0);
+        connection.setConnectTimeout(this.connectTimeoutMillisecond);
+        connection.setReadTimeout(this.requestTimeoutMillisecond);
         StringObject body = new StringObject();
         try (InputStreamReader streamReader = new InputStreamReader(connection.getInputStream(), this.charsetName)) {
             try (BufferedReader bufferedReader = new BufferedReader(streamReader)) {
