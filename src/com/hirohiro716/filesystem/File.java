@@ -28,7 +28,7 @@ public class File extends FilesystemItem {
      */
     public File(java.io.File file) throws IllegalArgumentException {
         super(file);
-        if (this.toJavaIoFile().exists() && this.isFile() == false) {
+        if (this.toJavaIoFile().exists() && this.isDirectory()) {
             throw new IllegalArgumentException("Argument must be file:" + this.getPath());
         }
     }
@@ -66,7 +66,7 @@ public class File extends FilesystemItem {
     
     @Override
     public boolean isExist() {
-        return this.toJavaIoFile().exists() && this.isFile();
+        return this.toJavaIoFile().exists() && this.isDirectory() == false;
     }
 
     @Override

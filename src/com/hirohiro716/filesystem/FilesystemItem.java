@@ -205,13 +205,10 @@ public abstract class FilesystemItem {
      * @return 結果。
      */
     public static FilesystemItem newInstance(File file) {
-        if (file.isFile()) {
-            return new com.hirohiro716.filesystem.File(file);
-        }
         if (file.isDirectory()) {
             return new Directory(file);
         }
-        return null;
+        return new com.hirohiro716.filesystem.File(file);
     }
     
     /**

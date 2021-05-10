@@ -110,7 +110,7 @@ public class Directory extends FilesystemItem {
                     items.add(new Directory(file));
                     items.addAll(this.searchItems(file, regexToFilterDirectoryName, regexToFilterFileName));
                 }
-                if (file.isFile() && file.getName().matches(regexToFilterFileName)) {
+                if (file.isDirectory() == false && file.getName().matches(regexToFilterFileName)) {
                     items.add(new File(file));
                 }
             }
