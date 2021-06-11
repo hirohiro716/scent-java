@@ -176,8 +176,10 @@ public class GraphicalString {
                 StringObject one = this.string.clone().extract(index, index + 1);
                 Rectangle2D rectangle = fontMetrics.getStringBounds(stringObject.clone().append(one).toString(), this.graphics2D);
                 if (this.isDisabledMultipleLine == false && this.maximumWidth != null && this.maximumWidth < rectangle.getWidth() || one.equals("\n")) {
-                    lines.add(stringObject.toString());
-                    stringObject = one;
+                    if (stringObject.length() > 0) {
+                        lines.add(stringObject.toString());
+                    }
+                    stringObject = one.replaceLF("");
                 } else {
                     stringObject.append(one);
                 }
