@@ -194,6 +194,9 @@ public class DatePicker extends TextField {
         if (this.dateChangeListeners == null) {
             return;
         }
+        if (this.previousDate == null && this.toDatetime() == null) {
+            return;
+        }
         if (this.previousDate == null || Datetime.newInstance(this.previousDate).eqaulsDate(this.toDatetime()) == false) {
             Date changed = this.toDate();
             for (ChangeListener<Date> changeListener : this.dateChangeListeners) {
@@ -261,6 +264,7 @@ public class DatePicker extends TextField {
             try {
                 this.setText(Datetime.newInstance(input.toString(), this.dateFormat).toString());
             } catch (ParseException exception) {
+                this.setText(null);
             }
         }
     }
