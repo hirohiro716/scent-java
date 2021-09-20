@@ -187,7 +187,7 @@ public class FlowPane extends Pane {
             childrenSizeString.append(this.getSize());
         }
         if (sizeString.equals(this.sizeStringOfLayoutUpdate) && childrenSizeString.equals(this.childrenSizeStringOfLayoutUpdate)) {
-            if (this.numberOfLayoutUpdates > 2) {
+            if (this.numberOfLayoutUpdates > 5) {
                 return;
             }
         } else {
