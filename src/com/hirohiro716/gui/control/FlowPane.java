@@ -81,6 +81,7 @@ public class FlowPane extends Pane {
                 pane.numberOfLayoutUpdates = 0;
             }
         });
+        this.setMinimumSize(-1, -1);
     }
     
     /**
@@ -257,12 +258,13 @@ public class FlowPane extends Pane {
         if (height > this.getMaximumHeight()) {
             height = this.getMaximumHeight();
         }
-        this.setHeight(height);
+        final int finalHeight = height;
         GUI.executeLater(new Runnable() {
             
             @Override
             public void run() {
                 FlowPane pane = FlowPane.this;
+                pane.setHeight(finalHeight);
                 pane.isStartedLayoutUpdate = false;
             }
         });
@@ -281,9 +283,6 @@ public class FlowPane extends Pane {
             if (maximumHeight < control.getHeight()) {
                 maximumHeight = control.getHeight();
             }
-        }
-        for (Control control : controls) {
-            this.layout.putConstraint(SpringLayout.SOUTH, control.getInnerInstanceForLayout(), locationY + maximumHeight, SpringLayout.NORTH, this.getInnerInstanceForLayout());
         }
         return maximumHeight;
     }
