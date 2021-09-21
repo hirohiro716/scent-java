@@ -1,5 +1,8 @@
 package com.hirohiro716.gui.database;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hirohiro716.Array;
+import com.hirohiro716.ExceptionMessenger;
 import com.hirohiro716.Regex;
 import com.hirohiro716.StringObject;
 import com.hirohiro716.database.ColumnInterface;
@@ -17,6 +21,9 @@ import com.hirohiro716.database.WhereSet;
 import com.hirohiro716.database.WhereSet.Comparison;
 import com.hirohiro716.database.WhereSet.Where;
 import com.hirohiro716.datetime.Datetime;
+import com.hirohiro716.filesystem.File;
+import com.hirohiro716.filesystem.File.WritingProcess;
+import com.hirohiro716.filesystem.File.ProcessAfterReadingLine;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.HorizontalAlignment;
@@ -24,7 +31,6 @@ import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.VerticalAlignment;
 import com.hirohiro716.gui.collection.AddListener;
 import com.hirohiro716.gui.collection.RemoveListener;
-import com.hirohiro716.gui.control.AnchorPane;
 import com.hirohiro716.gui.control.Button;
 import com.hirohiro716.gui.control.CheckBox;
 import com.hirohiro716.gui.control.ContextMenu;
@@ -39,13 +45,20 @@ import com.hirohiro716.gui.control.TextField;
 import com.hirohiro716.gui.control.VerticalPane;
 import com.hirohiro716.gui.dialog.DatetimeInputDialog;
 import com.hirohiro716.gui.dialog.DropDownListDialog;
+import com.hirohiro716.gui.dialog.FileOpenChooser;
+import com.hirohiro716.gui.dialog.FileSaveChooser;
+import com.hirohiro716.gui.dialog.InstantMessage;
 import com.hirohiro716.gui.dialog.ProcessAfterDialogClosing;
+import com.hirohiro716.gui.dialog.QuestionDialog;
 import com.hirohiro716.gui.dialog.TitledDialog;
+import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.ActionEvent;
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.MouseEvent;
 import com.hirohiro716.gui.event.MouseEvent.MouseButton;
+import com.hirohiro716.io.json.JSONArray;
+import com.hirohiro716.io.json.JSONValue;
 
 /**
  * SQLの検索条件を作成するダイアログのクラス。
@@ -234,35 +247,39 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         horizontalPane.setSpacing(5);
         this.getVerticalPaneOfControls().getGrowableControls().add(horizontalPane);
         // Left pane
-        VerticalPane paneLeft = new VerticalPane();
-        paneLeft.setFillChildToPaneWidth(true);
-        paneLeft.setSpacing(5);
-        paneLeft.getChildren().add(this.createButtonOfAddColumn());
+        VerticalPane paneOfLeft = new VerticalPane();
+        paneOfLeft.setFillChildToPaneWidth(true);
+        paneOfLeft.setSpacing(5);
+        paneOfLeft.getChildren().add(this.createButtonOfAddColumn());
         Control whereSetEditor = this.createWhereSetEditor();
-        paneLeft.getChildren().add(whereSetEditor);
-        paneLeft.getGrowableControls().add(whereSetEditor);
-        horizontalPane.getChildren().add(paneLeft);
-        horizontalPane.getGrowableControls().add(paneLeft);
+        paneOfLeft.getChildren().add(whereSetEditor);
+        paneOfLeft.getGrowableControls().add(whereSetEditor);
+        horizontalPane.getChildren().add(paneOfLeft);
+        horizontalPane.getGrowableControls().add(paneOfLeft);
         // Right pane
-        VerticalPane paneRight = new VerticalPane();
-        paneRight.setWidth(100);
-        paneRight.setMinimumWidth(100);
-        paneRight.setFillChildToPaneWidth(true);
-        paneRight.setSpacing(5);
-        paneRight.getChildren().add(this.createButtonOfAddWhereSet());
+        VerticalPane paneOfRight = new VerticalPane();
+        paneOfRight.setWidth(100);
+        paneOfRight.setMinimumWidth(100);
+        paneOfRight.setFillChildToPaneWidth(true);
+        paneOfRight.setSpacing(5);
+        paneOfRight.getChildren().add(this.createButtonOfAddWhereSet());
         this.createListViewOfWhereSet();
-        paneRight.getChildren().add(this.listView);
-        paneRight.getGrowableControls().add(this.listView);
-        horizontalPane.getChildren().add(paneRight);
-        // Buttons
-        HorizontalPane paneButton = new HorizontalPane();
-        paneButton.setSpacing(5);
-        paneButton.getChildren().add(this.createButtonOfOK());
-        paneButton.getChildren().add(this.createButtonOfCancel());
-        AnchorPane anchorPaneButton = new AnchorPane();
-        anchorPaneButton.getChildren().add(paneButton);
-        anchorPaneButton.setAnchor(paneButton, null, 0, null, null);
-        return new Control[] {horizontalPane, anchorPaneButton};
+        paneOfRight.getChildren().add(this.listView);
+        paneOfRight.getGrowableControls().add(this.listView);
+        horizontalPane.getChildren().add(paneOfRight);
+        // Left buttons
+        HorizontalPane paneOfButton = new HorizontalPane();
+        paneOfButton.setSpacing(5);
+        HorizontalPane paneOfLeftButton = new HorizontalPane();
+        paneOfLeftButton.setSpacing(5);
+        paneOfButton.getChildren().add(paneOfLeftButton);
+        paneOfButton.getGrowableControls().add(paneOfLeftButton);
+        paneOfLeftButton.getChildren().add(this.createButtonOfExport());
+        paneOfLeftButton.getChildren().add(this.createButtonOfImport());
+        // Right buttons
+        paneOfButton.getChildren().add(this.createButtonOfOK());
+        paneOfButton.getChildren().add(this.createButtonOfCancel());
+        return new Control[] {horizontalPane, paneOfButton};
     }
 
     /**
@@ -300,6 +317,119 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             @Override
             protected void handle(ActionEvent event) {
                 dialog.close();
+            }
+        });
+        return button;
+    }
+
+    /**
+     * 保存ボタンを作成する。
+     * 
+     * @return 結果。
+     */
+    private Button createButtonOfExport() {
+        WhereSetDialog dialog = this;
+        Button button = new Button("保存(E)");
+        button.setMnemonic(KeyCode.E);
+        button.addActionEventHandler(new EventHandler<ActionEvent>() {
+            
+            @Override
+            protected void handle(ActionEvent event) {
+                dialog.importWhereSetFromEditor(dialog.listView.getSelectedItem());
+                FileSaveChooser chooser = new FileSaveChooser(dialog.getOwner());
+                chooser.setTitle("検索条件の保存");
+                if (chooser.showAndWait() == false) {
+                    return;
+                }
+                File file = (File) chooser.getChoosedFilesystemItem();
+                Runnable processOfExport = new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        JSONArray json = new JSONArray();
+                        for (WhereSet whereSet : dialog.listView.getItems()) {
+                            json.add(whereSet.createJSON());
+                        }
+                        try {
+                            file.write("UTF-8", new WritingProcess() {
+                                
+                                @Override
+                                public void call(OutputStreamWriter writer) throws IOException {
+                                    writer.write(json.toString());
+                                }
+                            });
+                            InstantMessage.show("保存しました。", 3000, dialog.getOwner());
+                        } catch (IOException exception) {
+                            InstantMessage.show(ExceptionMessenger.newInstance(exception).make("保存できませんでした。"), 3000, dialog.getOwner());
+                        }
+                    }
+                };
+                if (file.isExist()) {
+                    QuestionDialog questionDialog = new QuestionDialog(dialog.getOwner());
+                    questionDialog.setTitle("ファイルの上書き確認");
+                    questionDialog.setMessage("指定されたファイルは既に存在します。上書きしますか？");
+                    questionDialog.setCancelable(false);
+                    questionDialog.setProcessAfterClosing(new ProcessAfterDialogClosing<ResultButton>() {
+
+                        @Override
+                        public void execute(ResultButton dialogResult) {
+                            if (dialogResult != ResultButton.YES) {
+                                return;
+                            }
+                            processOfExport.run();
+                        }
+                    });
+                    questionDialog.show();
+                } else {
+                    processOfExport.run();
+                }
+            }
+        });
+        return button;
+    }
+
+    /**
+     * 復元ボタンを作成する。
+     * 
+     * @return 結果。
+     */
+    private Button createButtonOfImport() {
+        WhereSetDialog dialog = this;
+        Button button = new Button("復元(I)");
+        button.setMnemonic(KeyCode.I);
+        button.addActionEventHandler(new EventHandler<ActionEvent>() {
+            
+            @Override
+            protected void handle(ActionEvent event) {
+                FileOpenChooser chooser = new FileOpenChooser(dialog.getOwner());
+                chooser.setTitle("検索条件の復元");
+                if (chooser.showAndWait() == false) {
+                    return;
+                }
+                File file = (File) chooser.getChoosedFilesystemItem();
+                try {
+                    StringObject fileContents = new StringObject();
+                    file.read("UTF-8", new ProcessAfterReadingLine() {
+                        
+                        @Override
+                        public void call(String line, BufferedReader bufferedReader) throws IOException {
+                            fileContents.append(line);
+                        }
+                    });
+                    JSONArray json = new JSONArray(fileContents.toString());
+                    if (json.getContent().size() > 0) {
+                        dialog.listView.getItems().clear();
+                        dialog.whereSetNumber = 1;
+                        for (JSONValue<?> jsonValue : json.getContent()) {
+                            WhereSet whereSet = new WhereSet((JSONArray) jsonValue);
+                            dialog.listView.getItems().add(whereSet);
+                        }
+                        dialog.listView.setSelectedItem(dialog.listView.getItems().get(0));
+                    }
+                    InstantMessage.show("復元しました。", 3000, dialog.getOwner());
+                } catch (Exception exception) {
+                    InstantMessage.show(ExceptionMessenger.newInstance(exception).make("復元できませんでした。"), 3000, dialog.getOwner());
+                }
             }
         });
         return button;

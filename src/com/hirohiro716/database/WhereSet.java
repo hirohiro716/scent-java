@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hirohiro716.Array;
+import com.hirohiro716.io.json.JSONArray;
+import com.hirohiro716.io.json.JSONObject;
+import com.hirohiro716.io.json.JSONValue;
 
 /**
  * SQLのWHERE句をプレースホルダとバインド変数を使用して作成するクラス。<br>
@@ -14,7 +17,40 @@ import com.hirohiro716.Array;
  * @author hiro
  *
  */
-public class WhereSet {
+public class WhereSet implements Cloneable {
+
+    /**
+     * コンストラクタ。
+     */
+    public WhereSet() {
+        super();
+    }
+    
+    /**
+     * コンストラクタ。<br>
+     * 初期値をJSONで指定する。
+     * 
+     * @param json
+     */
+    public WhereSet(JSONArray json) {
+        for (JSONValue<?> jsonValue : json.getContent()) {
+            try {
+                JSONObject jsonObject = (JSONObject) jsonValue;
+                String column = (String) jsonObject.get("column").getContent();
+                Comparison comparison = Comparison.valueOf((String) jsonObject.get("comparison").getContent());
+                List<Object> values = new ArrayList<>();
+                JSONArray jsonOfValues = (JSONArray) jsonObject.get("values");
+                for (Object value : jsonOfValues.getContent()) {
+                    values.add(value);
+                }
+                boolean isNegate = (boolean) jsonObject.get("is_negate").getContent();
+                Where where = new Where(column, comparison, values.toArray());
+                where.setNegate(isNegate);
+                this.add(where);
+            } catch (Exception exception) {
+            }
+        }
+    }
     
     private List<Where> wheres = new ArrayList<>();
 
@@ -344,6 +380,28 @@ public class WhereSet {
             }
         }
         return parameters.toArray();
+    }
+
+    /**
+     * このインスタンスの値でJSON配列を作成する。
+     * 
+     * @return 結果。
+     */
+    public JSONArray createJSON() {
+        JSONArray jsonArray = new JSONArray();
+        for (Where where : this.wheres) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("column", where.getColumn());
+            jsonObject.put("comparison", where.getComparison().toString());
+            JSONArray values = new JSONArray();
+            for (Object value : where.getValues()) {
+                values.add(value);
+            }
+            jsonObject.put("values", values);
+            jsonObject.put("is_negate", where.isNegate());
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
     }
     
     @Override
