@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.hirohiro716.Array;
 import com.hirohiro716.StringObject;
+import com.hirohiro716.datetime.Datetime;
 import com.hirohiro716.io.json.JSONArray;
-import com.hirohiro716.io.json.JSONNumber;
 import com.hirohiro716.io.json.JSONObject;
 import com.hirohiro716.io.json.JSONValue;
 
@@ -35,30 +35,83 @@ public class WhereSet implements Cloneable {
      * @param json
      */
     public WhereSet(JSONArray json) {
-        for (JSONValue<?> jsonValue : json.getContent()) {
+        for (JSONValue<?> whereOfJSONValue : json.getContent()) {
             try {
-                JSONObject jsonObject = (JSONObject) jsonValue;
-                String column = (String) jsonObject.get("column").getContent();
-                Comparison comparison = Comparison.valueOf((String) jsonObject.get("comparison").getContent());
+                JSONObject whereOfJSON = (JSONObject) whereOfJSONValue;
+                String column = (String) whereOfJSON.get("column").getContent();
+                Comparison comparison = Comparison.valueOf((String) whereOfJSON.get("comparison").getContent());
                 List<Object> values = new ArrayList<>();
-                JSONArray jsonOfValues = (JSONArray) jsonObject.get("values");
-                for (JSONValue<?> value : jsonOfValues.getContent()) {
-                    if (value instanceof JSONNumber) {
-                        StringObject integerValue = StringObject.newInstance(value.getContent()).removeMeaninglessDecimalPoint();
-                        if (value.getContent().toString().length() > integerValue.length()) {
-                            values.add(integerValue.toInteger());
-                            continue;
-                        }
+                JSONArray valuesOfJSON = (JSONArray) whereOfJSON.get("values");
+                for (JSONValue<?> valueOfJSONValue : valuesOfJSON.getContent()) {
+                    JSONObject valueOfJSON = (JSONObject) valueOfJSONValue;
+                    String className = (String) valueOfJSON.getContent().get("class_name").getContent();
+                    switch (className) {
+                    case "java.util.Date":
+                        values.add(Datetime.newInstance((String) valueOfJSON.getContent().get("value").getContent()).getDate());
+                        break;
+                    case "java.lang.Byte":
+                        values.add(StringObject.newInstance(valueOfJSON.getContent().get("value").getContent()).removeMeaninglessDecimalPoint().toByte());
+                        break;
+                    case "java.lang.Short":
+                        values.add(StringObject.newInstance(valueOfJSON.getContent().get("value").getContent()).removeMeaninglessDecimalPoint().toShort());
+                        break;
+                    case "java.lang.Integer":
+                        values.add(StringObject.newInstance(valueOfJSON.getContent().get("value").getContent()).removeMeaninglessDecimalPoint().toInteger());
+                        break;
+                    case "java.lang.Long":
+                        values.add(StringObject.newInstance(valueOfJSON.getContent().get("value").getContent()).removeMeaninglessDecimalPoint().toLong());
+                        break;
+                    case "java.lang.Float":
+                        values.add(StringObject.newInstance(valueOfJSON.getContent().get("value").getContent()).removeMeaninglessDecimalPoint().toFloat());
+                        break;
+                    case "java.lang.Double":
+                        values.add(StringObject.newInstance(valueOfJSON.getContent().get("value").getContent()).removeMeaninglessDecimalPoint().toDouble());
+                        break;
+                    default:
+                        values.add(valueOfJSON.getContent().get("value").getContent());
+                        break;
                     }
-                    values.add(value.getContent());
                 }
-                boolean isNegate = (boolean) jsonObject.get("is_negate").getContent();
+                boolean isNegate = (boolean) whereOfJSON.get("is_negate").getContent();
                 Where where = new Where(column, comparison, values.toArray());
                 where.setNegate(isNegate);
                 this.add(where);
             } catch (Exception exception) {
             }
         }
+    }
+    
+    /**
+     * このインスタンスの値でJSON配列を作成する。
+     * 
+     * @return 結果。
+     */
+    public JSONArray createJSON() {
+        JSONArray result = new JSONArray();
+        for (Where where : this.wheres) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("column", where.getColumn());
+            jsonObject.put("comparison", where.getComparison().toString());
+            JSONArray valuesOfJSON = new JSONArray();
+            for (Object value : where.getValues()) {
+                JSONObject valueOfJSON = new JSONObject();
+                if (value == null) {
+                    valueOfJSON.put("class_name", Object.class.getName());
+                    valueOfJSON.put("value", value);
+                } else if (value instanceof Date) {
+                    valueOfJSON.put("class_name", Date.class.getName());
+                    valueOfJSON.put("value", Datetime.newInstance((Date) value).toString());
+                } else {
+                    valueOfJSON.put("class_name", value.getClass().getName());
+                    valueOfJSON.put("value", value);
+                }
+                valuesOfJSON.add(valueOfJSON);
+            }
+            jsonObject.put("values", valuesOfJSON);
+            jsonObject.put("is_negate", where.isNegate());
+            result.add(jsonObject);
+        }
+        return result;
     }
     
     private List<Where> wheres = new ArrayList<>();
@@ -389,28 +442,6 @@ public class WhereSet implements Cloneable {
             }
         }
         return parameters.toArray();
-    }
-
-    /**
-     * このインスタンスの値でJSON配列を作成する。
-     * 
-     * @return 結果。
-     */
-    public JSONArray createJSON() {
-        JSONArray jsonArray = new JSONArray();
-        for (Where where : this.wheres) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("column", where.getColumn());
-            jsonObject.put("comparison", where.getComparison().toString());
-            JSONArray values = new JSONArray();
-            for (Object value : where.getValues()) {
-                values.add(value);
-            }
-            jsonObject.put("values", values);
-            jsonObject.put("is_negate", where.isNegate());
-            jsonArray.add(jsonObject);
-        }
-        return jsonArray;
     }
     
     @Override
