@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hirohiro716.Array;
+import com.hirohiro716.StringObject;
 import com.hirohiro716.io.json.JSONArray;
+import com.hirohiro716.io.json.JSONNumber;
 import com.hirohiro716.io.json.JSONObject;
 import com.hirohiro716.io.json.JSONValue;
 
@@ -41,6 +43,13 @@ public class WhereSet implements Cloneable {
                 List<Object> values = new ArrayList<>();
                 JSONArray jsonOfValues = (JSONArray) jsonObject.get("values");
                 for (JSONValue<?> value : jsonOfValues.getContent()) {
+                    if (value instanceof JSONNumber) {
+                        StringObject integerValue = StringObject.newInstance(value.getContent()).removeMeaninglessDecimalPoint();
+                        if (value.getContent().toString().length() > integerValue.length()) {
+                            values.add(integerValue.toInteger());
+                            continue;
+                        }
+                    }
                     values.add(value.getContent());
                 }
                 boolean isNegate = (boolean) jsonObject.get("is_negate").getContent();
