@@ -252,7 +252,7 @@ public class File extends FilesystemItem {
     }
 
     /**
-     * このファイルに指定されたcharsetを使用して文字列を書き込む。既存の内容は上書きされる。
+     * このファイルにデフォルトのcharsetを使用して文字列を書き込む。既存の内容は上書きされる。
      * 
      * @param writingProcess 書き込み処理するコールバック。
      * @throws IOException
