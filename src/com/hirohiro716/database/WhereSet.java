@@ -40,8 +40,8 @@ public class WhereSet implements Cloneable {
                 Comparison comparison = Comparison.valueOf((String) jsonObject.get("comparison").getContent());
                 List<Object> values = new ArrayList<>();
                 JSONArray jsonOfValues = (JSONArray) jsonObject.get("values");
-                for (Object value : jsonOfValues.getContent()) {
-                    values.add(value);
+                for (JSONValue<?> value : jsonOfValues.getContent()) {
+                    values.add(value.getContent());
                 }
                 boolean isNegate = (boolean) jsonObject.get("is_negate").getContent();
                 Where where = new Where(column, comparison, values.toArray());
