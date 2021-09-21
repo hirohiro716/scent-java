@@ -44,9 +44,11 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
             int index;
             for (index = 0; index < target.length(); index++) {
                 StringObject one = target.clone().extract(index, index + 1);
-                if (one.equals("[") && values.size() == 0 || one.equals(",") && values.size() > 0) {
-                    isOpen = true;
-                    continue;
+                if (isOpen == false) {
+                    if (one.equals("[") && values.size() == 0 || one.equals(",") && values.size() > 0) {
+                        isOpen = true;
+                        continue;
+                    }
                 }
                 if (one.equals("]")) {
                     break;
