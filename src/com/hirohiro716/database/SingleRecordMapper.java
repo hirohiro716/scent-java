@@ -85,6 +85,7 @@ public abstract class SingleRecordMapper extends RecordMapper {
     public void edit() throws SQLException {
         super.edit();
         if (this.isDeleted()) {
+            this.getDatabase().rollback();
             throw new DataNotFoundException();
         }
     }
