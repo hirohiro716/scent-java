@@ -272,9 +272,7 @@ public class WebBrowser extends DynamicClass {
         List<Element> elements = new ArrayList<>();
         try {
             elements.add(this.getBodyElement());
-            for (Element selectedElement: this.getBodyElement().getChildElements()) {
-                elements.addAll(this.getChildElements(selectedElement));
-            }
+            elements.addAll(this.getChildElements(this.getBodyElement()));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
