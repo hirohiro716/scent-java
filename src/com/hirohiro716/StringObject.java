@@ -278,8 +278,8 @@ public class StringObject implements Cloneable, Iterable<String> {
      * @return このインスタンス。
      */
     public StringObject trim() {
-        this.replace("^[ |　]{1,}", "");
-        return this.replace("[ |　]{1,}$", "");
+        this.replace("^[ 　]{1,}", "");
+        return this.replace("[ 　]{1,}$", "");
     }
     
     /**
