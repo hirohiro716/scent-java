@@ -576,9 +576,11 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                         this.setValueToControl(columnType, control2, where.getValue2());
                         break;
                     case EQUAL:
-                    default:
                         control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                         this.setValueToControl(columnType, control1, where.getValue());
+                        break;
+                    case IS_NULL:
+                    default:
                         break;
                     }
                 }
@@ -627,9 +629,13 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     whereSet.addBetween(isNegate, searchableColumn, this.getValueFromControl(columnType, control1), this.getValueFromControl(columnType, control2));
                     break;
                 case EQUAL:
-                default:
                     control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                     whereSet.add(isNegate, searchableColumn, comparison, this.getValueFromControl(columnType, control1));
+                    break;
+                case IS_NULL:
+                    whereSet.addIsNull(isNegate, searchableColumn);
+                    break;
+                default:
                     break;
                 }
             }
@@ -746,6 +752,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             for (Comparison comparison : this.mapStringComparison.keySet()) {
                 mapComparison.put(comparison, this.mapStringComparison.get(comparison));
             }
+            mapComparison.put(Comparison.IS_NULL, "値が未設定");
             break;
         case NUMBER_STRING:
             width *= 14;
@@ -755,6 +762,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             for (Comparison comparison : this.mapNumberStringComparison.keySet()) {
                 mapComparison.put(comparison, this.mapNumberStringComparison.get(comparison));
             }
+            mapComparison.put(Comparison.IS_NULL, "値が未設定");
             break;
         case NUMBER:
         case DATE:
@@ -762,16 +770,19 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             width *= 14;
             mapComparison.put(Comparison.EQUAL, "検索値と等しい");
             mapComparison.put(Comparison.BETWEEN, "検索値１～検索値２の間");
+            mapComparison.put(Comparison.IS_NULL, "値が未設定");
             break;
         case DATETIME:
         case DATETIME_STRING:
             width *= 14;
             mapComparison.put(Comparison.BETWEEN, "検索値１～検索値２の間");
+            mapComparison.put(Comparison.IS_NULL, "値が未設定");
             break;
         case BOOLEAN:
         case SELECTABLE:
             width *= 10;
             mapComparison.put(Comparison.EQUAL, "検索値と等しい");
+            mapComparison.put(Comparison.IS_NULL, "値が未設定");
             break;
         }
         DropDownList<Comparison> dropDownList = new DropDownList<>();
@@ -832,10 +843,12 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             break;
         case EQUAL:
         case LIKE:
-        default:
             Control control = this.createValueControl(searchableColumn, columnType);
             control.setName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
             controls.add(control);
+            break;
+        case IS_NULL:
+        default:
             break;
         }
         switch (columnType) {
