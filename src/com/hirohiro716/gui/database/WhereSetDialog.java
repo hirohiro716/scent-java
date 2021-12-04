@@ -564,6 +564,8 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     Control control1;
                     Control control2;
                     switch (comparison) {
+                    case IS_NULL:
+                        break;
                     case LIKE:
                         control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                         String valueOfLike = StringObject.newInstance(where.getValue()).extract(1, -1).toString();
@@ -576,11 +578,9 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                         this.setValueToControl(columnType, control2, where.getValue2());
                         break;
                     case EQUAL:
+                    default:
                         control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                         this.setValueToControl(columnType, control1, where.getValue());
-                        break;
-                    case IS_NULL:
-                    default:
                         break;
                     }
                 }
@@ -618,6 +618,9 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 Control control1;
                 Control control2;
                 switch (comparison) {
+                case IS_NULL:
+                    whereSet.addIsNull(isNegate, searchableColumn);
+                    break;
                 case LIKE:
                     control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                     String valueOfLike = StringObject.newInstance(this.getValueFromControl(columnType, control1)).prepend(WhereSetDialog.WILDCARD).append(WhereSetDialog.WILDCARD).toString();
@@ -629,13 +632,9 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     whereSet.addBetween(isNegate, searchableColumn, this.getValueFromControl(columnType, control1), this.getValueFromControl(columnType, control2));
                     break;
                 case EQUAL:
+                default:
                     control1 = paneOfWhere.getChildren().findControlByName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
                     whereSet.add(isNegate, searchableColumn, comparison, this.getValueFromControl(columnType, control1));
-                    break;
-                case IS_NULL:
-                    whereSet.addIsNull(isNegate, searchableColumn);
-                    break;
-                default:
                     break;
                 }
             }
@@ -832,6 +831,8 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     private Control[] createValueControls(String searchableColumn, ColumnType columnType, Comparison comparison) {
         List<Control> controls = new ArrayList<>();
         switch (comparison) {
+        case IS_NULL:
+            break;
         case BETWEEN:
             Control control1 = this.createValueControl(searchableColumn, columnType);
             control1.setName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
@@ -843,12 +844,10 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             break;
         case EQUAL:
         case LIKE:
+        default:
             Control control = this.createValueControl(searchableColumn, columnType);
             control.setName(WhereSetDialog.NAME_OF_VALUE_CONTROL1);
             controls.add(control);
-            break;
-        case IS_NULL:
-        default:
             break;
         }
         switch (columnType) {
