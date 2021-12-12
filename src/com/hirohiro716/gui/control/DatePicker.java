@@ -570,6 +570,7 @@ public class DatePicker extends TextField {
             if (this.yearDropDownList.getSelectedItem() == null || this.monthDropDownList.getSelectedItem() == null) {
                 return;
             }
+            this.gridPane.setDisabled(false);
             while (this.gridPane.getChildren().size() > 7) {
                 this.gridPane.getChildren().remove(this.gridPane.getChildren().get(7));
             }
@@ -654,9 +655,9 @@ public class DatePicker extends TextField {
             protected void handle(MouseEvent event) {
                 DatePicker control = DatePicker.this;
                 CalendarPane pane = CalendarPane.this;
+                pane.gridPane.setDisabled(true);
                 Datetime datetime = event.getSource().getInstanceForUseLater();
                 control.setText(datetime.toString(control.getFormatPattern()));
-                pane.displayCalender();
                 control.hidePopup();
             }
         };
