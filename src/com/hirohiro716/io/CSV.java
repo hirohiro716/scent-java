@@ -90,7 +90,7 @@ public class CSV {
      * 
      * @param values
      */
-    public void addRows(String... values) {
+    public void addRow(String... values) {
         this.rows.add(Arrays.asList(values));
     }
     
@@ -99,8 +99,8 @@ public class CSV {
      * 
      * @param values
      */
-    public final void addRows(Collection<String> values) {
-        this.addRows(values.toArray(new String[] {}));
+    public final void addRow(Collection<String> values) {
+        this.addRow(values.toArray(new String[] {}));
     }
     
     /**
@@ -111,7 +111,7 @@ public class CSV {
     public final void setRows(List<String>[] rows) {
         this.clearRows();
         for (List<String> row : rows) {
-            this.addRows(row);
+            this.addRow(row);
         }
     }
     
