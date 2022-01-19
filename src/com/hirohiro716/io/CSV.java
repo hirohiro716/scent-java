@@ -145,11 +145,9 @@ public class CSV {
             writing.add(this.headers);
         }
         writing.addAll(this.rows);
-        
         if (writing.size() == 0) {
             return;
         }
-        
         file.write(charsetName, new WritingProcess() {
             @Override
             public void call(OutputStreamWriter writer) throws IOException {
