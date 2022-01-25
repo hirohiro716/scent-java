@@ -1,7 +1,9 @@
 package com.hirohiro716.gui.control;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -73,6 +75,8 @@ public abstract class TextInputControl extends Control {
         });
         this.getInnerInstance().setDocument(new RestrictedDocument());
         this.setForegroundColor(this.getInnerInstance().getForeground());
+        this.addTextChangeListener(this.changeHistoryCreator);
+        this.addKeyPressedEventHandler(this.undoEventListener);
     }
 
     /**
@@ -390,6 +394,84 @@ public abstract class TextInputControl extends Control {
     public ContextMenu getContextMenu() {
         return this.contextMenu;
     }
+    
+    private int maximumNumberOfHistories = 100;
+    
+    /**
+     * このテキスト入力コントロールで記録する変更履歴の最大数を取得する。
+     * 
+     * @return 結果。
+     */
+    public int getMaximumNumberOfHistories() {
+        return this.maximumNumberOfHistories;
+    }
+
+    /**
+     * このテキスト入力コントロールで記録できる変更履歴の最大数をセットする。
+     * 
+     * @param maximumNumberOfHistories
+     */
+    public void setMaximumNumberOfHistories(int maximumNumberOfHistories) {
+        this.maximumNumberOfHistories = maximumNumberOfHistories;
+    }
+    
+    private List<String> history = new ArrayList<>();
+    
+    private int indexOfHistory = 0;
+    
+    private boolean isDisabledUpdateOfHistory = false;
+    
+    private ChangeListener<String> changeHistoryCreator = new ChangeListener<String>() {
+
+        @Override
+        protected void changed(Component<?> component, String changedValue, String previousValue) {
+            TextInputControl control = TextInputControl.this;
+            if (control.isDisabledUpdateOfHistory) {
+                return;
+            }
+            while (control.history.size() - 1 > control.indexOfHistory) {
+                control.history.remove(control.history.size() - 1);
+            }
+            while (control.history.size() >= control.getMaximumNumberOfHistories()) {
+                control.history.remove(0);
+            }
+            control.history.add(changedValue);
+            control.indexOfHistory = control.history.size() - 1;
+        }
+    };
+    
+    private EventHandler<KeyEvent> undoEventListener = new EventHandler<KeyEvent>() {
+
+        @Override
+        protected void handle(KeyEvent event) {
+            TextInputControl control = TextInputControl.this;
+            if (event.isControlDown()) {
+                switch (event.getKeyCode()) {
+                case Z:
+                    if (event.isShiftDown() == false) {
+                        if (control.indexOfHistory == 0) {
+                            return;
+                        }
+                        control.isDisabledUpdateOfHistory = true;
+                        control.indexOfHistory -= 1;
+                        control.setText(control.history.get(control.indexOfHistory));
+                        control.isDisabledUpdateOfHistory = false;
+                    } else {
+                        if (control.indexOfHistory >= control.history.size() - 1) {
+                            return;
+                        }
+                        control.isDisabledUpdateOfHistory = true;
+                        control.indexOfHistory += 1;
+                        control.setText(control.history.get(control.indexOfHistory));
+                        control.isDisabledUpdateOfHistory = false;
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+    };
     
     /**
      * このテキスト入力コントロールの入力値を制限するクラス。
