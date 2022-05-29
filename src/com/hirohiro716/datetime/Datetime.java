@@ -160,7 +160,7 @@ public class Datetime implements Cloneable {
      * @param hour 0から23の時。
      */
     public void modifyHour(int hour) {
-        this.calendar.set(Calendar.HOUR, hour);
+        this.calendar.set(Calendar.HOUR_OF_DAY, hour);
     }
     
     /**
