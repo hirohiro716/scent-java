@@ -199,5 +199,4 @@ public enum Regex {
         }
         return result.toString();
     }
-
 }

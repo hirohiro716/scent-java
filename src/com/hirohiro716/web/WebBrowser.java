@@ -1131,5 +1131,4 @@ public class WebBrowser extends DynamicClass {
             return null;
         }
     }
-
 }
