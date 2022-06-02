@@ -99,7 +99,7 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
     /**
      * このインスタンスにマップされている、すべての値をXMLファイルに書き込む。
      * 
-     * @param encoding "UTF-8"や"Shift_JIS"などのエンコーディング。 
+     * @param encoding "UTF-8"や"Shift_JIS"などのエンコーディング。
      * @throws IOException
      * @throws TransformerException 
      */
