@@ -810,7 +810,6 @@ public class WebBrowser extends DynamicClass {
      * WebBrowserにおけるHTML文書内の要素を表す。
      * 
      * @author hiro
-     *
      */
     public class Element {
         
@@ -1038,7 +1037,6 @@ public class WebBrowser extends DynamicClass {
      * WEBブラウザ種類の列挙型。
      * 
      * @author hiro
-     *
      */
     public enum Type implements IdentifiableEnum<String> {
         /**

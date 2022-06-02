@@ -558,7 +558,6 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 並び替えに使用できる順序の列挙型。
      * 
      * @author hiro
-     *
      */
     public enum SortOrder {
         /**

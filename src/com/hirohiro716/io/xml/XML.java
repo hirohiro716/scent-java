@@ -204,7 +204,6 @@ public class XML {
      * XML要素のクラス。
      * 
      * @author hiro
-     *
      */
     public class XMLNode {
         

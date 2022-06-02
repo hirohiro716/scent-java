@@ -95,7 +95,6 @@ public abstract class Task<R> {
      * タスク内で実行する処理内容のクラス。
      * 
      * @author hiro
-     *
      */
     public abstract class Callable implements java.util.concurrent.Callable<R> {
         

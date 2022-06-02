@@ -155,7 +155,6 @@ public class Window extends Frame<JFrame> {
      * ウィンドウに閉じる要求があった場合の処理を表す列挙型。
      * 
      * @author hiro
-     *
      */
     public enum CloseOperation {
         /**
@@ -257,7 +256,6 @@ public class Window extends Frame<JFrame> {
      * このレコード検索ウィンドウでキーを押した際のイベントハンドラー。
      * 
      * @author hiro
-     *
      */
     private class KeyPressedEventHandler extends EventHandler<KeyEvent> {
         
@@ -286,7 +284,6 @@ public class Window extends Frame<JFrame> {
      * このレコード検索ウィンドウでキーを離した際のイベントハンドラー。
      * 
      * @author hiro
-     *
      */
     private class KeyReleasedEventHandler extends EventHandler<KeyEvent> {
 

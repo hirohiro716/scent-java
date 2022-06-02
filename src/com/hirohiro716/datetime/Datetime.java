@@ -646,7 +646,6 @@ public class Datetime implements Cloneable {
      * 曜日を表す列挙型。
      * 
      * @author hiro
-     *
      */
     public static enum DayOfWeek implements IdentifiableEnum<Integer> {
         /**

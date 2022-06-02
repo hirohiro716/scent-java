@@ -276,7 +276,6 @@ public abstract class Dialog<R> implements DialogInterface {
      * ダイアログの背景を表示するペインのクラス。
      * 
      * @author hiro
-     *
      */
     private class BackgroundPane extends CenterPane {
         

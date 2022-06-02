@@ -396,7 +396,6 @@ public class AutocompleteTextField extends TextField {
      * このテキストフィールドの値が変更された際のリスナークラス。
      * 
      * @author hiro
-     *
      */
     private class TextChangeListener extends ChangeListener<String> {
         
@@ -441,7 +440,6 @@ public class AutocompleteTextField extends TextField {
      * このテキストフィールドにオートコンプリート用のアイテムを追加するクラス。
      * 
      * @author hiro
-     *
      */
     private class ListItemAdder implements Runnable {
         

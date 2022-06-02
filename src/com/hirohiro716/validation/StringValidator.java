@@ -292,7 +292,6 @@ public class StringValidator {
      * 検証するパターンの列挙型。
      * 
      * @author hiro
-     *
      */
     private enum Pattern {
         BLANK("が空欄です。"),

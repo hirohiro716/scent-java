@@ -154,7 +154,6 @@ public class WebBrowsingFlow {
      * WEBブラウザへのタスクのインターフェース。
      * 
      * @author hiro
-     *
      */
     public interface Task {
         
@@ -178,7 +177,6 @@ public class WebBrowsingFlow {
      * WEBブラウザへのすべてのタスクが終了した後の処理インターフェース。
      * 
      * @author hiro
-     *
      */
     public interface ProcessAfterFinishing {
 

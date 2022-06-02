@@ -737,7 +737,6 @@ public abstract class Printable implements java.awt.print.Printable {
      * フォントスタイルの列挙型。
      * 
      * @author hiro
-     *
      */
     protected enum FontStyle {
         /**
