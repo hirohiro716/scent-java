@@ -1390,6 +1390,4 @@ public abstract class TableView<C, R> extends Control {
             String string2 = new StringObject(value2).toString();
             return string1.compareTo(string2);
         }
-    }
-    
-}
+    }}

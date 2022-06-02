@@ -47,6 +47,4 @@ public class FileSaveChooser extends FileChooser {
         }
         this.addChoosedFilesystemItem(new File(this.getInnerInstance().getSelectedFile()));
         return true;
-    }
-    
-}
+    }}

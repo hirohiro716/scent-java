@@ -337,7 +337,8 @@ public class StringObject implements Cloneable, Iterable<String> {
     }
     
     /**
-     * LFを置き換える。CRLFのLFは置き換えられない。.
+     * LFを置き換える。CRLFのLFは置き換えられない。。
+     *
      * 
      * @param replacement
      * @return このインスタンス。
