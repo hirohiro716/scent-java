@@ -104,6 +104,7 @@ public class Pane extends Control {
      * ペインの子要素のクラス。
      * 
      * @author hiro
+     *
      */
     public class Children extends Collection<Control> {
         

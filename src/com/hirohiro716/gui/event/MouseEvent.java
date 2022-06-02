@@ -174,6 +174,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * マウスのボタンを表す列挙型。
      * 
      * @author hiro
+     *
      */
     public enum MouseButton {
         /**

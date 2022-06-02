@@ -236,6 +236,7 @@ public class MovableLabel extends Label {
      * 操作の列挙型。
      * 
      * @author hiro
+     *
      */
     private enum Operation {
         /**

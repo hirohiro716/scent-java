@@ -186,6 +186,7 @@ public class CSV {
      * CSVファイル一行を書き込む度に処理を行うコールバック。
      * 
      * @author hiro
+     *
      */
     public interface WriteLineCallback {
         
@@ -296,6 +297,7 @@ public class CSV {
      * CSVファイルの行情報を解析した後の処理インターフェース。
      * 
      * @author hiro
+     *
      */
     public interface ProcessAfterParsing {
         
@@ -312,6 +314,7 @@ public class CSV {
      * CSVファイルの解析を行うクラス。
      * 
      * @author hiro
+     *
      */
     private static class CSVParser implements ProcessAfterReadingCharacter {
         

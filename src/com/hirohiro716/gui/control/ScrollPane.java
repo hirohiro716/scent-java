@@ -259,6 +259,7 @@ public class ScrollPane extends Control {
      * スクロールバー表示ポリシーの列挙型。
      * 
      * @author hiro
+     *
      */
     public enum ScrollBarDisplayPolicy {
         /**

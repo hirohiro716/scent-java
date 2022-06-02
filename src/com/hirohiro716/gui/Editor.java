@@ -178,6 +178,7 @@ public abstract class Editor<T> extends Window {
      * このエディターを閉じる際のイベントハンドラー。
      * 
      * @author hiro
+     *
      */
     private class CloseEventHandler extends EventHandler<FrameEvent> {
         

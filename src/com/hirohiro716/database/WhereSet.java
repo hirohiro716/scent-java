@@ -539,6 +539,7 @@ public class WhereSet implements Cloneable {
      * "column1 IN (?, ?, ?)" と new Object[] {"検索値1", "検索値2", "検索値3}
      * 
      * @author hiro
+     *
      */
     public static class Where implements Cloneable {
         

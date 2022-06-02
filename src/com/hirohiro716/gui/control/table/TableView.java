@@ -539,6 +539,7 @@ public abstract class TableView<C, R> extends Control {
      * カラム種類の列挙型。
      * 
      * @author hiro
+     *
      */
     protected enum ColumnType {
         /**
@@ -754,6 +755,7 @@ public abstract class TableView<C, R> extends Control {
      * チェックボックスセルのレンダラークラス。
      * 
      * @author hiro
+     *
      */
     private class CheckBoxCellRenderer implements TableCellRenderer {
         
@@ -838,6 +840,7 @@ public abstract class TableView<C, R> extends Control {
      * テーブルビューカラムのクラス。
      * 
      * @author hiro
+     *
      */
     public class TableColumn implements TableColumnInterface<C> {
         
@@ -1247,6 +1250,7 @@ public abstract class TableView<C, R> extends Control {
      * テーブルビューのヘッダーをクリックしてソートするイベントハンドラー。
      * 
      * @author hiro
+     *
      */
     private class HeaderClickedToSortEventHandler extends EventHandler<MouseEvent> {
         
@@ -1328,6 +1332,7 @@ public abstract class TableView<C, R> extends Control {
      * 指定されたカラムの値同士を使用して2つの行情報のインスタンスの順序付けをする比較クラス。
      * 
      * @author hiro
+     *
      */
     private class Comparator implements java.util.Comparator<R> {
         

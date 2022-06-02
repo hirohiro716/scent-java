@@ -1198,6 +1198,7 @@ public abstract class EditableTable<C, R> extends Control {
      * このテーブルの行に配置されたコントロールがクリックされた際のイベントハンドラー。
      * 
      * @author hiro
+     *
      */
     private class ControlClickEventHandler extends MouseAdapter {
         
@@ -1233,6 +1234,7 @@ public abstract class EditableTable<C, R> extends Control {
      * このテーブルの行に配置されたコントロールでキーが押された際のイベントハンドラー。
      * 
      * @author hiro
+     *
      */
     private class ControlKeyPressedEventHandler extends EventHandler<KeyEvent> {
         
@@ -1424,6 +1426,7 @@ public abstract class EditableTable<C, R> extends Control {
      * テーブルカラムのクラス。
      * 
      * @author hiro
+     *
      */
     public class TableColumn implements TableColumnInterface<C> {
         
@@ -1570,6 +1573,7 @@ public abstract class EditableTable<C, R> extends Control {
      * カラム種類の列挙型。
      * 
      * @author hiro
+     *
      */
     public enum ColumnType {
         /**

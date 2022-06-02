@@ -139,6 +139,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
      * メッセージダイアログで押されたボタンの列挙型。
      * 
      * @author hiro
+     *
      */
     public enum ResultButton {
         /**

@@ -128,6 +128,7 @@ public abstract class DynamicClass {
      * Reflectionでclasspathにないjarのクラスのコンストラクタを利用するクラス。
      * 
      * @author hiro
+     *
      */
     protected class Constructor {
         
