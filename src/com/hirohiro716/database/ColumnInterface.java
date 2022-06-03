@@ -9,6 +9,7 @@ import com.hirohiro716.property.PropertyInterface;
  * データベースカラムのインターフェース。
  * 
  * @author hiro
+ *
  */
 public interface ColumnInterface extends PropertyInterface {
     
