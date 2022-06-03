@@ -40,8 +40,10 @@ public class ExceptionMessenger {
         message.append(OS.thisOS().getLineSeparator());
         if (this.exception.getMessage() != null && this.exception.getMessage().length() > 0) {
             message.append(this.exception.getClass().getName());
-            message.append(": ");
-            message.append(this.exception.getMessage());
+            if (message.toString().indexOf(this.exception.getMessage()) == -1) {
+                message.append(": ");
+                message.append(this.exception.getMessage());
+            }
         } else {
             message.append(this.exception.getClass().getName());
         }
@@ -54,7 +56,7 @@ public class ExceptionMessenger {
      * @return 結果。
      */
     public String make() {
-        return this.make(null);
+        return this.make(this.exception.getMessage());
     }
     
     /**
