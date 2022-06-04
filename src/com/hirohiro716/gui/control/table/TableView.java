@@ -435,7 +435,6 @@ public abstract class TableView<C, R> extends Control {
         List<R> list = new ArrayList<>();
         list.add(selectedRow);
         this.setSelectedRows(list);
-        
     }
     
     /**
