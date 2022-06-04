@@ -15,5 +15,4 @@ public interface InnerInstanceCreator<T> {
      * @return 結果。
      */
     public abstract T create();
-    
 }
