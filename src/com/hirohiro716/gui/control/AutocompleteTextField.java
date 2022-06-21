@@ -72,7 +72,7 @@ public class AutocompleteTextField extends TextField {
                 case PAGE_UP:
                 case PAGE_DOWN:
                 case ENTER:
-                    if (textField.getPopup().isVisible()) {
+                    if (textField.getPopup() != null && textField.getPopup().isVisible()) {
                         event.copy(textField.getListView());
                     }
                     break;
