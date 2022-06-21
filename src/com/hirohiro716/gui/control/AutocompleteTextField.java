@@ -72,7 +72,9 @@ public class AutocompleteTextField extends TextField {
                 case PAGE_UP:
                 case PAGE_DOWN:
                 case ENTER:
-                    event.copy(textField.getListView());
+                    if (textField.getPopup().isVisible()) {
+                        event.copy(textField.getListView());
+                    }
                     break;
                 case ESCAPE:
                     textField.hidePopup();
@@ -233,9 +235,11 @@ public class AutocompleteTextField extends TextField {
         this.popup.setY(y);
         this.popup.setMinimumWidth(this.getWidth());
         this.listView.clearSelection();
-        if (this.filteredListItems.size() > 0 && this.isFocused() && this.isVisible() && this.isEditable() && this.isDisabled() == false) {
-            this.popup.show();
-            this.popup.updateDisplay();
+        if (this.isFocused() && this.isVisible() && this.isEditable() && this.isDisabled() == false) {
+            if (this.filteredListItems.size() > 0 && this.filteredListItems.contains(this.getText()) == false) {
+                this.popup.show();
+                this.popup.updateDisplay();
+            }
         }
     }
     
@@ -290,6 +294,7 @@ public class AutocompleteTextField extends TextField {
                         control.setText(control.listView.getSelectedItem());
                         control.listView.clearSelection();
                     }
+                    control.hidePopup();
                     break;
                 default:
                     break;
