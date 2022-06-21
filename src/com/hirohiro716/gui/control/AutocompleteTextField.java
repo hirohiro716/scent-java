@@ -293,8 +293,9 @@ public class AutocompleteTextField extends TextField {
                     if (control.listView.getSelectedItem() != null) {
                         control.setText(control.listView.getSelectedItem());
                         control.listView.clearSelection();
+                    } else {
+                        control.hidePopup();
                     }
-                    control.hidePopup();
                     break;
                 default:
                     break;
