@@ -236,7 +236,7 @@ public class AutocompleteTextField extends TextField {
         this.popup.setMinimumWidth(this.getWidth());
         this.listView.clearSelection();
         if (this.isFocused() && this.isVisible() && this.isEditable() && this.isDisabled() == false) {
-            if (this.filteredListItems.size() > 0 && this.filteredListItems.contains(this.getText()) == false) {
+            if (this.filteredListItems.size() > 0) {
                 this.popup.show();
                 this.popup.updateDisplay();
             }
