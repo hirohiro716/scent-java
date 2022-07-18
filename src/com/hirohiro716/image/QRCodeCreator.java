@@ -4,13 +4,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
 
-import com.hirohiro716.filesystem.Directory;
+import com.hirohiro716.filesystem.File;
 import com.hirohiro716.reflection.DynamicClass;
 import com.hirohiro716.reflection.Method;
 
 /**
- * QRコードの画像を作成するクラス。
- * ・zxing - <a href="https://github.com/zxing/zxing/releases">https://github.com/zxing/zxing/releases</a>
+ * QRコードの画像を作成するクラス。<br>
+ * ・ZXing core - <a href="https://mvnrepository.com/artifact/com.google.zxing/core">https://mvnrepository.com/artifact/com.google.zxing/core</a><br>
+ * ・ZXing Java SE Extension - <a href="https://mvnrepository.com/artifact/com.google.zxing/javase">https://mvnrepository.com/artifact/com.google.zxing/javase</a><br>
  * 
  * @author hiro
  *
@@ -19,14 +20,15 @@ public class QRCodeCreator extends DynamicClass {
     
     /**
      * コンストラクタ。<br>
-     * パラメーターにはcore.jarとjavase.jarが入ったzxingライブラリのディレクトリを指定する。
+     * ZXingのcoreとjavaseのjarファイルを指定する。
      * 
-     * @param zxingLibraryDirectory
+     * @param zxingLibraryCoreJar 
+     * @param zxingLibraryJavaSeJar 
      * @throws ClassNotFoundException
      * @throws Exception
      */
-    public QRCodeCreator(Directory zxingLibraryDirectory) throws ClassNotFoundException, Exception {
-        super(zxingLibraryDirectory);
+    public QRCodeCreator(File zxingLibraryCoreJar, File zxingLibraryJavaSeJar) throws ClassNotFoundException, Exception {
+        super(zxingLibraryCoreJar, zxingLibraryJavaSeJar);
         this.matrixToImageWriterClass = this.loadClass("com.google.zxing.client.j2se.MatrixToImageWriter");
         Map<String, Object> enumConstants = this.getEnumConstants("com.google.zxing.BarcodeFormat");
         this.enumQRCode = enumConstants.get("QR_CODE");
