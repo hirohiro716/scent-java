@@ -229,6 +229,22 @@ public class WebBrowser extends DynamicClass {
     }
     
     /**
+     * WEBページの操作対象フレームを指定された名前に切り替える。
+     * 
+     * @param name
+     */
+    public void switchFrame(String name) {
+        try {
+            Method method = new Method(this.classWebDriver, this.webDriver);
+            Object switchTo = method.invoke("switchTo");
+            Method frameMethod = new Method(switchTo);
+            frameMethod.invoke("frame", name);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+    
+    /**
      * WEBページのBODY要素を取得する。
      * 
      * @return 結果。
