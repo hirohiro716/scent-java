@@ -125,7 +125,7 @@ public class WebBrowser extends DynamicClass {
     public void close() {
         try {
             Method method = new Method(this.classWebDriver, this.webDriver);
-            method.invoke("close");
+            method.invoke("quit");
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -458,13 +458,13 @@ public class WebBrowser extends DynamicClass {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
-        	try {
-	            if (this.createElementListOfFoundByAttribute(this.getBodyElement(), attributeName, attributeValue).size() == 0) {
-	                return;
-	            }
-	            Thread.sleep(1000);
-        	} catch (Exception exception) {
-        	}
+            try {
+                if (this.createElementListOfFoundByAttribute(this.getBodyElement(), attributeName, attributeValue).size() == 0) {
+                    return;
+                }
+                Thread.sleep(1000);
+            } catch (Exception exception) {
+            }
         }
     }
     
@@ -569,13 +569,13 @@ public class WebBrowser extends DynamicClass {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
-        	try {
-		        if (this.createElementListOfFoundByTagName(this.getBodyElement(), tagName, textContent).size() > 0) {
-		            return;
-		        }
-		        Thread.sleep(1000);
-        	} catch (Exception exception) {
-        	}
+            try {
+                if (this.createElementListOfFoundByTagName(this.getBodyElement(), tagName, textContent).size() > 0) {
+                    return;
+                }
+                Thread.sleep(1000);
+            } catch (Exception exception) {
+            }
         }
     }
 
@@ -600,13 +600,13 @@ public class WebBrowser extends DynamicClass {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
-        	try {
-	            if (this.createElementListOfFoundByTagName(this.getBodyElement(), tagName, textContent).size() == 0) {
-	                return;
-	            }
-	            Thread.sleep(1000);
-        	} catch (Exception exception) {
-        	}
+            try {
+                if (this.createElementListOfFoundByTagName(this.getBodyElement(), tagName, textContent).size() == 0) {
+                    return;
+                }
+                Thread.sleep(1000);
+            } catch (Exception exception) {
+            }
         }
     }
 
