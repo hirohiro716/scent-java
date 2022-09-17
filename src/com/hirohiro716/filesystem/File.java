@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URI;
@@ -225,6 +226,24 @@ public class File extends FilesystemItem {
         @Override
         public void call(String line, BufferedReader bufferedReader) throws IOException {
             this.numberOfLines++;
+        }
+    }
+    
+    /**
+     * このファイルに指定された入力ストリームを書き込む。既存の内容は上書きされる。
+     * 
+     * @param inputStream
+     * @param bufferByteSize
+     * @throws IOException
+     */
+    public void write(InputStream inputStream, int bufferByteSize) throws IOException {
+        try (FileOutputStream outputStream = new FileOutputStream(this.getAbsolutePath())) {
+            byte buffer[] = new byte[bufferByteSize];
+            int length;
+            while ((length = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, length);
+            }
+            outputStream.flush();
         }
     }
 
