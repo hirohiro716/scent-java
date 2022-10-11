@@ -10,9 +10,11 @@ import com.hirohiro716.datetime.Datetime;
  * WEBブラウザへのタスクを順に処理するクラス。
  * 
  * @author hiro
- *
+ * 
+ * @param <W> WEBブラウザの型。
+ * @param <E> WEBブラウザの要素の型。
  */
-public class WebBrowsingFlow {
+public class WebBrowsingFlow<W extends WebBrowser<E>, E extends WebBrowser.Element> {
     
     /**
      * コンストラクタ。<br>
@@ -20,21 +22,20 @@ public class WebBrowsingFlow {
      * 
      * @param webBrowser 
      */
-    public WebBrowsingFlow(WebBrowser webBrowser) {
+    public WebBrowsingFlow(W webBrowser) {
         this.webBrowser = webBrowser;
     }
     
-    private WebBrowser webBrowser;
+    private W webBrowser;
     
-    
-    private List<Task> tasks = new ArrayList<>();
+    private List<Task<W>> tasks = new ArrayList<>();
     
     /**
      * WEBブラウザへのタスクを追加する。
      * 
      * @param task
      */
-    public void addTask(Task task) {
+    public void addTask(Task<W> task) {
         this.tasks.add(task);
     }
     
@@ -90,14 +91,14 @@ public class WebBrowsingFlow {
      * 次のタスクを実行する。
      */
     private void executeNextTask() {
-        WebBrowsingFlow flow = this;
+        WebBrowsingFlow<W, E> flow = this;
         if (this.tasks.size() <= this.taskIndex || this.isTimedout || this.isCanceled || this.isExceptionOccurred) {
             if (this.processAfterFinishing != null) {
                 this.processAfterFinishing.execute();
             }
             return;
         }
-        Task task = this.tasks.get(this.taskIndex);
+        Task<W> task = this.tasks.get(this.taskIndex);
         try {
             // Execute current task
             Thread thread = new Thread(new Runnable() {
@@ -139,7 +140,7 @@ public class WebBrowsingFlow {
      * すべてのタスクを順に実行する。
      */
     public void execute() {
-        WebBrowsingFlow flow = this;
+        WebBrowsingFlow<W, E> flow = this;
         Thread thread = new Thread(new Runnable() {
             
             @Override
@@ -154,9 +155,10 @@ public class WebBrowsingFlow {
      * WEBブラウザへのタスクのインターフェース。
      * 
      * @author hiro
-     *
+     * 
+     * @param <W> WEBブラウザの型。
      */
-    public interface Task {
+    public interface Task<W extends WebBrowser<?>> {
         
         /**
          * 指定されたWEBブラウザに対してタスクを実行する。
@@ -164,7 +166,7 @@ public class WebBrowsingFlow {
          * @param webBrowser
          * @throws Exception
          */
-        public abstract void execute(WebBrowser webBrowser) throws Exception;
+        public abstract void execute(W webBrowser) throws Exception;
         
         /**
          * タスク処理中に発生した例外を処理する。
