@@ -91,6 +91,16 @@ public class File extends FilesystemItem {
     }
     
     /**
+     * このファイルのサイズ(byte)を取得する。
+     * 
+     * @return 結果。
+     * @throws IOException
+     */
+    public long getSize() throws IOException {
+        return Files.size(this.toJavaIoFile().toPath());
+    }
+    
+    /**
      * このファイルの内容を指定されたcharsetを使用して読み込む。
      * 
      * @param charsetName 
