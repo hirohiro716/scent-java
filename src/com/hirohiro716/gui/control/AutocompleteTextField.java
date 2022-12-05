@@ -480,6 +480,10 @@ public class AutocompleteTextField extends TextField {
             control.filteredListItems.clear();
             for (String listItem : new Array<>(control.listItems)) {
                 StringObject regex = StringObject.join(".{0,}", Regex.makeRoughComparison(this.changedValue), ".{0,}");
+                if (this.changedValue.contains("?")) {
+                    this.isFinished = true;
+                    break;
+                }
                 regex.replace(" ", ".{0,}");
                 regex.replace("　", ".{0,}");
                 if (Pattern.compile(regex.toString()).matcher(listItem).matches()) {
