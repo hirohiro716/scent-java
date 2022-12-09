@@ -60,7 +60,7 @@ public class Method {
      * 指定されたメソッド名、パラメーターを使用してメソッドを呼び出す。<br>
      * このメソッドを (new Method(ins)).invoke(name, param)
      * で呼び出すと次のコードと同じ結果を返す。<br>
-     * Method method = ins.getClass().getDeclaredMethod(name, new Class<?>[]
+     * Method method = ins.getClass().getDeclaredMethod(name, new Class&lt;?&gt;[]
      * {param.getClass()});<br>
      * method.setAccessible(true);<br>
      * return method.invoke(ins, param);
