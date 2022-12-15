@@ -544,11 +544,11 @@ public abstract class TextInputControl extends Control {
             
             @Override
             public void show(int xLocationOnInvoker, int yLocationOnInvoker) {
-                super.show(xLocationOnInvoker, yLocationOnInvoker);
                 StringObject selectedText = new StringObject(control.getSelectedText());
                 cut.setDisabled(! control.isEditable() || selectedText.length() == 0);
                 copy.setDisabled(selectedText.length() == 0);
                 paste.setDisabled(! control.isEditable());
+                super.show(xLocationOnInvoker, yLocationOnInvoker);
             }
         };
         menu.addContextMenuItem(cut);
