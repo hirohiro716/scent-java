@@ -506,6 +506,10 @@ public abstract class TextInputControl extends Control {
         }
     }
     
+    private int selectionStartForContextMenu;
+    
+    private int selectionEndForContextMenu;
+    
     /**
      * テキスト入力コントロール用のコンテキストメニューを作成する。
      * 
@@ -519,6 +523,7 @@ public abstract class TextInputControl extends Control {
             
             @Override
             public void run() {
+                control.select(control.selectionStartForContextMenu, control.selectionEndForContextMenu);
                 control.cutSelection();
             }
         });
@@ -528,6 +533,7 @@ public abstract class TextInputControl extends Control {
             
             @Override
             public void run() {
+                control.select(control.selectionStartForContextMenu, control.selectionEndForContextMenu);
                 control.copySelection();
             }
         });
@@ -544,6 +550,8 @@ public abstract class TextInputControl extends Control {
             
             @Override
             public void show(int xLocationOnInvoker, int yLocationOnInvoker) {
+                control.selectionStartForContextMenu = control.getSelectionStart();
+                control.selectionEndForContextMenu = control.getSelectionEnd();
                 StringObject selectedText = new StringObject(control.getSelectedText());
                 cut.setDisabled(! control.isEditable() || selectedText.length() == 0);
                 copy.setDisabled(selectedText.length() == 0);
