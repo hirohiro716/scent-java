@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+import com.hirohiro716.StringObject;
 import com.hirohiro716.datetime.Datetime;
 
 /**
@@ -126,7 +127,10 @@ public class WebBrowsingFlow<W extends WebBrowser<E>, E extends WebBrowser.Eleme
             }
             if (thread.isAlive()) {
                 this.isTimedout = true;
-                task.handleException(new TimeoutException("Web browsing flow has timed out."));
+                StringObject message = new StringObject("Web browsing flow timed out on task number ");
+                message.append(this.taskIndex + 1);
+                message.append(".");
+                task.handleException(new TimeoutException(message.toString()));
             }
             // Next
             this.taskIndex++;
