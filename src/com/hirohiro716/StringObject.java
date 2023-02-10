@@ -187,9 +187,9 @@ public class StringObject implements Cloneable, Iterable<String> {
         int trueStartIndex = startIndex;
         if (trueStartIndex < 0) {
             trueStartIndex = allLength + startIndex;
-        }
-        if (trueStartIndex < 0) {
-            trueStartIndex = 0;
+            if (trueStartIndex < 0) {
+                trueStartIndex = 0;
+            }
         }
         try {
             this.value = new StringBuilder(this.toString().substring(trueStartIndex));
@@ -216,9 +216,9 @@ public class StringObject implements Cloneable, Iterable<String> {
         int trueStartIndex = startIndex;
         if (trueStartIndex < 0) {
             trueStartIndex = allLength + startIndex;
-        }
-        if (trueStartIndex < 0) {
-            trueStartIndex = 0;
+            if (trueStartIndex < 0) {
+                trueStartIndex = 0;
+            }
         }
         int trueEndIndex = endIndex;
         if (trueEndIndex < 0) {
