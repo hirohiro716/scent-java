@@ -332,7 +332,6 @@ public class StringObject implements Cloneable, Iterable<String> {
      * @return このインスタンス。
      */
     public final StringObject replaceCR(String replacement) {
-        this.replace("\r([^\n])|\r$", replacement + "$1");
         return this.replace("\r([^\n])|\r$", replacement + "$1");
     }
     
@@ -344,7 +343,6 @@ public class StringObject implements Cloneable, Iterable<String> {
      * @return このインスタンス。
      */
     public final StringObject replaceLF(String replacement) {
-        this.replace("([^\r])\n|^\n", "$1" + replacement);
         return this.replace("([^\r])\n|^\n", "$1" + replacement);
     }
     
