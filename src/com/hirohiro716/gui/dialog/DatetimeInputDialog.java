@@ -252,8 +252,8 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
             return;
         }
         this.datePicker.setDatetime(defaultValue);
-        this.textFieldHour.setText(String.valueOf(defaultValue.toHour()));
-        this.textFieldMinute.setText(String.valueOf(defaultValue.toMinute()));
+        this.textFieldHour.setText(String.valueOf(defaultValue.getHour()));
+        this.textFieldMinute.setText(String.valueOf(defaultValue.getMinute()));
     }
     
     private Datetime result = null;

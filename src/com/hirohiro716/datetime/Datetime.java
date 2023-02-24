@@ -279,7 +279,7 @@ public class Datetime implements Cloneable {
      * 
      * @return 結果。
      */
-    public int toYear() {
+    public int getYear() {
         return this.calendar.get(Calendar.YEAR);
     }
     
@@ -288,7 +288,7 @@ public class Datetime implements Cloneable {
      * 
      * @return 結果。
      */
-    public int toMonth() {
+    public int getMonth() {
         return this.calendar.get(Calendar.MONTH) + 1;
     }
     
@@ -297,7 +297,7 @@ public class Datetime implements Cloneable {
      * 
      * @return 結果。
      */
-    public int toDay() {
+    public int getDay() {
         return this.calendar.get(Calendar.DAY_OF_MONTH);
     }
     
@@ -306,7 +306,7 @@ public class Datetime implements Cloneable {
      * 
      * @return 結果。
      */
-    public int toHour() {
+    public int getHour() {
         return this.calendar.get(Calendar.HOUR_OF_DAY);
     }
     
@@ -315,7 +315,7 @@ public class Datetime implements Cloneable {
      * 
      * @return 結果。
      */
-    public int toMinute() {
+    public int getMinute() {
         return this.calendar.get(Calendar.MINUTE);
     }
     
@@ -324,8 +324,17 @@ public class Datetime implements Cloneable {
      * 
      * @return 結果。
      */
-    public int toSecond() {
+    public int getSecond() {
         return this.calendar.get(Calendar.SECOND);
+    }
+
+    /**
+     * このインスタンスのミリ秒だけを数値で取得する。
+     * 
+     * @return 結果。
+     */
+    public int getMilliSecond() {
+        return this.calendar.get(Calendar.MILLISECOND);
     }
     
     /**
@@ -434,7 +443,7 @@ public class Datetime implements Cloneable {
      * @return 結果。
      */
     public boolean eqaulsDate(int year, int month, int day) {
-        return (this.toYear() == year && this.toMonth() == month && this.toDay() == day);
+        return (this.getYear() == year && this.getMonth() == month && this.getDay() == day);
     }
     
     /**
@@ -447,7 +456,7 @@ public class Datetime implements Cloneable {
         if (datetime == null) {
             return false;
         }
-        return this.eqaulsDate(datetime.toYear(), datetime.toMonth(), datetime.toDay());
+        return this.eqaulsDate(datetime.getYear(), datetime.getMonth(), datetime.getDay());
     }
 
     /**
@@ -459,7 +468,7 @@ public class Datetime implements Cloneable {
      * @return 結果。
      */
     public boolean eqaulsTime(int hour, int minute, int second) {
-        return (this.toHour() == hour && this.toMinute() == minute && this.toSecond() == second);
+        return (this.getHour() == hour && this.getMinute() == minute && this.getSecond() == second);
     }
     
     /**
@@ -472,7 +481,7 @@ public class Datetime implements Cloneable {
         if (datetime == null) {
             return false;
         }
-        return this.eqaulsTime(datetime.toHour(), datetime.toMinute(), datetime.toSecond());
+        return this.eqaulsTime(datetime.getHour(), datetime.getMinute(), datetime.getSecond());
     }
     
     @Override
@@ -615,7 +624,7 @@ public class Datetime implements Cloneable {
      */
     public static List<Integer> createYearsList(int subtraction, int addition) {
         Datetime datetime = new Datetime();
-        return Datetime.createYearsList(datetime.toYear(), subtraction, addition);
+        return Datetime.createYearsList(datetime.getYear(), subtraction, addition);
     }
 
     /**
@@ -626,7 +635,7 @@ public class Datetime implements Cloneable {
      */
     public static List<Integer> createYearsList(int addition) {
         Datetime datetime = new Datetime();
-        return Datetime.createYearsList(datetime.toYear(), datetime.toYear() - Datetime.newInstance(new Date(0)).toYear(), addition);
+        return Datetime.createYearsList(datetime.getYear(), datetime.getYear() - Datetime.newInstance(new Date(0)).getYear(), addition);
     }
     
     /**

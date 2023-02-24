@@ -238,7 +238,7 @@ public class DatePicker extends TextField {
         case 3:
             try {
                 Datetime datetime = new Datetime();
-                StringObject thisYear = new StringObject(datetime.toYear());
+                StringObject thisYear = new StringObject(datetime.getYear());
                 StringObject year = StringObject.newInstance(values[0]);
                 switch (year.length()) {
                 case 2:
@@ -385,7 +385,7 @@ public class DatePicker extends TextField {
         if (datetime == null) {
             datetime = new Datetime();
         }
-        this.calendarPane.setYearAndMonth(datetime.toYear(), datetime.toMonth());
+        this.calendarPane.setYearAndMonth(datetime.getYear(), datetime.getMonth());
         this.popup.setX((int) this.getLocationOnScreen().getX() + 3);
         int y = (int) this.getLocationOnScreen().getY() + this.getHeight() + 3;
         Rectangle rectangle = GUI.getMaximumWindowBounds(this.findPlacedGraphicsDevice());
@@ -489,7 +489,7 @@ public class DatePicker extends TextField {
             dropDownList.setFont(control.getFont());
             dropDownList.setFocusable(false);
             dropDownList.setEnableChangeValueWithMouseWheelRotation(true);
-            dropDownList.setSelectedItem(defaultDatetime.toYear());
+            dropDownList.setSelectedItem(defaultDatetime.getYear());
             dropDownList.addSelectedItemChangeListener(this.monthChangeListener);
             return dropDownList;
         }
@@ -507,7 +507,7 @@ public class DatePicker extends TextField {
             dropDownList.setFont(control.getFont());
             dropDownList.setFocusable(false);
             dropDownList.setEnableChangeValueWithMouseWheelRotation(true);
-            dropDownList.setSelectedItem(defaultDatetime.toMonth());
+            dropDownList.setSelectedItem(defaultDatetime.getMonth());
             dropDownList.addSelectedItemChangeListener(this.monthChangeListener);
             return dropDownList;
         }
@@ -589,7 +589,7 @@ public class DatePicker extends TextField {
             // Create a 6 week date labels
             for (int rowNumber = 0; rowNumber < 6; rowNumber++) {
                 for (int columnNumber = 0; columnNumber < 7; columnNumber++) {
-                    Label label = new Label(String.valueOf(datetime.toDay()));
+                    Label label = new Label(String.valueOf(datetime.getDay()));
                     label.setPadding(this.baseSize / 2);
                     label.setFont(control.getFont());
                     label.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
@@ -599,7 +599,7 @@ public class DatePicker extends TextField {
                     } else {
                         label.setBorder(Border.createLine(this.borderColor, 1, 0, 0, 1));
                     }
-                    if (datetime.toMonth() != month) {
+                    if (datetime.getMonth() != month) {
                         label.setForegroundColor(this.inactiveForeground);
                     }
                     if (datetime.eqaulsDate(picked)) {
@@ -640,12 +640,12 @@ public class DatePicker extends TextField {
                 } else {
                     datetime.addMonth(-1);
                 }
-                int year = datetime.toYear();
+                int year = datetime.getYear();
                 if (pane.yearDropDownList.getItems().contains(year) == false) {
                     pane.yearDropDownList.getItems().add(year);
                 }
                 pane.yearDropDownList.setSelectedItem(year);
-                pane.monthDropDownList.setSelectedItem(datetime.toMonth());
+                pane.monthDropDownList.setSelectedItem(datetime.getMonth());
             }
         };
         
