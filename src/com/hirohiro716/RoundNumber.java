@@ -16,9 +16,9 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
      */
     ROUND(1, "四捨五入"),
     /**
-     * 切り捨て。
+     * 切り下げ。
      */
-    FLOOR(2, "切り捨て"),
+    FLOOR(2, "切り下げ"),
     /**
      * 切り上げ。
      */
