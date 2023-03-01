@@ -238,7 +238,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param attributeValue
      * @throws Exception 
      */
-    public void moreSelectElementsByAttribute(String attributeName, String attributeValue) throws Exception {
+    public void selectMoreElementsByAttribute(String attributeName, String attributeValue) throws Exception {
         List<E> newSelectedElements = new ArrayList<>();
         for (E selectedElement: this.selectedElements) {
             newSelectedElements.addAll(this.createElementListOfFoundByAttribute(selectedElement, attributeName, attributeValue));
@@ -255,7 +255,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      */
     public void selectElementsByAttribute(String attributeName, String attributeValue) throws Exception {
         this.clearSelectedElements();
-        this.moreSelectElementsByAttribute(attributeName, attributeValue);
+        this.selectMoreElementsByAttribute(attributeName, attributeValue);
     }
 
     /**
@@ -331,7 +331,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param textContent 
      * @throws Exception 
      */
-    public void moreSelectElementsByTagName(String tagName, String textContent) throws Exception {
+    public void selectMoreElementsByTagName(String tagName, String textContent) throws Exception {
         List<E> newSelectedElements = new ArrayList<>();
         for (E selectedElement: this.selectedElements) {
             newSelectedElements.addAll(this.createElementListOfFoundByTagName(selectedElement, tagName, textContent));
@@ -345,8 +345,8 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param tagName
      * @throws Exception 
      */
-    public void moreSelectElementsByTagName(String tagName) throws Exception {
-        this.moreSelectElementsByTagName(tagName, "");
+    public void selectMoreElementsByTagName(String tagName) throws Exception {
+        this.selectMoreElementsByTagName(tagName, "");
     }
 
     /**
@@ -358,7 +358,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      */
     public void selectElementsByTagName(String tagName, String textContent) throws Exception {
         this.clearSelectedElements();
-        this.moreSelectElementsByTagName(tagName, textContent);
+        this.selectMoreElementsByTagName(tagName, textContent);
     }
 
     /**
@@ -461,7 +461,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param cssSelector
      * @throws Exception 
      */
-    public void moreSelectElementsByCssSelector(String cssSelector) throws Exception {
+    public void selectMoreElementsByCssSelector(String cssSelector) throws Exception {
         List<E> newSelectedElements = new ArrayList<>();
         for (E selectedElement: this.selectedElements) {
             newSelectedElements.addAll(this.createElementListOfFoundByCssSelector(selectedElement, cssSelector));
@@ -477,7 +477,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      */
     public void selectElementsByCssSelector(String cssSelector) throws Exception {
         this.clearSelectedElements();
-        this.moreSelectElementsByCssSelector(cssSelector);
+        this.selectMoreElementsByCssSelector(cssSelector);
     }
 
     /**
@@ -548,7 +548,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param xPath
      * @throws Exception 
      */
-    public void moreSelectElementsByXPath(String xPath) throws Exception {
+    public void selectMoreElementsByXPath(String xPath) throws Exception {
         List<E> newSelectedElements = new ArrayList<>();
         for (E selectedElement: this.selectedElements) {
             newSelectedElements.addAll(this.createElementListOfFoundByXPath(selectedElement, xPath));
@@ -564,7 +564,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      */
     public void selectElementsByXPath(String xPath) throws Exception {
         this.clearSelectedElements();
-        this.moreSelectElementsByXPath(xPath);
+        this.selectMoreElementsByXPath(xPath);
     }
 
     /**
