@@ -265,7 +265,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param attributeValue
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForAttributeFound(String attributeName, String attributeValue, int timeoutSeconds) {
+    public void waitForFoundByAttribute(String attributeName, String attributeValue, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
@@ -286,7 +286,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param attributeValue
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForAttributeLost(String attributeName, String attributeValue, int timeoutSeconds) {
+    public void waitForLostByAttribute(String attributeName, String attributeValue, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
@@ -378,7 +378,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param textContent
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForTagNameFound(String tagName, String textContent, int timeoutSeconds) {
+    public void waitForFoundByTagName(String tagName, String textContent, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
@@ -398,8 +398,8 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param tagName
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForTagNameFound(String tagName, int timeoutSeconds) {
-        this.waitForTagNameFound(tagName, "", timeoutSeconds);
+    public void waitForFoundByTagName(String tagName, int timeoutSeconds) {
+        this.waitForFoundByTagName(tagName, "", timeoutSeconds);
     }
 
     /**
@@ -409,7 +409,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param textContent
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForTagNameLost(String tagName, String textContent, int timeoutSeconds) {
+    public void waitForLostByTagName(String tagName, String textContent, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
@@ -429,8 +429,8 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param tagName
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForTagNameLost(String tagName, int timeoutSeconds) {
-        this.waitForTagNameLost(tagName, "", timeoutSeconds);
+    public void waitForLostByTagName(String tagName, int timeoutSeconds) {
+        this.waitForLostByTagName(tagName, "", timeoutSeconds);
     }
 
     /**
@@ -486,7 +486,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param cssSelector
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForCssSelectionFound(String cssSelector, int timeoutSeconds) {
+    public void waitForFoundByCssSelector(String cssSelector, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
@@ -506,7 +506,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param cssSelector
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForCssSelectionLost(String cssSelector, int timeoutSeconds) {
+    public void waitForLostByCssSelector(String cssSelector, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
@@ -573,7 +573,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param xPath
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForXPathFound(String xPath, int timeoutSeconds) {
+    public void waitForFoundByXPath(String xPath, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
@@ -593,7 +593,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param xPath
      * @param timeoutSeconds タイムアウトまでの秒数。
      */
-    public void waitForXPathLost(String xPath, int timeoutSeconds) {
+    public void waitForLostByXPath(String xPath, int timeoutSeconds) {
         Datetime limit = new Datetime();
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
