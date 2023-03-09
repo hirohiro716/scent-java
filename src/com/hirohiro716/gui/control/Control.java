@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
+
 import javax.swing.JComponent;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -230,7 +231,7 @@ public abstract class Control extends Component<JComponent> {
         this.getInnerInstance().setForeground(color);
     }
     
-    private javax.swing.border.Border border = null;
+    private javax.swing.border.Border border = this.getInnerInstanceForLayout().getBorder();
     
     /**
      * このコントロールに境界線をセットする。
