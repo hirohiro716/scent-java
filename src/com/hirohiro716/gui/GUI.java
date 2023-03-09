@@ -14,6 +14,7 @@ import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -189,6 +190,16 @@ public class GUI {
      */
     public static void setLookAndFeel(String className) throws Exception {
         UIManager.setLookAndFeel(className);
+    }
+    
+    /**
+     * GUIのルックアンドフィールを指定されたjavax.swing.LookAndFeelのインスタンスに変更する。
+     * 
+     * @param lookAndFeel
+     * @throws Exception
+     */
+    public static void setLookAndFeel(LookAndFeel lookAndFeel) throws Exception {
+        UIManager.setLookAndFeel(lookAndFeel);
     }
     
     /**
