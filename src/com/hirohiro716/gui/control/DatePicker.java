@@ -431,8 +431,8 @@ public class DatePicker extends TextField {
             this.borderColor = GUI.getBorderColor();
             this.focusedBackground = new Color(control.getInnerInstance().getSelectionColor().getRGB());
             this.focusedForeground = new Color(control.getInnerInstance().getSelectedTextColor().getRGB());
-            this.todayForeground = ColorCreator.createTransparent(this.getForegroundColor(), 0.3);
-            this.inactiveForeground = new Color(control.getInnerInstance().getDisabledTextColor().getRGB());
+            this.todayForeground = new Color(control.getInnerInstance().getSelectionColor().getRGB());
+            this.inactiveForeground = ColorCreator.createTransparent(control.getInnerInstance().getDisabledTextColor(), 0.5);
             // Pane settings
             this.setFillChildToPaneWidth(true);
             this.setBorder(Border.createLine(Color.DARK_GRAY, 1));
@@ -548,7 +548,6 @@ public class DatePicker extends TextField {
                 Label label = new Label(week.getName().substring(0, 1));
                 label.setPadding(this.baseSize / 2);
                 label.setFont(control.getFont());
-                label.setForegroundColor(this.inactiveForeground);
                 label.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
                 if (week != DayOfWeek.SUNDAY) {
                     label.setBorder(Border.createLine(this.borderColor, 0, 0, 0, 1));
@@ -588,6 +587,7 @@ public class DatePicker extends TextField {
             }
             // Create a 6 week date labels
             for (int rowNumber = 0; rowNumber < 6; rowNumber++) {
+                Datetime today = new Datetime();
                 for (int columnNumber = 0; columnNumber < 7; columnNumber++) {
                     Label label = new Label(String.valueOf(datetime.getDay()));
                     label.setPadding(this.baseSize / 2);
@@ -601,16 +601,17 @@ public class DatePicker extends TextField {
                     }
                     if (datetime.getMonth() != month) {
                         label.setForegroundColor(this.inactiveForeground);
-                    }
-                    if (datetime.eqaulsDate(picked)) {
-                        label.setBackgroundColor(this.focusedBackground);
-                        label.setForegroundColor(this.focusedForeground);
                     } else {
-                        label.setBackgroundColor(this.getBackgroundColor());
-                        if (datetime.eqaulsDate(new Datetime())) {
-                            label.setForegroundColor(this.todayForeground);
+                        if (datetime.eqaulsDate(picked)) {
+                            label.setBackgroundColor(this.focusedBackground);
+                            label.setForegroundColor(this.focusedForeground);
                         } else {
-                            label.setForegroundColor(this.getForegroundColor());
+                            label.setBackgroundColor(this.getBackgroundColor());
+                            if (datetime.eqaulsDate(today)) {
+                                label.setForegroundColor(this.todayForeground);
+                            } else {
+                                label.setForegroundColor(this.getForegroundColor());
+                            }
                         }
                     }
                     label.addMouseWheelEventHandler(this.mouseWheelEventHandler);
