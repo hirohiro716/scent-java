@@ -40,8 +40,8 @@ import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.KeyCode;
 import com.hirohiro716.gui.collection.Collection;
-import com.hirohiro716.gui.control.AnchorPane;
 import com.hirohiro716.gui.control.Button;
+import com.hirohiro716.gui.control.CenterPane;
 import com.hirohiro716.gui.control.ContextMenu;
 import com.hirohiro716.gui.control.Control;
 import com.hirohiro716.gui.control.Label;
@@ -779,7 +779,7 @@ public abstract class TableView<C, R> extends Control {
             return checkBox;
         }
     }
-    
+
     /**
      * ボタンセルのレンダラークラス。
      * 
@@ -806,11 +806,10 @@ public abstract class TableView<C, R> extends Control {
             C columnInstance = tableView.columnInstances.get(column);
             Button button = new Button(tableView.mapColumnButtonText.get(columnInstance));
             button.setFont(tableView.getFont());
-            
-            AnchorPane pane = new AnchorPane();
+            CenterPane pane = new CenterPane();
+            pane.setPadding(3);
             pane.setBackgroundColor(new Color(jLabel.getBackground().getRGB()));
-            pane.getChildren().add(button);
-            pane.setAnchor(button, 5, 5, 5, 5);
+            pane.setControl(button);
             return pane.getInnerInstance();
         }
         
@@ -824,11 +823,19 @@ public abstract class TableView<C, R> extends Control {
             if (eventHandler != null) {
                 button.addActionEventHandler(eventHandler);
             }
-            AnchorPane pane = new AnchorPane();
+            button.addActionEventHandler(new EventHandler<ActionEvent>() {
+
+                @Override
+                protected void handle(ActionEvent event) {
+                    ButtonCellRenderer.this.cancelCellEditing();
+                }
+            });
+            CenterPane pane = new CenterPane();
+            pane.setPadding(3);
             pane.setBackgroundColor(new Color(tableView.getInnerInstance().getSelectionBackground().getRGB()));
-            pane.getChildren().add(button);
-            pane.setAnchor(button, 5, 5, 5, 5);
+            pane.setControl(button);
             return pane.getInnerInstance();
+            
         }
         
         @Override
