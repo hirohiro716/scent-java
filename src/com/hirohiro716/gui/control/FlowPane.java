@@ -154,6 +154,26 @@ public class FlowPane extends Pane {
     public final void setVerticalSpacing(int spacing) {
         this.setSpacing(this.horizontalSpacing, spacing);
     }
+    
+    private boolean isFillChildToRowHeight = false;
+    
+    /**
+     * このペインに配置されている子要素の高さを、その子要素が表示されている行の高さまで拡大する場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isFillChildToRowHeight() {
+        return this.isFillChildToRowHeight;
+    }
+    
+    /**
+     * このペインに配置されている子要素の高さを、その子要素が表示されている行の高さまで拡大する場合はtrueをセットする。初期値はfalse。
+     * 
+     * @param isFillChildToRowHeight
+     */
+    public void setFillChildToRowHeight(boolean isFillChildToRowHeight) {
+        this.isFillChildToRowHeight = isFillChildToRowHeight;
+    }
 
     private String sizeStringOfLayoutUpdate = null;
     
@@ -234,7 +254,10 @@ public class FlowPane extends Pane {
             // Initialize variables
             if (maximumWidth < lineWidth + this.horizontalSpacing + control.getWidth() && lineControls.size() > 0) {
                 lineWidth = 0;
-                int controlHeight = this.fitControlMaximumHeight(height, lineControls);
+                int controlHeight = this.getMaximumHeightOfControls(lineControls);
+                if (this.isFillChildToRowHeight) {
+                    this.setHeightOfControls(lineControls, controlHeight);
+                }
                 height += this.verticalSpacing;
                 height += controlHeight;
                 lineControls.clear();
@@ -252,7 +275,7 @@ public class FlowPane extends Pane {
             }
         }
         // Adjust pane height
-        int controlHeight = this.fitControlMaximumHeight(height, lineControls);
+        int controlHeight = this.getMaximumHeightOfControls(lineControls);
         height += controlHeight;
         height += this.getPadding().getTop();
         height += this.getPadding().getBottom();
@@ -275,20 +298,36 @@ public class FlowPane extends Pane {
     }
     
     /**
-     * 指定されたすべてのコントロールの高さを揃え、その高さを取得する。
+     * 指定されたすべてのコントロールの最大高さを取得する。
      * 
-     * @param locationY 指定されたコントロールの上位置。
      * @param controls
      * @return 結果。
      */
-    private int fitControlMaximumHeight(int locationY, List<Control> controls) {
+    private int getMaximumHeightOfControls(List<Control> controls) {
         int maximumHeight = 0;
         for (Control control : controls) {
             if (maximumHeight < control.getHeight()) {
                 maximumHeight = control.getHeight();
             }
         }
+        if (this.isFillChildToRowHeight) {
+            for (Control control : controls) {
+                control.setHeight(maximumHeight);
+            }
+        }
         return maximumHeight;
+    }
+
+    /**
+     * 指定されたすべてのコントロールの高さを変更する。
+     * 
+     * @param controls
+     * @param height
+     */
+    private void setHeightOfControls(List<Control> controls, int height) {
+        for (Control control : controls) {
+            control.setHeight(height);
+        }
     }
     
     @Override
