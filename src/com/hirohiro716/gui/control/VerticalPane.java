@@ -171,7 +171,7 @@ public class VerticalPane extends Pane {
     public void addStretchableSpacer(int numberOfSpacers, int positionIndex) {
         for (int number = 0; number <= numberOfSpacers; number++) {
             Spacer spacer = new Spacer(0, 0);
-            this.getChildren().add(spacer);
+            this.getChildren().add(spacer, positionIndex);
             this.getGrowableControls().add(spacer, positionIndex);
         }
     }
