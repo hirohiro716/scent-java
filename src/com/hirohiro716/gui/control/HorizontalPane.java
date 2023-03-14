@@ -148,6 +148,33 @@ public class HorizontalPane extends Pane {
     public Collection<Control> getGrowableControls() {
         return this.growableControls;
     }
+
+    /**
+     * このペインの余ったスペースを使用して、水平方向に拡大するスペーサーを子要素として末尾に追加する。
+     * 
+     * @param numberOfSpacers
+     */
+    public void addStretchableSpacer(int numberOfSpacers) {
+        for (int number = 0; number <= numberOfSpacers; number++) {
+            Spacer spacer = new Spacer(0, 0);
+            this.getChildren().add(spacer);
+            this.getGrowableControls().add(spacer);
+        }
+    }
+
+    /**
+     * このペインの余ったスペースを使用して、水平方向に拡大するスペーサーを子要素として指定された位置に追加する。
+     * 
+     * @param numberOfSpacers
+     * @param positionIndex
+     */
+    public void addStretchableSpacer(int numberOfSpacers, int positionIndex) {
+        for (int number = 0; number <= numberOfSpacers; number++) {
+            Spacer spacer = new Spacer(0, 0);
+            this.getChildren().add(spacer);
+            this.getGrowableControls().add(spacer, positionIndex);
+        }
+    }
     
     /**
      * 指定された子要素のレイアウトを最新の状態にする。
