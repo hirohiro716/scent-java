@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -105,6 +106,33 @@ public abstract class TableView<C, R> extends Control {
                 }
             }
         });
+        this.addMouseClickedEventHandler(MouseButton.BUTTON3, new EventHandler<MouseEvent>() {
+
+            @Override
+            protected void handle(MouseEvent event) {
+                TableView<C, R> tableView = TableView.this;
+                R clickedRow = tableView.getRowFromLocation(event.getX(), event.getY());
+                C clickedColumn = tableView.getColumnFromLocation(event.getX(), event.getY());
+                if (clickedRow == null || clickedColumn == null) {
+                    return;
+                }
+                tableView.setSelectedRow(clickedRow);
+                int clickedColumnIndex = tableView.getColumnInstances().indexOf(clickedColumn);
+                innerInstance.setColumnSelectionInterval(clickedColumnIndex, clickedColumnIndex);
+                ContextMenu menu = new ContextMenu(event.getSource());
+                menu.addContextMenuItem("値のコピー(C)", KeyCode.C, new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        StringObject value = new StringObject(tableView.getValueFromRow(clickedRow, clickedColumn));
+                        if (value.length() > 0) {
+                            GUI.setClipboardString(value.toString());
+                        }
+                    }
+                });
+                menu.show(event.getX(), event.getY());
+            }
+        });
         this.adjustRowHeight();
     }
     
@@ -196,7 +224,7 @@ public abstract class TableView<C, R> extends Control {
      * @return 結果。
      */
     protected abstract Object getValueFromRow(R rowInstance, C columnInstance);
-    
+
     /**
      * このテーブルビューの行情報のインスタンスに値をセットする。
      * 
@@ -506,6 +534,40 @@ public abstract class TableView<C, R> extends Control {
         }
         this.selectedRowChangeListeners.remove(changeListener);
         this.selectedRowsChangeListeners.remove(changeListener);
+    }
+    
+    /**
+     * このテーブルビュー上の位置から行情報インスタンスを取得する。
+     * 
+     * @param xLocationOnTableView
+     * @param yLocationOnTableView
+     * @return 結果。
+     */
+    public R getRowFromLocation(int xLocationOnTableView, int yLocationOnTableView) {
+        try {
+            Point point = new Point(xLocationOnTableView, yLocationOnTableView);
+            int row = this.getInnerInstance().rowAtPoint(point);
+            return this.getRowInstances().get(row);
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
+    /**
+     * このテーブルビュー上の位置からカラム情報インスタンスを取得する。
+     * 
+     * @param xLocationOnTableView
+     * @param yLocationOnTableView
+     * @return 結果。
+     */
+    public C getColumnFromLocation(int xLocationOnTableView, int yLocationOnTableView) {
+        try {
+            Point point = new Point(xLocationOnTableView, yLocationOnTableView);
+            int column = this.getInnerInstance().columnAtPoint(point);
+            return this.getColumnInstances().get(column);
+        } catch (Exception exception) {
+            return null;
+        }
     }
     
     /**
