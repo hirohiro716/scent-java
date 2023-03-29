@@ -139,17 +139,27 @@ public abstract class EditableTable<C, R> extends Control {
                 editableTable.removeRow(removed);
             }
         });
+        // Color themes
+        try {
+            this.labelForegroundColor = new Color(UIManager.getColor("Label.foreground").getRGB());
+            this.activatedForegroundColor = new Color(UIManager.getColor("List.selectionInactiveForeground").getRGB());
+            this.activatedBackgroundColor = new Color(UIManager.getColor("List.selectionInactiveBackground").getRGB());
+        } catch (NullPointerException exception) {
+            this.labelForegroundColor = GUI.getTextColor();
+            this.activatedForegroundColor = new Color(UIManager.getColor("textHighlightText").getRGB());
+            this.activatedBackgroundColor = new Color(UIManager.getColor("textHighlight").getRGB());
+        }
     }
     
     private Color borderColor = GUI.getBorderColor();
     
     private Color lightBorderColor = new Color(UIManager.getColor("controlShadow").getRGB());
     
-    private Color textColor = GUI.getTextColor();
+    private Color labelForegroundColor;
     
-    private Color activatedForegroundColor = new Color(UIManager.getColor("textHighlightText").getRGB());
+    private Color activatedForegroundColor;
     
-    private Color activatedBackgroundColor = new Color(UIManager.getColor("textHighlight").getRGB());
+    private Color activatedBackgroundColor;
     
     private Pane root;
     
@@ -329,7 +339,7 @@ public abstract class EditableTable<C, R> extends Control {
             control.setDisabled(false);
             if (control instanceof Label) {
                 Color defaultLabelTextColor = this.mapDefaultLabelColor.get(control);
-                if (defaultLabelTextColor.getRGB() == this.textColor.getRGB()) {
+                if (defaultLabelTextColor.getRGB() == this.labelForegroundColor.getRGB()) {
                     control.setForegroundColor(this.activatedForegroundColor);
                 }
             }
@@ -363,7 +373,7 @@ public abstract class EditableTable<C, R> extends Control {
             control.setDisabled(true);
             if (control instanceof Label) {
                 Color defaultLabelTextColor = this.mapDefaultLabelColor.get(control);
-                if (defaultLabelTextColor.getRGB() == this.textColor.getRGB()) {
+                if (defaultLabelTextColor.getRGB() == this.labelForegroundColor.getRGB()) {
                     control.setForegroundColor(this.mapDefaultLabelColor.get(control));
                 }
             }
