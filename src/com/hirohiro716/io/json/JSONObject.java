@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hirohiro716.Regex;
 import com.hirohiro716.StringObject;
+import com.hirohiro716.property.PropertyInterface;
 
 /**
  * 連想配列(JSONオブジェクト)のJSON定義文を解析するクラス。
@@ -130,6 +131,26 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
     }
     
     /**
+     * この連想配列の中の値がnullの場合にtrueを返す。
+     * 
+     * @param key
+     * @return 結果。
+     */
+    public boolean isNull(String key) {
+        return this.getContent().get(key) == null;
+    }
+
+    /**
+     * この連想配列の中の値がnullの場合にtrueを返す。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public boolean isNull(PropertyInterface property) {
+        return this.isNull(property.getPhysicalName());
+    }
+    
+    /**
      * この連想配列の中の値を取得する。
      * 
      * @param key
@@ -137,6 +158,16 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
      */
     public JSONValue<?> get(String key) {
         return this.getContent().get(key);
+    }
+    
+    /**
+     * この連想配列の中の値を取得する。
+     * 
+     * @param property
+     * @return 結果。
+     */
+    public JSONValue<?> get(PropertyInterface property) {
+        return this.getContent().get(property.getPhysicalName());
     }
 
     /**
@@ -167,6 +198,16 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
         }
         this.getContent().put(key, jsonValue);
     }
+
+    /**
+     * この連想配列の中に値をセットする。
+     * 
+     * @param property 
+     * @param value
+     */
+    public void put(PropertyInterface property, Object value) {
+        this.put(property.getPhysicalName(), value);
+    }
     
     /**
      * この連想配列の中に配列を追加する。
@@ -181,6 +222,16 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
     }
 
     /**
+     * この連想配列の中に配列を追加する。
+     * 
+     * @param property 
+     * @param value
+     */
+    public void put(PropertyInterface property, List<JSONValue<?>> value) {
+        this.put(property.getPhysicalName(), value);
+    }
+
+    /**
      * この連想配列の中に連想配列を追加する。
      * 
      * @param key 
@@ -190,5 +241,33 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
         JSONObject jsonObject = new JSONObject();
         jsonObject.setContent(value);
         this.getContent().put(key, jsonObject);
+    }
+
+    /**
+     * この連想配列の中に連想配列を追加する。
+     * 
+     * @param property 
+     * @param value
+     */
+    public void put(PropertyInterface property, LinkedHashMap<String, JSONValue<?>> value) {
+        this.put(property.getPhysicalName(), value);
+    }
+    
+    /**
+     * この連想配列の中から値を削除する。
+     * 
+     * @param key
+     */
+    public void remove(String key) {
+        this.getContent().remove(key);
+    }
+
+    /**
+     * この連想配列の中から値を削除する。
+     * 
+     * @param property
+     */
+    public void remove(PropertyInterface property) {
+        this.getContent().remove(property.getPhysicalName());
     }
 }
