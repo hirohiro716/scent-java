@@ -354,6 +354,7 @@ public class CSV {
                 break;
             case "\r":
             case "\n":
+                this.changeToNewRow();
                 break;
             default:
                 this.parseValue(character, bufferedReader);
