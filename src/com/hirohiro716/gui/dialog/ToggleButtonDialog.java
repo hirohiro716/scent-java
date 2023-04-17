@@ -177,10 +177,10 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
             @Override
             protected void handle(ActionEvent event) {
                 List<T> list = new ArrayList<>();
-                for (T key : dialog.mapToggleButton.keySet()) {
-                    ToggleButton toggleButton = dialog.mapToggleButton.get(key);
+                for (T item : dialog.pickableItems) {
+                    ToggleButton toggleButton = dialog.mapToggleButton.get(item);
                     if (toggleButton.isMarked()) {
-                        list.add(key);
+                        list.add(item);
                     }
                 }
                 dialog.result = new Array<>(list);
