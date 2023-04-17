@@ -122,4 +122,18 @@ public abstract class SingleRecordMapper extends com.hirohiro716.database.Single
             throw new IOException(exception);
         }
     }
+
+    /**
+     * マップしようとしているレコードの編集中を強制的に解除するメソッド。
+     * 
+     * @throws IOException
+     */
+    public void forciblyClose() throws IOException {
+        try (SQLite sqlite = this.createDatabaseForEditing()) {
+            sqlite.connect(this.getDatabase().getDatabaseFile());
+            this.updateToEditingFinish(sqlite);
+        } catch (SQLException exception) {
+            throw new IOException(exception);
+        }
+    }
 }
