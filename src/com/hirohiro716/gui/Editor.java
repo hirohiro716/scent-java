@@ -1,9 +1,13 @@
 package com.hirohiro716.gui;
 
+import com.hirohiro716.OS;
+import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.control.Control;
+import com.hirohiro716.gui.database.ProcessAfterFailure;
 import com.hirohiro716.gui.dialog.ConfirmationDialog;
 import com.hirohiro716.gui.dialog.MessageDialog;
 import com.hirohiro716.gui.dialog.ProcessAfterDialogClosing;
+import com.hirohiro716.gui.dialog.QuestionDialog;
 import com.hirohiro716.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.gui.event.EventHandler;
 import com.hirohiro716.gui.event.FrameEvent;
@@ -34,6 +38,15 @@ public abstract class Editor<T> extends Window {
     private CloseEventHandler closeEventHandler = new CloseEventHandler();
     
     /**
+     * 編集するターゲットの総称を取得する。
+     * 
+     * @return 結果。
+     */
+    protected String getGenericNameOfTarget() {
+        return null;
+    }
+    
+    /**
      * ターゲットのインスタンス編集処理を行う。<br>
      * このメソッドはスーバークラスで自動的に呼び出される。
      * 
@@ -60,6 +73,80 @@ public abstract class Editor<T> extends Window {
      */
     protected void setTarget(T target) {
         this.target = target;
+    }
+
+    /**
+     * ターゲットの編集処理を行う。<br>
+     * 編集に失敗した場合は確認ダイアログを表示して再帰的に試行する。
+     * 
+     * @param processAfterSuccess 編集に成功した場合の処理。
+     * @param processAfterFailure 編集に失敗し再試行しなかった場合の処理。
+     */
+    public void editTargetWithRetryDialog(ProcessAfterDialogClosing<T> processAfterSuccess, ProcessAfterFailure processAfterFailure) {
+        try {
+            this.setTarget(this.editTarget());
+            if (processAfterSuccess != null) {
+                processAfterSuccess.execute(this.getTarget());
+            }
+        } catch (Exception exception) {
+            QuestionDialog dialog = new QuestionDialog(this);
+            dialog.setTitle("編集再試行の確認");
+            StringObject message = new StringObject();
+            if (this.getGenericNameOfTarget() != null) {
+                message.append(this.getGenericNameOfTarget());
+                message.append("の");
+            }
+            message.append("編集に失敗しました。再試行しますか？");
+            message.append(OS.thisOS().getLineSeparator());
+            message.append(OS.thisOS().getLineSeparator());
+            message.append(exception.getMessage());
+            dialog.setMessage(message.toString());
+            dialog.setDefaultValue(ResultButton.YES);
+            dialog.setCancelable(false);
+            dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<>() {
+                
+                @Override
+                public void execute(ResultButton dialogResult) {
+                    Editor<T> editor = Editor.this;
+                    if (dialogResult == ResultButton.YES) {
+                        editor.editTargetWithRetryDialog(processAfterSuccess, processAfterFailure);
+                    } else {
+                        if (processAfterFailure != null) {
+                            processAfterFailure.execute();
+                        }
+                    }
+                }
+            });
+            dialog.show();
+        }
+    }
+
+    /**
+     * ターゲットの編集処理を行う。<br>
+     * 編集に失敗した場合は確認ダイアログを表示して再帰的に試行する。
+     * 
+     * @param processAfterSuccess 編集に成功した場合の処理。
+     */
+    public void editTargetWithRetryDialog(ProcessAfterDialogClosing<T> processAfterSuccess) {
+        this.editTargetWithRetryDialog(processAfterSuccess, null);
+    }
+
+    /**
+     * ターゲットの編集処理を行う。<br>
+     * 編集に失敗した場合は確認ダイアログを表示して再帰的に試行する。
+     * 
+     * @param processAfterFailure 編集に失敗し再試行しなかった場合の処理。
+     */
+    public void editTargetWithRetryDialog(ProcessAfterFailure processAfterFailure) {
+        this.editTargetWithRetryDialog(null, processAfterFailure);
+    }
+
+    /**
+     * ターゲットの編集処理を行う。<br>
+     * 編集に失敗した場合は確認ダイアログを表示して再帰的に試行する。
+     */
+    public void editTargetWithRetryDialog() {
+        this.editTargetWithRetryDialog(null, null);
     }
     
     /**
