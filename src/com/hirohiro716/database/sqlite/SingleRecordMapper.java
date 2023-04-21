@@ -11,7 +11,7 @@ import com.hirohiro716.database.sqlite.SQLite.IsolationLevel;
 import com.hirohiro716.filesystem.File;
 
 /**
- * PostgreSQLデータベースの単一レコードとオブジェクトをマップするための抽象クラス。
+ * SQLiteデータベースの単一レコードとオブジェクトをマップするための抽象クラス。
  * 
  * @author hiro
  *
