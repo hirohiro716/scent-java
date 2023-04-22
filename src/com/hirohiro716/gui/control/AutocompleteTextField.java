@@ -66,6 +66,9 @@ public class AutocompleteTextField extends TextField {
             
             @Override
             protected void handle(KeyEvent event) {
+                if (event.isShiftDown() || event.isControlDown() || event.isAltDown()) {
+                    return;
+                }
                 switch (event.getKeyCode()) {
                 case UP:
                 case DOWN:
@@ -416,8 +419,8 @@ public class AutocompleteTextField extends TextField {
                 
                 @Override
                 public void run() {
+                    ListItemAdder adder = new ListItemAdder(changedValue);
                     try {
-                        ListItemAdder adder = new ListItemAdder(changedValue);
                         int runningAdderSize = control.listItemAdders.size();
                         while (runningAdderSize > 0) {
                             runningAdderSize = 0;
@@ -434,6 +437,7 @@ public class AutocompleteTextField extends TextField {
                         control.listItemAdders.add(adder);
                         adder.run();
                     } catch (Exception exception) {
+                        control.listItemAdders.remove(adder);
                     }
                 }
             });
