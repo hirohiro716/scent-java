@@ -437,6 +437,7 @@ public class AutocompleteTextField extends TextField {
                         control.listItemAdders.add(adder);
                         adder.run();
                     } catch (Exception exception) {
+                        adder.cancel();
                         control.listItemAdders.remove(adder);
                     }
                 }
