@@ -97,7 +97,7 @@ public class DatePicker extends TextField {
                 }
             }
         });
-        this.setDisableInputMethod(true);
+        this.setDisabledInputMethod(true);
     }
     
     /**

@@ -165,10 +165,10 @@ public class AutocompleteTextField extends TextField {
     /**
      * このテキストフィールドでオートコンプリートを無効にする場合はtrueをセットする。
      * 
-     * @param isDisableAutocomplete
+     * @param isDisabledAutocomplete
      */
-    public void setDisabledAutocomplete(boolean isDisableAutocomplete) {
-        this.isDisabledAutocomplete = isDisableAutocomplete;
+    public void setDisabledAutocomplete(boolean isDisabledAutocomplete) {
+        this.isDisabledAutocomplete = isDisabledAutocomplete;
     }
     
     private boolean isDisabledPopupWhenFocusing = false;

@@ -305,10 +305,10 @@ public abstract class Control extends Component<JComponent> {
     /**
      * このコントロールでのインプットメソッドを無効にする場合はtrueをセットする。
      * 
-     * @param isDisableInputMethod
+     * @param isDisabledInputMethod
      */
-    public void setDisableInputMethod(boolean isDisableInputMethod) {
-        this.getInnerInstance().enableInputMethods(! isDisableInputMethod);
+    public void setDisabledInputMethod(boolean isDisabledInputMethod) {
+        this.getInnerInstance().enableInputMethods(! isDisabledInputMethod);
     }
     
     /**

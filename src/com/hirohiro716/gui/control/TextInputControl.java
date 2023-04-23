@@ -135,9 +135,9 @@ public abstract class TextInputControl extends Control {
     private boolean isDisabledInputMethod = false;
     
     @Override
-    public void setDisableInputMethod(boolean isDisableInputMethod) {
-        super.setDisableInputMethod(isDisableInputMethod);
-        this.isDisabledInputMethod = isDisableInputMethod;
+    public void setDisabledInputMethod(boolean isDisabledInputMethod) {
+        super.setDisabledInputMethod(isDisabledInputMethod);
+        this.isDisabledInputMethod = isDisabledInputMethod;
     }
     
     private Color foregroundColor; 
@@ -164,7 +164,7 @@ public abstract class TextInputControl extends Control {
      */
     public void setEditable(boolean isEditable) {
         this.getInnerInstance().setEditable(isEditable);
-        this.setDisableInputMethod(this.isDisabledInputMethod);
+        this.setDisabledInputMethod(this.isDisabledInputMethod);
         if (isEditable) {
             this.getInnerInstance().setForeground(this.foregroundColor);
         } else {
