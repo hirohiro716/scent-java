@@ -352,7 +352,7 @@ public abstract class EditableTable<C, R> extends Control {
             if (control instanceof AutocompleteTextField) {
                 AutocompleteTextField autocompleteTextField = (AutocompleteTextField) control;
                 if (columnInstance != this.activeColumnInstance) {
-                    autocompleteTextField.setDisableAutocomplete(false);
+                    autocompleteTextField.setDisabledAutocomplete(false);
                 }
             }
         }
@@ -1390,7 +1390,7 @@ public abstract class EditableTable<C, R> extends Control {
                     if (control instanceof AutocompleteTextField) {
                         AutocompleteTextField autocompleteTextField = (AutocompleteTextField) control;
                         autocompleteTextField.hidePopup();
-                        autocompleteTextField.setDisableAutocomplete(true);
+                        autocompleteTextField.setDisabledAutocomplete(true);
                     }
                 }
             }

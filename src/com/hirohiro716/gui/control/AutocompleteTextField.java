@@ -54,7 +54,7 @@ public class AutocompleteTextField extends TextField {
             @Override
             protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                 if (changedValue) {
-                    if (textField.isDisableAutocomplete() == false) {
+                    if (textField.isDisabledAutocomplete() == false) {
                         textField.showPopup();
                     }
                 } else {
@@ -133,33 +133,33 @@ public class AutocompleteTextField extends TextField {
     @Override
     public void setEditable(boolean isEditable) {
         super.setEditable(isEditable);
-        this.setDisableAutocomplete(isEditable == false);
+        this.setDisabledAutocomplete(isEditable == false);
         this.hidePopup();
     }
 
     @Override
     public void setVisible(boolean isVisible) {
         super.setVisible(isVisible);
-        this.setDisableAutocomplete(isVisible == false);
+        this.setDisabledAutocomplete(isVisible == false);
         this.hidePopup();
     }
 
     @Override
     public void setDisabled(boolean isDisabled) {
         super.setDisabled(isDisabled);
-        this.setDisableAutocomplete(isDisabled);
+        this.setDisabledAutocomplete(isDisabled);
         this.hidePopup();
     }
     
-    private boolean isDisableAutocomplete = false;
+    private boolean isDisabledAutocomplete = false;
     
     /**
      * このテキストフィールドでオートコンプリートが無効になっている場合はtrueを返す。
      * 
      * @return 結果。
      */
-    public boolean isDisableAutocomplete() {
-        return this.isDisableAutocomplete;
+    public boolean isDisabledAutocomplete() {
+        return this.isDisabledAutocomplete;
     }
     
     /**
@@ -167,8 +167,28 @@ public class AutocompleteTextField extends TextField {
      * 
      * @param isDisableAutocomplete
      */
-    public void setDisableAutocomplete(boolean isDisableAutocomplete) {
-        this.isDisableAutocomplete = isDisableAutocomplete;
+    public void setDisabledAutocomplete(boolean isDisableAutocomplete) {
+        this.isDisabledAutocomplete = isDisableAutocomplete;
+    }
+    
+    private boolean isDisabledPopupWhenFocusing = false;
+    
+    /**
+     * このテキストフィールドにフォーカスした際のポップアップ表示が無効になっている場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isDisabledPopupWhenFocusing() {
+        return this.isDisabledPopupWhenFocusing;
+    }
+    
+    /**
+     * このテキストフィールドにフォーカスした際のポップアップ表示を無効にする場合はtrueをセットする。
+     * 
+     * @param isDisabledPopupWhenFocusing
+     */
+    public void setDisabledPopupWhenFocusing(boolean isDisabledPopupWhenFocusing) {
+        this.isDisabledPopupWhenFocusing = isDisabledPopupWhenFocusing;
     }
     
     private Popup popup = null;
@@ -412,7 +432,7 @@ public class AutocompleteTextField extends TextField {
         @Override
         protected void changed(Component<?> component, String changedValue, String previousValue) {
             AutocompleteTextField control = AutocompleteTextField.this;
-            if (control.isDisableAutocomplete()) {
+            if (control.isDisabledAutocomplete()) {
                 return;
             }
             Thread thread = new Thread(new Runnable() {
