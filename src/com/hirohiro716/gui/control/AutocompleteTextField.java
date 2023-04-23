@@ -54,7 +54,7 @@ public class AutocompleteTextField extends TextField {
             @Override
             protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                 if (changedValue) {
-                    if (textField.isDisabledAutocomplete() == false) {
+                    if (textField.isDisabledAutocomplete() == false && textField.isDisabledPopupWhenFocusing() == false) {
                         textField.showPopup();
                     }
                 } else {
