@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1066,10 +1067,10 @@ public abstract class EditableTable<C, R> extends Control {
                         datePicker.showPopup();
                     }
                 });
-                datePicker.addTextChangeListener(new ChangeListener<String>() {
-                    
+                datePicker.addDateChangeListener(new ChangeListener<Date>() {
+
                     @Override
-                    protected void changed(Component<?> component, String changedValue, String previousValue) {
+                    protected void changed(Component<?> component, Date changedValue, Date previousValue) {
                         Control control = (Control) component;
                         if (control.isFocused()) {
                             R rowInstance = pane.getInstanceForUseLater();

@@ -68,12 +68,24 @@ public class DatePicker extends TextField {
                 }
             }
         });
+        this.addTextChangeListener(new ChangeListener<String>() {
+
+            @Override
+            protected void changed(Component<?> component, String changedValue, String previousValue) {
+                Datetime datetime = textField.toDatetime();
+                textField.executeDateChangeListener(datetime);
+            }
+        });
         this.addFocusChangeListener(new ChangeListener<Boolean>() {
             
             @Override
             protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                 if (changedValue == false) {
-                    textField.parseInputString();
+                    Datetime datetime = textField.toDatetime();
+                    textField.clear();
+                    if (datetime != null) {
+                        textField.setText(datetime.toString(textField.dateFormat));
+                    }
                     textField.hidePopup();
                 } else {
                     textField.selectAll();
@@ -86,7 +98,12 @@ public class DatePicker extends TextField {
             protected void handle(KeyEvent event) {
                 switch (event.getKeyCode()) {
                 case ENTER:
-                    textField.parseInputString();
+                case TAB:
+                    Datetime datetime = textField.toDatetime();
+                    textField.clear();
+                    if (datetime != null) {
+                        textField.setText(datetime.toString(textField.dateFormat));
+                    }
                     textField.hidePopup();
                     break;
                 case ESCAPE:
@@ -188,85 +205,35 @@ public class DatePicker extends TextField {
     
     private Date previousDate = null;
     
-    @Override
-    public void setText(String text) {
-        super.setText(text);
+    /**
+     * このコントロールの入力文字列が示す日付が変更された際のリスナーを実行する。
+     */
+    private void executeDateChangeListener(Datetime currentDatetime) {
         if (this.dateChangeListeners == null) {
             return;
         }
-        if (this.previousDate == null && this.toDatetime() == null) {
+        if (this.previousDate == null && currentDatetime == null) {
             return;
         }
-        if (this.previousDate == null || Datetime.newInstance(this.previousDate).eqaulsDate(this.toDatetime()) == false) {
-            Date changed = this.toDate();
+        if (this.previousDate == null || Datetime.newInstance(this.previousDate).eqaulsDate(currentDatetime) == false) {
+            Date changed = null;
+            if (currentDatetime != null) {
+                changed = currentDatetime.getDate();
+            }
             for (ChangeListener<Date> changeListener : this.dateChangeListeners) {
                 changeListener.execute(this, changed, this.previousDate);
             }
             this.previousDate = changed;
         }
     }
-
-    /**
-     * このコントロールの入力文字列をフォーマットパターンに従ってパースする。
-     */
-    private void parseInputString() {
-        StringObject input = new StringObject(this.getText());
-        this.clear();
-        input.replace("/", "-");
-        String[] values = input.split("-");
-        switch (values.length) {
-        case 1:
-            try {
-                Integer day = StringObject.newInstance(values[0]).toInteger();
-                if (day >= 1 && day <= 31) {
-                    Datetime datetime = new Datetime();
-                    datetime.modifyDay(day);
-                    this.setText(datetime.toString(this.dateFormat));
-                }
-            } catch (Exception exception) {
-            }
-            break;
-        case 2:
-            try {
-                Datetime datetime = new Datetime();
-                datetime.modifyMonth(StringObject.newInstance(values[0]).toInteger());
-                datetime.modifyDay(StringObject.newInstance(values[1]).toInteger());
-                this.setText(datetime.toString(this.dateFormat));
-            } catch (Exception exception) {
-            }
-            break;
-        case 3:
-            try {
-                Datetime datetime = new Datetime();
-                StringObject thisYear = new StringObject(datetime.getYear());
-                StringObject year = StringObject.newInstance(values[0]);
-                switch (year.length()) {
-                case 2:
-                    datetime.modifyYear(StringObject.join(thisYear.extract(0, 2), year).toInteger());
-                    datetime.modifyMonth(StringObject.newInstance(values[1]).toInteger());
-                    datetime.modifyDay(StringObject.newInstance(values[2]).toInteger());
-                    break;
-                case 3:
-                    datetime.modifyYear(StringObject.join(thisYear.extract(0, 1), year).toInteger());
-                    datetime.modifyMonth(StringObject.newInstance(values[1]).toInteger());
-                    datetime.modifyDay(StringObject.newInstance(values[2]).toInteger());
-                    break;
-                default:
-                    datetime.set(input.toString());
-                    break;
-                }
-                this.setText(datetime.toString(this.dateFormat));
-            } catch (Exception exception) {
-            }
-            break;
+    
+    @Override
+    public void setText(String text) {
+        super.setText(text);
+        if (this.dateFormat == null) {
+            return;
         }
-        if (this.getText().length() == 0) {
-            try {
-                this.setText(Datetime.newInstance(input.toString(), this.dateFormat).toString());
-            } catch (ParseException exception) {
-                this.setText(null);
-            }
-        }
+        this.executeDateChangeListener(this.toDatetime());
     }
     
     /**
@@ -301,16 +268,64 @@ public class DatePicker extends TextField {
      * @return 結果。
      */
     public Datetime toDatetime() {
-        try {
-            Datetime datetime = new Datetime(this.getText(), this.getFormatPattern());
-            datetime.modifyHour(0);
-            datetime.modifyMinute(0);
-            datetime.modifySecond(0);
-            datetime.modifyMillisecond(0);
-            return datetime;
-        } catch (ParseException exception) {
-            return null;
+        Datetime datetime = new Datetime();
+        datetime.modifyHour(0);
+        datetime.modifyMinute(0);
+        datetime.modifySecond(0);
+        datetime.modifyMillisecond(0);
+        StringObject input = new StringObject(this.getText());
+        input.replace("/", "-");
+        String[] values = input.split("-");
+        switch (values.length) {
+        case 1:
+            try {
+                Integer day = StringObject.newInstance(values[0]).toInteger();
+                if (day >= 1 && day <= 31) {
+                    datetime.modifyDay(day);
+                    return datetime;
+                }
+            } catch (Exception exception) {
+            }
+            break;
+        case 2:
+            try {
+                datetime.modifyMonth(StringObject.newInstance(values[0]).toInteger());
+                datetime.modifyDay(StringObject.newInstance(values[1]).toInteger());
+                return datetime;
+            } catch (Exception exception) {
+            }
+            break;
+        case 3:
+            try {
+                StringObject thisYear = new StringObject(datetime.getYear());
+                StringObject year = StringObject.newInstance(values[0]);
+                switch (year.length()) {
+                case 2:
+                    datetime.modifyYear(StringObject.join(thisYear.extract(0, 2), year).toInteger());
+                    datetime.modifyMonth(StringObject.newInstance(values[1]).toInteger());
+                    datetime.modifyDay(StringObject.newInstance(values[2]).toInteger());
+                    break;
+                case 3:
+                    datetime.modifyYear(StringObject.join(thisYear.extract(0, 1), year).toInteger());
+                    datetime.modifyMonth(StringObject.newInstance(values[1]).toInteger());
+                    datetime.modifyDay(StringObject.newInstance(values[2]).toInteger());
+                    break;
+                default:
+                    datetime.set(input.toString());
+                    break;
+                }
+                return datetime;
+            } catch (Exception exception) {
+            }
+            break;
         }
+        if (this.getText().length() == 0) {
+            try {
+                return Datetime.newInstance(input.toString(), this.dateFormat);
+            } catch (ParseException exception) {
+            }
+        }
+        return null;
     }
     
     /**
