@@ -227,15 +227,6 @@ public class DatePicker extends TextField {
         }
     }
     
-    @Override
-    public void setText(String text) {
-        super.setText(text);
-        if (this.dateFormat == null) {
-            return;
-        }
-        this.executeDateChangeListener(this.toDatetime());
-    }
-    
     /**
      * このコントロールにDatetimeインスタンスから文字列をセットする。
      * 
@@ -319,11 +310,9 @@ public class DatePicker extends TextField {
             }
             break;
         }
-        if (this.getText().length() == 0) {
-            try {
-                return Datetime.newInstance(input.toString(), this.dateFormat);
-            } catch (ParseException exception) {
-            }
+        try {
+            return Datetime.newInstance(input.toString(), this.dateFormat);
+        } catch (ParseException exception) {
         }
         return null;
     }
