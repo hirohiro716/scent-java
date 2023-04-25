@@ -27,6 +27,17 @@ public class AutocompleteTextFieldDialog extends TextInputControlDialog<Autocomp
         this.getTextInputControl().setPadding(fontSize / 4);
     }
     
+    private boolean isDisabledOkayWithEnterKey = false;
+    
+    /**
+     * テキスト入力コントロール上でEnterキーを押下した際の決定を無効化する場合はtrueをセットする。初期値はfalse。
+     * 
+     * @param isDisabledOkayWithEnterKey
+     */
+    public void setDisabledOkayWithEnterKey(boolean isDisabledOkayWithEnterKey) {
+        this.isDisabledOkayWithEnterKey = isDisabledOkayWithEnterKey;
+    }
+    
     @Override
     protected AutocompleteTextField createTextInputControl() {
         AutocompleteTextFieldDialog dialog = this;
@@ -35,7 +46,7 @@ public class AutocompleteTextFieldDialog extends TextInputControlDialog<Autocomp
             
             @Override
             protected void handle(KeyEvent event) {
-                if (event.getKeyCode() == KeyCode.ENTER && control.getText().length() > 0 && control.getPopup().isVisible() == false) {
+                if (dialog.isDisabledOkayWithEnterKey == false && event.getKeyCode() == KeyCode.ENTER && control.getText().length() > 0 && control.getPopup().isVisible() == false) {
                     dialog.setDialogResult(control.getText());
                     dialog.close();
                 }

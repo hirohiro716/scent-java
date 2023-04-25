@@ -26,6 +26,17 @@ public class TextFieldDialog extends TextInputControlDialog<TextField> {
         this.getPane().setHeight(fontSize * 26);
         this.getTextInputControl().setPadding(fontSize / 4);
     }
+
+    private boolean isDisabledOkayWithEnterKey = false;
+    
+    /**
+     * テキスト入力コントロール上でEnterキーを押下した際の決定を無効化する場合はtrueをセットする。初期値はfalse。
+     * 
+     * @param isDisabledOkayWithEnterKey
+     */
+    public void setDisabledOkayWithEnterKey(boolean isDisabledOkayWithEnterKey) {
+        this.isDisabledOkayWithEnterKey = isDisabledOkayWithEnterKey;
+    }
     
     @Override
     protected TextField createTextInputControl() {
@@ -35,7 +46,7 @@ public class TextFieldDialog extends TextInputControlDialog<TextField> {
             
             @Override
             protected void handle(KeyEvent event) {
-                if (event.getKeyCode() == KeyCode.ENTER && control.getText().length() > 0) {
+                if (dialog.isDisabledOkayWithEnterKey == false && event.getKeyCode() == KeyCode.ENTER && control.getText().length() > 0) {
                     dialog.setDialogResult(control.getText());
                     dialog.close();
                 }
