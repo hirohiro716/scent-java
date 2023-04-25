@@ -87,6 +87,16 @@ public class AutocompleteTextField extends TextField {
                 }
             }
         });
+        this.addMouseClickedEventHandler(MouseButton.BUTTON1, new EventHandler<MouseEvent>() {
+
+            @Override
+            protected void handle(MouseEvent event) {
+                if (textField.isEnabledPopupWhenClicked == false) {
+                    return;
+                }
+                textField.showPopup();
+            }
+        });
         this.addTextChangeListener(new TextChangeListener());
         // Measures that the pop-up remains displayed for some reason
         this.listView.addMouseMovedEventHandler(new EventHandler<MouseEvent>() {
@@ -189,6 +199,26 @@ public class AutocompleteTextField extends TextField {
      */
     public void setDisabledPopupWhenFocusing(boolean isDisabledPopupWhenFocusing) {
         this.isDisabledPopupWhenFocusing = isDisabledPopupWhenFocusing;
+    }
+    
+    private boolean isEnabledPopupWhenClicked = false;
+
+    /**
+     * このテキストフィールドをクリックした際のポップアップ表示が有効になっている場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public boolean isEnabledPopupWhenClicked() {
+        return this.isEnabledPopupWhenClicked;
+    }
+    
+    /**
+     * このテキストフィールドをクリックした際のポップアップ表示を有効にする場合はtrueをセットする。
+     * 
+     * @param isEnabledPopupWhenClicked
+     */
+    public void setEnabledPopupWhenClicked(boolean isEnabledPopupWhenClicked) {
+        this.isEnabledPopupWhenClicked = isEnabledPopupWhenClicked;
     }
     
     private Popup popup = null;

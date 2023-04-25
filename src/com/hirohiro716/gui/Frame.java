@@ -497,7 +497,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
         textField.setDisabledInputMethod(true);
         textField.addLimitByRegex(Regex.INTEGER_NEGATIVE.getPattern(), false);
-        textField.setEnableSelectAllWhenFocused(true);
+        textField.setEnabledSelectAllWhenFocused(true);
         this.mapPropertyAndControl.put(property, textField);
         return textField;
     }
@@ -513,7 +513,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
         textField.setDisabledInputMethod(true);
         textField.addLimitByRegex(Regex.DECIMAL_NEGATIVE.getPattern(), false);
-        textField.setEnableSelectAllWhenFocused(true);
+        textField.setEnabledSelectAllWhenFocused(true);
         this.mapPropertyAndControl.put(property, textField);
         return textField;
     }

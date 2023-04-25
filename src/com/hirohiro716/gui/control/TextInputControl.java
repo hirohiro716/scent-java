@@ -68,7 +68,7 @@ public abstract class TextInputControl extends Control {
 
             @Override
             protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
-                if (control.isEnableSelectAllWhenFocused) {
+                if (control.isEnabledSelectAllWhenFocused) {
                     control.selectAll();
                 }
             }
@@ -231,24 +231,24 @@ public abstract class TextInputControl extends Control {
         this.getInnerInstance().selectAll();
     }
     
-    private boolean isEnableSelectAllWhenFocused = false;
+    private boolean isEnabledSelectAllWhenFocused = false;
     
     /**
      * このテキスト入力コントロールがフォーカスされた際に、すべての文字列を選択状態にする場合はtrueを返す。
      * 
      * @return 結果。
      */
-    public boolean isEnableSelectAllWhenFocused() {
-        return this.isEnableSelectAllWhenFocused;
+    public boolean isEnabledSelectAllWhenFocused() {
+        return this.isEnabledSelectAllWhenFocused;
     }
     
     /**
      * このテキスト入力コントロールがフォーカスされた際に、すべての文字列を選択状態にする場合はtrueをセットする。
      * 
-     * @param isEnableSelectAllWhenFocused
+     * @param isEnabledSelectAllWhenFocused
      */
-    public void setEnableSelectAllWhenFocused(boolean isEnableSelectAllWhenFocused) {
-        this.isEnableSelectAllWhenFocused = isEnableSelectAllWhenFocused;
+    public void setEnabledSelectAllWhenFocused(boolean isEnabledSelectAllWhenFocused) {
+        this.isEnabledSelectAllWhenFocused = isEnabledSelectAllWhenFocused;
     }
     
     /**
