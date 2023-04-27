@@ -47,4 +47,19 @@ public class Span {
     public String toString() {
         return StringObject.joinWithSeparator(new Object[] {this.startDatetime.toString(), this.endDatetime.toString()}, " - ").toString();
     }
+    
+    @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Span == false) {
+            return false;
+        }
+        Span span = (Span) obj; 
+        return  this.getStartDatetime().getDate().getTime() == span.getStartDatetime().getDate().getTime()
+                && this.getEndDatetime().getDate().getTime() == span.getEndDatetime().getDate().getTime();
+    }
 }
