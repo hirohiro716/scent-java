@@ -2,6 +2,7 @@ package com.hirohiro716.datetime;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class ClosingPeriod {
      * 
      * @param days
      */
-    public ClosingPeriod(int... days) {
+    public ClosingPeriod(Integer... days) {
         Arrays.sort(days);
         this.closingDays = days;
         this.baseDatetime = new Datetime();
@@ -29,7 +30,17 @@ public class ClosingPeriod {
         this.baseDatetime.modifyMillisecond(0);
     }
     
-    private int[] closingDays;
+    /**
+     * コンストラクタ。<br>
+     * 締める日を指定する。
+     * 
+     * @param days
+     */
+    public ClosingPeriod(Collection<Integer> days) {
+        this(days.toArray(new Integer[] {}));
+    }
+    
+    private Integer[] closingDays;
     
     private Datetime baseDatetime;
     
