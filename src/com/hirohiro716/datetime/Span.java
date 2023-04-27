@@ -1,5 +1,7 @@
 package com.hirohiro716.datetime;
 
+import com.hirohiro716.StringObject;
+
 /**
  * 期間のクラス。
  * 
@@ -39,5 +41,10 @@ public class Span {
      */
     public Datetime getEndDatetime() {
         return this.endDatetime;
+    }
+
+    @Override
+    public String toString() {
+        return StringObject.joinWithSeparator(new Object[] {this.startDatetime.toString(), this.endDatetime.toString()}, " - ").toString();
     }
 }
