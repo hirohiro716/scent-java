@@ -143,6 +143,7 @@ public class ListViewDialog<T> extends MessageableDialog<Array<T>> {
      */
     public void setDefaultSingleValue(T value) {
         this.setDefaultValue(new Array<>(value));
+        this.listView.scrollTo(value);
     }
     
     @Override
@@ -151,6 +152,9 @@ public class ListViewDialog<T> extends MessageableDialog<Array<T>> {
             return;
         }
         this.listView.setSelectedItems(defaultValue.getUnmodifiableList());
+        if (defaultValue.length() > 0) {
+            this.listView.scrollTo(defaultValue.get(0));
+        }
     }
     
     private Array<T> result = null;
