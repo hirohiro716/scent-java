@@ -12,7 +12,6 @@ import java.util.List;
  *
  */
 public class ClosingPeriod {
-
     
     /**
      * コンストラクタ。<br>
@@ -32,7 +31,6 @@ public class ClosingPeriod {
     
     private int[] closingDays;
     
-    
     private Datetime baseDatetime;
     
     /**
@@ -42,7 +40,6 @@ public class ClosingPeriod {
      */
     public void setBaseDate(Date date) {
         this.baseDatetime = new Datetime(date);
-        this.baseDatetime = new Datetime();
         this.baseDatetime.modifyHour(0);
         this.baseDatetime.modifyMinute(0);
         this.baseDatetime.modifySecond(0);
@@ -112,5 +109,22 @@ public class ClosingPeriod {
             spans.add(new Span(from, to));
         }
         return spans.toArray(new Span[] {});
+    }
+    
+    /**
+     * 指定された日付が含まれる締め日期間を特定する。特定できなかった場合はnullを返す。
+     * 
+     * @param oneDate
+     * @return 結果。
+     */
+    public Span findSpan(Date oneDate) {
+        ClosingPeriod instance = new ClosingPeriod(this.closingDays);
+        instance.setBaseDate(oneDate);
+        for (Span span : instance.createSpans(2)) {
+            if (span.getStartDatetime().getDate().getTime() <= oneDate.getTime() && oneDate.getTime() <= span.getEndDatetime().getDate().getTime()) {
+                return span;
+            }
+        }
+        return null;
     }
 }
