@@ -318,6 +318,18 @@ public class WhereSet implements Cloneable {
     public final void addInNegate(String column, Object... values) {
         this.addIn(true, column, values);
     }
+
+    /**
+     * 新しい検索条件をIS NULL演算子で追加する。
+     * 
+     * @param isNegate
+     * @param column
+     */
+    public void addIsNull(boolean isNegate, ColumnInterface column) {
+        Where where = new Where(column, Comparison.IS_NULL);
+        where.setNegate(isNegate);
+        this.add(where);
+    }
     
     /**
      * 新しい検索条件をIS NULL演算子で追加する。
