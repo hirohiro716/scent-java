@@ -853,10 +853,8 @@ public abstract class EditableTable<C, R> extends Control {
      */
     public void updateControlValues(R rowInstance, C[] columnInstances) {
         try {
-            Pane pane = this.rowControlPanes.get(this.rowInstances.indexOf(rowInstance));
-            Map<C, Control> mapRowControl = this.mapOfRowControlMap.get(pane);
             for (C columnInstance : columnInstances) {
-                Control control = mapRowControl.get(columnInstance);
+                Control control = this.findControl(rowInstance, columnInstance);
                 this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
             }
         } catch (Exception exception) {
