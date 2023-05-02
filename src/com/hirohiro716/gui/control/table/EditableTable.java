@@ -855,7 +855,9 @@ public abstract class EditableTable<C, R> extends Control {
         try {
             for (C columnInstance : columnInstances) {
                 Control control = this.findControl(rowInstance, columnInstance);
-                this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
+                if (control != null) {
+                    this.mapControlFactories.get(columnInstance).setValueToControl(rowInstance, columnInstance, control);
+                }
             }
         } catch (Exception exception) {
         }
