@@ -110,7 +110,7 @@ public abstract class SQLite extends Database {
      * @return 結果。
      * @throws SQLException
      */
-    public boolean isExistTable(String physicalName) throws SQLException {
+    public boolean existsTable(String physicalName) throws SQLException {
         try {
             Number numberOfTables = this.fetchField(StringObject.join("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='", physicalName, "';").toString());
             if (numberOfTables.intValue() == 0) {

@@ -248,7 +248,7 @@ public abstract class RecordMapper {
      * @return 結果。
      * @throws SQLException
      */
-    public boolean isExist() throws SQLException {
+    public boolean exists() throws SQLException {
         StringObject sql = new StringObject("SELECT COUNT(*) FROM ");
         sql.append(this.getTable().getPhysicalName());
         sql.append(" WHERE ");

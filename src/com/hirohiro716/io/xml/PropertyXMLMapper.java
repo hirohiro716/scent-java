@@ -27,7 +27,7 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
         this.propertyValues = new DynamicArray<>();
         for (P property : this.getProperties()) {
             String value = this.propertyXML.get(property);
-            if (this.propertyXML.isExist(property)) {
+            if (this.propertyXML.exists(property)) {
                 this.propertyValues.put(property, value);
             } else {
                 this.propertyValues.put(property, property.getDefaultValue());

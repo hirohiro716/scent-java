@@ -364,7 +364,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                         }
                     }
                 };
-                if (file.isExist()) {
+                if (file.exists()) {
                     QuestionDialog questionDialog = new QuestionDialog(dialog.getOwner());
                     questionDialog.setTitle("ファイルの上書き確認");
                     questionDialog.setMessage("指定されたファイルは既に存在します。上書きしますか？");

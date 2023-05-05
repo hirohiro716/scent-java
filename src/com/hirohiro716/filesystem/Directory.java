@@ -64,7 +64,7 @@ public class Directory extends FilesystemItem {
     }
     
     @Override
-    public boolean isExist() {
+    public boolean exists() {
         return this.toJavaIoFile().exists() && this.isDirectory();
     }
 

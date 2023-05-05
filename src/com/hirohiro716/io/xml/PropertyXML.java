@@ -27,7 +27,7 @@ public class PropertyXML {
      * @throws IOException 
      */
     public PropertyXML(File file) throws IOException {
-        if (file.isExist() == false) {
+        if (file.exists() == false) {
             file.create();
         }
         this.file = file;
@@ -54,7 +54,7 @@ public class PropertyXML {
      * @param property
      * @return 結果。
      */
-    public boolean isExist(PropertyInterface property) {
+    public boolean exists(PropertyInterface property) {
         XMLNode node = this.xmlNode.findXMLNodeByName(property.getPhysicalName());
         if (node == null) {
             return false;

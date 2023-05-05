@@ -105,8 +105,8 @@ public abstract class Printable implements java.awt.print.Printable {
         this.graphics2D = (Graphics2D) graphics;
         this.pageFormat = pageFormat;
         this.graphics2D.translate(this.marginLeft, this.marginTop);
-        boolean isExistPage = this.print(pageIndex);
-        if (isExistPage) {
+        boolean existsPage = this.print(pageIndex);
+        if (existsPage) {
             if (this.listOfExistedPage.contains(pageIndex) == false) {
                 this.listOfExistedPage.add(pageIndex);
             }

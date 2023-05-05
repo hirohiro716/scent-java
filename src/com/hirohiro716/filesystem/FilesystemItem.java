@@ -156,7 +156,7 @@ public abstract class FilesystemItem {
      * 
      * @return 結果。
      */
-    public abstract boolean isExist();
+    public abstract boolean exists();
     
     
     /**
