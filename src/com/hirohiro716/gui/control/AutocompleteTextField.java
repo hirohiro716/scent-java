@@ -237,14 +237,18 @@ public class AutocompleteTextField extends TextField {
             
             @Override
             protected void changed(Component<?> component, Point changedValue, Point previousValue) {
-                control.showPopup();
+                if (control.getPopup().isVisible()) {
+                    control.showPopup();
+                }
             }
         });
         frame.addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
-                control.showPopup();
+                if (control.getPopup().isVisible()) {
+                    control.showPopup();
+                }
             }
         });
         this.paneOfPopup = new VerticalPane(HorizontalAlignment.LEFT);
