@@ -538,6 +538,24 @@ public class AutocompleteTextField extends TextField {
             this.isFinished = false;
             control.filteredListItems.clear();
             for (String listItem : new Array<>(control.listItems)) {
+                StringObject regex = StringObject.join("^", Regex.makeRoughComparison(this.changedValue), ".{0,}");
+                if (this.changedValue.contains("?")) {
+                    this.isFinished = true;
+                    break;
+                }
+                regex.replace(" ", ".{0,}");
+                regex.replace("　", ".{0,}");
+                if (Pattern.compile(regex.toString()).matcher(listItem).matches()) {
+                    control.filteredListItems.add(listItem);
+                }
+                if (this.isCancelRequested) {
+                    break;
+                }
+            }
+            for (String listItem : new Array<>(control.listItems)) {
+                if (control.filteredListItems.contains(listItem)) {
+                    continue;
+                }
                 StringObject regex = StringObject.join(".{0,}", Regex.makeRoughComparison(this.changedValue), ".{0,}");
                 if (this.changedValue.contains("?")) {
                     this.isFinished = true;
