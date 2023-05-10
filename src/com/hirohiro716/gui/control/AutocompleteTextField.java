@@ -5,7 +5,10 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.hirohiro716.Array;
@@ -538,13 +541,13 @@ public class AutocompleteTextField extends TextField {
             this.isFinished = false;
             control.filteredListItems.clear();
             for (String listItem : new Array<>(control.listItems)) {
-                StringObject regex = StringObject.join("^", Regex.makeRoughComparison(this.changedValue), ".{0,}");
                 if (this.changedValue.contains("?")) {
                     this.isFinished = true;
                     break;
                 }
-                regex.replace(" ", ".{0,}");
-                regex.replace("　", ".{0,}");
+                StringObject regex = StringObject.join("^", Regex.makeRoughComparison(this.changedValue), ".{0,}");
+                regex.replace(" ", ".");
+                regex.replace("　", ".");
                 if (Pattern.compile(regex.toString()).matcher(listItem).matches()) {
                     control.filteredListItems.add(listItem);
                 }
@@ -552,20 +555,34 @@ public class AutocompleteTextField extends TextField {
                     break;
                 }
             }
+            Map<String, String> mapListItems = new HashMap<>();
             for (String listItem : new Array<>(control.listItems)) {
-                if (control.filteredListItems.contains(listItem)) {
-                    continue;
-                }
-                StringObject regex = StringObject.join(".{0,}", Regex.makeRoughComparison(this.changedValue), ".{0,}");
                 if (this.changedValue.contains("?")) {
                     this.isFinished = true;
                     break;
                 }
-                regex.replace(" ", ".{0,}");
-                regex.replace("　", ".{0,}");
-                if (Pattern.compile(regex.toString()).matcher(listItem).matches()) {
-                    control.filteredListItems.add(listItem);
+                if (control.filteredListItems.contains(listItem)) {
+                    continue;
                 }
+                StringObject regex = StringObject.join(Regex.makeRoughComparison(this.changedValue));
+                regex.replace(" ", ".");
+                regex.replace("　", ".");
+                String[] others = listItem.split(regex.toString());
+                if (others.length > 1) {
+                    StringObject key = new StringObject(others[0].length());
+                    key.paddingLeft('0', 4);
+                    key.append(listItem);
+                    mapListItems.put( key.toString(), listItem);
+                }
+                if (this.isCancelRequested) {
+                    break;
+                }
+            }
+            List<String> keys = new ArrayList<>();
+            keys.addAll(mapListItems.keySet());
+            Collections.sort(keys);
+            for (String key : keys) {
+                control.filteredListItems.add(mapListItems.get(key));
                 if (this.isCancelRequested) {
                     break;
                 }
