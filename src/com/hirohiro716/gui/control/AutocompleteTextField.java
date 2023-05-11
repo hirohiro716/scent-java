@@ -86,6 +86,7 @@ public class AutocompleteTextField extends TextField {
                     textField.hidePopup();
                     break;
                 default:
+                    textField.textChangeListener.setDisabled(false);
                     break;
                 }
             }
@@ -100,7 +101,8 @@ public class AutocompleteTextField extends TextField {
                 textField.showPopup();
             }
         });
-        this.addTextChangeListener(new TextChangeListener());
+        this.textChangeListener = new TextChangeListener();
+        this.addTextChangeListener(this.textChangeListener);
         // Measures that the pop-up remains displayed for some reason
         this.listView.addMouseMovedEventHandler(new EventHandler<MouseEvent>() {
 
@@ -142,6 +144,8 @@ public class AutocompleteTextField extends TextField {
         this();
         this.setListItems(listItems);
     }
+    
+    private TextChangeListener textChangeListener;
 
     @Override
     public void setEditable(boolean isEditable) {
@@ -351,11 +355,11 @@ public class AutocompleteTextField extends TextField {
                 switch (event.getKeyCode()) {
                 case ENTER:
                     if (control.listView.getSelectedItem() != null) {
+                        control.textChangeListener.setDisabled(true);
                         control.setText(control.listView.getSelectedItem());
                         control.listView.clearSelection();
-                    } else {
-                        control.hidePopup();
                     }
+                    control.hidePopup();
                     break;
                 default:
                     break;
@@ -466,10 +470,21 @@ public class AutocompleteTextField extends TextField {
      */
     private class TextChangeListener extends ChangeListener<String> {
         
+        private boolean isDisabled = false;
+        
+        /**
+         * このリスナーを無効にする場合はtrueをセットする。
+         * 
+         * @param isDisabled
+         */
+        public void setDisabled(boolean isDisabled) {
+            this.isDisabled = isDisabled;
+        }
+        
         @Override
         protected void changed(Component<?> component, String changedValue, String previousValue) {
             AutocompleteTextField control = AutocompleteTextField.this;
-            if (control.isDisabledAutocomplete()) {
+            if (control.isDisabledAutocomplete() || this.isDisabled) {
                 return;
             }
             Thread thread = new Thread(new Runnable() {
