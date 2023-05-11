@@ -3,6 +3,8 @@ package com.hirohiro716.gui.control;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,8 +24,10 @@ import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.GUI;
 import com.hirohiro716.gui.HorizontalAlignment;
 import com.hirohiro716.gui.Popup;
+import com.hirohiro716.gui.event.ActionEvent;
 import com.hirohiro716.gui.event.ChangeListener;
 import com.hirohiro716.gui.event.EventHandler;
+import com.hirohiro716.gui.event.InnerInstanceCreator;
 import com.hirohiro716.gui.event.KeyEvent;
 import com.hirohiro716.gui.event.MouseEvent;
 import com.hirohiro716.gui.event.MouseEvent.MouseButton;
@@ -69,6 +73,7 @@ public class AutocompleteTextField extends TextField {
             
             @Override
             protected void handle(KeyEvent event) {
+                textField.textChangeListener.setDisabled(false);
                 if (event.isShiftDown() || event.isControlDown() || event.isAltDown()) {
                     return;
                 }
@@ -86,7 +91,6 @@ public class AutocompleteTextField extends TextField {
                     textField.hidePopup();
                     break;
                 default:
-                    textField.textChangeListener.setDisabled(false);
                     break;
                 }
             }
@@ -166,6 +170,37 @@ public class AutocompleteTextField extends TextField {
         super.setDisabled(isDisabled);
         this.setDisabledAutocomplete(isDisabled);
         this.hidePopup();
+    }
+
+    @Override
+    public void addActionEventHandler(EventHandler<ActionEvent> eventHandler) {
+        AutocompleteTextField textField = this;
+        KeyListener innerInstance = eventHandler.createInnerInstance(textField, new InnerInstanceCreator<>() {
+
+            @Override
+            public KeyListener create() {
+                return new KeyAdapter() {
+                    
+                    private boolean isPressed = false;
+                    
+                    @Override
+                    public void keyPressed(java.awt.event.KeyEvent event) {
+                        if (event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && textField.textChangeListener.isDisabled() == false) {
+                            this.isPressed = true;
+                        }
+                    }
+
+                    @Override
+                    public void keyReleased(java.awt.event.KeyEvent event) {
+                        if (event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && textField.textChangeListener.isDisabled() == false && this.isPressed) {
+                            eventHandler.executeWhenControlEnabled(new ActionEvent(textField, event));
+                        }
+                        this.isPressed = false;
+                    }
+                };
+            }
+        });
+        this.getInnerInstance().addKeyListener(innerInstance);
     }
     
     private boolean isDisabledAutocomplete = false;
@@ -471,6 +506,15 @@ public class AutocompleteTextField extends TextField {
     private class TextChangeListener extends ChangeListener<String> {
         
         private boolean isDisabled = false;
+        
+        /**
+         * このリスナーが無効になっている場合はtrueを返す。
+         * 
+         * @return 結果。
+         */
+        public boolean isDisabled() {
+            return this.isDisabled;
+        }
         
         /**
          * このリスナーを無効にする場合はtrueをセットする。

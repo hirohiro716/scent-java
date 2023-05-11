@@ -17,6 +17,8 @@ import com.hirohiro716.graphic.GraphicalString;
 import com.hirohiro716.gui.collection.Collection;
 import com.hirohiro716.gui.collection.RemoveListener;
 import com.hirohiro716.gui.event.ChangeListener;
+import com.hirohiro716.gui.event.EventHandler;
+import com.hirohiro716.gui.event.KeyEvent;
 
 /**
  * リストから選択するコントロールの抽象クラス。
@@ -47,8 +49,36 @@ public abstract class ListSelectControl<T> extends Control {
                 }
             }
         });
+        this.addKeyPressedEventHandler(new EventHandler<KeyEvent>() {
+            
+            @Override
+            protected void handle(KeyEvent event) {
+                
+                if (event.isShiftDown() || event.isControlDown() || event.isAltDown()) {
+                    return;
+                }
+                switch (event.getKeyCode()) {
+                case UP:
+                case PAGE_UP:
+                    if (control.getSelectedItems().length() == 0 && control.getItems().size() > 0) {
+                        control.setSelectedItem(control.getItems().get(control.getItems().size() - 1));
+                        event.consume();
+                    }
+                    break;
+                case DOWN:
+                case PAGE_DOWN:
+                    if (control.getSelectedItems().length() == 0 && control.getItems().size() > 0) {
+                        control.setSelectedItem(control.getItems().get(0));
+                        event.consume();
+                    }
+                    break;
+                default:
+                    break;
+                }
+            }
+        });
     }
-
+    
     /**
      * コンストラクタ。<br>
      * このコンポーネントがラップする、GUIライブラリに依存したインスタンスを指定する。
