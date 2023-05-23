@@ -124,7 +124,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      * Examples:<br>
      * (new StringObject("I have money!")).insert("don't ", 2) returns "I don't
      * have money!"<br>
-     * (new StringObject("Fuck!")).insert("ine l", -4) returns "Fine luck!"<br>
+     * (new StringObject("Fuck!")).insert("ined your l", -4) returns "Find your luck!"<br>
      * 
      * @param addition
      * @param index
