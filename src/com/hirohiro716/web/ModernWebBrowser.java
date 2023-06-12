@@ -127,7 +127,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
     /**
      * WEBブラウザに表示されているダイアログを承認する。
      */
-    private void acceptDialog() {
+    public void acceptDialog() {
     	try {
             Method method = new Method(this.classWebDriver, this.webDriver);
             Object switchTo = method.invoke("switchTo");
@@ -183,7 +183,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
     @Override
     public void executeJavaScript(String javascript) {
         try {
-        	this.acceptDialog();
+            this.acceptDialog();
             Method method = new Method(this.classJavascriptExecutor, this.webDriver);
             method.invoke("executeScript", javascript, new Object[] {});
             this.getMapOfElementAndHtmlObject().clear();
