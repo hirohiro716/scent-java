@@ -47,7 +47,7 @@ public class NW7Writer {
             if (index > 0) {
                 allWidth += gapWidthRatio;
             }
-            for (int barWidthRatio: NW7Writer.getHashMapCharacterPatterns().get(this.barcode.substring(index, index + 1))) {
+            for (float barWidthRatio: NW7Writer.getHashMapCharacterPatterns().get(this.barcode.substring(index, index + 1))) {
                 allWidth += barWidthRatio;
             }
         }
@@ -56,9 +56,9 @@ public class NW7Writer {
         // すべてのキャラクタのエレメントとクワイエットゾーンを描画する
         float drawingX = x;
         for (int index = 0; index < this.barcode.length(); index++) {
-            int[] characterPatterns = NW7Writer.getHashMapCharacterPatterns().get(this.barcode.substring(index, index + 1));
+            float[] characterPatterns = NW7Writer.getHashMapCharacterPatterns().get(this.barcode.substring(index, index + 1));
             boolean isPause = false;
-            for (int barWidthRatio: characterPatterns) {
+            for (float barWidthRatio: characterPatterns) {
                 float barWidth = oneWidth * barWidthRatio;
                 if (isPause == false) {
                     Rectangle2D.Float rectangle = new Rectangle2D.Float(drawingX, y, barWidth, height);
@@ -73,36 +73,36 @@ public class NW7Writer {
         }
     }
     
-    private static Map<String, int[]> MAP_CHARACTER_PATTERNS = null;
+    private static Map<String, float[]> MAP_CHARACTER_PATTERNS = null;
     
     /**
      * それぞれの英数記号をバーコードの印字パターンの連想配列を取得する。
      * 
      * @return 結果。
      */
-    private static Map<String, int[]> getHashMapCharacterPatterns() {
+    private static Map<String, float[]> getHashMapCharacterPatterns() {
         if (NW7Writer.MAP_CHARACTER_PATTERNS == null) {
-            Map<String, int[]> map = new HashMap<>();
-            map.put("0", new int[] {1, 1, 1, 1, 1, 3, 3});
-            map.put("1", new int[] {1, 1, 1, 1, 3, 3, 1});
-            map.put("2", new int[] {1, 1, 1, 3, 1, 1, 3});
-            map.put("3", new int[] {3, 3, 1, 1, 1, 1, 1});
-            map.put("4", new int[] {1, 1, 3, 1, 1, 3, 1});
-            map.put("5", new int[] {3, 1, 1, 1, 1, 3, 1});
-            map.put("6", new int[] {1, 3, 1, 1, 1, 1, 3});
-            map.put("7", new int[] {1, 3, 1, 1, 3, 1, 1});
-            map.put("8", new int[] {1, 3, 3, 1, 1, 1, 1});
-            map.put("9", new int[] {3, 1, 1, 3, 1, 1, 1});
-            map.put("-", new int[] {1, 1, 1, 3, 3, 1, 1});
-            map.put("$", new int[] {1, 1, 3, 3, 1, 1, 1});
-            map.put(":", new int[] {3, 1, 1, 1, 3, 1, 3});
-            map.put("/", new int[] {3, 1, 3, 1, 1, 1, 3});
-            map.put(".", new int[] {3, 1, 3, 1, 3, 1, 1});
-            map.put("+", new int[] {1, 1, 3, 1, 3, 1, 3});
-            map.put("a", new int[] {1, 1, 3, 3, 1, 3, 1});
-            map.put("b", new int[] {1, 3, 1, 3, 1, 1, 3});
-            map.put("c", new int[] {1, 1, 1, 3, 1, 3, 3});
-            map.put("d", new int[] {1, 1, 1, 3, 3, 3, 1});
+            Map<String, float[]> map = new HashMap<>();
+            map.put("0", new float[] {1, 1, 1, 1, 1, 2.5f, 2.5f});
+            map.put("1", new float[] {1, 1, 1, 1, 2.5f, 2.5f, 1});
+            map.put("2", new float[] {1, 1, 1, 2.5f, 1, 1, 2.5f});
+            map.put("3", new float[] {2.5f, 2.5f, 1, 1, 1, 1, 1});
+            map.put("4", new float[] {1, 1, 2.5f, 1, 1, 2.5f, 1});
+            map.put("5", new float[] {2.5f, 1, 1, 1, 1, 2.5f, 1});
+            map.put("6", new float[] {1, 2.5f, 1, 1, 1, 1, 2.5f});
+            map.put("7", new float[] {1, 2.5f, 1, 1, 2.5f, 1, 1});
+            map.put("8", new float[] {1, 2.5f, 2.5f, 1, 1, 1, 1});
+            map.put("9", new float[] {2.5f, 1, 1, 2.5f, 1, 1, 1});
+            map.put("-", new float[] {1, 1, 1, 2.5f, 2.5f, 1, 1});
+            map.put("$", new float[] {1, 1, 2.5f, 2.5f, 1, 1, 1});
+            map.put(":", new float[] {2.5f, 1, 1, 1, 2.5f, 1, 2.5f});
+            map.put("/", new float[] {2.5f, 1, 2.5f, 1, 1, 1, 2.5f});
+            map.put(".", new float[] {2.5f, 1, 2.5f, 1, 2.5f, 1, 1});
+            map.put("+", new float[] {1, 1, 2.5f, 1, 2.5f, 1, 2.5f});
+            map.put("a", new float[] {1, 1, 2.5f, 2.5f, 1, 2.5f, 1});
+            map.put("b", new float[] {1, 2.5f, 1, 2.5f, 1, 1, 2.5f});
+            map.put("c", new float[] {1, 1, 1, 2.5f, 1, 2.5f, 2.5f});
+            map.put("d", new float[] {1, 1, 1, 2.5f, 2.5f, 2.5f, 1});
             NW7Writer.MAP_CHARACTER_PATTERNS = map;
         }
         return NW7Writer.MAP_CHARACTER_PATTERNS;
