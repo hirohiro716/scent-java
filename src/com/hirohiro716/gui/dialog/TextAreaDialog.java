@@ -27,7 +27,23 @@ public class TextAreaDialog extends TextInputControlDialog<TextArea> {
         TextArea control = new TextArea();
         return control;
     }
+    
+    private boolean isCancelableByClickBackground = false;
 
+    @Override
+    public boolean isCancelableByClickBackground() {
+        return this.isCancelableByClickBackground;
+    }
+    
+    /**
+     * このダイアログを背景のクリックでキャンセル可能にする場合はtrueをセットする。初期値はfalse。
+     * 
+     * @param isCancelableByClickBackground
+     */
+    public void setCancelableByClickBackground(boolean isCancelableByClickBackground) {
+        this.isCancelableByClickBackground = isCancelableByClickBackground;
+    }
+    
     @Override
     protected void processBeforeShowing() {
         super.processBeforeShowing();
