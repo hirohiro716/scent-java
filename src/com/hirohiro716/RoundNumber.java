@@ -56,11 +56,12 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
      * @param target
      * @return 結果。
      */
-    public long execute(double target) {
+    public long calculate(double target) {
         BigDecimal bigDecimal = new BigDecimal(String.valueOf(target));
         switch (this) {
         case FLOOR:
             break;
+            
         case CEIL:
             bigDecimal = bigDecimal.add(new BigDecimal("0.9"));
             break;
@@ -83,7 +84,7 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
      * @param digit 
      * @return 結果。
      */
-    public double execute(double target, int digit) {
+    public double calculate(double target, int digit) {
         if (digit < 0) {
             throw new IllegalArgumentException("Processing with negative digits is not supported: " + digit);
         }

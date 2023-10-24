@@ -56,7 +56,7 @@ public class Price {
      * @return 結果。
      */
     public long toLong() {
-        return this.roundNumber.execute(this.price);
+        return this.roundNumber.calculate(this.price);
     }
 
     /**
@@ -65,7 +65,7 @@ public class Price {
      * @return 結果。
      */
     public int toInteger() {
-        return (int) this.roundNumber.execute(this.price);
+        return (int) this.roundNumber.calculate(this.price);
     }
     
     /**
@@ -99,7 +99,7 @@ public class Price {
      * @return 結果。
      */
     public long calculateInnerTax(int taxRatePercent) {
-        return this.roundNumber.execute(this.price / (100 + taxRatePercent) * taxRatePercent);
+        return this.roundNumber.calculate(this.price / (100 + taxRatePercent) * taxRatePercent);
     }
     
     /**
@@ -109,7 +109,7 @@ public class Price {
      * @return 結果。
      */
     public long calculateOuterTax(int taxRatePercent) {
-        return this.roundNumber.execute(this.price * taxRatePercent / 100);
+        return this.roundNumber.calculate(this.price * taxRatePercent / 100);
     }
     
     /**
