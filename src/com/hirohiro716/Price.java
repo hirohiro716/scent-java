@@ -23,12 +23,12 @@ public class Price {
      * 金額の端数処理方法、金額を指定する。
      * 
      * @param roundNumber
-     * @param price 
+     * @param amount 
      */
-    public Price(RoundNumber roundNumber, Double price) {
+    public Price(RoundNumber roundNumber, Double amount) {
         this.roundNumber = roundNumber;
-        if (price != null) {
-            this.price = price;
+        if (amount != null) {
+            this.amount = amount;
         }
     }
 
@@ -37,18 +37,18 @@ public class Price {
      * 金額の端数処理方法、金額を指定する。
      * 
      * @param roundNumber
-     * @param price 
+     * @param amount 
      */
-    public Price(RoundNumber roundNumber, Long price) {
+    public Price(RoundNumber roundNumber, Long amount) {
         this.roundNumber = roundNumber;
-        if (price != null) {
-            this.price = price;
+        if (amount != null) {
+            this.amount = amount;
         }
     }
     
     private RoundNumber roundNumber = RoundNumber.ROUND;
     
-    private double price = 0;
+    private double amount = 0;
     
     /**
      * このインスタンスの金額を取得する。
@@ -56,7 +56,7 @@ public class Price {
      * @return 結果。
      */
     public long toLong() {
-        return this.roundNumber.calculate(this.price);
+        return this.roundNumber.calculate(this.amount);
     }
 
     /**
@@ -65,31 +65,31 @@ public class Price {
      * @return 結果。
      */
     public int toInteger() {
-        return (int) this.roundNumber.calculate(this.price);
+        return (int) this.roundNumber.calculate(this.amount);
     }
     
     /**
      * このインスタンスに金額をセットする。
      * 
-     * @param price
+     * @param amount
      */
-    public void setPrice(Double price) {
-        if (price == null) {
+    public void setAmount(Double amount) {
+        if (amount == null) {
             return;
         }
-        this.price = price;
+        this.amount = amount;
     }
 
     /**
      * このインスタンスに金額をセットする。
      * 
-     * @param price
+     * @param amount
      */
-    public void setPrice(Long price) {
-        if (price == null) {
+    public void setAmount(Long amount) {
+        if (amount == null) {
             return;
         }
-        this.price = price;
+        this.amount = amount;
     }
 
     /**
@@ -99,7 +99,7 @@ public class Price {
      * @return 結果。
      */
     public long calculateInnerTax(int taxRatePercent) {
-        return this.roundNumber.calculate(this.price / (100 + taxRatePercent) * taxRatePercent);
+        return this.roundNumber.calculate(this.amount / (100 + taxRatePercent) * taxRatePercent);
     }
     
     /**
@@ -109,29 +109,29 @@ public class Price {
      * @return 結果。
      */
     public long calculateOuterTax(int taxRatePercent) {
-        return this.roundNumber.calculate(this.price * taxRatePercent / 100);
+        return this.roundNumber.calculate(this.amount * taxRatePercent / 100);
     }
     
     /**
      * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
      * 
      * @param roundNumber 金額の端数処理方法の列挙型。
-     * @param price 金額。
+     * @param amount 金額。
      * @return 新しいインスタンス。
      */
-    public static Price newInstance(RoundNumber roundNumber, Double price) {
-        return new Price(roundNumber, price);
+    public static Price newInstance(RoundNumber roundNumber, Double amount) {
+        return new Price(roundNumber, amount);
     }
 
     /**
      * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
      * 
      * @param roundNumber 金額の端数処理方法の列挙型。
-     * @param price 金額。
+     * @param amount 金額。
      * @return 新しいインスタンス。
      */
-    public static Price newInstance(RoundNumber roundNumber, Long price) {
-        return new Price(roundNumber, price);
+    public static Price newInstance(RoundNumber roundNumber, Long amount) {
+        return new Price(roundNumber, amount);
     }
 
     private static final int LENGTH = 10;
