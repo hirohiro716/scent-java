@@ -51,7 +51,7 @@ public abstract class SingleRecordMapper extends com.hirohiro716.database.Single
      * @return ほかで編集中の場合trueを返す。
      * @throws SQLException 
      */
-    public abstract boolean isEditingByOther(SQLite sqlite) throws SQLException;
+    public abstract boolean isEditingByAnother(SQLite sqlite) throws SQLException;
     
     /**
      * マップしたレコードをSQLiteデータベース上で編集中としてマークし、ほかのインスタンスからの編集を拒否する。<br>
@@ -92,7 +92,7 @@ public abstract class SingleRecordMapper extends com.hirohiro716.database.Single
         try (SQLite sqlite = this.createDatabaseForEditing()) {
             sqlite.connect(this.getDatabase().getDatabaseFile());
             sqlite.begin(IsolationLevel.EXCLUSIVE);
-            if (this.isEditingByOther(sqlite)) {
+            if (this.isEditingByAnother(sqlite)) {
                 throw new SQLException(SQLite.ERROR_MESSAGE_EDITING_FAILURE);
             }
             this.updateToEditing(sqlite);
