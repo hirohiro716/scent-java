@@ -205,7 +205,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
                         list.add(item);
                     }
                 }
-                if (list.size() > dialog.maximumNumberOfPickable) {
+                if (dialog.maximumNumberOfPickable > -1 && list.size() > dialog.maximumNumberOfPickable) {
                     InstantMessage.show(StringObject.join("選択できる最大数は", dialog.maximumNumberOfPickable, "個までです。").toString(), 3000, dialog.getOwner());
                     return;
                 }
