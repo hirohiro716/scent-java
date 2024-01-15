@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.hirohiro716.Array;
 import com.hirohiro716.Dimension;
+import com.hirohiro716.StringObject;
 import com.hirohiro716.gui.Component;
 import com.hirohiro716.gui.Frame;
 import com.hirohiro716.gui.KeyCode;
@@ -78,6 +79,27 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
      */
     public Collection<T> getPickableItems() {
         return this.pickableItems;
+    }
+    
+    
+    private int maximumNumberOfPickable = -1;
+    
+    /**
+     * このダイアログで選択できるトグルボタンの最大数を取得する。初期値は無制限。
+     * 
+     * @return 結果。
+     */
+    public int getMaximumNumberOfPickable() {
+        return this.maximumNumberOfPickable;
+    }
+    
+    /**
+     * このダイアログで選択できるトグルボタンの最大数をセットする。
+     * 
+     * @param maximumNumberOfPickable
+     */
+    public void setMaximumNumberOfPickable(int maximumNumberOfPickable) {
+        this.maximumNumberOfPickable = maximumNumberOfPickable;
     }
     
     private Map<T, ToggleButton> mapToggleButton = new HashMap<>();
@@ -182,6 +204,10 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
                     if (toggleButton.isMarked()) {
                         list.add(item);
                     }
+                }
+                if (list.size() > dialog.maximumNumberOfPickable) {
+                    InstantMessage.show(StringObject.join("選択できる最大数は", dialog.maximumNumberOfPickable, "個までです。").toString(), 1000, dialog.getOwner());
+                    return;
                 }
                 dialog.result = new Array<>(list);
                 dialog.close();
