@@ -15,7 +15,7 @@ import com.hirohiro716.filesystem.File;
  * @author hiro
  *
  */
-public abstract class RecordMapper extends com.hirohiro716.database.RecordMapper implements Closeable, ForciblyCloseableRecordMapper {
+public abstract class RecordMapper extends com.hirohiro716.database.RecordMapper implements Closeable {
     
     /**
      * コンストラクタ。<br>
@@ -139,8 +139,12 @@ public abstract class RecordMapper extends com.hirohiro716.database.RecordMapper
             throw new IOException(exception);
         }
     }
-    
-    @Override
+
+    /**
+     * マップしようとしているレコードの編集中を強制的に解除するメソッド。
+     * 
+     * @throws IOException
+     */
     public void forciblyClose() throws IOException {
         try (SQLite sqlite = this.createDatabaseForEditing()) {
             sqlite.connect(this.getDatabase().getDatabaseFile());
