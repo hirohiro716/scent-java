@@ -3,6 +3,8 @@ package com.hirohiro716.filesystem;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -164,18 +166,19 @@ public class Directory extends FilesystemItem {
      * @throws URISyntaxException
      */
     public static Directory findClassDirectory(Class<?> clazz) throws URISyntaxException {
-        StringObject classURL = new StringObject(clazz.getResource(clazz.getSimpleName() + ".class").toExternalForm());
+        StringObject classURL = new StringObject(URLDecoder.decode(clazz.getResource(clazz.getSimpleName() + ".class").toExternalForm(), Charset.forName("utf-8")));
         String path;
-        if (classURL.toString().indexOf("file:") == 0) {
-            path = File.newInstance(new URI(classURL.toString())).getParentDirectory().getAbsolutePath();
-        } else {
-            FilesystemItem filesystemItem = FilesystemItem.newInstance(clazz.getProtectionDomain().getCodeSource().getLocation().getPath());
+        if (classURL.toString().indexOf("jar:") == 0 || classURL.toString().indexOf("rsrc:") == 0) {
+            FilesystemItem filesystemItem = FilesystemItem.newInstance(URLDecoder.decode(clazz.getProtectionDomain().getCodeSource().getLocation().getPath(), Charset.forName("utf-8")));
             if (filesystemItem.isDirectory()) {
                 path = filesystemItem.getAbsolutePath();
             } else {
                 File file = (File) filesystemItem;
                 path = file.getParentDirectory().getAbsolutePath();
             }
+        } else {
+            classURL.replace("^.{0,}file:", "");
+            path = File.newInstance(classURL.toString()).getParentDirectory().getAbsolutePath();
         }
         return new Directory(path.toString());
     }
