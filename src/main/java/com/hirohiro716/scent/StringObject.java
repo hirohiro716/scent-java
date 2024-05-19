@@ -402,11 +402,18 @@ public class StringObject implements Cloneable, Iterable<String> {
      */
     public StringObject wide() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String one : this) {
-            if (getNarrowToWideMap().containsKey(one)) {
-                stringBuilder.append(getNarrowToWideMap().get(one));
+        for (int index = 0; index < this.length(); index++) {
+            String two = this.clone().extract(index, index + 2).toString();
+            if (getNarrowToWideMap().containsKey(two)) {
+                stringBuilder.append(getNarrowToWideMap().get(two));
+                index++;
             } else {
-                stringBuilder.append(one);
+                String one = this.clone().extract(index, index + 1).toString();
+                if (getNarrowToWideMap().containsKey(one)) {
+                    stringBuilder.append(getNarrowToWideMap().get(one));
+                } else {
+                    stringBuilder.append(one);
+                }
             }
         }
         this.value = stringBuilder;
