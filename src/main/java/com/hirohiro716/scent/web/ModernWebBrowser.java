@@ -369,6 +369,15 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         }
         
         @Override
+        public void focus() throws Exception {
+            ModernWebBrowser browser = ModernWebBrowser.this;
+            browser.acceptDialog();
+            Method method = new Method(browser.classJavascriptExecutor, browser.webDriver);
+            method.invoke("executeScript", "arguments[0].focus();", new Object[] {this.element});
+            browser.getMapOfElementAndHtmlObject().clear();
+        }
+
+        @Override
         public void click() throws Exception {
             ModernWebBrowser browser = ModernWebBrowser.this;
             browser.acceptDialog();

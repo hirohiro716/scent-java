@@ -316,6 +316,26 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
         }
 
         @Override
+        public void focus() throws Exception {
+            HeadlessWebBrowser browser = HeadlessWebBrowser.this;
+            try {
+                Method method = new Method(browser.webPage);
+                String backupClass = this.getAttribute("class");
+                String flagClass = this.getClass().getName().replaceAll("\\.", "_") + "_FLAG_FOR_FOCUS";
+                String newClass = StringObject.join(backupClass, " ", flagClass).toString();
+                this.setAttribute("class", newClass);
+                StringObject script = new StringObject("document.getElementsByClassName('");
+                script.append(flagClass);
+                script.append("')[0].focus();");
+                method.invoke("executeJavaScript", script.toString());
+                this.setAttribute("class", backupClass);
+                browser.updateWebPage();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+
+        @Override
         public void click() throws Exception {
             HeadlessWebBrowser browser = HeadlessWebBrowser.this;
             try {

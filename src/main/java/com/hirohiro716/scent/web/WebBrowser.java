@@ -674,6 +674,13 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         public abstract void removeAttribute(String name) throws Exception;
 
         /**
+         * この要素にフォーカスさせる。
+         * 
+         * @throws Exception
+         */
+        public abstract void focus() throws Exception;
+
+        /**
          * この要素をクリックする。
          * 
          * @throws Exception
