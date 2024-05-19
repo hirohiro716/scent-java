@@ -33,12 +33,12 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
      */
     public HeadlessWebBrowser(Directory htmlUnitLibraryDirectory) throws ClassNotFoundException, Exception {
         super(htmlUnitLibraryDirectory);
-        Constructor constructor = new Constructor("com.gargoylesoftware.htmlunit.WebClient");
+        Constructor constructor = new Constructor("org.htmlunit.WebClient");
         this.webClient = constructor.newInstance();
         Method getCurrentWindowMethod = new Method(this.webClient);
         this.webWindow = getCurrentWindowMethod.invoke("getCurrentWindow");
         // Hide warning
-        java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF); 
+        java.util.logging.Logger.getLogger("org.htmlunit").setLevel(Level.OFF); 
         // Setting that does not process as an exception if the JavaScript link destination does not exist
         Method getOptionMethod = new Method(this.webClient);
         Object webClientOptions = getOptionMethod.invoke("getOptions");
@@ -50,15 +50,15 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
         setThrowExceptionOnScriptErrorMethod.setParameterTypes(boolean.class);
         setThrowExceptionOnScriptErrorMethod.invoke("setThrowExceptionOnScriptError", false);
         // Setting to wait for the end of ajax communication
-        Constructor ajaxControllerConstructor = new Constructor("com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController");
+        Constructor ajaxControllerConstructor = new Constructor("org.htmlunit.NicelyResynchronizingAjaxController");
         Object ajaxController = ajaxControllerConstructor.newInstance();
         Method setAjaxControllerMethod = new Method(this.webClient);
-        setAjaxControllerMethod.setParameterTypes(this.loadClass("com.gargoylesoftware.htmlunit.AjaxController"));
+        setAjaxControllerMethod.setParameterTypes(this.loadClass("org.htmlunit.AjaxController"));
         setAjaxControllerMethod.invoke("setAjaxController", ajaxController);
     }
 
     private Object webClient;
-    
+
     private Object webWindow;
     
     private Object webPage = null;
@@ -71,6 +71,19 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    private Class<?> classWebWindow = this.loadClass("org.htmlunit.WebWindow");
+
+    @Override
+    public boolean isClosed() {
+        try {
+            Method method = new Method(classWebWindow, this.webWindow);
+            return method.invoke("isClosed");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return true;
     }
 
     private Object otherPage = null;
@@ -100,7 +113,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
     @Override
     public String getSource() {
         try {
-            Method method = new Method(this.loadClass("com.gargoylesoftware.htmlunit.SgmlPage"), this.webPage);
+            Method method = new Method(this.loadClass("org.htmlunit.SgmlPage"), this.webPage);
             return method.invoke("asXml");
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -114,13 +127,13 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
      * @throws Exception 
      */
     public void updateWebPage() throws Exception {
-        Method method = new Method(this.loadClass("com.gargoylesoftware.htmlunit.WebWindow"), this.webWindow);
+        Method method = new Method(this.loadClass("org.htmlunit.WebWindow"), this.webWindow);
         Object maybeWebPage = method.invoke("getEnclosedPage");
         if (maybeWebPage.getClass().getName().toLowerCase().indexOf("htmlpage") > -1) {
             this.webPage = maybeWebPage;
         } else {
             this.otherPage = maybeWebPage;
-            method.setParameterTypes(this.loadClass("com.gargoylesoftware.htmlunit.Page"));
+            method.setParameterTypes(this.loadClass("org.htmlunit.Page"));
             method.invoke("setEnclosedPage", this.webPage);
         }
         this.getMapOfElementAndHtmlObject().clear();
@@ -134,7 +147,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
      */
     public InputStream getInputStream() {
         try {
-            Method getInputStreamMethod = new Method(this.loadClass("com.gargoylesoftware.htmlunit.UnexpectedPage"), this.otherPage);
+            Method getInputStreamMethod = new Method(this.loadClass("org.htmlunit.UnexpectedPage"), this.otherPage);
             return getInputStreamMethod.invoke("getInputStream");
         } catch (Exception exception) {
             return null;
@@ -157,7 +170,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
         try {
             Method getFrameByNameMethod = new Method(this.webPage);
             this.webWindow = getFrameByNameMethod.invoke("getFrameByName", name);
-            Method getEnclosedPageMethod = new Method(this.loadClass("com.gargoylesoftware.htmlunit.WebWindowImpl"), this.webWindow);
+            Method getEnclosedPageMethod = new Method(this.loadClass("org.htmlunit.WebWindowImpl"), this.webWindow);
             this.webPage = getEnclosedPageMethod.invoke("getEnclosedPage");
             this.getMapOfElementAndHtmlObject().clear();
             this.clearSelectedElements();
@@ -192,7 +205,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
         xpath.append("='");
         xpath.append(attributeValue);
         xpath.append("']");
-        Method method = new Method(this.loadClass("com.gargoylesoftware.htmlunit.html.DomNode"), parent.element);
+        Method method = new Method(this.loadClass("org.htmlunit.html.DomNode"), parent.element);
         method.setParameterTypes(String.class);
         List<Object> elementObjects = method.invoke("getByXPath", xpath.toString());
         for (Object elementObject : elementObjects) {
@@ -210,7 +223,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
         xpath.append("[contains(text(), '");
         xpath.append(textContent);
         xpath.append("')]");
-        Method method = new Method(this.loadClass("com.gargoylesoftware.htmlunit.html.DomNode"), parent.element);
+        Method method = new Method(this.loadClass("org.htmlunit.html.DomNode"), parent.element);
         method.setParameterTypes(String.class);
         List<Object> elementObjects = method.invoke("getByXPath", xpath.toString());
         for (Object elementObject : elementObjects) {
@@ -223,7 +236,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
     protected List<Element> createElementListOfFoundByCssSelector(Element parent, String cssSelector) throws Exception {
         List<Element> elements = new ArrayList<>();
         // Search at CSS selector
-        Method method = new Method(this.loadClass("com.gargoylesoftware.htmlunit.html.DomNode"), parent.element);
+        Method method = new Method(this.loadClass("org.htmlunit.html.DomNode"), parent.element);
         method.setParameterTypes(String.class);
         List<Object> elementObjects = method.invoke("querySelectorAll", cssSelector);
         for (Object elementObject : elementObjects) {
@@ -236,7 +249,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
     protected List<Element> createElementListOfFoundByXPath(Element parent, String xPath) throws Exception {
         List<Element> elements = new ArrayList<>();
         // Search at XPath
-        Method method = new Method(this.loadClass("com.gargoylesoftware.htmlunit.html.DomNode"), parent.element);
+        Method method = new Method(this.loadClass("org.htmlunit.html.DomNode"), parent.element);
         method.setParameterTypes(String.class);
         List<Object> elementObjects = method.invoke("getByXPath", xPath);
         for (Object elementObject : elementObjects) {
@@ -263,13 +276,13 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
             this.element = element;
         }
         
-        private Class<?> classDomNode = HeadlessWebBrowser.this.loadClass("com.gargoylesoftware.htmlunit.html.DomNode");
+        private Class<?> classDomNode = HeadlessWebBrowser.this.loadClass("org.htmlunit.html.DomNode");
         
-        private Class<?> classDomElement = HeadlessWebBrowser.this.loadClass("com.gargoylesoftware.htmlunit.html.DomElement");
+        private Class<?> classDomElement = HeadlessWebBrowser.this.loadClass("org.htmlunit.html.DomElement");
         
-        private Class<?> classHtmlSelect = HeadlessWebBrowser.this.loadClass("com.gargoylesoftware.htmlunit.html.HtmlSelect");
+        private Class<?> classHtmlSelect = HeadlessWebBrowser.this.loadClass("org.htmlunit.html.HtmlSelect");
         
-        private Class<?> classHtmlFileInput = HeadlessWebBrowser.this.loadClass("com.gargoylesoftware.htmlunit.html.HtmlFileInput");
+        private Class<?> classHtmlFileInput = HeadlessWebBrowser.this.loadClass("org.htmlunit.html.HtmlFileInput");
         
         private Object element;
         

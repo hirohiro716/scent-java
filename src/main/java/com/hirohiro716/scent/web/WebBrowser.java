@@ -38,6 +38,13 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
     public abstract void close();
     
     /**
+     * WEBブラウザが閉じられている場合はtrueを返す。
+     * 
+     * @return 結果。
+     */
+    public abstract boolean isClosed();
+    
+    /**
      * WEBページを読み込む。
      * 
      * @param url
@@ -270,7 +277,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
             try {
-                if (this.createElementListOfFoundByAttribute(this.getBodyElement(), attributeName, attributeValue).size() > 0) {
+                if (this.isClosed() || this.createElementListOfFoundByAttribute(this.getBodyElement(), attributeName, attributeValue).size() > 0) {
                     return;
                 }
                 Thread.sleep(1000);
@@ -291,7 +298,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
             try {
-                if (this.createElementListOfFoundByAttribute(this.getBodyElement(), attributeName, attributeValue).size() == 0) {
+                if (this.isClosed() || this.createElementListOfFoundByAttribute(this.getBodyElement(), attributeName, attributeValue).size() == 0) {
                     return;
                 }
                 Thread.sleep(1000);
@@ -383,7 +390,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
             try {
-                if (this.createElementListOfFoundByTagName(this.getBodyElement(), tagName, textContent).size() > 0) {
+                if (this.isClosed() || this.createElementListOfFoundByTagName(this.getBodyElement(), tagName, textContent).size() > 0) {
                     return;
                 }
                 Thread.sleep(1000);
@@ -414,7 +421,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
             try {
-                if (this.createElementListOfFoundByTagName(this.getBodyElement(), tagName, textContent).size() == 0) {
+                if (this.isClosed() || this.createElementListOfFoundByTagName(this.getBodyElement(), tagName, textContent).size() == 0) {
                     return;
                 }
                 Thread.sleep(1000);
@@ -491,7 +498,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
             try {
-                if (this.createElementListOfFoundByCssSelector(this.getBodyElement(), cssSelector).size() > 0) {
+                if (this.isClosed() || this.createElementListOfFoundByCssSelector(this.getBodyElement(), cssSelector).size() > 0) {
                     return;
                 }
                 Thread.sleep(1000);
@@ -511,7 +518,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
             try {
-                if (this.createElementListOfFoundByCssSelector(this.getBodyElement(), cssSelector).size() == 0) {
+                if (this.isClosed() || this.createElementListOfFoundByCssSelector(this.getBodyElement(), cssSelector).size() == 0) {
                     return;
                 }
                 Thread.sleep(1000);
@@ -578,7 +585,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
             try {
-                if (this.createElementListOfFoundByXPath(this.getBodyElement(), xPath).size() > 0) {
+                if (this.isClosed() || this.createElementListOfFoundByXPath(this.getBodyElement(), xPath).size() > 0) {
                     return;
                 }
                 Thread.sleep(1000);
@@ -598,7 +605,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         limit.addSecond(timeoutSeconds);
         while (limit.getDate().getTime() > new Date().getTime()) {
             try {
-                if (this.createElementListOfFoundByXPath(this.getBodyElement(), xPath).size() == 0) {
+                if (this.isClosed() || this.createElementListOfFoundByXPath(this.getBodyElement(), xPath).size() == 0) {
                     return;
                 }
                 Thread.sleep(1000);

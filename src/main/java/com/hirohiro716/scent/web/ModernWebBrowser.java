@@ -124,6 +124,29 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         }
     }
 
+    @Override
+    public boolean isClosed() {
+        try {
+            Method method = new Method(this.classWebDriver, this.webDriver);
+            method.invoke("getTitle");
+        } catch (Exception exception) {
+            switch (exception.getCause().getClass().getSimpleName()) {
+                case "NoSuchSessionException":
+                case "NoSuchWindowException":
+                    return true;
+                case "WebDriverException":
+                    if (exception.getCause().getMessage().contains("window was closed")) {
+                        return true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            exception.printStackTrace();
+        }
+        return false;
+    }
+
     /**
      * WEBブラウザに表示されているダイアログを承認する。
      */
