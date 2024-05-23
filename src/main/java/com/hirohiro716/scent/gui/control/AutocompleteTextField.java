@@ -61,7 +61,7 @@ public class AutocompleteTextField extends TextField {
             @Override
             protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
                 if (changedValue) {
-                    if (textField.isDisabledAutocomplete() == false && textField.isDisabledPopupWhenFocusing() == false) {
+                    if (textField.isDisabledPopupWhenFocusing() == false) {
                         textField.showPopup();
                     }
                 } else {
@@ -69,7 +69,7 @@ public class AutocompleteTextField extends TextField {
 
                         @Override
                         public void run() {
-                            textField.hidePopup();
+                            textField.closePopup();
                         }
                     });
                 }
@@ -311,8 +311,8 @@ public class AutocompleteTextField extends TextField {
         this.popup.setY(y);
         this.popup.setMinimumWidth(this.getWidth());
         this.listView.clearSelection();
-        if (this.isFocused() && this.isVisible() && this.isEditable() && this.isDisabled() == false) {
-            if (this.filteredListItems.size() > 0) {
+        if (this.filteredListItems.size() > 0) {
+            if (this.isFocused() && this.isVisible() && this.isEditable() && this.isDisabled() == false && this.isDisabledAutocomplete == false) {
                 this.popup.show();
                 this.popup.updateDisplay();
             }
