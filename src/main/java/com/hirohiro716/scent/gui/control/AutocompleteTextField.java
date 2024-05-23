@@ -23,6 +23,7 @@ import com.hirohiro716.scent.gui.Component;
 import com.hirohiro716.scent.gui.Frame;
 import com.hirohiro716.scent.gui.GUI;
 import com.hirohiro716.scent.gui.HorizontalAlignment;
+import com.hirohiro716.scent.gui.KeyCode;
 import com.hirohiro716.scent.gui.Popup;
 import com.hirohiro716.scent.gui.event.ActionEvent;
 import com.hirohiro716.scent.gui.event.ChangeListener;
@@ -104,6 +105,7 @@ public class AutocompleteTextField extends TextField {
                 textField.showPopup();
             }
         });
+        this.addKeyPressedEventHandler(new KeyPressedEventHandler());
         this.KeyTypedEventHandler = new KeyTypedEventHandler();
         this.addKeyTypedEventHandler(this.KeyTypedEventHandler);
         // Measures that the pop-up remains displayed for some reason
@@ -496,11 +498,26 @@ public class AutocompleteTextField extends TextField {
     
     private List<ListItemAdder> listItemAdders = new ArrayList<>();
 
+    private KeyCode pressedKeyCode = null;
+
+    /**
+     * このテキストフィールドで文字が押された際のイベントハンドラークラス。
+     * 
+     * @author hiro
+     */
+    private class KeyPressedEventHandler extends EventHandler<KeyEvent> {
+
+        @Override
+        protected void handle(KeyEvent event) {
+            AutocompleteTextField control = AutocompleteTextField.this;
+            control.pressedKeyCode = event.getKeyCode();
+        }
+    }
+
     /**
      * このテキストフィールドで文字が入力された際のイベントハンドラークラス。
      * 
      * @author hiro
-     *
      */
     private class KeyTypedEventHandler extends EventHandler<KeyEvent> {
 
@@ -529,6 +546,14 @@ public class AutocompleteTextField extends TextField {
             AutocompleteTextField control = AutocompleteTextField.this;
             if (control.isDisabledAutocomplete() || this.isDisabled) {
                 return;
+            }
+            if (event.getKeyCharacter().length() == 0) {
+                switch (control.pressedKeyCode) {
+                    case TAB:
+                        return;
+                    default:
+                        break;
+                }
             }
             Thread thread = new Thread(new Runnable() {
                 
@@ -567,7 +592,6 @@ public class AutocompleteTextField extends TextField {
      * このテキストフィールドにオートコンプリート用のアイテムを追加するクラス。
      * 
      * @author hiro
-     *
      */
     private class ListItemAdder implements Runnable {
         
