@@ -53,7 +53,7 @@ public class AutocompleteTextField extends TextField {
             
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
-                textField.showPopup();
+                textField.hidePopup();
             }
         });
         this.addFocusChangeListener(new ChangeListener<Boolean>() {
@@ -65,33 +65,13 @@ public class AutocompleteTextField extends TextField {
                         textField.showPopup();
                     }
                 } else {
-                    textField.hidePopup();
-                }
-            }
-        });
-        this.addKeyPressedEventHandler(new EventHandler<KeyEvent>() {
-            
-            @Override
-            protected void handle(KeyEvent event) {
-                textField.KeyTypedEventHandler.setDisabled(false);
-                if (event.isShiftDown() || event.isControlDown() || event.isAltDown()) {
-                    return;
-                }
-                switch (event.getKeyCode()) {
-                case UP:
-                case DOWN:
-                case PAGE_UP:
-                case PAGE_DOWN:
-                case ENTER:
-                    if (textField.getPopup() != null && textField.getPopup().isVisible()) {
-                        event.copy(textField.getListView());
-                    }
-                    break;
-                case ESCAPE:
-                    textField.hidePopup();
-                    break;
-                default:
-                    break;
+                    GUI.executeLater(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            textField.hidePopup();
+                        }
+                    });
                 }
             }
         });
@@ -279,18 +259,14 @@ public class AutocompleteTextField extends TextField {
             
             @Override
             protected void changed(Component<?> component, Point changedValue, Point previousValue) {
-                if (control.getPopup().isVisible()) {
-                    control.showPopup();
-                }
+                control.hidePopup();
             }
         });
         frame.addSizeChangeListener(new ChangeListener<Dimension>() {
             
             @Override
             protected void changed(Component<?> component, Dimension changedValue, Dimension previousValue) {
-                if (control.getPopup().isVisible()) {
-                    control.showPopup();
-                }
+                control.hidePopup();
             }
         });
         this.paneOfPopup = new VerticalPane(HorizontalAlignment.LEFT);
@@ -511,6 +487,26 @@ public class AutocompleteTextField extends TextField {
         protected void handle(KeyEvent event) {
             AutocompleteTextField control = AutocompleteTextField.this;
             control.pressedKeyCode = event.getKeyCode();
+            control.KeyTypedEventHandler.setDisabled(false);
+            if (event.isShiftDown() || event.isControlDown() || event.isAltDown()) {
+                return;
+            }
+            switch (event.getKeyCode()) {
+                case UP:
+                case DOWN:
+                case PAGE_UP:
+                case PAGE_DOWN:
+                case ENTER:
+                    if (control.getPopup() != null && control.getPopup().isVisible()) {
+                        event.copy(control.getListView());
+                    }
+                    break;
+                case ESCAPE:
+                    control.hidePopup();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
