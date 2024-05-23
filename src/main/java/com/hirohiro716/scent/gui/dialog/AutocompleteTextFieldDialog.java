@@ -10,8 +10,7 @@ import com.hirohiro716.scent.gui.event.KeyEvent;
  * オートコンプリート機能付きのテキストフィールドを表示するダイアログのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class AutocompleteTextFieldDialog extends TextInputControlDialog<AutocompleteTextField> {
     
     /**
