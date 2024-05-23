@@ -366,7 +366,6 @@ public class GridPane extends Pane {
      * グリッドペインセルのコントロール表示方法の列挙型。
      * 
      * @author hiro
-     *
      */
     public enum CellLayout {
         /**

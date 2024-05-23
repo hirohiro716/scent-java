@@ -370,7 +370,6 @@ public class GraphicalString {
      * 文字列を描画する垂直方向基準の列挙型。
      * 
      * @author hiro
-     *
      */
     public enum VerticalPosition {
         /**
@@ -395,7 +394,6 @@ public class GraphicalString {
      * 文字列を描画する水平方向基準の列挙型。
      * 
      * @author hiro
-     *
      */
     public enum HorizontalPosition {
         /**
@@ -416,7 +414,6 @@ public class GraphicalString {
      * 文字列を描画するためのレイアウトクラス。
      * 
      * @author hiro
-     *
      */
     private class Layout {
         

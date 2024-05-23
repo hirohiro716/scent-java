@@ -57,7 +57,6 @@ public class WaitCircle extends Control {
      * 待機中サークルのアニメーションを表示するJPanelクラス。
      * 
      * @author hiro
-     *
      */
     @SuppressWarnings("serial")
     private static class AnimationPanel extends JPanel {

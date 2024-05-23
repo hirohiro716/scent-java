@@ -261,7 +261,6 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
      * WebBrowserにおけるHTML文書内の要素を表す。
      * 
      * @author hiro
-     *
      */
     public class Element implements WebBrowser.Element {
 

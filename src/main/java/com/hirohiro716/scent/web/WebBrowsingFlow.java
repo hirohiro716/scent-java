@@ -184,7 +184,6 @@ public class WebBrowsingFlow<W extends WebBrowser<E>, E extends WebBrowser.Eleme
      * WEBブラウザへのすべてのタスクが終了した後の処理インターフェース。
      * 
      * @author hiro
-     *
      */
     public interface ProcessAfterFinishing {
 

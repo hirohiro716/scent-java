@@ -142,7 +142,6 @@ public class File extends FilesystemItem {
      * ファイルの一文字を読み込んだ後の処理インターフェース。
      * 
      * @author hiro
-     *
      */
     public interface ProcessAfterReadingCharacter {
         
@@ -199,7 +198,6 @@ public class File extends FilesystemItem {
      * ファイルの一行を読み込んだ後の処理インターフェース。
      * 
      * @author hiro
-     *
      */
     public interface ProcessAfterReadingLine {
         
@@ -217,7 +215,6 @@ public class File extends FilesystemItem {
      * ファイルの行数をカウントするクラス。
      * 
      * @author hiro
-     *
      */
     public static class LineCounter implements ProcessAfterReadingLine {
         
@@ -293,7 +290,6 @@ public class File extends FilesystemItem {
      * 書き込みの処理インターフェース。
      * 
      * @author hiro
-     *
      */
     public static interface WritingProcess {
         

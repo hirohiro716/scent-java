@@ -159,7 +159,6 @@ public class TabPane extends Control {
      * タブのクラス。
      * 
      * @author hiro
-     *
      */
     public static class Tab {
         

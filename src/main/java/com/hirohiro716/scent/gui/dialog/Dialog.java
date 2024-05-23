@@ -255,7 +255,6 @@ public abstract class Dialog<R> implements DialogInterface {
      * ダイアログの背景を表示するパネルのクラス。
      * 
      * @author hiro
-     *
      */
     @SuppressWarnings("serial")
     private class InnerBackgroundPanel extends JPanel {
@@ -276,7 +275,6 @@ public abstract class Dialog<R> implements DialogInterface {
      * ダイアログの背景を表示するペインのクラス。
      * 
      * @author hiro
-     *
      */
     private class BackgroundPane extends CenterPane {
         

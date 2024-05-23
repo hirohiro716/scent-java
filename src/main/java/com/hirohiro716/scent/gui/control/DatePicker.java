@@ -420,7 +420,6 @@ public class DatePicker extends TextField {
      * カレンダーを表示するペインクラス。
      * 
      * @author hiro
-     *
      */
     private class CalendarPane extends VerticalPane {
         

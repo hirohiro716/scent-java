@@ -618,7 +618,6 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * WebBrowserにおけるHTML文書内の要素を表す。
      * 
      * @author hiro
-     *
      */
     public interface Element {
 

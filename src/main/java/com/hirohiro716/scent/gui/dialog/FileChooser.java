@@ -232,7 +232,6 @@ public abstract class FileChooser extends Control implements DialogInterface {
      * ファイルフィルターのクラス。
      * 
      * @author hiro
-     *
      */
     public static abstract class FileFilter {
         

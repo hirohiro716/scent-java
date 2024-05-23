@@ -48,7 +48,6 @@ public abstract class Canvas extends Control {
      * キャンバスの描画内容を表示するJPanelクラス。
      * 
      * @author hiro
-     *
      */
     @SuppressWarnings("serial")
     private static class CanvasPanel extends JPanel {

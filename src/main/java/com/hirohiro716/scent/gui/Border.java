@@ -120,7 +120,6 @@ public class Border {
      * 影の境界線クラス。
      * 
      * @author hiro
-     *
      */
     @SuppressWarnings("serial")
     private static class ShadowBorder extends AbstractBorder {

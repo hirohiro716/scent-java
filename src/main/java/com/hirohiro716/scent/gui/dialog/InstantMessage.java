@@ -232,7 +232,6 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
      * このインスタントメッセージで使用するJWindow拡張クラス。
      * 
      * @author hiro
-     *
      */
     @SuppressWarnings("serial")
     protected static class JWindowForInstantMessage extends javax.swing.JWindow {

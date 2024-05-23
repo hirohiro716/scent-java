@@ -108,7 +108,6 @@ public class FileOpenChooser extends FileSaveChooser {
      * ファイルを開くダイアログのアイテム選択方法の列挙型。
      * 
      * @author hiro
-     *
      */
     public enum OpenMethod {
         /**

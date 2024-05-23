@@ -175,7 +175,6 @@ public class ChildWindow extends Frame<JDialog> {
      * 遅延してウィンドウをリサイズ可能にするスレッドクラス。
      * 
      * @author hiro
-     *
      */
     private class ResizableThread extends Thread {
         

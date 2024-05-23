@@ -476,7 +476,6 @@ public abstract class TextInputControl extends Control {
      * このテキスト入力コントロールの入力値を制限するクラス。
      * 
      * @author hiro
-     *
      */
     @SuppressWarnings("serial")
     private class RestrictedDocument extends PlainDocument {

@@ -325,7 +325,6 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
      * WebBrowserにおけるHTML文書内の要素を表す。
      * 
      * @author hiro
-     *
      */
     public class Element implements WebBrowser.Element {
         
@@ -493,7 +492,6 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
      * WEBブラウザ種類の列挙型。
      * 
      * @author hiro
-     *
      */
     public enum Type implements IdentifiableEnum<String> {
         /**

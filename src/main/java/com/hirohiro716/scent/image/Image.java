@@ -225,7 +225,6 @@ public class Image extends ByteArray implements Cloneable {
      * 画像のフォーマットタイプ列挙型。
      * 
      * @author hiro
-     *
      */
     public enum ImageFormat {
         /**
