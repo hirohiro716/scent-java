@@ -274,7 +274,6 @@ public class AutocompleteTextField extends TextField {
     private void createPopup() {
         Frame<?> frame = this.getFrame();
         this.popup = new Popup(frame);
-        this.popup.setSize(this.getWidth(), this.getFont().getSize() * 16);
         AutocompleteTextField control = this;
         frame.addLocationChangeListener(new ChangeListener<Point>() {
             
@@ -326,6 +325,7 @@ public class AutocompleteTextField extends TextField {
             return;
         }
         this.paneForClearFilter.setVisible(this.listItems.size() > this.filteredListItems.size());
+        this.popup.setSize(this.getWidth(), this.getFont().getSize() * 16);
         this.popup.setX((int) this.getLocationOnScreen().getX() + 3);
         int y = (int) this.getLocationOnScreen().getY() + this.getHeight() + 3;
         Rectangle rectangle = GUI.getMaximumWindowBounds(this.findPlacedGraphicsDevice());
