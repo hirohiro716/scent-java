@@ -6,3 +6,5 @@ Test.java
 
 # Setting files
 .vscode/
+*.code-workspace
+
