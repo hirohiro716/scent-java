@@ -18,8 +18,7 @@ import com.hirohiro716.scent.gui.event.InnerInstanceCreator;
  * GUIのすべてのマーク可能なコントロールの抽象クラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class MarkableControl extends LabeledControl {
     
     /**

@@ -12,8 +12,7 @@ import com.hirohiro716.scent.StringObject;
  * WEBサイトへリクエストするクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class WebsiteRequest {
     
     /**

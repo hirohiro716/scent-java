@@ -26,8 +26,7 @@ import com.hirohiro716.scent.gui.event.ChangeListener;
  * インスタントメッセージのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class InstantMessage extends Component<InstantMessage.JWindowForInstantMessage> {
     
     /**

@@ -15,8 +15,7 @@ import com.hirohiro716.scent.StringObject;
  * 年月日と時刻のクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Datetime implements Cloneable {
 
     /**

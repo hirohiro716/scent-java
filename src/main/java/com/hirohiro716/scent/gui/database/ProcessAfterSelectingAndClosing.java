@@ -6,8 +6,7 @@ import com.hirohiro716.scent.DynamicArray;
  * データベースレコードが選択された後に実行される処理のインターフェース。
  * 
  * @author hiro
- *
- */
+*/
 public interface ProcessAfterSelectingAndClosing {
 
     /**

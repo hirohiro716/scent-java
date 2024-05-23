@@ -17,8 +17,7 @@ import com.hirohiro716.scent.io.json.JSONValue;
  * "column1 = ? AND column2 = ?" と new Object[] {"検索値1", "検索値2"}
  * 
  * @author hiro
- *
- */
+*/
 public class WhereSet implements Cloneable {
 
     /**

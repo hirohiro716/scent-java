@@ -11,8 +11,7 @@ import com.hirohiro716.scent.gui.collection.AddListener;
  * 中央に1つのコントロールを配置するペインのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class CenterPane extends Pane {
 
     /**

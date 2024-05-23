@@ -16,8 +16,7 @@ import com.hirohiro716.scent.gui.event.EventHandler;
  * メニューを表示するダイアログのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class MenuDialog extends TitledDialog<Button> {
 
     /**

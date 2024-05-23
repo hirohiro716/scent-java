@@ -17,8 +17,7 @@ import com.hirohiro716.scent.io.ByteArray;
  * 画像のクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Image extends ByteArray implements Cloneable {
 
     /**

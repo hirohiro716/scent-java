@@ -6,8 +6,7 @@ import com.hirohiro716.scent.StringObject;
  * 期間のクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Span {
     
     /**

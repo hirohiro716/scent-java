@@ -12,8 +12,7 @@ import com.hirohiro716.scent.gui.event.EventHandler;
  * 質問ダイアログのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class QuestionDialog extends MessageableDialog<ResultButton> {
 
     /**

@@ -11,8 +11,7 @@ import com.hirohiro716.scent.filesystem.File;
  * JDBCドライバでSQLiteデータベースに接続するためのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class SQLite extends Database {
     
     @Override

@@ -36,8 +36,7 @@ import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
  * オートコンプリート機能付きのテキストフィールドのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class AutocompleteTextField extends TextField {
     
     /**
@@ -73,7 +72,7 @@ public class AutocompleteTextField extends TextField {
             
             @Override
             protected void handle(KeyEvent event) {
-                textField.textChangeListener.setDisabled(false);
+                textField.KeyTypedEventHandler.setDisabled(false);
                 if (event.isShiftDown() || event.isControlDown() || event.isAltDown()) {
                     return;
                 }
@@ -105,8 +104,8 @@ public class AutocompleteTextField extends TextField {
                 textField.showPopup();
             }
         });
-        this.textChangeListener = new TextChangeListener();
-        this.addTextChangeListener(this.textChangeListener);
+        this.KeyTypedEventHandler = new KeyTypedEventHandler();
+        this.addKeyTypedEventHandler(this.KeyTypedEventHandler);
         // Measures that the pop-up remains displayed for some reason
         this.listView.addMouseMovedEventHandler(new EventHandler<MouseEvent>() {
 
@@ -149,7 +148,7 @@ public class AutocompleteTextField extends TextField {
         this.setListItems(listItems);
     }
     
-    private TextChangeListener textChangeListener;
+    private KeyTypedEventHandler KeyTypedEventHandler;
 
     @Override
     public void setEditable(boolean isEditable) {
@@ -185,14 +184,14 @@ public class AutocompleteTextField extends TextField {
                     
                     @Override
                     public void keyPressed(java.awt.event.KeyEvent event) {
-                        if (event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && textField.textChangeListener.isDisabled() == false) {
+                        if (event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && textField.KeyTypedEventHandler.isDisabled() == false) {
                             this.isPressed = true;
                         }
                     }
 
                     @Override
                     public void keyReleased(java.awt.event.KeyEvent event) {
-                        if (event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && textField.textChangeListener.isDisabled() == false && this.isPressed) {
+                        if (event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && textField.KeyTypedEventHandler.isDisabled() == false && this.isPressed) {
                             eventHandler.executeWhenControlEnabled(new ActionEvent(textField, event));
                         }
                         this.isPressed = false;
@@ -390,7 +389,7 @@ public class AutocompleteTextField extends TextField {
                 switch (event.getKeyCode()) {
                 case ENTER:
                     if (control.listView.getSelectedItem() != null) {
-                        control.textChangeListener.setDisabled(true);
+                        control.KeyTypedEventHandler.setDisabled(true);
                         control.setText(control.listView.getSelectedItem());
                         control.listView.clearSelection();
                     }
@@ -496,19 +495,19 @@ public class AutocompleteTextField extends TextField {
     }
     
     private List<ListItemAdder> listItemAdders = new ArrayList<>();
-    
+
     /**
-     * このテキストフィールドの値が変更された際のリスナークラス。
+     * このテキストフィールドで文字が入力された際のイベントハンドラークラス。
      * 
      * @author hiro
      *
      */
-    private class TextChangeListener extends ChangeListener<String> {
-        
+    private class KeyTypedEventHandler extends EventHandler<KeyEvent> {
+
         private boolean isDisabled = false;
         
         /**
-         * このリスナーが無効になっている場合はtrueを返す。
+         * このイベントハンドラーが無効になっている場合はtrueを返す。
          * 
          * @return 結果。
          */
@@ -517,7 +516,7 @@ public class AutocompleteTextField extends TextField {
         }
         
         /**
-         * このリスナーを無効にする場合はtrueをセットする。
+         * このイベントハンドラーを無効にする場合はtrueをセットする。
          * 
          * @param isDisabled
          */
@@ -526,7 +525,7 @@ public class AutocompleteTextField extends TextField {
         }
         
         @Override
-        protected void changed(Component<?> component, String changedValue, String previousValue) {
+        protected void handle(KeyEvent event) {
             AutocompleteTextField control = AutocompleteTextField.this;
             if (control.isDisabledAutocomplete() || this.isDisabled) {
                 return;
@@ -535,7 +534,7 @@ public class AutocompleteTextField extends TextField {
                 
                 @Override
                 public void run() {
-                    ListItemAdder adder = new ListItemAdder(changedValue);
+                    ListItemAdder adder = new ListItemAdder(control.getText());
                     try {
                         int runningAdderSize = control.listItemAdders.size();
                         while (runningAdderSize > 0) {

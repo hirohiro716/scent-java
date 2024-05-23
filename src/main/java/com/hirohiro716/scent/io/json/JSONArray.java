@@ -12,8 +12,7 @@ import com.hirohiro716.scent.StringObject;
  * (RFC 8259)(ECMA-404 2nd Edition)
  * 
  * @author hiro
- *
- */
+*/
 public class JSONArray extends JSONValue<List<JSONValue<?>>> {
 
     /**

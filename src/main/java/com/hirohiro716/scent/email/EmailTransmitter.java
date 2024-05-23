@@ -17,8 +17,7 @@ import com.hirohiro716.scent.reflection.Method;
  * ・JavaBeans Activation Framework - <a href="https://github.com/javaee/activation/">https://github.com/javaee/activation/</a>
  * 
  * @author hiro
- *
- */
+*/
 public class EmailTransmitter extends DynamicClass {
     
     /**

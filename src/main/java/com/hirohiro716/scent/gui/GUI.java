@@ -23,8 +23,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
  * GUIのグローバルな静的関数のクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class GUI {
     
     /**

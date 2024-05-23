@@ -8,8 +8,7 @@ import com.hirohiro716.scent.StringObject;
  * PostgreSQLデータベースのレコードとオブジェクトをマップするための抽象クラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class RecordMapper extends com.hirohiro716.scent.database.RecordMapper {
     
     /**

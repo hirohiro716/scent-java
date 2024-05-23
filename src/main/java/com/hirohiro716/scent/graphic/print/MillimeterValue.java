@@ -4,8 +4,7 @@ package com.hirohiro716.scent.graphic.print;
  * ミリメートル単位の値クラス。
  * 
  * @author hiro
- *
- */
+*/
 public class MillimeterValue {
     
     /**

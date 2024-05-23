@@ -11,8 +11,7 @@ import com.hirohiro716.scent.gui.control.Control;
  * キーストロークイベントのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class KeyEvent extends InputEvent<java.awt.event.KeyEvent> {
     
     /**

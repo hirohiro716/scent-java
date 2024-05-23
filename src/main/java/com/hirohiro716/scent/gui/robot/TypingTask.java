@@ -11,8 +11,7 @@ import com.hirohiro716.scent.gui.KeyCode;
  * キーボードの入力を、タスクを定義した順に自動的に行うクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class TypingTask {
     
     /**

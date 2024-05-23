@@ -16,8 +16,7 @@ import javax.swing.border.MatteBorder;
  * 境界線のクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Border {
     
     /**

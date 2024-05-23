@@ -15,8 +15,7 @@ import com.hirohiro716.scent.StringObject;
  * 文字列を描画するクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class GraphicalString {
     
     /**

@@ -17,8 +17,7 @@ import com.hirohiro716.scent.filesystem.File.WritingProcess;
  * CSVファイル(RFC4180準拠)の解析と作成を行うクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class CSV {
     
     private List<String> headers = null;

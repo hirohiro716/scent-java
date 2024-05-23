@@ -16,8 +16,7 @@ import com.hirohiro716.scent.gui.VerticalAlignment;
  * コンテキストメニューアイテムのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class ContextMenuItem extends LabeledControl {
     
     /**

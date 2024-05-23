@@ -15,8 +15,7 @@ import com.hirohiro716.scent.property.PropertyInterface;
  * XMLファイルのプロパティを読み書きするクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class PropertyXML {
     
     /**

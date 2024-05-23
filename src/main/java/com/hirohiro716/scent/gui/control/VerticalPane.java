@@ -16,8 +16,7 @@ import com.hirohiro716.scent.gui.collection.RemoveListener;
  * 垂直に配置するペインのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class VerticalPane extends Pane {
     
     /**

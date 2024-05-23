@@ -19,8 +19,7 @@ import com.hirohiro716.scent.reflection.Method;
  * ・HtmlUnit - <a href="https://htmlunit.sourceforge.io/">https://htmlunit.sourceforge.io/</a>
  * 
  * @author hiro
- *
- */
+*/
 public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
 
     /**

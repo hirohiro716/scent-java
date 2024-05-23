@@ -10,8 +10,7 @@ import com.hirohiro716.scent.datetime.Datetime;
  * 文字列の検証を行うクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class StringValidator {
     
     /**

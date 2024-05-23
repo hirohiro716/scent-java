@@ -8,8 +8,7 @@ import com.hirohiro716.scent.StringObject;
  * JAN-13のバーコードを描画するクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class JAN13Writer {
     
     /**

@@ -9,8 +9,7 @@ import com.hirohiro716.scent.gui.Frame;
  * ファイルを開くダイアログのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class FileSaveChooser extends FileChooser {
     
     /**

@@ -31,8 +31,7 @@ import com.hirohiro716.scent.datetime.Datetime;
  * JDBCドライバでデータベースに接続するための抽象クラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class Database implements Closeable {
     
     /**

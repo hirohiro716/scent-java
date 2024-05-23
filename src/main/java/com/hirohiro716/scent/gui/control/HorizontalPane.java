@@ -16,8 +16,7 @@ import com.hirohiro716.scent.gui.collection.RemoveListener;
  * 水平に配置するペインのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class HorizontalPane extends Pane {
 
     /**

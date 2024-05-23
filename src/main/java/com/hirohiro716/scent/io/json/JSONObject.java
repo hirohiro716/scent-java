@@ -12,8 +12,7 @@ import com.hirohiro716.scent.property.PropertyInterface;
  * (RFC 8259)(ECMA-404 2nd Edition)
  * 
  * @author hiro
- *
- */
+*/
 public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
 
     /**

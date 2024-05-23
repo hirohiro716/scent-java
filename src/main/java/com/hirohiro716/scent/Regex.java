@@ -6,8 +6,7 @@ import java.util.regex.Pattern;
  * 汎用の正規表現パターン列挙型。
  * 
  * @author hiro
- *
- */
+*/
 public enum Regex {
     /**
      * 数字のみ。

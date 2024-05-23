@@ -6,8 +6,7 @@ import java.lang.reflect.InvocationTargetException;
  * Reflectionでclasspathにないjarのフィールドを取得するクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Field {
     
     /**

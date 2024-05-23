@@ -14,8 +14,7 @@ import com.hirohiro716.scent.gui.event.ChangeListener;
  * 待機中のサークルのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class WaitCircle extends Control {
     
     /**

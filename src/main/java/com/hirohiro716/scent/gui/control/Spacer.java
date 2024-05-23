@@ -8,8 +8,7 @@ import javax.swing.JPanel;
  * スペーサーのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Spacer extends Control {
     
     /**

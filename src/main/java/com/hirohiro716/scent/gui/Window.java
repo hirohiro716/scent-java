@@ -21,8 +21,7 @@ import com.hirohiro716.scent.gui.event.KeyEvent;
  * GUIのウィンドウのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Window extends Frame<JFrame> {
 
     /**

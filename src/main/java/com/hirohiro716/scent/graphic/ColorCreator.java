@@ -8,8 +8,7 @@ import com.hirohiro716.scent.StringObject;
  * 色を作成する静的関数のクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class ColorCreator {
     
     /**

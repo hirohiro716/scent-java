@@ -4,8 +4,7 @@ package com.hirohiro716.scent.gui;
  * コンポーネントのインセットのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Insets {
 
     /**

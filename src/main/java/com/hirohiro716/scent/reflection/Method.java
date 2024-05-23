@@ -8,8 +8,7 @@ import java.util.List;
  * Reflectionでclasspathにないjarのメソッドを利用するクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Method {
     
     /**

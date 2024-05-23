@@ -31,8 +31,7 @@ import com.hirohiro716.scent.filesystem.File;
  * XMLファイルの解析と作成を行うクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class XML {
     
     /**

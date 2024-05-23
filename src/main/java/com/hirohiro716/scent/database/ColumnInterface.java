@@ -9,8 +9,7 @@ import com.hirohiro716.scent.property.PropertyInterface;
  * データベースカラムのインターフェース。
  * 
  * @author hiro
- *
- */
+*/
 public interface ColumnInterface extends PropertyInterface {
     
     /**

@@ -31,8 +31,7 @@ import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
  * GUIのすべてのコントロールの抽象クラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class Control extends Component<JComponent> {
 
     /**

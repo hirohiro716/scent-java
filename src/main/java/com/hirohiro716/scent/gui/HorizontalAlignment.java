@@ -4,8 +4,7 @@ package com.hirohiro716.scent.gui;
  * 水平方向配置の列挙型。
  * 
  * @author hiro
- *
- */
+*/
 public enum HorizontalAlignment {
     /**
      * 左寄せ。

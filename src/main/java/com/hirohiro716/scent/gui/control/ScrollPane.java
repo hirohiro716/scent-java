@@ -9,8 +9,7 @@ import javax.swing.ScrollPaneConstants;
  * スクロールバーを表示するペインのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class ScrollPane extends Control {
     
     /**

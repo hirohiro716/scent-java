@@ -15,8 +15,7 @@ import com.hirohiro716.scent.datetime.Datetime;
  * 文字列のクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class StringObject implements Cloneable, Iterable<String> {
     
     /**

@@ -10,8 +10,7 @@ import java.net.URL;
  * ファイルシステムのアイテムを示す、ファイルやディレクトリの抽象クラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class FilesystemItem {
 
     /**

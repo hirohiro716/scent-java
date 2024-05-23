@@ -4,8 +4,7 @@ package com.hirohiro716.scent;
  * 例外を処理するハンドラーのインターフェース。
  * 
  * @author hiro
- *
- */
+*/
 public interface ExceptionHandler {
     
     /**

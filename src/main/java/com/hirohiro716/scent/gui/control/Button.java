@@ -19,8 +19,7 @@ import com.hirohiro716.scent.image.Image;
  * ボタンのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Button extends LabeledControl {
     
     /**

@@ -18,8 +18,7 @@ import com.hirohiro716.scent.gui.event.MouseEvent;
  * マーク可能なコントロールをグループ化するクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class MarkableGroup {
     
     private List<ChangeListener<MarkableControl>> markedControlChangeListener = new ArrayList<>();

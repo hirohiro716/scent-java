@@ -64,8 +64,7 @@ import com.hirohiro716.scent.io.json.JSONValue;
  * SQLの検索条件を作成するダイアログのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
 
     /**

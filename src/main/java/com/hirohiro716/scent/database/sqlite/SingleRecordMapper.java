@@ -14,8 +14,7 @@ import com.hirohiro716.scent.filesystem.File;
  * SQLiteデータベースの単一レコードとオブジェクトをマップするための抽象クラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class SingleRecordMapper extends com.hirohiro716.scent.database.SingleRecordMapper implements Closeable, ForciblyCloseableRecordMapper {
     
     /**

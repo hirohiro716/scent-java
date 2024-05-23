@@ -8,8 +8,7 @@ import java.util.LinkedHashMap;
  * 数値の端数処理の列挙型。
  * 
  * @author hiro
- *
- */
+*/
 public enum RoundNumber implements IdentifiableEnum<Integer> {
     /**
      * 四捨五入。

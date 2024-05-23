@@ -13,8 +13,7 @@ import com.hirohiro716.scent.filesystem.File;
  * SQLiteデータベースのレコードとオブジェクトをマップするための抽象クラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class RecordMapper extends com.hirohiro716.scent.database.RecordMapper implements Closeable, ForciblyCloseableRecordMapper {
     
     /**

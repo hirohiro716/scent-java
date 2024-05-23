@@ -7,8 +7,7 @@ import com.hirohiro716.scent.gui.control.TextArea;
  * テキストエリアを表示するダイアログのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class TextAreaDialog extends TextInputControlDialog<TextArea> {
 
     /**

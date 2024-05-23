@@ -6,8 +6,7 @@ import com.hirohiro716.scent.gui.Component;
  * コントロール独自のアクションイベントのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class ActionEvent extends Event<java.awt.AWTEvent> {
     
     /**

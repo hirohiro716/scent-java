@@ -32,8 +32,7 @@ import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
  * GUIのすべてのテキスト入力コントロールの抽象クラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class TextInputControl extends Control {
     
     /**

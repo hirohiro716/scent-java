@@ -12,8 +12,7 @@ import com.hirohiro716.scent.gui.event.KeyEvent;
  * テキストエリアのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class TextArea extends TextInputControl {
 
     /**

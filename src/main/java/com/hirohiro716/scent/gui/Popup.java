@@ -16,8 +16,7 @@ import com.hirohiro716.scent.gui.control.RootPane;
  * GUIでポップアップを表示するクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Popup extends Component<JWindow> {
     
     /**

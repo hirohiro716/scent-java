@@ -10,8 +10,7 @@ import javax.swing.JPanel;
  * キャンバスの抽象クラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class Canvas extends Control {
     
     /**

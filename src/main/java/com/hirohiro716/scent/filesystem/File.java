@@ -16,8 +16,7 @@ import java.nio.file.Paths;
  * ファイルシステム上のファイルクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class File extends FilesystemItem {
 
     /**

@@ -9,8 +9,7 @@ import com.hirohiro716.scent.gui.Frame;
  * ウィンドウの状態が変わったことを示すイベントのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class FrameEvent extends Event<java.awt.event.WindowEvent> {
     
     /**

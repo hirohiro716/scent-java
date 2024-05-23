@@ -18,8 +18,7 @@ import com.hirohiro716.scent.gui.control.TabPane.Tab;
  * 手動で配置するペインのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Pane extends Control {
     
     /**

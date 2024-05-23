@@ -17,8 +17,7 @@ import com.hirohiro716.scent.gui.collection.RemoveListener;
  * グリッド状に配置するペインのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class GridPane extends Pane {
 
     /**

@@ -14,8 +14,7 @@ import com.hirohiro716.scent.gui.control.Control;
  * マウス操作イベントのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
     
     /**

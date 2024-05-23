@@ -21,8 +21,7 @@ import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
  * ラベルのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class Label extends LabeledControl {
 
     /**

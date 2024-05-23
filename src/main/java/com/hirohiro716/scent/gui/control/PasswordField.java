@@ -6,8 +6,7 @@ import javax.swing.JPasswordField;
  * パスワードフィールドのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class PasswordField extends TextField {
 
     /**

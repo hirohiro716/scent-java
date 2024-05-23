@@ -21,8 +21,7 @@ import com.hirohiro716.scent.gui.event.KeyEvent;
  * タブによって表示を切り替えるペインのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class TabPane extends Control {
 
     /**

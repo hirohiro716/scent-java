@@ -14,8 +14,7 @@ import com.hirohiro716.scent.reflection.Method;
  * ・ZXing Java SE Extension - <a href="https://mvnrepository.com/artifact/com.google.zxing/javase">https://mvnrepository.com/artifact/com.google.zxing/javase</a><br>
  * 
  * @author hiro
- *
- */
+*/
 public class QRCodeCreator extends DynamicClass {
     
     /**

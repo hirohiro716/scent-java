@@ -4,8 +4,7 @@ package com.hirohiro716.scent;
  * 例外から詳細メッセージを作成するクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class ExceptionMessenger {
     
     /**

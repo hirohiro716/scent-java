@@ -18,8 +18,7 @@ import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
  * マウス操作で移動やサイズ変更が可能なラベルのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class MovableLabel extends Label {
     
     /**

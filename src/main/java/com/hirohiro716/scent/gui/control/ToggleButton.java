@@ -6,8 +6,7 @@ import javax.swing.JToggleButton;
  * トグルボタンのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class ToggleButton extends MarkableControl {
 
     /**

@@ -12,8 +12,7 @@ import com.hirohiro716.scent.gui.event.EventHandler;
  * 確認ダイアログのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class ConfirmationDialog extends MessageableDialog<ResultButton> {
     
     /**

@@ -17,8 +17,7 @@ import com.hirohiro716.scent.reflection.Method;
  * ・WebDriver - <a href="https://www.selenium.dev/documentation/en/webdriver/driver_requirements/">https://www.selenium.dev/documentation/en/webdriver/driver_requirements/</a>
  * 
  * @author hiro
- *
- */
+*/
 public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
     
     /**

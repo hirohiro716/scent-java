@@ -6,8 +6,7 @@ import javax.swing.JRadioButton;
  * ラジオボタンのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class RadioButton extends MarkableControl {
 
     /**

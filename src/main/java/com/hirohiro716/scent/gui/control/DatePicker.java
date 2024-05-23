@@ -31,8 +31,7 @@ import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
  * 日付の入力に特化したテキストフィールドのクラス。
  * 
  * @author hiro
- *
- */
+*/
 public class DatePicker extends TextField {
     
     /**

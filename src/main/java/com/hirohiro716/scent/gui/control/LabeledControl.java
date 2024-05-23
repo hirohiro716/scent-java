@@ -11,8 +11,7 @@ import com.hirohiro716.scent.gui.VerticalAlignment;
  * GUIのすべてのラベル付きコントロールの抽象クラス。
  * 
  * @author hiro
- *
- */
+*/
 public abstract class LabeledControl extends Control {
     
     /**
