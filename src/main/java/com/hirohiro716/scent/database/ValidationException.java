@@ -12,7 +12,6 @@ import com.hirohiro716.scent.StringObject;
  * 
  * @author hiro
 */
-@SuppressWarnings("serial")
 public class ValidationException extends Exception {
     
     private final static String MESSAGE = "レコードの検証に失敗しました。";

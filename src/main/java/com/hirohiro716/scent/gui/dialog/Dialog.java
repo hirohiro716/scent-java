@@ -256,7 +256,6 @@ public abstract class Dialog<R> implements DialogInterface {
      * 
      * @author hiro
      */
-    @SuppressWarnings("serial")
     private class InnerBackgroundPanel extends JPanel {
         
         @Override

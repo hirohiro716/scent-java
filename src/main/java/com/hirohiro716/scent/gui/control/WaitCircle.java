@@ -58,7 +58,6 @@ public class WaitCircle extends Control {
      * 
      * @author hiro
      */
-    @SuppressWarnings("serial")
     private static class AnimationPanel extends JPanel {
         
         private WaitCircle waitCircle;

@@ -105,7 +105,6 @@ public abstract class ListSelectControl<T> extends Control {
      */
     protected void updateItemDisplay() {
         ListSelectControl<T> control = ListSelectControl.this;
-        @SuppressWarnings("serial")
         DefaultListCellRenderer cellRenderer = new DefaultListCellRenderer() {
             
             @Override

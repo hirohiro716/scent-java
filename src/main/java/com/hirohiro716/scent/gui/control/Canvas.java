@@ -49,7 +49,6 @@ public abstract class Canvas extends Control {
      * 
      * @author hiro
      */
-    @SuppressWarnings("serial")
     private static class CanvasPanel extends JPanel {
         
         private Canvas canvas;

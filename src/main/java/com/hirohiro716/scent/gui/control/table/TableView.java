@@ -629,7 +629,6 @@ public abstract class TableView<C, R> extends Control {
      * 
      * @author hiro
      */
-    @SuppressWarnings("serial")
     private class TableModel extends AbstractTableModel {
         
         /**
@@ -761,7 +760,6 @@ public abstract class TableView<C, R> extends Control {
      * 
      * @author hiro
      */
-    @SuppressWarnings("serial")
     private class HeaderRenderer extends DefaultTableCellRenderer {
         
         /**
@@ -792,7 +790,6 @@ public abstract class TableView<C, R> extends Control {
      * 
      * @author hiro
      */
-    @SuppressWarnings("serial")
     private class CellRenderer extends DefaultTableCellRenderer {
         
         @Override
@@ -842,7 +839,6 @@ public abstract class TableView<C, R> extends Control {
      * 
      * @author hiro
      */
-    @SuppressWarnings("serial")
     private class ButtonCellRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
         
         /**

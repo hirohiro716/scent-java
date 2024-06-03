@@ -5,7 +5,6 @@ package com.hirohiro716.scent.validation;
  * 
  * @author hiro
 */
-@SuppressWarnings("serial")
 public class ValidationException extends Exception {
 
     /**

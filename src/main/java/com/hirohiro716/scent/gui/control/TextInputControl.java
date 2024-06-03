@@ -477,7 +477,6 @@ public abstract class TextInputControl extends Control {
      * 
      * @author hiro
      */
-    @SuppressWarnings("serial")
     private class RestrictedDocument extends PlainDocument {
         
         @Override

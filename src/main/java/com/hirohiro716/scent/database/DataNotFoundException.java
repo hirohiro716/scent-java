@@ -8,7 +8,6 @@ import java.sql.SQLException;
  * @author hiro
  * 
  */
-@SuppressWarnings("serial")
 public class DataNotFoundException extends SQLException {
     
     private final static String MESSAGE = "データが存在しません。";

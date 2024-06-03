@@ -121,7 +121,6 @@ public class Border {
      * 
      * @author hiro
      */
-    @SuppressWarnings("serial")
     private static class ShadowBorder extends AbstractBorder {
         
         /**

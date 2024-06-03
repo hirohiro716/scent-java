@@ -6,7 +6,6 @@ package com.hirohiro716.scent.io.json;
  * @author hiro
  * 
  */
-@SuppressWarnings("serial")
 public class ParseException extends Exception {
     
     /**

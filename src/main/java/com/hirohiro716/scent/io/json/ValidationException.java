@@ -12,7 +12,6 @@ import com.hirohiro716.scent.property.PropertyInterface;
  * 
  * @author hiro
 */
-@SuppressWarnings("serial")
 public class ValidationException extends Exception {
     
     private final static String MESSAGE = "オブジェクトの検証に失敗しました。";
