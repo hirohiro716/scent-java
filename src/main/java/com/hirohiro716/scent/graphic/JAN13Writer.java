@@ -35,14 +35,12 @@ public class JAN13Writer {
      * @param height
      */
     public void write(float x, float y, float width, float height) {
-        float oneModule = width / 115f;
+        float oneModule = width / 95f;
         if (oneModule <= 0 || isValid(this.barcode) == false) {
             return;
         }
         StringObject barcode = new StringObject(this.barcode);
         float drawingX = x;
-        // クワイエットゾーン
-        drawingX += oneModule * 10;
         // ノーマルガードバー
         this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule, height));
         drawingX += oneModule * 2;
