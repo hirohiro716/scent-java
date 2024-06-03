@@ -437,12 +437,12 @@ public abstract class EditableTable<C, R> extends Control {
      * @param rowInstance
      * @return 結果。
      */
-    public boolean isDisplayedRow(R rowInstance) {
+    public boolean isDisplayRow(R rowInstance) {
         Pane pane = this.mapRowControlPanes.get(rowInstance);
         if (pane == null) {
             return false;
         }
-        return this.rowsScrollPane.isDisplayedEntireControl(pane);
+        return this.rowsScrollPane.isDisplayEntireControl(pane);
     }
     
     /**
@@ -656,7 +656,7 @@ public abstract class EditableTable<C, R> extends Control {
         }
     };
     
-    private boolean isStartedResizeHeaderLabel = false;
+    private boolean isHeaderLabelResizeStarted = false;
     
     private int headerPaneWidthBeforeResizing;
     
@@ -672,9 +672,9 @@ public abstract class EditableTable<C, R> extends Control {
         @Override
         protected void handle(MouseEvent event) {
             EditableTable<C, R> editableTable = EditableTable.this;
-            editableTable.isStartedResizeHeaderLabel = false;
+            editableTable.isHeaderLabelResizeStarted = false;
             if (event.getX() > event.getSource().getWidth() - 10) {
-                editableTable.isStartedResizeHeaderLabel = true;
+                editableTable.isHeaderLabelResizeStarted = true;
                 editableTable.headerPaneWidthBeforeResizing = editableTable.headerPane.getWidth();
                 editableTable.headerLabelWidthBeforeResizing = event.getSource().getWidth();
                 editableTable.headerLabelResizeStartPointX = event.getScreenX();
@@ -692,7 +692,7 @@ public abstract class EditableTable<C, R> extends Control {
             EditableTable<C, R> editableTable = EditableTable.this;
             TableColumn tableColumn = editableTable.mapHeaderLabels.get(event.getSource());
             int labelWidth = editableTable.headerLabelWidthBeforeResizing - editableTable.headerLabelResizeStartPointX + event.getScreenX();
-            if (tableColumn.isResizable() == false || editableTable.isStartedResizeHeaderLabel == false || labelWidth <= tableColumn.getMinimumWidth() || labelWidth >= tableColumn.getMaximumWidth()) {
+            if (tableColumn.isResizable() == false || editableTable.isHeaderLabelResizeStarted == false || labelWidth <= tableColumn.getMinimumWidth() || labelWidth >= tableColumn.getMaximumWidth()) {
                 return;
             }
             editableTable.headerPane.setWidth(editableTable.headerPaneWidthBeforeResizing - editableTable.headerLabelResizeStartPointX + event.getScreenX());
@@ -1279,7 +1279,7 @@ public abstract class EditableTable<C, R> extends Control {
                     Map<C, Control> mapRowControls = editableTable.mapOfRowControlMap.get(rowControlPane);
                     Control control = mapRowControls.get(columnInstance);
                     editableTable.activate(rowInstance, columnInstance);
-                    if (editableTable.rowsScrollPane.isDisplayedEntireControl(control) == false) {
+                    if (editableTable.rowsScrollPane.isDisplayEntireControl(control) == false) {
                         editableTable.scrollTo(rowInstance, columnInstance);
                     }
                 }

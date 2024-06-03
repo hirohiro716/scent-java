@@ -888,14 +888,14 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         case NUMBER_STRING:
             textField = new TextField();
             textField.setWidth(baseSize * 5);
-            textField.setDisabledInputMethod(true);
+            textField.setDisableInputMethod(true);
             textField.addLimitByRegex(Regex.INTEGER.getPattern(), false);
             return textField;
         case NUMBER:
             textField = new TextField();
             textField.setWidth(baseSize * 5);
             textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
-            textField.setDisabledInputMethod(true);
+            textField.setDisableInputMethod(true);
             textField.addLimitByRegex(Regex.DECIMAL_NEGATIVE.getPattern(), false);
             return textField;
         case DATE:

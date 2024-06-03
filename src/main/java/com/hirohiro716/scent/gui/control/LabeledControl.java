@@ -23,7 +23,7 @@ public abstract class LabeledControl extends Control {
      */
     protected LabeledControl(JComponent innerInstance, String text) {
         super(innerInstance);
-        this.setDisabledInputMethod(true);
+        this.setDisableInputMethod(true);
         this.text = text;
     }
     

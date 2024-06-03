@@ -165,7 +165,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * @param record
      * @return 結果。
      */
-    protected abstract boolean isAllowViewRecord(DynamicArray<String> record);
+    protected abstract boolean isAllowRecordView(DynamicArray<String> record);
     
     private List<DynamicArray<String>> searchedRecords = new ArrayList<>();
     
@@ -184,7 +184,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
     protected void updateDisplayOfTableView() {
         this.tableView.getRowInstances().clear();
         for (DynamicArray<String> record : this.searchedRecords) {
-            if (this.isAllowViewRecord(record)) {
+            if (this.isAllowRecordView(record)) {
                 this.tableView.getRowInstances().add(record);
             }
         }

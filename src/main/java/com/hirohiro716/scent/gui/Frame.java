@@ -495,9 +495,9 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public TextField createTextFieldForInteger(PropertyInterface property) {
         TextField textField = this.createTextField(property);
         textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
-        textField.setDisabledInputMethod(true);
+        textField.setDisableInputMethod(true);
         textField.addLimitByRegex(Regex.INTEGER_NEGATIVE.getPattern(), false);
-        textField.setEnabledSelectAllWhenFocused(true);
+        textField.setEnableSelectAllWhenFocused(true);
         this.mapPropertyAndControl.put(property, textField);
         return textField;
     }
@@ -511,9 +511,9 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     public TextField createTextFieldForDecimal(PropertyInterface property) {
         TextField textField = this.createTextField(property);
         textField.setTextHorizontalAlignment(HorizontalAlignment.RIGHT);
-        textField.setDisabledInputMethod(true);
+        textField.setDisableInputMethod(true);
         textField.addLimitByRegex(Regex.DECIMAL_NEGATIVE.getPattern(), false);
-        textField.setEnabledSelectAllWhenFocused(true);
+        textField.setEnableSelectAllWhenFocused(true);
         this.mapPropertyAndControl.put(property, textField);
         return textField;
     }

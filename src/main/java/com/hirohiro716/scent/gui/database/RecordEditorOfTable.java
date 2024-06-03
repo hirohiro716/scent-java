@@ -43,7 +43,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
      * @param record
      * @return 結果。
      */
-    protected abstract boolean isAllowViewRecord(DynamicArray<C> record);
+    protected abstract boolean isAllowRecordView(DynamicArray<C> record);
     
     private Collection<DynamicArray<C>> records = new Collection<>();
     
@@ -53,7 +53,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     protected void updateDisplayOfEditableTable() {
         this.editableTable.getRowInstances().clear();
         for (DynamicArray<C> record : this.records) {
-            if (this.isAllowViewRecord(record)) {
+            if (this.isAllowRecordView(record)) {
                 this.editableTable.getRowInstances().add(record);
             }
         }

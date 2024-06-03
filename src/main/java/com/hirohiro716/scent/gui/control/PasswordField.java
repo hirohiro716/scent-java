@@ -17,8 +17,8 @@ public class PasswordField extends TextField {
      */
     protected PasswordField(JPasswordField innerInstance) {
         super(innerInstance);
-        this.setDisabledInputMethod(true);
-        this.setEnabledSelectAllWhenFocused(true);
+        this.setDisableInputMethod(true);
+        this.setEnableSelectAllWhenFocused(true);
         for (ContextMenuItem item : this.getContextMenu().getContextMenuItems()) {
             switch (item.getMnemonic()) {
             case C:

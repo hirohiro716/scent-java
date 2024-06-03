@@ -67,7 +67,7 @@ public abstract class TextInputControl extends Control {
 
             @Override
             protected void changed(Component<?> component, Boolean changedValue, Boolean previousValue) {
-                if (control.isEnabledSelectAllWhenFocused) {
+                if (control.isEnableSelectAllWhenFocused) {
                     control.selectAll();
                 }
             }
@@ -131,12 +131,12 @@ public abstract class TextInputControl extends Control {
         this.getInnerInstance().setText(null);
     }
     
-    private boolean isDisabledInputMethod = false;
+    private boolean isDisableInputMethod = false;
     
     @Override
-    public void setDisabledInputMethod(boolean isDisabledInputMethod) {
-        super.setDisabledInputMethod(isDisabledInputMethod);
-        this.isDisabledInputMethod = isDisabledInputMethod;
+    public void setDisableInputMethod(boolean isDisableInputMethod) {
+        super.setDisableInputMethod(isDisableInputMethod);
+        this.isDisableInputMethod = isDisableInputMethod;
     }
     
     private Color foregroundColor; 
@@ -163,7 +163,7 @@ public abstract class TextInputControl extends Control {
      */
     public void setEditable(boolean isEditable) {
         this.getInnerInstance().setEditable(isEditable);
-        this.setDisabledInputMethod(this.isDisabledInputMethod);
+        this.setDisableInputMethod(this.isDisableInputMethod);
         if (isEditable) {
             this.getInnerInstance().setForeground(this.foregroundColor);
         } else {
@@ -230,24 +230,24 @@ public abstract class TextInputControl extends Control {
         this.getInnerInstance().selectAll();
     }
     
-    private boolean isEnabledSelectAllWhenFocused = false;
+    private boolean isEnableSelectAllWhenFocused = false;
     
     /**
      * このテキスト入力コントロールがフォーカスされた際に、すべての文字列を選択状態にする場合はtrueを返す。
      * 
      * @return 結果。
      */
-    public boolean isEnabledSelectAllWhenFocused() {
-        return this.isEnabledSelectAllWhenFocused;
+    public boolean isEnableSelectAllWhenFocused() {
+        return this.isEnableSelectAllWhenFocused;
     }
     
     /**
      * このテキスト入力コントロールがフォーカスされた際に、すべての文字列を選択状態にする場合はtrueをセットする。
      * 
-     * @param isEnabledSelectAllWhenFocused
+     * @param isEnableSelectAllWhenFocused
      */
-    public void setEnabledSelectAllWhenFocused(boolean isEnabledSelectAllWhenFocused) {
-        this.isEnabledSelectAllWhenFocused = isEnabledSelectAllWhenFocused;
+    public void setEnableSelectAllWhenFocused(boolean isEnableSelectAllWhenFocused) {
+        this.isEnableSelectAllWhenFocused = isEnableSelectAllWhenFocused;
     }
     
     /**
@@ -418,14 +418,14 @@ public abstract class TextInputControl extends Control {
     
     private int indexOfHistory = 0;
     
-    private boolean isDisabledUpdateOfHistory = false;
+    private boolean isDisableUpdateOfHistory = false;
     
     private ChangeListener<String> changeHistoryCreator = new ChangeListener<String>() {
 
         @Override
         protected void changed(Component<?> component, String changedValue, String previousValue) {
             TextInputControl control = TextInputControl.this;
-            if (control.isDisabledUpdateOfHistory) {
+            if (control.isDisableUpdateOfHistory) {
                 return;
             }
             while (control.history.size() - 1 > control.indexOfHistory) {
@@ -451,18 +451,18 @@ public abstract class TextInputControl extends Control {
                         if (control.indexOfHistory == 0) {
                             return;
                         }
-                        control.isDisabledUpdateOfHistory = true;
+                        control.isDisableUpdateOfHistory = true;
                         control.indexOfHistory -= 1;
                         control.setText(control.history.get(control.indexOfHistory));
-                        control.isDisabledUpdateOfHistory = false;
+                        control.isDisableUpdateOfHistory = false;
                     } else {
                         if (control.indexOfHistory >= control.history.size() - 1) {
                             return;
                         }
-                        control.isDisabledUpdateOfHistory = true;
+                        control.isDisableUpdateOfHistory = true;
                         control.indexOfHistory += 1;
                         control.setText(control.history.get(control.indexOfHistory));
-                        control.isDisabledUpdateOfHistory = false;
+                        control.isDisableUpdateOfHistory = false;
                     }
                     break;
                 default:

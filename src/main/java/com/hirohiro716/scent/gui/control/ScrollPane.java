@@ -100,7 +100,7 @@ public class ScrollPane extends Control {
      * @param control
      * @return 結果。
      */
-    public boolean isDisplayedEntireControl(Control control) {
+    public boolean isDisplayEntireControl(Control control) {
         int targetX = control.getX();
         int targetY = control.getY();
         boolean isBelong = false;
