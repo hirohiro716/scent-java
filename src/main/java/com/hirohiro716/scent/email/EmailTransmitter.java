@@ -108,19 +108,19 @@ public class EmailTransmitter extends DynamicClass {
         this.isEnableTLS = isEnableTLS;
     }
     
-    private Map<ReceiverType, List<String>> toAddresses = new HashMap<>();
+    private Map<RecipientType, List<String>> recipientAddresses = new HashMap<>();
     
     /**
      * 送信先のE-mailアドレスを追加する。
      * 
-     * @param toAddress
-     * @param receiverType
+     * @param recipientAddress
+     * @param recipientType
      */
-    public void addToAddress(String toAddress, ReceiverType receiverType) {
-        if (this.toAddresses.containsKey(receiverType) == false) {
-            this.toAddresses.put(receiverType, new ArrayList<>());
+    public void addRecipientAddress(String recipientAddress, RecipientType recipientType) {
+        if (this.recipientAddresses.containsKey(recipientType) == false) {
+            this.recipientAddresses.put(recipientType, new ArrayList<>());
         }
-        this.toAddresses.get(receiverType).add(toAddress);
+        this.recipientAddresses.get(recipientType).add(recipientAddress);
     }
     
     private String charset = "UTF-8";
@@ -200,19 +200,19 @@ public class EmailTransmitter extends DynamicClass {
         Object cc = recipientTypes.get("Cc");
         Object bcc = recipientTypes.get("Bcc");
         // To
-        List<String> emailAddresses = this.toAddresses.get(ReceiverType.TO);
+        List<String> emailAddresses = this.recipientAddresses.get(RecipientType.TO);
         if (emailAddresses != null && emailAddresses.size() > 0) {
             methodMessage.setParameterTypes(classRecipientType, this.loadClass("[Ljavax.mail.Address;"));
             methodMessage.invoke("addRecipients", to, this.stringToInternetAddress(StringObject.joinWithSeparator(emailAddresses.toArray(new Object[] {}), ",").toString()));
         }
         // CC
-        emailAddresses = this.toAddresses.get(ReceiverType.CC);
+        emailAddresses = this.recipientAddresses.get(RecipientType.CC);
         if (emailAddresses != null && emailAddresses.size() > 0) {
             methodMessage.setParameterTypes(classRecipientType, this.loadClass("[Ljavax.mail.Address;"));
             methodMessage.invoke("addRecipients", cc, this.stringToInternetAddress(StringObject.joinWithSeparator(emailAddresses.toArray(new Object[] {}), ",").toString()));
         }
         // BCC
-        emailAddresses = this.toAddresses.get(ReceiverType.BCC);
+        emailAddresses = this.recipientAddresses.get(RecipientType.BCC);
         if (emailAddresses != null && emailAddresses.size() > 0) {
             methodMessage.setParameterTypes(classRecipientType, this.loadClass("[Ljavax.mail.Address;"));
             methodMessage.invoke("addRecipients", bcc, this.stringToInternetAddress(StringObject.joinWithSeparator(emailAddresses.toArray(new Object[] {}), ",").toString()));
@@ -236,7 +236,7 @@ public class EmailTransmitter extends DynamicClass {
      * 
      * @author hiro
      */
-    public enum ReceiverType {
+    public enum RecipientType {
         /**
          * 宛先。
          */
