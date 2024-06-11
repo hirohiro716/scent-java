@@ -26,7 +26,7 @@ public class Encrypter {
     
     /**
      * コンストラクタ。<br>
-     * 使用するアルゴリズム、共通鍵、初期ベクトルを指定する。
+     * 使用するアルゴリズム、共通鍵を指定する。
      * 
      * @param algorithm "AES/CBC/PKCS5Padding"など、Cipherで使用できるアルゴリズム。
      * @param key 共通鍵。
@@ -63,7 +63,7 @@ public class Encrypter {
     private ByteArray key;
     
     /**
-     * このインスタンスで使用した共通鍵を取得する。
+     * このインスタンスで使用している共通鍵を取得する。
      * 
      * @return 結果。
      */
@@ -72,7 +72,7 @@ public class Encrypter {
     }
     
     /**
-     * このインスタンスで使用した初期ベクトルを取得する。
+     * このインスタンスで使用している初期ベクトルを取得する。
      * 
      * @return 結果。
      */
