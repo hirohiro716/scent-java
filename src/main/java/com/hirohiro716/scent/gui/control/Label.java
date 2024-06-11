@@ -59,7 +59,7 @@ public class Label extends LabeledControl {
      * コンストラクタ。
      */
     public Label() {
-        this(new JLabel());
+        this(" ");
     }
     
     @Override
