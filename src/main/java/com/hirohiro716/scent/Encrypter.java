@@ -28,16 +28,16 @@ public class Encrypter {
      * コンストラクタ。<br>
      * 使用するアルゴリズム、共通鍵を指定する。
      * 
-     * @param algorithm "AES/CBC/PKCS5Padding"など、Cipherで使用できるアルゴリズム。
+     * @param transformation "algorithm/mode/padding"または"algorithm"の書式で記述されたCipherで使用できる変数。"AES/CBC/PKCS5Padding"や"AES"など。
      * @param key 共通鍵。
      * @throws NoSuchAlgorithmException
      * @throws NoSuchPaddingException
      */
-    public Encrypter(String algorithm, ByteArray key) throws NoSuchAlgorithmException, NoSuchPaddingException {
-        this.cipher = Cipher.getInstance(algorithm);
-        this.firstAlgorithm = StringObject.newInstance(algorithm).split("/")[0];
+    public Encrypter(String transformation, ByteArray key) throws NoSuchAlgorithmException, NoSuchPaddingException {
+        this.cipher = Cipher.getInstance(transformation);
+        this.algorithm = StringObject.newInstance(transformation).split("/")[0];
         if (key == null || key.length() == 0) {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(this.firstAlgorithm);
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(this.algorithm);
             this.key = new ByteArray(keyGenerator.generateKey().getEncoded());
         } else {
             this.key = key;
@@ -48,15 +48,15 @@ public class Encrypter {
      * コンストラクタ。<br>
      * 使用するするアルゴリズムを指定する。共通鍵は内部で自動生成される。
      * 
-     * @param algorithm "AES/CBC/PKCS5Padding"など、Cipherで使用できるアルゴリズム。
+     * @param transformation "algorithm/mode/padding"または"algorithm"の書式で記述されたCipherで使用できる変数。"AES/CBC/PKCS5Padding"や"AES"など。
      * @throws NoSuchAlgorithmException
      * @throws NoSuchPaddingException
      */
-    public Encrypter(String algorithm) throws NoSuchAlgorithmException, NoSuchPaddingException {
-        this(algorithm, null);
+    public Encrypter(String transformation) throws NoSuchAlgorithmException, NoSuchPaddingException {
+        this(transformation, null);
     }
     
-    private String firstAlgorithm;
+    private String algorithm;
     
     private Cipher cipher;
     
@@ -94,7 +94,7 @@ public class Encrypter {
      * @throws BadPaddingException
      */
     public ByteArray encrypt(String value) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(this.key.bytes(), this.firstAlgorithm);
+        SecretKeySpec secretKeySpec = new SecretKeySpec(this.key.bytes(), this.algorithm);
         this.cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
         return new ByteArray(this.cipher.doFinal(value.getBytes()));
     }
@@ -111,7 +111,7 @@ public class Encrypter {
      * @throws BadPaddingException
      */
     public String decrypt(ByteArray encrypted, ByteArray iv) throws InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(this.key.bytes(), this.firstAlgorithm);
+        SecretKeySpec secretKeySpec = new SecretKeySpec(this.key.bytes(), this.algorithm);
         IvParameterSpec ivParameterSpec = null;
         if (iv != null) {
             ivParameterSpec = new IvParameterSpec(iv.bytes());
