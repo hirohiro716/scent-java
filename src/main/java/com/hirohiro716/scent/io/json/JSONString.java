@@ -100,15 +100,28 @@ public class JSONString extends JSONValue<String> {
             case "\"":
             case "\\":
             case "/":
-            case "\b":
-            case "\f":
-            case "\n":
-            case "\r":
-            case "\t":
                 result.append("\\");
+                result.append(one);
+                break;
+            case "\b":
+                result.append("\\b");
+                break;
+            case "\f":
+                result.append("\\f");
+                break;
+            case "\n":
+                result.append("\\n");
+                break;
+            case "\r":
+                result.append("\\r");
+                break;
+            case "\t":
+                result.append("\\t");
+                break;
+            default:
+                result.append(one);
                 break;
             }
-            result.append(one);
         }
         return result.append("\"").toString();
     }
