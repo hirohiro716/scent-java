@@ -64,6 +64,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
             @Override
             protected void handle(MouseEvent event) {
                 if (control.isEnableChangeValueWithMouseWheelRotation() == false) {
+                    event.copy(control.getParent());
                     return;
                 }
                 int index = control.getInnerInstance().getSelectedIndex();

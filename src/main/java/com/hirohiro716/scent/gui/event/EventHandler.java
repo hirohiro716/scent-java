@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hirohiro716.scent.gui.Component;
+import com.hirohiro716.scent.gui.control.Control;
 
 /**
  * コントロールのイベントを処理するハンドラーの抽象クラス。
@@ -67,6 +68,11 @@ public abstract class EventHandler<E extends Event<?>> {
     public void executeWhenControlEnabled(E event) {
         if (event.getSource().isDisabled() == false) {
             this.handle(event);
+        } else {
+            if (event.getSource() instanceof Control) {
+                Control control = (Control) event.getSource();
+                event.copy(control.getParent());
+            }
         }
     }
 }
