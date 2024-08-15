@@ -190,6 +190,48 @@ public class Datetime implements Cloneable {
     }
     
     /**
+     * このインスタンスの年月日を指定値に変更する。引数にnullを指定した場合は何もしない。
+     * 
+     * @param year 西暦の年。
+     * @param month 1から12の月。
+     * @param day 1から31の日。
+     */
+    public void modifyDate(Integer year, Integer month, Integer day) {
+        if (year != null) {
+            this.modifyYear(year);
+        }
+        if (month != null) {
+            this.modifyMonth(month);
+        }
+        if (day != null) {
+            this.modifyDay(day);
+        }
+    }
+
+    /**
+     * このインスタンスの時刻を指定値に変更する。引数にnullを指定した場合は何もしない。
+     * 
+     * @param hour 0から23の時。
+     * @param minute 0から59の分。
+     * @param second 0から59の秒。
+     * @param millisecond 0から999のミリ秒。
+     */
+    public void modifyTime(Integer hour, Integer minute, Integer second, Integer millisecond) {
+        if (hour != null) {
+            this.modifyHour(hour);
+        }
+        if (minute != null) {
+            this.modifyMinute(minute);
+        }
+        if (second != null) {
+            this.modifySecond(second);
+        }
+        if (millisecond != null) {
+            this.modifyMillisecond(millisecond);
+        }
+    }
+
+    /**
      * このインスタンスの年月日と時刻をセットする。
      * 
      * @param year 西暦の年。
@@ -201,13 +243,8 @@ public class Datetime implements Cloneable {
      * @param millisecond 0から999のミリ秒。
      */
     public void set(int year, int month, int day, int hour, int minute, int second, int millisecond) {
-        this.modifyYear(year);
-        this.modifyMonth(month);
-        this.modifyDay(day);
-        this.modifyHour(hour);
-        this.modifyMinute(minute);
-        this.modifySecond(second);
-        this.modifyMillisecond(millisecond);
+        this.modifyDate(year, month, day);
+        this.modifyTime(hour, minute, second, millisecond);
     }
 
     /**
