@@ -106,8 +106,13 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
             webDriver = webDriverConstructor.newInstance(options);
             break;
         case FIREFOX:
+            optionConstructor = new Constructor("org.openqa.selenium.firefox.FirefoxOptions");
+            options = optionConstructor.newInstance();
+            Method firefoxAddPreferenceMethod = new Method(this.loadClass("org.openqa.selenium.firefox.FirefoxOptions"), options);
+            firefoxAddPreferenceMethod.setParameterTypes(String.class, boolean.class);
+            firefoxAddPreferenceMethod.invoke("addPreference", "pdfjs.disabled", true);
             webDriverConstructor = new Constructor("org.openqa.selenium.firefox.FirefoxDriver");
-            webDriver = webDriverConstructor.newInstance();
+            webDriver = webDriverConstructor.newInstance(options);
             break;
         case EDGE:
             webDriverConstructor = new Constructor("org.openqa.selenium.edge.EdgeDriver");
