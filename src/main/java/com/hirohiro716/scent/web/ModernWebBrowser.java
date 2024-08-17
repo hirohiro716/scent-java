@@ -3,7 +3,10 @@ package com.hirohiro716.scent.web;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.hirohiro716.scent.Array;
 import com.hirohiro716.scent.IdentifiableEnum;
 import com.hirohiro716.scent.StringObject;
@@ -87,27 +90,36 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
      */
     public Object createWebDriver(Type type) throws Exception {
         Object webDriver = null;
-        Constructor constructor;
+        Constructor webDriverConstructor;
+        Constructor optionConstructor;
+        Object options;
         switch (type) {
         case CHROME:
-            constructor = new Constructor("org.openqa.selenium.chrome.ChromeDriver");
-            webDriver = constructor.newInstance();
+            optionConstructor = new Constructor("org.openqa.selenium.chrome.ChromeOptions");
+            options = optionConstructor.newInstance();
+            Method chromeSetExperimentalOptionMethod = new Method(this.loadClass("org.openqa.selenium.chrome.ChromeOptions"), options);
+            Map<String, Object> chromePrefs = new HashMap<>();
+            chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+            chromeSetExperimentalOptionMethod.setParameterTypes(String.class, Object.class);
+            chromeSetExperimentalOptionMethod.invoke("setExperimentalOption", "prefs", chromePrefs);
+            webDriverConstructor = new Constructor("org.openqa.selenium.chrome.ChromeDriver");
+            webDriver = webDriverConstructor.newInstance(options);
             break;
         case FIREFOX:
-            constructor = new Constructor("org.openqa.selenium.firefox.FirefoxDriver");
-            webDriver = constructor.newInstance();
-            break;
-        case OPERA:
-            constructor = new Constructor("org.openqa.selenium.opera.OperaDriver");
-            webDriver = constructor.newInstance();
+            webDriverConstructor = new Constructor("org.openqa.selenium.firefox.FirefoxDriver");
+            webDriver = webDriverConstructor.newInstance();
             break;
         case EDGE:
-            constructor = new Constructor("org.openqa.selenium.edge.EdgeDriver");
-            webDriver = constructor.newInstance();
+            webDriverConstructor = new Constructor("org.openqa.selenium.edge.EdgeDriver");
+            webDriver = webDriverConstructor.newInstance();
+            break;
+        case OPERA:
+            webDriverConstructor = new Constructor("org.openqa.selenium.opera.OperaDriver");
+            webDriver = webDriverConstructor.newInstance();
             break;
         case SAFARI:
-            constructor = new Constructor("org.openqa.selenium.safari.SafariDriver");
-            webDriver = constructor.newInstance();
+            webDriverConstructor = new Constructor("org.openqa.selenium.safari.SafariDriver");
+            webDriver = webDriverConstructor.newInstance();
             break;
         }
         return webDriver;
