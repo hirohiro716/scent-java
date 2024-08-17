@@ -378,7 +378,7 @@ public class Datetime implements Cloneable {
      * 
      * @return 結果。
      */
-    public DayOfWeek toDayOfWeek() {
+    public DayOfWeek getDayOfWeek() {
         switch (this.calendar.get(Calendar.DAY_OF_WEEK)) {
         case Calendar.SUNDAY:
             return DayOfWeek.SUNDAY;

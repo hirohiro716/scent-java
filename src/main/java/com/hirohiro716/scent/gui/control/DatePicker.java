@@ -588,7 +588,7 @@ public class DatePicker extends TextField {
             datetime.modifyYear(year);
             datetime.modifyMonth(month);
             datetime.modifyDay(1);
-            while (datetime.toDayOfWeek() != DayOfWeek.SUNDAY) {
+            while (datetime.getDayOfWeek() != DayOfWeek.SUNDAY) {
                 datetime.addDay(-1);
             }
             // Create a 6 week date labels
@@ -600,7 +600,7 @@ public class DatePicker extends TextField {
                     label.setFont(control.getFont());
                     label.setTextHorizontalAlignment(HorizontalAlignment.CENTER);
                     label.setInstanceForUseLater(datetime.clone());
-                    if (datetime.toDayOfWeek() == DayOfWeek.SUNDAY) {
+                    if (datetime.getDayOfWeek() == DayOfWeek.SUNDAY) {
                         label.setBorder(Border.createLine(this.borderColor, 1, 0, 0, 0));
                     } else {
                         label.setBorder(Border.createLine(this.borderColor, 1, 0, 0, 1));
