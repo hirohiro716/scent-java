@@ -116,6 +116,7 @@ public class ClosingPeriod {
             Datetime from = new Datetime(new Date(timestamps[index]));
             from.addDay(1);
             Datetime to = new Datetime(new Date(timestamps[index + 1]));
+            to.modifyTime(23, 59, 59, 999);
             spans.add(new Span(from, to));
         }
         return spans.toArray(new Span[] {});
