@@ -254,7 +254,7 @@ public class StringObject implements Cloneable, Iterable<String> {
     }
     
     /**
-     * このインスタンスの文字列を指定された回数繰り返す。
+     * このインスタンスの文字列を指定された回数繰り返す。<br>
      * Examples:<br>
      * StringObject.newInstance("a").repeat(3) returns "aaa"
      * 
@@ -366,7 +366,7 @@ public class StringObject implements Cloneable, Iterable<String> {
     }
     
     /**
-     * 意味のない小数点以下を削除する。
+     * 意味のない小数点以下を削除する。<br>
      * Examples:<br>
      * (new StringObject(123.000)).removeMeaninglessDecimalPoint() returns "123"
      * 
