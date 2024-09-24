@@ -45,7 +45,7 @@ public class WebsiteRequester {
     /**
      * リクエストを送信するURLを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getURL() {
         return this.url;
@@ -67,7 +67,7 @@ public class WebsiteRequester {
     /**
      * 使用する文字コードを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getCharsetName() {
         return this.charsetName;
@@ -100,7 +100,7 @@ public class WebsiteRequester {
     /**
      * リクエストメソッドを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Method getMethod() {
         return this.method;
@@ -120,7 +120,7 @@ public class WebsiteRequester {
     /**
      * リクエストの"content-type"を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getContentType() {
         return this.contentType;
@@ -138,11 +138,11 @@ public class WebsiteRequester {
     /**
      * 送信する本文を指定してリクエストを送信し、その結果を取得する。
      * 
-     * @param requestBody
-     * @return 結果。
+     * @param body
+     * @return
      * @throws IOException
      */
-    public String sendAndGetResult(String requestBody) throws IOException {
+    public Response request(String body) throws IOException {
         CookieHandler.setDefault(WebsiteRequester.cookieManager);
         URL url = new URL(this.url);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -157,32 +157,32 @@ public class WebsiteRequester {
             case POST:
                 connection.setDoOutput(true);
                 try (OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream(), this.charsetName)) {
-                    StringObject body = new StringObject(requestBody);
-                    streamWriter.write(body.toString());
+                    streamWriter.write(StringObject.newInstance(body).toString());
                 }
                 break;
         }
-        StringObject resultBody = new StringObject();
         try (InputStreamReader streamReader = new InputStreamReader(connection.getInputStream(), this.charsetName)) {
             try (BufferedReader bufferedReader = new BufferedReader(streamReader)) {
+                StringObject resultBody = new StringObject();
+                int code = connection.getResponseCode();
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     resultBody.append(line);
                     resultBody.append("\n");
                 }
+                return new Response(code, resultBody.toString());
             }
         }
-        return resultBody.toString();
     }
 
     /**
      * POST送信するパラメーターを指定してリクエストを送信し、その結果を取得する。
      * 
      * @param postRequestParameters
-     * @return 結果。
+     * @return
      * @throws IOException
      */
-    public String sendAndGetResult(Map<String, String> postRequestParameters) throws IOException {
+    public Response request(Map<String, String> postRequestParameters) throws IOException {
         StringObject body = new StringObject();
         for (String key : postRequestParameters.keySet()) {
             if (body.length() > 0) {
@@ -192,17 +192,17 @@ public class WebsiteRequester {
             body.append("=");
             body.append(URLEncoder.encode(postRequestParameters.get(key), this.charsetName));
         }
-        return this.sendAndGetResult(body.toString());
+        return this.request(body.toString());
     }
 
     /**
      * リクエストを送信して結果を取得する。
      * 
-     * @return 結果。
+     * @return
      * @throws IOException
      */
-    public String sendAndGetResult() throws IOException {
-        return this.sendAndGetResult("");
+    public Response request() throws IOException {
+        return this.request("");
     }
 
     /**
@@ -251,10 +251,59 @@ public class WebsiteRequester {
          * 指定されたIDに該当する列挙子を取得する。該当するものがない場合はnullを返す。
          * 
          * @param id 
-         * @return 結果。
+         * @return
          */
         public static Method enumOf(String id) {
             return IdentifiableEnum.enumOf(id, Method.class);
+        }
+    }
+
+    /**
+     * レスポンスのクラス。
+     */
+    public static class Response {
+
+        /**
+         * コンストラクタ。
+         * 
+         * @param code レスポンスコード。
+         * @param body レスポンスのボディ。
+         */
+        public Response(int code, String body) {
+            this.code = code;
+            this.body = body;
+        }
+
+        private int code;
+
+        private String body;
+
+        /**
+         * レスポンスコードを取得する。
+         * 
+         * @return
+         */
+        public int getCode() {
+            return  this.code;
+        }
+
+        /**
+         * レスポンスのボディを取得する。
+         * 
+         * @return
+         */
+        public String getBody() {
+            return this.body;
+        }
+
+        @Override
+        public String toString() {
+            StringObject stringObject = new StringObject("code: ");
+            stringObject.append(this.code);
+            stringObject.append("\n");
+            stringObject.append("body: ");
+            stringObject.append(this.body);
+            return stringObject.toString();
         }
     }
 }
