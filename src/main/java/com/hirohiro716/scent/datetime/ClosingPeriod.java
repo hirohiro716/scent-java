@@ -71,7 +71,7 @@ public class ClosingPeriod {
      * 指定された月数分、基準日の前後の期間を作成する。
      * 
      * @param numberOfMonths
-     * @return 結果。
+     * @return
      */
     public Span[] createSpans(int numberOfMonths) {
         // Calculate the required closing date
@@ -126,7 +126,7 @@ public class ClosingPeriod {
      * 指定された日付が含まれる締め日期間を特定する。特定できなかった場合はnullを返す。
      * 
      * @param oneDate
-     * @return 結果。
+     * @return
      */
     public Span findSpan(Date oneDate) {
         ClosingPeriod instance = new ClosingPeriod(this.closingDays);

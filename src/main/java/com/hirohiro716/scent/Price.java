@@ -52,7 +52,7 @@ public class Price {
     /**
      * このインスタンスの金額を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public long toLong() {
         return this.roundNumber.calculate(this.amount);
@@ -61,7 +61,7 @@ public class Price {
     /**
      * このインスタンスの金額を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int toInteger() {
         return (int) this.roundNumber.calculate(this.amount);
@@ -95,7 +95,7 @@ public class Price {
      * このインスタンスの価格に含まれる内税額を計算する。
      * 
      * @param taxRatePercent パーセントの税率。
-     * @return 結果。
+     * @return
      */
     public long calculateInnerTax(int taxRatePercent) {
         return this.roundNumber.calculate(this.amount / (100 + taxRatePercent) * taxRatePercent);
@@ -105,7 +105,7 @@ public class Price {
      * このインスタンスの価格に対する外税額を計算する。
      * 
      * @param taxRatePercent パーセントの税率。
-     * @return 結果。
+     * @return
      */
     public long calculateOuterTax(int taxRatePercent) {
         return this.roundNumber.calculate(this.amount * taxRatePercent / 100);
@@ -138,7 +138,7 @@ public class Price {
     /**
      * 価格の最大文字数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static int getLength() {
         return Price.LENGTH;
@@ -149,7 +149,7 @@ public class Price {
     /**
      * 大きな価格の最大文字数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static int getLongLength() {
         return Price.LONG_LENGTH;

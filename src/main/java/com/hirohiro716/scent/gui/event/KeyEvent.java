@@ -38,7 +38,7 @@ public class KeyEvent extends InputEvent<java.awt.event.KeyEvent> {
     /**
      * このイベントのキーに関連付けられたKeyCodeを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public KeyCode getKeyCode() {
         KeyCode keyCode = IdentifiableEnum.enumOf(this.getInnerInstance().getKeyCode(), KeyCode.class);
@@ -51,7 +51,7 @@ public class KeyEvent extends InputEvent<java.awt.event.KeyEvent> {
     /**
      * このイベントのキーに関連付けられた文字を返す。
      * 
-     * @return 結果。
+     * @return
      */
     public String getKeyCharacter() {
         return String.valueOf(this.getInnerInstance().getKeyChar());
@@ -60,7 +60,7 @@ public class KeyEvent extends InputEvent<java.awt.event.KeyEvent> {
     /**
      * このイベントでShift修飾キーが押されていた場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isShiftDown() {
         return this.getInnerInstance().isShiftDown();
@@ -69,7 +69,7 @@ public class KeyEvent extends InputEvent<java.awt.event.KeyEvent> {
     /**
      * このイベントでAlt修飾キーが押されていた場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isAltDown() {
         return this.getInnerInstance().isAltDown();
@@ -78,7 +78,7 @@ public class KeyEvent extends InputEvent<java.awt.event.KeyEvent> {
     /**
      * このイベントでCtrl修飾キーが押されていた場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isControlDown() {
         return this.getInnerInstance().isControlDown();
@@ -89,7 +89,7 @@ public class KeyEvent extends InputEvent<java.awt.event.KeyEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static KeyListener createInnerKeyTypedEventHandler(Control control, EventHandler<KeyEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -112,7 +112,7 @@ public class KeyEvent extends InputEvent<java.awt.event.KeyEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static KeyListener createInnerKeyPressedEventHandler(Control control, EventHandler<KeyEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -135,7 +135,7 @@ public class KeyEvent extends InputEvent<java.awt.event.KeyEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static KeyListener createInnerKeyReleasedEventHandler(Control control, EventHandler<KeyEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {

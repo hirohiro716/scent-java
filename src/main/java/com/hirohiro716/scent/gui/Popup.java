@@ -48,7 +48,7 @@ public class Popup extends Component<JWindow> {
     /**
      * このダイアログのオーナーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Frame<?>  getOwner() {
         return this.owner;
@@ -59,7 +59,7 @@ public class Popup extends Component<JWindow> {
     /**
      * このポップアップの子要素を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<Control> getChildren() {
         return this.pane.getChildren();

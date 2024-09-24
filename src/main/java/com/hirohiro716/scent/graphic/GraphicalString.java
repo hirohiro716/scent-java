@@ -103,7 +103,7 @@ public class GraphicalString {
      * フォントメトリックを取得する。<br>
      * 元と同じGraphics2Dインスタンスを使用するとLANDSCAPE印刷で異常値を返すバグ(OpenJDK11で確認)が発生する。
      * 
-     * @return 結果。
+     * @return
      */
     private FontMetrics getFontMetrics() {
         this.graphics2DForFontMetrics.setFont(this.graphics2D.getFont());
@@ -113,7 +113,7 @@ public class GraphicalString {
     /**
      * 行と行との間隔を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Float getLeading() {
         float leading = this.getFontMetrics().getLeading();
@@ -144,7 +144,7 @@ public class GraphicalString {
     /**
      * 文字列を描画する際の自動改行が無効になっている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isDisabledMultipleLine() {
         return this.isDisabledMultipleLine;
@@ -162,7 +162,7 @@ public class GraphicalString {
     /**
      * 文字列を描画するレイアウトを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private Layout createLayout() {
         List<String> lines = new ArrayList<>();
@@ -222,7 +222,7 @@ public class GraphicalString {
     /**
      * 最後に自動調整されたフォントを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Font getLastAutomaticallyAdjustedFont() {
         return this.lastAutomaticallyAdjustedFont;
@@ -231,7 +231,7 @@ public class GraphicalString {
     /**
      * 文字列のサイズを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Dimension createDimension() {
         Font font = this.graphics2D.getFont();
@@ -359,7 +359,7 @@ public class GraphicalString {
     /**
      * このクラスで使用できるGraphics2Dインスタンスを新しく作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public static Graphics2D createGraphics2D() {
         BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
@@ -437,7 +437,7 @@ public class GraphicalString {
         /**
          * 描画するすべての行を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public String[] getLines() {
             return this.lines;
@@ -448,7 +448,7 @@ public class GraphicalString {
         /**
          * 描画に使用するフォントを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public Font getFont() {
             return this.font;
@@ -459,7 +459,7 @@ public class GraphicalString {
         /**
          * 描画するすべての行の最大の幅を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public float getWidth() {
             return this.width;
@@ -470,7 +470,7 @@ public class GraphicalString {
         /**
          * 描画するすべての行の高さを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public float getHeight() {
             return this.height;

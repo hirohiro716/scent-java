@@ -34,7 +34,7 @@ public abstract class ChangeListener<T> {
      * @param <I> 変更を検知するGUIライブラリに依存したインスタンスの型。
      * @param component
      * @param innerInstanceCreator
-     * @return 結果。
+     * @return
      */
     public <I> I createInnerInstance(Component<?> component, InnerInstanceCreator<I> innerInstanceCreator) {
         List<Object> innerInstanceList = this.mapInnerInstanceList.get(component);
@@ -51,7 +51,7 @@ public abstract class ChangeListener<T> {
      * コンポーネントに応じて、このリスナーで作成されたGUIライブラリに依存したリスナーのインスタンスを取得する。
      * 
      * @param component 
-     * @return 結果。
+     * @return
      */
     public Object[] getInnerInstances(Component<?> component) {
         List<Object> list = this.mapInnerInstanceList.get(component);

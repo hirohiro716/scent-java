@@ -17,7 +17,7 @@ public interface ControlFactory<C, R, T extends Control> {
      * テーブルに表示するコントロールのインスタンスを作成する。
      * 
      * @param columnInstance 
-     * @return 結果。
+     * @return
      */
     public abstract T newInstance(C columnInstance);
     

@@ -44,7 +44,7 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
     /**
      * このダイアログの日付の入力に特化したテキストフィールドを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public DatePicker getDatePicker() {
         return this.datePicker;
@@ -55,7 +55,7 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
     /**
      * このダイアログの時数を入力するテキストフィールドを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public TextField getTextFieldHour() {
         return this.textFieldHour;
@@ -66,7 +66,7 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
     /**
      * このダイアログの分数を入力するテキストフィールドを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public TextField getTextFieldMinute() {
         return this.textFieldMinute;
@@ -162,7 +162,7 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
     /**
      * このダイアログがキャンセル可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCancelable() {
         return this.buttonCancel.isVisible();
@@ -206,7 +206,7 @@ public class DatetimeInputDialog extends MessageableDialog<Datetime> {
     /**
      * このダイアログで時刻が入力できる場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isTimeInput() {
         return this.isTimeInput;

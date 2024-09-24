@@ -31,7 +31,7 @@ public enum OS {
     /**
      * OS標準の改行コードを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getLineSeparator() {
         return this.lineSeparator;
@@ -42,7 +42,7 @@ public enum OS {
     /**
      * OSのファイルパス区切り文字を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getFileSeparator() {
         return this.fileSeparator;

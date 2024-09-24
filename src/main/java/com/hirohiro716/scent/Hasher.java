@@ -41,7 +41,7 @@ public class Hasher {
      * このインスタンスのハッシュと、指定されたハッシュが同じ場合はtrueを返す。
      * 
      * @param hash
-     * @return 結果。
+     * @return
      */
     public boolean verify(ByteArray hash) {
         return this.hash.equals(hash);
@@ -50,7 +50,7 @@ public class Hasher {
     /**
      * 利用可能なアルゴリズムを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static String[] getAvailableAlgorithms() {
         return Security.getAlgorithms("MessageDigest").toArray(new String[] {});

@@ -56,7 +56,7 @@ public abstract class Dialog<R> implements DialogInterface {
     /**
      * このダイアログの背景を表示しているペインを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public CenterPane getBackgroundPane() {
         return this.backgroundPane;
@@ -77,7 +77,7 @@ public abstract class Dialog<R> implements DialogInterface {
     /**
      * このダイアログが背景のクリックでキャンセル可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract boolean isCancelableByClickBackground();
     
@@ -111,7 +111,7 @@ public abstract class Dialog<R> implements DialogInterface {
      * このダイアログに表示する内容のペインを作成する。<br>
      * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract Pane createContentPane();
     
@@ -147,7 +147,7 @@ public abstract class Dialog<R> implements DialogInterface {
     /**
      * このダイアログの表示結果を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract R getDialogResult();
     

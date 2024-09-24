@@ -102,7 +102,7 @@ public class TabPane extends Control {
     /**
      * このタブペインのタブを格納しているコレクションを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<Tab> getTabs() {
         return this.tabs;
@@ -121,7 +121,7 @@ public class TabPane extends Control {
     /**
      * このタブペインで選択されているタブを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Tab getSelectedTab() {
         return this.tabs.get(this.getInnerInstance().getModel().getSelectedIndex());
@@ -183,7 +183,7 @@ public class TabPane extends Control {
         /**
          * タブのタイトルを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public String getTitle() {
             return this.title;
@@ -195,7 +195,7 @@ public class TabPane extends Control {
          * 表示するペインを取得する。
          * 
          * @param <P>
-         * @return 結果。
+         * @return
          */
         @SuppressWarnings("unchecked")
         public <P extends Pane> P getPane() {

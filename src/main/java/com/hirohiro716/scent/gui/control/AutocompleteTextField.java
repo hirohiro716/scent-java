@@ -189,7 +189,7 @@ public class AutocompleteTextField extends TextField {
     /**
      * このテキストフィールドでオートコンプリートが無効になっている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isDisabledAutocomplete() {
         return this.isDisabledAutocomplete;
@@ -209,7 +209,7 @@ public class AutocompleteTextField extends TextField {
     /**
      * このテキストフィールドにフォーカスした際のポップアップ表示が無効になっている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isDisabledPopupWhenFocusing() {
         return this.isDisabledPopupWhenFocusing;
@@ -229,7 +229,7 @@ public class AutocompleteTextField extends TextField {
     /**
      * このテキストフィールドをクリックした際のポップアップ表示が有効になっている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isEnabledPopupWhenClicked() {
         return this.isEnabledPopupWhenClicked;
@@ -279,7 +279,7 @@ public class AutocompleteTextField extends TextField {
     /**
      * このテキストフィールドでオートコンプリートに使用しているポップアップを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Popup getPopup() {
         return this.popup;
@@ -395,7 +395,7 @@ public class AutocompleteTextField extends TextField {
     /**
      * このテキストフィールドでオートコンプリートに使用しているリストビューを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ListView<String> getListView() {
         return this.listView;
@@ -406,7 +406,7 @@ public class AutocompleteTextField extends TextField {
     /**
      * このテキストフィールドでオートコンプリートに使用するリストアイテム取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String[] getListItems() {
         return this.listItems.toArray(new String[] {});
@@ -522,7 +522,7 @@ public class AutocompleteTextField extends TextField {
         /**
          * このイベントハンドラーが無効になっている場合はtrueを返す。
          * 
-         * @return 結果。
+         * @return
          */
         public boolean isDisabled() {
             return this.isDisabled;
@@ -686,7 +686,7 @@ public class AutocompleteTextField extends TextField {
         /**
          * このインスタンスの処理が終わっている場合はtrueを返す。
          * 
-         * @return 結果。
+         * @return
          */
         public boolean isFinished() {
             return this.isFinished;

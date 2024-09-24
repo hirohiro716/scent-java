@@ -40,7 +40,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
     /**
      * WEBブラウザが閉じられている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract boolean isClosed();
     
@@ -65,14 +65,14 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
     /**
      * WEBページのタイトルを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract String getTitle();
 
     /**
      * WEBページのHTMLソースコードを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract String getSource();
 
@@ -94,7 +94,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * 指定されたDOMオブジェクトから要素を作成する。
      * 
      * @param htmlObject
-     * @return 結果。
+     * @return
      * @throws ClassNotFoundException 
      */
     protected abstract E createElement(Object htmlObject) throws ClassNotFoundException;
@@ -102,7 +102,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
     /**
      * WEBページのBODY要素を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract E getBodyElement();    
 
@@ -110,7 +110,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * 指定された親要素の子孫要素を再帰的にすべて取得する。
      * 
      * @param parent
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     private List<E> createListOfAllChildElement(E parent) {
@@ -130,7 +130,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * 指定された親要素の子孫要素を再帰的にすべて取得する。
      * 
      * @param parent
-     * @return 結果。
+     * @return
      */
     public Array<E> getAllElements(E parent) {
         return new Array<>(this.createListOfAllChildElement(parent));
@@ -139,7 +139,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
     /**
      * WEBページのすべての要素を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Array<E> getAllElements() {
         List<E> elements = new ArrayList<>();
@@ -157,7 +157,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
     /**
      * 選択状態にある要素をすべて取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Array<E> getSelectedElements() {
         return new Array<>(this.selectedElements);
@@ -166,7 +166,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
     /**
      * 選択状態にある1つめの要素を取得する。選択状態の要素がない場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public E getSelectedElement() {
         if (this.selectedElements.size() > 0) {
@@ -180,7 +180,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
     /**
      * DOMオブジェクトと要素の関連付けが定義されている連想配列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected Map<Object, E> getMapOfElementAndHtmlObject() {
         return this.mapOfElementAndHtmlObject;
@@ -190,7 +190,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * 指定されたDOMオブジェクトに対する要素を取得する。
      * 
      * @param htmlObject
-     * @return 結果。
+     * @return
      * @throws ClassNotFoundException 
      */
     protected E getElement(Object htmlObject) throws ClassNotFoundException {
@@ -220,7 +220,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param parent
      * @param attributeName
      * @param attributeValue
-     * @return 結果。
+     * @return
      * @throws Exception
      */
     protected abstract List<E> createElementListOfFoundByAttribute(E parent, String attributeName, String attributeValue) throws Exception;
@@ -231,7 +231,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param parent
      * @param attributeName
      * @param attributeValue
-     * @return 結果。
+     * @return
      * @throws Exception
      */
     public Array<E> findElementsByAttribute(E parent, String attributeName, String attributeValue) throws Exception {
@@ -313,7 +313,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param parent
      * @param tagName
      * @param textContent 
-     * @return 結果。
+     * @return
      * @throws Exception 
      */
     protected abstract List<E> createElementListOfFoundByTagName(E parent, String tagName, String textContent) throws Exception;
@@ -324,7 +324,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * @param parent
      * @param tagName
      * @param textContent 
-     * @return 結果。
+     * @return
      * @throws Exception 
      */
     public Array<E> findElementsByTagName(E parent, String tagName, String textContent) throws Exception {
@@ -445,7 +445,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * 
      * @param parent
      * @param cssSelector
-     * @return 結果。
+     * @return
      * @throws Exception
      */
     protected abstract List<E> createElementListOfFoundByCssSelector(E parent, String cssSelector) throws Exception;
@@ -455,7 +455,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * 
      * @param parent
      * @param cssSelector
-     * @return 結果。
+     * @return
      * @throws Exception
      */
     public Array<E> findElementsByCssSelector(E parent, String cssSelector) throws Exception {
@@ -532,7 +532,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * 
      * @param parent
      * @param xPath
-     * @return 結果。
+     * @return
      * @throws Exception
      */
     protected abstract List<E> createElementListOfFoundByXPath(E parent, String xPath) throws Exception;
@@ -542,7 +542,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
      * 
      * @param parent
      * @param xPath
-     * @return 結果。
+     * @return
      * @throws Exception
      */
     public Array<E> findElementsByXPath(E parent, String xPath) throws Exception {
@@ -624,7 +624,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         /**
          * この要素のタグ名を取得する。
          * 
-         * @return 結果。
+         * @return
          * @throws Exception
          */
         public abstract String getTagName() throws Exception;
@@ -632,7 +632,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         /**
          * この要素のHTMLソースコードを取得する。
          * 
-         * @return 結果。
+         * @return
          * @throws Exception
          */
         public abstract String getSource() throws Exception;
@@ -640,7 +640,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         /**
          * この要素が内包する文字列を取得する。
          * 
-         * @return 結果。
+         * @return
          * @throws Exception
          */
         public abstract String getTextContent() throws Exception;
@@ -657,7 +657,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
          * この要素の属性値を取得する。属性が存在しない場合は空文字列を返す。
          * 
          * @param name
-         * @return 結果。
+         * @return
          * @throws Exception
          */
         public abstract String getAttribute(String name) throws Exception;
@@ -696,7 +696,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         /**
          * select要素の中で、選択されているoption要素を取得する。
          * 
-         * @return 結果。
+         * @return
          * @throws Exception
          */
         public abstract Element[] getSelectedOptions() throws Exception;
@@ -728,7 +728,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
          * この要素の子要素を取得する。
          * 
          * @param <E> 要素の型。
-         * @return 結果。
+         * @return
          * @throws Exception
          */
         public abstract <E extends Element> Array<E> getChildElements() throws Exception;
@@ -736,7 +736,7 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
         /**
          * この要素の親要素を取得する。
          * 
-         * @return 結果。
+         * @return
          * @throws Exception
          */
         public abstract Element getParentElement() throws Exception;

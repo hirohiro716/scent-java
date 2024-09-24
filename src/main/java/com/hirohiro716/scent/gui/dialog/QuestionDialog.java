@@ -39,7 +39,7 @@ public class QuestionDialog extends MessageableDialog<ResultButton> {
     /**
      * この質問ダイアログがキャンセル可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCancelable() {
         return this.buttonOfCancel.isVisible();

@@ -30,7 +30,7 @@ public class TypingTask {
     /**
      * 定義されているタスクの数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getNumberOfTasks() {
         return this.tasks.size();
@@ -54,7 +54,7 @@ public class TypingTask {
     /**
      * 定義されているすべてのタスクから、タスク定義文字列を作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public String makeDefinitionString() {
         StringObject result = new StringObject();
@@ -191,7 +191,7 @@ public class TypingTask {
         /**
          * このタスクの種類を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public TaskType getTaskType() {
             return this.taskType;
@@ -202,7 +202,7 @@ public class TypingTask {
         /**
          * このタスクのKeyCodeを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public KeyCode[] getKeyCodes() {
             return this.keyCodes;
@@ -213,7 +213,7 @@ public class TypingTask {
         /**
          * このタスクの待機時間をミリ秒で取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public long getMilliseconds() {
             return this.milliseconds;
@@ -241,7 +241,7 @@ public class TypingTask {
          * 文字列からTaskTypeを取得する。
          * 
          * @param string
-         * @return 結果。
+         * @return
          */
         public static TaskType find(String string) {
             for (TaskType taskType: TaskType.values()) {

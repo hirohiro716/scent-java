@@ -57,7 +57,7 @@ public class TextArea extends TextInputControl {
     /**
      * このテキストエリアのスクロールペインを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ScrollPane getScrollPane() {
         return this.scrollPane;
@@ -78,7 +78,7 @@ public class TextArea extends TextInputControl {
     /**
      * このコントロールに表示する文字列を折り返して表示する場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isWrapText() {
         return this.getInnerInstance().getLineWrap();

@@ -42,7 +42,7 @@ public class Insets {
     /**
      * 内部で使用されるGUIライブラリに依存したインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public java.awt.Insets getInnerInstance() {
        return this.innerInstance;
@@ -51,7 +51,7 @@ public class Insets {
     /**
      * 上インセットを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getTop() {
         return this.innerInstance.top;
@@ -69,7 +69,7 @@ public class Insets {
     /**
      * 右インセットを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getRight() {
         return this.innerInstance.right;
@@ -87,7 +87,7 @@ public class Insets {
     /**
      * 下インセットを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getBottom() {
         return this.innerInstance.bottom;
@@ -105,7 +105,7 @@ public class Insets {
     /**
      * 左インセットを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getLeft() {
         return this.innerInstance.left;

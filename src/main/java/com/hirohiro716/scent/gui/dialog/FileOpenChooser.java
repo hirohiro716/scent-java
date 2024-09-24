@@ -34,7 +34,7 @@ public class FileOpenChooser extends FileSaveChooser {
     /**
      * 複数のファイルシステムアイテムの選択が許可されている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isAllowMultipleSelection() {
         return this.getInnerInstance().isMultiSelectionEnabled();
@@ -54,7 +54,7 @@ public class FileOpenChooser extends FileSaveChooser {
     /**
      * ファイルを開くダイアログのアイテム選択方法を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public OpenMethod getOpenMethod() {
         return this.openMethod;
@@ -80,7 +80,7 @@ public class FileOpenChooser extends FileSaveChooser {
     /**
      * ファイルを開くダイアログを表示する。ファイルシステムアイテムが1つ以上選択された場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     @Override
     public boolean showAndWait() {

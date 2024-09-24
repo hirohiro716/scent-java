@@ -93,7 +93,7 @@ public class ByteArray {
     /**
      * byte配列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public byte[] bytes() {
         return this.bytes;
@@ -111,7 +111,7 @@ public class ByteArray {
     /**
      * byte配列の長さを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int length() {
         return this.bytes.length;
@@ -181,7 +181,7 @@ public class ByteArray {
      * このインスタンスのbyte配列を、指定されたcharsetを使用してテキストとして読み込む。
      * 
      * @param charsetName 
-     * @return 結果。
+     * @return
      * @throws IOException
      */
     public String readAllText(String charsetName) throws IOException {
@@ -204,7 +204,7 @@ public class ByteArray {
      * byte配列をObjectにdeserializeしてインスタンスを復元する。
      * 
      * @param <T> 復元するオブジェクトの型。
-     * @return 結果。
+     * @return
      * @throws IOException
      * @throws ClassNotFoundException
      */

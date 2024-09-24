@@ -70,7 +70,7 @@ public class ChildWindow extends Frame<JDialog> {
     /**
      * この子ウィンドウのオーナーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Frame<?>  getOwner() {
         return this.owner;
@@ -165,7 +165,7 @@ public class ChildWindow extends Frame<JDialog> {
     /**
      * 遅延してウィンドウをリサイズ可能にするスレッドを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private ResizableThread createResizableThread() {
         return new ResizableThread();

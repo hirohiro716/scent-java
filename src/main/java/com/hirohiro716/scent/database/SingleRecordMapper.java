@@ -31,7 +31,7 @@ public abstract class SingleRecordMapper extends RecordMapper {
      * このインスタンスにマップされているレコードを取得する。
      * 
      * @param <C> 
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <C extends ColumnInterface> DynamicArray<C> getRecord() {
@@ -62,7 +62,7 @@ public abstract class SingleRecordMapper extends RecordMapper {
     /**
      * マップするレコードを排他制御を行ってから連想配列で取得する。
      * 
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     protected abstract DynamicArray<String> fetchRecordForEdit() throws SQLException;
@@ -77,7 +77,7 @@ public abstract class SingleRecordMapper extends RecordMapper {
      * マップされたレコードが、すでに削除処理されている場合trueを返す。<br>
      * 論理削除仕様テーブルの場合にtrueかfalseを返す。物理削除仕様テーブルの場合は常にfalseを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract boolean isDeleted();
     

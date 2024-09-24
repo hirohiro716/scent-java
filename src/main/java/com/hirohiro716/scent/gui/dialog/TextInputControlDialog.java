@@ -36,7 +36,7 @@ public abstract class TextInputControlDialog<C extends TextInputControl> extends
      * このダイアログに表示するテキスト入力コントロールを作成する。<br>
      * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract C createTextInputControl();
     
@@ -51,7 +51,7 @@ public abstract class TextInputControlDialog<C extends TextInputControl> extends
     /**
      * このダイアログに表示するテキスト入力コントロールを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public C getTextInputControl() {
         return this.control;
@@ -64,7 +64,7 @@ public abstract class TextInputControlDialog<C extends TextInputControl> extends
     /**
      * このダイアログがキャンセル可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCancelable() {
         return this.buttonCancel.isVisible();

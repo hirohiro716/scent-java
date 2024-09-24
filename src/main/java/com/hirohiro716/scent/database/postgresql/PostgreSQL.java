@@ -111,7 +111,7 @@ public abstract class PostgreSQL extends Database {
     /**
      * データベースサーバーの現在の時刻を取得する。
      * 
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     public Date fetchNow() throws SQLException {

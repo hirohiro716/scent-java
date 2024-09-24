@@ -13,14 +13,14 @@ public interface TableInterface {
     /**
      * 日本語名を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract String getLogicalName();
     
     /**
      * 物理名を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public default String getPhysicalName() {
         return this.toString().toLowerCase();
@@ -29,7 +29,7 @@ public interface TableInterface {
     /**
      * テーブルに属するカラムを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract ColumnInterface[] getColumns();
 
@@ -39,7 +39,7 @@ public interface TableInterface {
      * @param <T> テーブル列挙型。
      * @param physicalName
      * @param tableEnumClass このインターフェースを継承している列挙型のクラス。
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public static <T extends TableInterface> T tableOf(String physicalName, Class<T> tableEnumClass) {
@@ -60,7 +60,7 @@ public interface TableInterface {
      * 
      * @param <C>
      * @param physicalColumnName
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public default <C extends ColumnInterface> C findColumn(String physicalColumnName) {
@@ -78,7 +78,7 @@ public interface TableInterface {
      * 初期値が入力された、キーがカラム列挙型のレコード配列を作成する。
      * 
      * @param <C>
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public default <C extends ColumnInterface> DynamicArray<C> createRecord() {
@@ -94,7 +94,7 @@ public interface TableInterface {
      * 
      * @param <C>
      * @param stringKeyRecord
-     * @return 結果。
+     * @return
      */
     public default <C extends ColumnInterface> DynamicArray<C> createRecord(DynamicArray<String> stringKeyRecord) {
         DynamicArray<C> record = this.createRecord();

@@ -83,7 +83,7 @@ public class WhereSet implements Cloneable {
     /**
      * このインスタンスの値でJSON配列を作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public JSONArray createJSON() {
         JSONArray result = new JSONArray();
@@ -118,7 +118,7 @@ public class WhereSet implements Cloneable {
     /**
      * 追加済みのWhereインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public List<Where> getWheres() {
         return this.wheres;
@@ -134,7 +134,7 @@ public class WhereSet implements Cloneable {
     /**
      * 追加済みのWhereインスタンスの数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int size() {
         return this.wheres.size();
@@ -406,7 +406,7 @@ public class WhereSet implements Cloneable {
     /**
      * WHERE句で使用できるプレースホルダを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public String buildPlaceholderClause() {
         StringBuilder builder = new StringBuilder();
@@ -422,7 +422,7 @@ public class WhereSet implements Cloneable {
     /**
      * WHERE句のプレースホルダに対するバインド変数の配列を作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public Object[] buildParameters() {
         List<Object> parameters = new ArrayList<>();
@@ -582,7 +582,7 @@ public class WhereSet implements Cloneable {
         /**
          * カラム名を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public String getColumn() {
             return this.column;
@@ -602,7 +602,7 @@ public class WhereSet implements Cloneable {
         /**
          * 比較演算子を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public Comparison getComparison() {
             return this.comparison;
@@ -622,7 +622,7 @@ public class WhereSet implements Cloneable {
         /**
          * 検索値を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public Object getValue() {
             try {
@@ -635,7 +635,7 @@ public class WhereSet implements Cloneable {
         /**
          * 2番目の検索値を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public Object getValue2() {
             try {
@@ -657,7 +657,7 @@ public class WhereSet implements Cloneable {
         /**
          * すべての検索値を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public Array<Object> getValues() {
             return new Array<>(this.values);
@@ -680,7 +680,7 @@ public class WhereSet implements Cloneable {
         /**
          * 検索条件を反転させている場合はtrueを返す。
          * 
-         * @return 結果。
+         * @return
          */
         public boolean isNegate() {
             return this.isNegate;
@@ -698,7 +698,7 @@ public class WhereSet implements Cloneable {
         /**
          * WHERE句で使用できるプレースホルダを作成する。
          * 
-         * @return 結果。
+         * @return
          */
         public String buildPlaceholderClause() {
             StringBuilder builder = new StringBuilder();

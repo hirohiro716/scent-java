@@ -45,7 +45,7 @@ public class ProgressBar extends Control {
     /**
      * このプログレスバーの最小進捗を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMinimumProgress() {
         return this.getInnerInstance().getMinimum();
@@ -63,7 +63,7 @@ public class ProgressBar extends Control {
     /**
      * このプログレスバーの最大進捗を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMaximumProgress() {
         return this.getInnerInstance().getMaximum();

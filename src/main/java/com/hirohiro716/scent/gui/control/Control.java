@@ -82,7 +82,7 @@ public abstract class Control extends Component<JComponent> {
      * このコントロールの親にあたるコントロールを取得する。
      * 
      * @param <T> 
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <T extends Component<?>> T getParent() {
@@ -101,7 +101,7 @@ public abstract class Control extends Component<JComponent> {
     /**
      * このコントロールが配置されているフレームを取得する。存在しない場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public Frame<?> getFrame() {
         Component<?> component = this.getParent();
@@ -186,7 +186,7 @@ public abstract class Control extends Component<JComponent> {
     /**
      * このコントロールで使用されているフォントを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Font getFont() {
         return this.getInnerInstance().getFont();
@@ -215,7 +215,7 @@ public abstract class Control extends Component<JComponent> {
     /**
      * このコントロールの前景色を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Color getForegroundColor() {
         return this.getInnerInstance().getForeground();
@@ -251,7 +251,7 @@ public abstract class Control extends Component<JComponent> {
     /**
      * このコントロールのパディングを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Insets getPadding() {
         return this.padding;

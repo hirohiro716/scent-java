@@ -47,7 +47,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
     /**
      * このダイアログのメッセージラベルを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Label getLabelOfMessage() {
         return this.labelOfMessage;
@@ -87,7 +87,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
      * このダイアログに表示する入力コントロールを作成する。<br>
      * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract Control createInputControl();
     
@@ -95,7 +95,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
      * このダイアログに表示するボタンを作成する。<br>
      * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract Button[] createButtons();
     
@@ -104,7 +104,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
     /**
      * このダイアログに表示するメッセージを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getMessage() {
         return this.message;

@@ -17,14 +17,14 @@ public interface TableColumnInterface<C> {
     /**
      * このテーブルカラムを識別するオブジェクトを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract C getColumnInstance();
     
     /**
      * このテーブルカラムのヘッダーテキストを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract String getHeaderText();
     
@@ -38,7 +38,7 @@ public interface TableColumnInterface<C> {
     /**
      * このテーブルカラムのヘッダーテキストの水平方向位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract HorizontalAlignment getHeaderHorizontalAlignment();
     
@@ -52,7 +52,7 @@ public interface TableColumnInterface<C> {
     /**
      * このテーブルカラムの幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract Integer getWidth();
     
@@ -66,7 +66,7 @@ public interface TableColumnInterface<C> {
     /**
      * このテーブルカラムの最小幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract Integer getMinimumWidth();
     
@@ -80,7 +80,7 @@ public interface TableColumnInterface<C> {
     /**
      * このテーブルカラムの最大幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract Integer getMaximumWidth();
     
@@ -94,7 +94,7 @@ public interface TableColumnInterface<C> {
     /**
      * このテーブルカラムがリサイズ可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract boolean isResizable();
     

@@ -98,7 +98,7 @@ public class FlowPane extends Pane {
     /**
      * このペインに配置されている子要素間の水平方向スペースを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getHorizontalSpacing() {
         return this.horizontalSpacing;
@@ -109,7 +109,7 @@ public class FlowPane extends Pane {
     /**
      * このペインに配置されている子要素間の垂直方向スペースを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getVerticalSpacing() {
         return this.verticalSpacing;
@@ -159,7 +159,7 @@ public class FlowPane extends Pane {
     /**
      * このペインに配置されている子要素の高さを、その子要素が表示されている行の高さまで拡大する場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isFillChildToRowHeight() {
         return this.isFillChildToRowHeight;
@@ -300,7 +300,7 @@ public class FlowPane extends Pane {
      * 指定されたすべてのコントロールの最大高さを取得する。
      * 
      * @param controls
-     * @return 結果。
+     * @return
      */
     private int getMaximumHeightOfControls(List<Control> controls) {
         int maximumHeight = 0;

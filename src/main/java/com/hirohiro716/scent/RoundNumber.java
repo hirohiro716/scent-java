@@ -53,7 +53,7 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
      * 端数処理を行い整数の結果を取得する。
      * 
      * @param target
-     * @return 結果。
+     * @return
      */
     public long calculate(double target) {
         BigDecimal bigDecimal = new BigDecimal(String.valueOf(target));
@@ -81,7 +81,7 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
      * 
      * @param target 
      * @param digit 
-     * @return 結果。
+     * @return
      */
     public double calculate(double target, int digit) {
         if (digit < 0) {
@@ -107,7 +107,7 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
      * 指定されたIDから、該当する列挙子を取得する。該当するものがない場合はnullを返す。
      * 
      * @param id
-     * @return 結果。
+     * @return
      */
     public static RoundNumber enumOf(Integer id) {
         return IdentifiableEnum.enumOf(id, RoundNumber.class);
@@ -116,7 +116,7 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
     /**
      * すべての列挙子で、キーがID、値が名前の連想配列を作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public static LinkedHashMap<Integer, String> createLinkedHashMap() {
         return IdentifiableEnum.createLinkedHashMap(RoundNumber.class);

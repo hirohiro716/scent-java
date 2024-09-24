@@ -32,7 +32,7 @@ public class PaperSize extends PrinterElement<MediaSizeName> {
     /**
      * この用紙サイズの幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float getMillimeterWidth() {
         return this.millimeterWidth;
@@ -41,7 +41,7 @@ public class PaperSize extends PrinterElement<MediaSizeName> {
     /**
      * この用紙サイズの高さを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float getMillimeterHeight() {
         return this.millimeterHeight;

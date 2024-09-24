@@ -142,7 +142,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
     /**
      * WEBブラウザによって自動的にダウンロードされたHTML以外のファイルのInputStreamを取得する。存在しない場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public InputStream getInputStream() {
         try {

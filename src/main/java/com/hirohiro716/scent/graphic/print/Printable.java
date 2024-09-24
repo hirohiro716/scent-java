@@ -42,7 +42,7 @@ public abstract class Printable implements java.awt.print.Printable {
     /**
      * この印刷物の上余白を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMarginTop() {
         return this.marginTop;
@@ -62,7 +62,7 @@ public abstract class Printable implements java.awt.print.Printable {
     /**
      * この印刷物の左余白を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMarginLeft() {
         return this.marginLeft;
@@ -82,7 +82,7 @@ public abstract class Printable implements java.awt.print.Printable {
     /**
      * この印刷物を印刷する部数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getNumberOfCopies() {
         return this.numberOfCopies;
@@ -125,7 +125,7 @@ public abstract class Printable implements java.awt.print.Printable {
     /**
      * この印刷物で印刷したページ数を取得する。印刷部数は考慮しない。
      * 
-     * @return 結果。
+     * @return
      */
     public int getNumberOfPrintedPages() {
         return this.listOfExistedPage.size();
@@ -143,7 +143,7 @@ public abstract class Printable implements java.awt.print.Printable {
     /**
      * 印刷対象のGraphics2Dインスタンスを取得する。印刷が開始されていない場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     protected Graphics2D getGraphics2D() {
         return this.graphics2D;
@@ -152,7 +152,7 @@ public abstract class Printable implements java.awt.print.Printable {
     /**
      * 印刷時に指定されたページ形式を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected PageFormat getPageFormat() {
         return this.pageFormat;
@@ -182,7 +182,7 @@ public abstract class Printable implements java.awt.print.Printable {
     /**
      * 印刷に使用するフォントを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected Font getFont() {
         return this.graphics2D.getFont();
@@ -268,7 +268,7 @@ public abstract class Printable implements java.awt.print.Printable {
     /**
      * 印刷する文字列の自動改行が無効になっている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     protected boolean isDisabledMultipleLine() {
         return this.isDisabledMultipleLine;
@@ -311,7 +311,7 @@ public abstract class Printable implements java.awt.print.Printable {
     /**
      * 最後に自動調整されたフォントを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Font getLastAutomaticallyAdjustedFont() {
         return this.lastAutomaticallyAdjustedFont;
@@ -322,7 +322,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * この処理で自動調整されたフォントはインスタンス内で保持される。
      * 
      * @param string
-     * @return 結果。
+     * @return
      */
     protected Dimension createStringDimension(String string) {
         GraphicalString graphicalString = new GraphicalString(string, this.graphics2D);
@@ -343,7 +343,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param string
      * @param millimeterMaximumWidth
      * @param millimeterMaximumHeight
-     * @return 結果。
+     * @return
      */
     protected Dimension createStringDimension(String string, float millimeterMaximumWidth, float millimeterMaximumHeight) {
         GraphicalString graphicalString = new GraphicalString(string, this.graphics2D);
@@ -685,7 +685,7 @@ public abstract class Printable implements java.awt.print.Printable {
     /**
      * 文字列を垂直書きで印刷する場合に、90度回転させる必要がある文字列のリストを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected static List<String> getNeedToVerticalList() {
         if (Printable.NEED_TO_VERITICAL_LIST == null) {
@@ -755,7 +755,7 @@ public abstract class Printable implements java.awt.print.Printable {
         /**
          * フォントのスタイルとして有効な値を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public int getValue() {
             switch (this) {

@@ -34,7 +34,7 @@ public class Border {
     /**
      * 内部で使用されるGUIライブラリに依存したインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public javax.swing.border.Border getInnerInstance() {
        return this.innerInstance;
@@ -44,7 +44,7 @@ public class Border {
      * 内部で使用されるGUIライブラリに依存したインスタンスを指定して境界線を作成する。
      * 
      * @param innerInstance
-     * @return 結果。
+     * @return
      */
     public static Border create(javax.swing.border.Border innerInstance) {
         return new Border(innerInstance);
@@ -58,7 +58,7 @@ public class Border {
      * @param right 
      * @param bottom 
      * @param left 
-     * @return 結果。
+     * @return
      */
     public static Border createLine(Color color, int top, int right, int bottom, int left) {
         return new Border(new MatteBorder(new Insets(top, left, bottom, right), color));
@@ -70,7 +70,7 @@ public class Border {
      * @param color
      * @param topAndBottom 
      * @param rightAndLeft 
-     * @return 結果。
+     * @return
      */
     public static Border createLine(Color color, int topAndBottom, int rightAndLeft) {
         return Border.createLine(color, topAndBottom, rightAndLeft, topAndBottom, rightAndLeft);
@@ -81,7 +81,7 @@ public class Border {
      * 
      * @param color
      * @param width
-     * @return 結果。
+     * @return
      */
     public static Border createLine(Color color, int width) {
         return Border.createLine(color, width, width);
@@ -90,7 +90,7 @@ public class Border {
     /**
      * 沈み彫り(エンボス)加工の境界線を作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public static Border createEmboss() {
         return new Border(new EtchedBorder(EtchedBorder.LOWERED));
@@ -99,7 +99,7 @@ public class Border {
     /**
      * 浮き彫り(デボス)加工の境界線を作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public static Border createDeboss() {
         return new Border(new EtchedBorder(EtchedBorder.RAISED));
@@ -110,7 +110,7 @@ public class Border {
      * 
      * @param color
      * @param width
-     * @return 結果。
+     * @return
      */
     public static Border createShadow(Color color, int width) {
         return new Border(new ShadowBorder(color, width));
@@ -154,7 +154,7 @@ public class Border {
          * 
          * @param current
          * @param maximum
-         * @return 結果。
+         * @return
          */
         private Color createColor(double current, double maximum) {
             double ratio = current / maximum;

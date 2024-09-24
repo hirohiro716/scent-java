@@ -34,7 +34,7 @@ public class FrameEvent extends Event<java.awt.event.WindowEvent> {
      * 
      * @param frame
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static WindowListener createInnerOpenedEventHandler(Frame<?> frame, EventHandler<FrameEvent> eventHandler) {
         return eventHandler.createInnerInstance(frame, new InnerInstanceCreator<>() {
@@ -57,7 +57,7 @@ public class FrameEvent extends Event<java.awt.event.WindowEvent> {
      * 
      * @param frame
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static WindowListener createInnerClosingEventHandler(Frame<?> frame, EventHandler<FrameEvent> eventHandler) {
         return eventHandler.createInnerInstance(frame, new InnerInstanceCreator<>() {
@@ -80,7 +80,7 @@ public class FrameEvent extends Event<java.awt.event.WindowEvent> {
      * 
      * @param frame
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static WindowListener createInnerClosedEventHandler(Frame<?> frame, EventHandler<FrameEvent> eventHandler) {
         return eventHandler.createInnerInstance(frame, new InnerInstanceCreator<>() {
@@ -103,7 +103,7 @@ public class FrameEvent extends Event<java.awt.event.WindowEvent> {
      * 
      * @param frame
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static WindowListener createInnerIconifiedEventHandler(Frame<?> frame, EventHandler<FrameEvent> eventHandler) {
         return eventHandler.createInnerInstance(frame, new InnerInstanceCreator<>() {
@@ -126,7 +126,7 @@ public class FrameEvent extends Event<java.awt.event.WindowEvent> {
      * 
      * @param frame
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static WindowListener createInnerDeiconifiedEventHandler(Frame<?> frame, EventHandler<FrameEvent> eventHandler) {
         return eventHandler.createInnerInstance(frame, new InnerInstanceCreator<>() {
@@ -149,7 +149,7 @@ public class FrameEvent extends Event<java.awt.event.WindowEvent> {
      * 
      * @param frame
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static WindowListener createInnerActivatedEventHandler(Frame<?> frame, EventHandler<FrameEvent> eventHandler) {
         return eventHandler.createInnerInstance(frame, new InnerInstanceCreator<>() {
@@ -172,7 +172,7 @@ public class FrameEvent extends Event<java.awt.event.WindowEvent> {
      * 
      * @param frame
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static WindowListener createInnerDeactivatedEventHandler(Frame<?> frame, EventHandler<FrameEvent> eventHandler) {
         return eventHandler.createInnerInstance(frame, new InnerInstanceCreator<>() {

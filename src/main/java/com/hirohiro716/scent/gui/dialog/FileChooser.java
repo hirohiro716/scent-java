@@ -40,7 +40,7 @@ public abstract class FileChooser extends Control implements DialogInterface {
     /**
      * このコンポーネントがラップしている、GUIライブラリに依存したインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     @Override
     public JFileChooser getInnerInstance() {
@@ -156,7 +156,7 @@ public abstract class FileChooser extends Control implements DialogInterface {
     /**
      * このダイアログで表示するファイルを制限するファイルフィルターのコレクションを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<FileFilter> getFileFilters() {
         return this.fileFilters;
@@ -179,7 +179,7 @@ public abstract class FileChooser extends Control implements DialogInterface {
     /**
      * このダイアログによって選択されたファイルシステムアイテムを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public FilesystemItem[] getChoosedFilesystemItems() {
         return this.choosedFilesystemItems.toArray(new FilesystemItem[] {});
@@ -188,7 +188,7 @@ public abstract class FileChooser extends Control implements DialogInterface {
     /**
      * このダイアログによって選択されたファイルシステムアイテムを取得する。未選択の場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public FilesystemItem getChoosedFilesystemItem() {
         if (this.choosedFilesystemItems.size() == 0) {
@@ -224,7 +224,7 @@ public abstract class FileChooser extends Control implements DialogInterface {
     /**
      * ファイルの選択ダイアログを表示する。ダイアログがキャンセルされた場合はfalseを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract boolean showAndWait();
     
@@ -238,7 +238,7 @@ public abstract class FileChooser extends Control implements DialogInterface {
         /**
          * このファイルフィルターの表示テキストを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public abstract String getText();
         
@@ -246,7 +246,7 @@ public abstract class FileChooser extends Control implements DialogInterface {
          * このファイルフィルターで指定されたファイルを許可する場合はtrueを返す。
          * 
          * @param file
-         * @return 結果。
+         * @return
          */
         public abstract boolean accept(File file);
     }

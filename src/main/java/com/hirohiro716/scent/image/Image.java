@@ -117,7 +117,7 @@ public class Image extends ByteArray implements Cloneable {
     /**
      * このbyte配列からBufferedImageを作成する。
      * 
-     * @return 結果。
+     * @return
      * @throws IOException
      */
     public BufferedImage createBufferedImage() throws IOException {
@@ -173,7 +173,7 @@ public class Image extends ByteArray implements Cloneable {
      * @param file
      * @param maximumPixelWidth
      * @param maximumPixelHeight
-     * @return 結果。
+     * @return
      * @throws IOException
      */
     public static BufferedImage resize(File file, int maximumPixelWidth, int maximumPixelHeight) throws IOException {
@@ -210,7 +210,7 @@ public class Image extends ByteArray implements Cloneable {
      * @param file
      * @param maximumPixelWidth
      * @param maximumPixelHeight
-     * @return 結果。
+     * @return
      * @throws IOException
      */
     public static Image newInstance(File file, int maximumPixelWidth, int maximumPixelHeight) throws IOException {
@@ -253,7 +253,7 @@ public class Image extends ByteArray implements Cloneable {
          * ファイル名の拡張子から画像のフォーマットタイプ列挙型を取得する。失敗した場合はnullを返す。
          * 
          * @param fileName
-         * @return 結果。
+         * @return
          */
         public static ImageFormat find(String fileName) {
             for (ImageFormat imageFormat : ImageFormat.values()) {
@@ -269,7 +269,7 @@ public class Image extends ByteArray implements Cloneable {
          * java.io.Fileオブジェクトの拡張子から画像のフォーマットタイプ列挙型を取得する。失敗した場合はnullを返す。
          * 
          * @param file
-         * @return 結果。
+         * @return
          */
         public static ImageFormat find(File file) {
             return ImageFormat.find(file.getAbsolutePath());

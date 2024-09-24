@@ -75,7 +75,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
     /**
      * このダイアログに表示する選択できるアイテムのコレクションを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<T> getPickableItems() {
         return this.pickableItems;
@@ -87,7 +87,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
     /**
      * このダイアログで選択できるトグルボタンの最大数を取得する。初期値は無制限。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMaximumNumberOfPickable() {
         return this.maximumNumberOfPickable;
@@ -108,7 +108,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
      * 指定されたアイテムに関連づいたトグルボタンを作成する。
      * 
      * @param pickableItem
-     * @return 結果。
+     * @return
      */
     private ToggleButton createToggleButton(T pickableItem) {
         ToggleButton toggleButton = new ToggleButton();
@@ -124,7 +124,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
      * 指定されたアイテムに関連づいたトグルボタンを取得する。
      * 
      * @param pickableItem
-     * @return 結果。
+     * @return
      */
     public ToggleButton getToggleButton(T pickableItem) {
         return this.mapToggleButton.get(pickableItem);
@@ -135,7 +135,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
     /**
      * 選択できるアイテムの文字列表現の代わりに表示するテキストを定義したマップを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Map<T, String> getMapDisplayTextForPickableItem() {
         return this.mapDisplayTextForPickableItem;
@@ -174,7 +174,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
     /**
      * このダイアログがキャンセル可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCancelable() {
         return this.buttonCancel.isVisible();

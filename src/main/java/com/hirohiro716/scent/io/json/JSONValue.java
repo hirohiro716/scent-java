@@ -33,7 +33,7 @@ public abstract class JSONValue<T> {
     /**
      * JSONの解析結果を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected ParseResult<T> getParseResult() {
         return this.parseResult;
@@ -42,7 +42,7 @@ public abstract class JSONValue<T> {
     /**
      * JSONを解析した結果、変換できた内容を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public T getContent() {
         if (this.parseResult == null) {
@@ -63,7 +63,7 @@ public abstract class JSONValue<T> {
     /**
      * JSONのデータ定義文を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     @Override
     public String toString() {
@@ -78,7 +78,7 @@ public abstract class JSONValue<T> {
      * JSONを解析して値のインスタンスに変換する。このメソッドはコンストラクタで自動的に呼び出される。
      * 
      * @param json JSONデータ定義文。nullが入ってくることもある。
-     * @return 結果。
+     * @return
      * @throws ParseException
      */
     protected abstract ParseResult<T> parse(String json) throws ParseException;
@@ -87,7 +87,7 @@ public abstract class JSONValue<T> {
      * 値のインスタンスからJSONのデータ定義文を作成する。
      * 
      * @param value
-     * @return 結果。
+     * @return
      */
     protected abstract String makeJSON(T value);
 }

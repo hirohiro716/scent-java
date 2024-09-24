@@ -23,7 +23,7 @@ public class MillimeterValue {
     /**
      * ミリメートル単位の値をfloatで取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float get() {
         return this.millimeter;
@@ -32,7 +32,7 @@ public class MillimeterValue {
     /**
      * ポイント単位に変換する。
      * 
-     * @return 結果。
+     * @return
      */
     public float toPoint() {
         return this.millimeter * MillimeterValue.MILLIMETER_TO_POINT_RATIO;
@@ -42,7 +42,7 @@ public class MillimeterValue {
      * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
      * 
      * @param millimeter
-     * @return 結果。
+     * @return
      */
     public static MillimeterValue newInstance(float millimeter) {
         return new MillimeterValue(millimeter);
@@ -52,7 +52,7 @@ public class MillimeterValue {
      * ポイント単位の値からミリメートル単位の値を作成する。
      * 
      * @param point
-     * @return 結果。
+     * @return
      */
     public static MillimeterValue fromPoint(float point) {
         return new MillimeterValue(point / MillimeterValue.MILLIMETER_TO_POINT_RATIO);

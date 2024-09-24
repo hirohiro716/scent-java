@@ -54,7 +54,7 @@ public class PrinterJob {
     /**
      * このプリンタージョブで使用するプリンターを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Printer getPrinter() {
         return this.printer;
@@ -74,7 +74,7 @@ public class PrinterJob {
     /**
      * このプリンタージョブの名前を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getName() {
         return this.name;
@@ -94,7 +94,7 @@ public class PrinterJob {
     /**
      * このプリンタージョブで印刷する部数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getNumberOfCopies() {
         return this.numberOfCopies;
@@ -114,7 +114,7 @@ public class PrinterJob {
     /**
      * このプリンタージョブの印刷方向を取得する。事前に指定されていない場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public PaperOrientation getPaperOrientation() {
         return this.paperOrientation;
@@ -138,7 +138,7 @@ public class PrinterJob {
     /**
      * このプリンタージョブで使用する用紙トレイを取得する。事前に指定されていない場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public PaperSource getPaperSource() {
         return this.paperSource;
@@ -172,7 +172,7 @@ public class PrinterJob {
     /**
      * このプリンタージョブで使用する用紙サイズを取得する。事前に指定されていない場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public PaperSize getPaperSize() {
         return this.paperSize;
@@ -183,7 +183,7 @@ public class PrinterJob {
     /**
      * この印刷物の上余白をミリメートルで取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float getMarginTop() {
         return this.millimeterMarginTop;
@@ -203,7 +203,7 @@ public class PrinterJob {
     /**
      * この印刷物の左余白をミリメートルで取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float getMarginLeft() {
         return this.millimeterMarginLeft;
@@ -223,7 +223,7 @@ public class PrinterJob {
     /**
      * 印刷するオブジェクトを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Printable getPrintable() {
         return this.printable;
@@ -241,7 +241,7 @@ public class PrinterJob {
     /**
      * このジョブの設定からAWTのプリンタージョブを作成する。
      * 
-     * @return 結果。
+     * @return
      * @throws PrinterException
      */
     private java.awt.print.PrinterJob createPrinterJobOfAWT() throws PrinterException {
@@ -262,7 +262,7 @@ public class PrinterJob {
     /**
      * このジョブの設定からAWTの属性セットを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private PrintRequestAttributeSet createAttributeOfAWT() {
         PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
@@ -305,7 +305,7 @@ public class PrinterJob {
      * 
      * @param expansionRatio 画像を作成する際の拡大率。等倍は1.0。
      * @param imageFormat
-     * @return 結果。
+     * @return
      * @throws PrinterException
      * @throws IOException
      */

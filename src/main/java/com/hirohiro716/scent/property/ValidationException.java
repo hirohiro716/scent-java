@@ -46,7 +46,7 @@ public class ValidationException extends Exception {
     /**
      * 検証に失敗した原因のプロパティの配列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public PropertyInterface[] getCauseProperties() {
         return this.errorMessages.keySet().toArray(new PropertyInterface[] {});
@@ -55,7 +55,7 @@ public class ValidationException extends Exception {
     /**
      * 検証に失敗した原因の数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getNumberOfCauseProperties() {
         return this.errorMessages.size();

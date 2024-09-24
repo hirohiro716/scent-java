@@ -15,7 +15,7 @@ public interface ColumnInterface extends PropertyInterface {
     /**
      * カラムが属するテーブルを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract TableInterface getTable();
     
@@ -34,7 +34,7 @@ public interface ColumnInterface extends PropertyInterface {
      * @param <C> カラム列挙型。
      * @param physicalName
      * @param columnEnumClass このインターフェースを継承している列挙型のクラス。
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public static <C extends ColumnInterface> C columnOf(String physicalName, Class<C> columnEnumClass) {
@@ -55,7 +55,7 @@ public interface ColumnInterface extends PropertyInterface {
      * 
      * @param <C> カラム列挙型。
      * @param columnEnumClass このインターフェースを継承している列挙型のクラス。
-     * @return 結果。
+     * @return
      */
     public static <C extends ColumnInterface> LinkedHashMap<String, String> createLinkedHashMap(Class<C> columnEnumClass) {
         return PropertyInterface.createLinkedHashMap(columnEnumClass);

@@ -29,7 +29,7 @@ public abstract class RecordSearcher {
     /**
      * コンストラクタで指定したDatabaseインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Database getDatabase() {
         return this.database;
@@ -38,7 +38,7 @@ public abstract class RecordSearcher {
     /**
      * レコードを検索するテーブルを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract TableInterface getTable();
     
@@ -49,7 +49,7 @@ public abstract class RecordSearcher {
      * @param <D>
      * @param recordMapperClass
      * @param databaseClass
-     * @return 結果。
+     * @return
      */
     public static <M extends RecordMapper, D extends Database> TableInterface getTable(Class<M> recordMapperClass, Class<D> databaseClass) {
         try {

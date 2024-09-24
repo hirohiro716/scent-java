@@ -57,7 +57,7 @@ public abstract class FilesystemItem {
     /**
      * 内部で保持しているjava.io.FileインスタンスのURIを構築する。
      * 
-     * @return 結果。
+     * @return
      */
     public URI toURI() {
         return this.file.toURI();
@@ -66,7 +66,7 @@ public abstract class FilesystemItem {
     /**
      * 内部で保持しているjava.io.FileインスタンスのURIからURLを構築する。
      * 
-     * @return 結果。
+     * @return
      * @throws MalformedURLException
      */
     public URL toURL() throws MalformedURLException {
@@ -81,7 +81,7 @@ public abstract class FilesystemItem {
     /**
      * ファイルシステムアイテムの名前を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getName() {
         return this.file.getName();
@@ -91,7 +91,7 @@ public abstract class FilesystemItem {
      * ファイルシステムアイテムの抽象パスを取得する。<br>
      * コンストラクタに相対パスを渡している場合は、戻り値も相対パスになる。
      * 
-     * @return 結果。
+     * @return
      */
     public String getPath() {
         return this.file.getPath();
@@ -101,7 +101,7 @@ public abstract class FilesystemItem {
      * このファイルシステムアイテムの絶対パスを取得する。<br>
      * 「 . 」や「 .. 」などの省略表現の解決は行われない。
      * 
-     * @return 結果。
+     * @return
      */
     public String getAbsolutePath() {
         return this.file.getAbsolutePath();
@@ -111,7 +111,7 @@ public abstract class FilesystemItem {
      * このファイルシステムアイテムの正規のパスを取得する。<br>
      * 「 . 」や「 .. 」などの短縮形または冗長な名前の解決を行う。
      * 
-     * @return 結果。
+     * @return
      * @throws IOException ファイルシステムクエリに失敗した場合。
      */
     public String getCanonicalPath() throws IOException {
@@ -122,7 +122,7 @@ public abstract class FilesystemItem {
      * このファイルシステムアイテムが通常のファイルかどうかをテストする。<br>
      * アイテムがディレクトリではなく、さらにシステムに依存する他の基準を満たしている場合、trueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isFile() {
         return this.file.isFile();
@@ -131,7 +131,7 @@ public abstract class FilesystemItem {
     /**
      * このファイルシステムアイテムがディレクトリの場合、trueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isDirectory() {
         return this.file.isDirectory();
@@ -140,7 +140,7 @@ public abstract class FilesystemItem {
     /**
      * このファイルシステムアイテムの親ディレクトリを取得する。失敗した場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public Directory getParentDirectory() {
         File parent = this.file.getParentFile();
@@ -153,7 +153,7 @@ public abstract class FilesystemItem {
     /**
      * この抽象パスのアイテムがファイルシステムに存在する場合、trueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract boolean exists();
     
@@ -191,7 +191,7 @@ public abstract class FilesystemItem {
     /**
      * このコンピューターファイルシステムで使用される区切り文字を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static String getFileSeparator() {
         return System.getProperty("file.separator");
@@ -201,7 +201,7 @@ public abstract class FilesystemItem {
      * このメソッドはコンストラクタの呼び出しと同じで、指定されたjava.io.Fileから新しいインスタンスを作成する。
      * 
      * @param file
-     * @return 結果。
+     * @return
      */
     public static FilesystemItem newInstance(File file) {
         if (file.isDirectory()) {
@@ -214,7 +214,7 @@ public abstract class FilesystemItem {
      * このメソッドはコンストラクタの呼び出しと同じで、指定されたパスから新しいインスタンスを作成する。
      * 
      * @param location
-     * @return 結果。
+     * @return
      */
     public static FilesystemItem newInstance(String location) {
         return FilesystemItem.newInstance(new File(location));
@@ -224,7 +224,7 @@ public abstract class FilesystemItem {
      * このメソッドはコンストラクタの呼び出しと同じで、指定されたURIから新しいインスタンスを作成する。
      * 
      * @param uri
-     * @return 結果。
+     * @return
      */
     public static FilesystemItem newInstance(URI uri) {
         return FilesystemItem.newInstance(new File(uri));

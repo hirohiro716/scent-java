@@ -142,7 +142,7 @@ public class ClickableLabel extends Button {
     /**
      * このラベルの下線が無効になっている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isDisabledUnderline() {
         return this.isDisabledUnderline;

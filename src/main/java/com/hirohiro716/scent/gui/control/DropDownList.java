@@ -270,7 +270,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
     /**
      * このコントロールの選択アイテムをDeleteキー、Backspaceキーでクリア可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isClearable() {
         return this.isClearable;
@@ -290,7 +290,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
     /**
      * このコントロールの値がマウスホイールの回転で変更されるようになっている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isEnableChangeValueWithMouseWheelRotation() {
         return this.isEnableChangeValueWithMouseWheelRotation;
@@ -309,7 +309,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
      * ドロップダウンリスト用のコンテキストメニューを作成する。<br>
      * 値が未選択の場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public ContextMenu createContextMenu() {
         DropDownList<T> dropDownList = this;

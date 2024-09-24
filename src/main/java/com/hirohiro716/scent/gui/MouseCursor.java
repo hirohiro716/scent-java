@@ -69,7 +69,7 @@ public enum MouseCursor {
     /**
      * 内部で使用されるGUIライブラリに依存したインスタンスを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public Cursor createInnerInstance() {
         switch (this) {

@@ -27,7 +27,7 @@ public abstract class Task<R> {
     /**
      * このインスタンスで処理する内容を作成する。このメソッドはコンストラクタで自動的に呼び出される。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract Callable createCallable();
     
@@ -41,7 +41,7 @@ public abstract class Task<R> {
     /**
      * タスクが終了している場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isDone() {
         return this.futureTask.isDone();
@@ -50,7 +50,7 @@ public abstract class Task<R> {
     /**
      * タスクがすでにキャンセルされている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCancelled() {
         return this.futureTask.isCancelled();
@@ -67,7 +67,7 @@ public abstract class Task<R> {
      * このタスクの処理結果を取得する。<br>
      * このメソットを呼び出したThreadは、タスクの結果が取得できるまで待機する。
      * 
-     * @return 結果。
+     * @return
      * @throws Exception タスク内の処理中に例外が発生した場合。
      */
     public R getResult() throws Exception {
@@ -110,7 +110,7 @@ public abstract class Task<R> {
         /**
          * タスクがすでにキャンセルされている場合はtrueを返す。
          * 
-         * @return 結果。
+         * @return
          */
         protected boolean isCancelled() {
             return Task.this.isCancelled();

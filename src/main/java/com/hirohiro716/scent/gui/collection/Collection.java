@@ -22,7 +22,7 @@ public class Collection<T> implements Iterable<T> {
      * コレクション内の指定された位置の値を取得する。
      * 
      * @param index
-     * @return 結果。
+     * @return
      * @throws IndexOutOfBoundsException 
      */
     public T get(int index) throws IndexOutOfBoundsException {
@@ -32,7 +32,7 @@ public class Collection<T> implements Iterable<T> {
     /**
      * コレクションの値の数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int size() {
         return this.list.size();
@@ -43,7 +43,7 @@ public class Collection<T> implements Iterable<T> {
     /**
      * コレクションに対するオブジェクトの追加を検知するリスナーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public AddListener<T>[] getAddListeners() {
@@ -73,7 +73,7 @@ public class Collection<T> implements Iterable<T> {
     /**
      * コレクションに対するオブジェクトの削除を検知するリスナーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public RemoveListener<T>[] getRemoveListeners() {
@@ -102,7 +102,7 @@ public class Collection<T> implements Iterable<T> {
      * 指定された値がコレクションに存在する場合はtrueを返す。
      * 
      * @param value
-     * @return 結果。
+     * @return
      */
     public boolean contains(T value) {
         return this.list.contains(value);
@@ -112,7 +112,7 @@ public class Collection<T> implements Iterable<T> {
      * 指定された値がコレクションのどの位置かを取得する。見つからなかった場合は-1を返す。
      * 
      * @param value
-     * @return 結果。
+     * @return
      */
     public int indexOf(T value) {
         return this.list.indexOf(value);
@@ -189,7 +189,7 @@ public class Collection<T> implements Iterable<T> {
     /**
      * コレクション内のすべての値を格納した配列を返す。
      * 
-     * @return 結果。
+     * @return
      */
     public Array<T> toArray() {
         return new Array<>(this.list);
@@ -198,7 +198,7 @@ public class Collection<T> implements Iterable<T> {
     /**
      * コレクション内のすべての値を格納している読み取り専用のリストを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public List<T> toUnmodifiableList() {
         List<T> list = new ArrayList<>(this.list);

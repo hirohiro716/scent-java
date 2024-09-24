@@ -71,7 +71,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     /**
      * 内部で使用しているjava.util.LinkedHashMapを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public LinkedHashMap<K, Object> getLinkedHashMap() {
         return this.hashMap;
@@ -143,7 +143,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 
      * @param <V> 値の型。
      * @param key
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <V> V get(K key) {
@@ -156,7 +156,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param <V> 値の型。
      * @param key
      * @param valueType
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <V> V get(K key, Class<V> valueType) {
@@ -199,7 +199,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 指定されたキーに関連づいた値を、Booleanとして取得する。
      * 
      * @param key
-     * @return 結果。
+     * @return
      */
     public final Boolean getBoolean(K key) {
         return this.get(key, Boolean.class);
@@ -209,7 +209,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 指定されたキーに関連づいた値を、Integerとして取得する。
      * 
      * @param key
-     * @return 結果。
+     * @return
      */
     public final Integer getInteger(K key) {
         return this.get(key, Integer.class);
@@ -219,7 +219,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 指定されたキーに関連づいた値を、Longとして取得する。
      * 
      * @param key
-     * @return 結果。
+     * @return
      */
     public final Long getLong(K key) {
         return this.get(key, Long.class);
@@ -229,7 +229,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 指定されたキーに関連づいた値を、Floatとして取得する。
      * 
      * @param key
-     * @return 結果。
+     * @return
      */
     public final Float getFloat(K key) {
         return this.get(key, Float.class);
@@ -239,7 +239,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 指定されたキーに関連づいた値を、Doubleとして取得する。
      * 
      * @param key
-     * @return 結果。
+     * @return
      */
     public final Double getDouble(K key) {
         return this.get(key, Double.class);
@@ -249,7 +249,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 指定されたキーに関連づいた値を、Dateとして取得する。
      * 
      * @param key
-     * @return 結果。
+     * @return
      */
     public final Date getDate(K key) {
         return this.get(key, Date.class);
@@ -259,7 +259,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 指定されたキーに関連づいた値を、文字列として取得する。
      * 
      * @param key
-     * @return 結果。
+     * @return
      */
     public final String getString(K key) {
         return this.get(key, String.class);
@@ -268,7 +268,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     /**
      * この配列の要素数を返す。
      * 
-     * @return 結果。
+     * @return
      */
     public int size() {
         return this.hashMap.size();
@@ -278,7 +278,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * この連想配列に指定されたキーのマッピングが含まれている場合trueを返す。
      * 
      * @param key
-     * @return 結果。
+     * @return
      */
     public boolean containsKey(K key) {
         return this.hashMap.containsKey(key);
@@ -288,7 +288,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * この連想配列に指定された値のマッピングが含まれている場合trueを返す。
      * 
      * @param value
-     * @return 結果。
+     * @return
      */
     public boolean containsValue(Object value) {
         return this.hashMap.containsValue(value);
@@ -326,7 +326,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     /**
      * この連想配列に含まれるすべてのキーをjava.util.Setで取得する。Setは連想配列のマッピングに連動している。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<K> getKeys() {
         return this.hashMap.keySet();
@@ -336,7 +336,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * この連想配列に含まれるすべての値をjava.util.Collectionで取得する。Collectionは連想配列のマッピングに連動している。
      * 
      * @param <V> 値の型。
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <V> Collection<V> getValues() {
@@ -360,7 +360,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     /**
      * この連想配列のコピーを作成する。連想配列の値にCloneableインターフェースの実装があった場合、値のcloneメソッドも呼び出されコピーされる。
      * 
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -388,7 +388,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     /**
      * この連想配列の文字列表現を返す。
      * 
-     * @return 結果。
+     * @return
      */
     @Override
     public String toString() {
@@ -424,7 +424,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 
      * @param <K> 
      * @param map
-     * @return 結果。
+     * @return
      */
     public static <K> DynamicArray<K> newInstance(Map<K, ?> map) {
         return new DynamicArray<>(map);
@@ -434,7 +434,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 指定された配列を初期値としてインスタンスを作成する。キーは自動的に決定する。
      * 
      * @param values
-     * @return 結果。
+     * @return
      */
     public static DynamicArray<Integer> newInstance(Object... values) {
         return new DynamicArray<>(values);
@@ -444,7 +444,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * 指定された配列を初期値としてインスタンスを作成する。キーは自動的に決定する。
      * 
      * @param values
-     * @return 結果。
+     * @return
      */
     public static DynamicArray<Integer> newInstance(Collection<Object> values) {
         return DynamicArray.newInstance(values.toArray(new Object[] {}));
@@ -457,7 +457,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param arrays
      * @param sortKey 並び替えに使用する値を取得するためのキー。
      * @param sortOrder
-     * @return 結果。
+     * @return
      */
     public static <K> List<DynamicArray<K>> sort(Collection<DynamicArray<K>> arrays, K sortKey, SortOrder sortOrder) {
         List<DynamicArray<K>> result = new ArrayList<>();
@@ -482,7 +482,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param arrays
      * @param sortKey 並び替えに使用する値を取得するためのキー。
      * @param sortOrder
-     * @return 結果。
+     * @return
      */
     public static <K> List<DynamicArray<K>> sort(DynamicArray<K>[] arrays, K sortKey, SortOrder sortOrder) {
         List<DynamicArray<K>> list = Arrays.asList(arrays);

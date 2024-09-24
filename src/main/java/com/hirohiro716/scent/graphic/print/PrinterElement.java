@@ -24,7 +24,7 @@ public abstract class PrinterElement<T> {
     /**
      * この要素が内部で保持しているライブラリに依存したインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public T getInnerInstance() {
         return this.innerInstance;
@@ -42,7 +42,7 @@ public abstract class PrinterElement<T> {
     /**
      * この要素の名前を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract String getName();
 

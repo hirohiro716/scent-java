@@ -72,7 +72,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
     /**
      * このメッセージに表示する文字列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getText() {
         return this.text;
@@ -92,7 +92,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
     /**
      * このメッセージの前景色を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Color getForegroundColor() {
         return this.foregroundColor;

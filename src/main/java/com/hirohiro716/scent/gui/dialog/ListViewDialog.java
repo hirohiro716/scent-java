@@ -65,7 +65,7 @@ public class ListViewDialog<T> extends MessageableDialog<Array<T>> {
     /**
      * このダイアログのリストビューを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ListView<T> getListView() {
         return this.listView;
@@ -84,7 +84,7 @@ public class ListViewDialog<T> extends MessageableDialog<Array<T>> {
     /**
      * このダイアログがキャンセル可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCancelable() {
         return this.buttonCancel.isVisible();

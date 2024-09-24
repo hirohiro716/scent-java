@@ -40,7 +40,7 @@ public abstract class Editor<T> extends Window {
     /**
      * 編集するターゲットの総称を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected String getGenericNameOfTarget() {
         return null;
@@ -60,7 +60,7 @@ public abstract class Editor<T> extends Window {
     /**
      * 編集中のターゲットインスタンスを取得する。エディター表示前はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public T getTarget() {
         return this.target;
@@ -183,7 +183,7 @@ public abstract class Editor<T> extends Window {
     /**
      * このエディターを閉じる前に確認を表示する場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isShowConfirmationBeforeClosing() {
         return this.isShowConfirmationBeforeClosing;
@@ -253,7 +253,7 @@ public abstract class Editor<T> extends Window {
     /**
      * このエディターを閉じることに既に同意している場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isAgreeToClose() {
         return this.isAgreeToClose;
@@ -313,7 +313,7 @@ public abstract class Editor<T> extends Window {
      * このエディターに表示するコンテンツを作成する。<br>
      * このメソッドはスーバークラスで自動的に呼び出される。
      * 
-     * @return 結果。
+     * @return
      * @throws Exception 
      */
     protected abstract Control createContent() throws Exception;

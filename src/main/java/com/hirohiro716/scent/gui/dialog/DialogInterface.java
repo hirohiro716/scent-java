@@ -13,7 +13,7 @@ public interface DialogInterface {
     /**
      * このダイアログのオーナーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract Frame<?>  getOwner();
     
@@ -22,14 +22,14 @@ public interface DialogInterface {
      * このダイアログのペインを取得する。
      * 
      * @param <P> パネルの型。
-     * @return 結果。
+     * @return
      */
     public abstract <P extends Pane> P getPane();
     
     /**
      * このダイアログのタイトルを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract String getTitle();
     

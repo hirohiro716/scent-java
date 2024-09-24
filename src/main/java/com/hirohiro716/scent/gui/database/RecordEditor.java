@@ -46,7 +46,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
     /**
      * レコードが変更されている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract boolean isRecordChanged();
     
@@ -55,7 +55,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
     /**
      * レコードの編集に使用しているデータベースのインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected D getDatabase() {
         return this.database;
@@ -65,7 +65,7 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
      * レコードの編集に使用するデータベースのインスタンスを作成する。<br>
      * データベースへの接続やトランザクションの開始処理は行わない。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract D createDatabase();
 

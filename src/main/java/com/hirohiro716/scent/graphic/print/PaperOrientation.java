@@ -29,7 +29,7 @@ public class PaperOrientation extends PrinterElement<OrientationRequested> {
     /**
      * すべての要素のリストを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public static List<PaperOrientation> createList() {
         List<PaperOrientation> list = new ArrayList<>();
@@ -44,7 +44,7 @@ public class PaperOrientation extends PrinterElement<OrientationRequested> {
      * 指定された名前に一致する要素を取得する。見つからなかった場合はnullを返す。
      * 
      * @param name
-     * @return 結果。
+     * @return
      */
     public static PaperOrientation paperOrientationOf(String name) {
         for (PaperOrientation paperOrientation : PaperOrientation.createList()) {

@@ -97,7 +97,7 @@ public class GridPane extends Pane {
     /**
      * このペインに配置されている子要素間の水平方向スペースを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getHorizontalSpacing() {
         return this.horizontalSpacing;
@@ -108,7 +108,7 @@ public class GridPane extends Pane {
     /**
      * このペインに配置されている子要素間の垂直方向スペースを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getVerticalSpacing() {
         return this.verticalSpacing;
@@ -223,7 +223,7 @@ public class GridPane extends Pane {
     /**
      * このペインの余ったスペースを使用して、水平方向に拡大することができる子要素のコレクションを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<Control> getHorizontalGrowableControls() {
         return this.horizontalGrowableControls;
@@ -234,7 +234,7 @@ public class GridPane extends Pane {
     /**
      * このペインの余ったスペースを使用して、垂直方向に拡大することができる子要素のコレクションを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<Control> getVerticalGrowableControls() {
         return this.verticalGrowableControls;

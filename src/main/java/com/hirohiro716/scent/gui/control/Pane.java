@@ -93,7 +93,7 @@ public class Pane extends Control {
     /**
      * このペインの子要素を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Children getChildren() {
         return this.children;
@@ -119,7 +119,7 @@ public class Pane extends Control {
         /**
          * ペインを表示した際に最初にフォーカスするコントロールを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public Control getInitialFocusControl() {
             return this.initialFocusControl;
@@ -185,7 +185,7 @@ public class Pane extends Control {
          * ペインが含むすべてのコントロールを検索する。<br>
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
-         * @return 結果。
+         * @return
          */
         public final Array<Control> findAll() {
             return new Array<>(this.findControlsAsList());
@@ -195,7 +195,7 @@ public class Pane extends Control {
          * ペインが含むすべてのコントロールのリストを作成する。<br>
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
-         * @return 結果。
+         * @return
          */
         private List<Control> findControlsAsList() {
             List<Control> finded = new ArrayList<>();
@@ -231,7 +231,7 @@ public class Pane extends Control {
          * @param <C> 検索するコントロールの型。
          * @param x
          * @param y
-         * @return 結果。
+         * @return
          */
         @SuppressWarnings("unchecked")
         public final <C extends Control> C findControlByPoint(int x, int y) {
@@ -270,7 +270,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         private List<Control> findControlsByNameAsList(String name) {
             List<Control> finded = new ArrayList<>();
@@ -306,7 +306,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final Array<Control> findControlsByName(String name) {
             return new Array<>(this.findControlsByNameAsList(name));
@@ -318,7 +318,7 @@ public class Pane extends Control {
          * 
          * @param <C> 
          * @param controlClass
-         * @return 結果。
+         * @return
          */
         @SuppressWarnings("unchecked")
         private <C extends Control> List<C> findControlsByClassAsList(Class<C> controlClass) {
@@ -356,7 +356,7 @@ public class Pane extends Control {
          * 
          * @param <C> 
          * @param controlClass
-         * @return 結果。
+         * @return
          */
         public final <C extends Control> Array<C> findControlsByClass(Class<C> controlClass) {
             return new Array<>(this.findControlsByClassAsList(controlClass));
@@ -369,7 +369,7 @@ public class Pane extends Control {
          * @param <C> 
          * @param name
          * @param controlClass
-         * @return 結果。
+         * @return
          */
         public final <C extends Control> Array<Control> findControlsByNameAndClass(String name, Class<C> controlClass) {
             List<Control> findedByName = this.findControlsByNameAsList(name);
@@ -387,7 +387,7 @@ public class Pane extends Control {
          * 
          * @param <C> 検索するコントロールの型。
          * @param name
-         * @return 結果。
+         * @return
          */
         @SuppressWarnings("unchecked")
         public final <C extends Control> C findControlByName(String name) {
@@ -405,7 +405,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final Label findLabelByName(String name) {
             for (Control control : this.findControlsByNameAsList(name)) {
@@ -421,7 +421,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final TextField findTextFieldByName(String name) {
             for (Control control : this.findControlsByNameAsList(name)) {
@@ -437,7 +437,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final AutocompleteTextField findAutocompleteTextFieldByName(String name) {
             for (Control control : this.findControlsByNameAsList(name)) {
@@ -453,7 +453,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final PasswordField findPasswordFieldByName(String name) {
             for (Control control : this.findControlsByNameAsList(name)) {
@@ -469,7 +469,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final DatePicker findDatePickerByName(String name) {
             for (Control control : this.findControlsByNameAsList(name)) {
@@ -485,7 +485,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final TextArea findTextAreaByName(String name) {
             for (Control control : this.findControlsByNameAsList(name)) {
@@ -501,7 +501,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final CheckBox findCheckBoxByName(String name) {
             for (Control control : this.findControlsByNameAsList(name)) {
@@ -517,7 +517,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final Button findButtonByName(String name) {
             for (Control control : this.findControlsByNameAsList(name)) {
@@ -533,7 +533,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final RadioButton findRadioButtonByName(String name) {
             for (Control control : this.findControlsByNameAsList(name)) {
@@ -549,7 +549,7 @@ public class Pane extends Control {
          * このメソッドはペインに追加されているすべての子要素を再帰的に検索する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public final ToggleButton findToggleButtonByName(String name) {
             for (Control control : this.findControlsByNameAsList(name)) {
@@ -566,7 +566,7 @@ public class Pane extends Control {
          * 
          * @param <T> リストアイテムの型。
          * @param name
-         * @return 結果。
+         * @return
          */
         @SuppressWarnings("unchecked")
         public final <T> ListView<T> findListViewByName(String name) {
@@ -584,7 +584,7 @@ public class Pane extends Control {
          * 
          * @param <T> リストアイテムの型。
          * @param name
-         * @return 結果。
+         * @return
          */
         @SuppressWarnings("unchecked")
         public final <T> DropDownList<T> findDropDownListByName(String name) {

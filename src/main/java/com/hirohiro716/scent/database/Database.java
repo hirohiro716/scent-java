@@ -57,7 +57,7 @@ public abstract class Database implements Closeable {
     /**
      * JDBCドライバのURLを取得する。
      * 
-     * @return 結果。
+     * @return
      * @throws Exception 
      */
     public abstract URL getJDBCDriverURL() throws Exception;
@@ -65,7 +65,7 @@ public abstract class Database implements Closeable {
     /**
      * JDBCドライバのバイナリ名を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract String getJDBCDriverBinaryName();
     
@@ -166,7 +166,7 @@ public abstract class Database implements Closeable {
     /**
      * java.sql.Connectionのインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Connection getConnection() {
         return this.connection;
@@ -203,7 +203,7 @@ public abstract class Database implements Closeable {
     /**
      * データベースに対する接続が閉じられている場合trueを返す。
      * 
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     public boolean isClosed() throws SQLException {
@@ -260,7 +260,7 @@ public abstract class Database implements Closeable {
      * @param <T> 取得する型。
      * @param sql プレースホルダを使用したSQL。
      * @param parameters バインド変数。
-     * @return 結果。
+     * @return
      * @throws SQLException
      * @throws DataNotFoundException
      */
@@ -290,7 +290,7 @@ public abstract class Database implements Closeable {
      * @param <T> 取得する型。
      * @param sql プレースホルダを使用したSQL。
      * @param parameters バインド変数。
-     * @return 結果。
+     * @return
      * @throws SQLException
      * @throws DataNotFoundException
      */
@@ -303,7 +303,7 @@ public abstract class Database implements Closeable {
      * 
      * @param <T> 取得する型。
      * @param sql
-     * @return 結果。
+     * @return
      * @throws SQLException
      * @throws DataNotFoundException
      */
@@ -316,7 +316,7 @@ public abstract class Database implements Closeable {
      * 
      * @param sql プレースホルダを使用したSQL。
      * @param parameters バインド変数。
-     * @return 結果。
+     * @return
      * @throws SQLException
      * @throws DataNotFoundException
      */
@@ -345,7 +345,7 @@ public abstract class Database implements Closeable {
      * 
      * @param sql プレースホルダを使用したSQL。
      * @param parameters バインド変数。
-     * @return 結果。
+     * @return
      * @throws SQLException
      * @throws DataNotFoundException
      */
@@ -357,7 +357,7 @@ public abstract class Database implements Closeable {
      * クエリの結果の最初の行を連想配列で取得する。
      * 
      * @param sql
-     * @return 結果。
+     * @return
      * @throws SQLException
      * @throws DataNotFoundException
      */
@@ -370,7 +370,7 @@ public abstract class Database implements Closeable {
      * 
      * @param sql プレースホルダを使用したSQL。
      * @param parameters バインド変数。
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     @SuppressWarnings("unchecked")
@@ -400,7 +400,7 @@ public abstract class Database implements Closeable {
      * 
      * @param sql プレースホルダを使用したSQL。
      * @param parameters バインド変数。
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     public final DynamicArray<String>[] fetchRecords(String sql, Collection<Object> parameters) throws SQLException {
@@ -411,7 +411,7 @@ public abstract class Database implements Closeable {
      * クエリの結果すべてを連想配列で取得する。
      * 
      * @param sql
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     public final DynamicArray<String>[] fetchRecords(String sql) throws SQLException {
@@ -422,7 +422,7 @@ public abstract class Database implements Closeable {
      * テーブルのレコード数を取得する。
      * 
      * @param tableName
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     public long fetchNumberOfRecords(String tableName) throws SQLException {
@@ -543,7 +543,7 @@ public abstract class Database implements Closeable {
     /**
      * 自動コミットが有効な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     public boolean isAutoCommit() throws SQLException {
@@ -589,7 +589,7 @@ public abstract class Database implements Closeable {
      * 
      * @param map
      * @param columnName
-     * @return 結果。
+     * @return
      */
     public static String makeCaseClauseFromHashMap(Map<?, String> map, String columnName) {
         if (map.size() == 0) {
@@ -621,7 +621,7 @@ public abstract class Database implements Closeable {
      * 
      * @param map
      * @param column
-     * @return 結果。
+     * @return
      */
     public static String makeCaseClauseFromHashMap(Map<?, String> map, ColumnInterface column) {
         return Database.makeCaseClauseFromHashMap(map, column.getFullPhysicalName());
@@ -701,7 +701,7 @@ public abstract class Database implements Closeable {
         /**
          * 更新された件数を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public int getNumberOfChanges() {
             return this.numberOfChanges;

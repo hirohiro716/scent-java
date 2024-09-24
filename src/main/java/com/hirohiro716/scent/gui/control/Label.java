@@ -165,7 +165,7 @@ public class Label extends LabeledControl {
     /**
      * このラベルに関連付けるコントロールを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Control getLabelFor() {
         return this.labelFor;

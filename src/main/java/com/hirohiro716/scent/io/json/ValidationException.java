@@ -42,7 +42,7 @@ public class ValidationException extends Exception {
     /**
      * 検証に失敗した原因のJSONオブジェクトを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public JSONObject getCauseJSONObject() {
         return this.causeJSONObject;
@@ -64,7 +64,7 @@ public class ValidationException extends Exception {
      * 検証に失敗した原因のプロパティの配列を取得する。
      * 
      * @param <P> 
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public  <P extends PropertyInterface> P[] getCauseProperties() {
@@ -74,7 +74,7 @@ public class ValidationException extends Exception {
     /**
      * 検証に失敗した原因の数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getNumberOfCauseProperties() {
         return this.errorMessages.size();

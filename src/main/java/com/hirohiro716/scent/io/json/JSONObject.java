@@ -133,7 +133,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
      * この連想配列の中の値がnullの場合にtrueを返す。
      * 
      * @param key
-     * @return 結果。
+     * @return
      */
     public boolean isNull(String key) {
         return this.getContent().get(key) == null;
@@ -143,7 +143,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
      * この連想配列の中の値がnullの場合にtrueを返す。
      * 
      * @param property
-     * @return 結果。
+     * @return
      */
     public boolean isNull(PropertyInterface property) {
         return this.isNull(property.getPhysicalName());
@@ -153,7 +153,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
      * この連想配列の中の値を取得する。
      * 
      * @param key
-     * @return 結果。
+     * @return
      */
     public JSONValue<?> get(String key) {
         return this.getContent().get(key);
@@ -163,7 +163,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
      * この連想配列の中の値を取得する。
      * 
      * @param property
-     * @return 結果。
+     * @return
      */
     public JSONValue<?> get(PropertyInterface property) {
         return this.getContent().get(property.getPhysicalName());

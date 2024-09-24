@@ -284,7 +284,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     /**
      * OKボタンを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private Button createButtonOfOK() {
         WhereSetDialog dialog = this;
@@ -305,7 +305,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     /**
      * キャンセルボタンを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private Button createButtonOfCancel() {
         WhereSetDialog dialog = this;
@@ -324,7 +324,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     /**
      * 保存ボタンを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private Button createButtonOfExport() {
         WhereSetDialog dialog = this;
@@ -390,7 +390,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     /**
      * 復元ボタンを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private Button createButtonOfImport() {
         WhereSetDialog dialog = this;
@@ -437,7 +437,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     /**
      * WhereSet追加のボタンを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private Button createButtonOfAddWhereSet() {
         WhereSetDialog dialog = this;
@@ -643,7 +643,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     /**
      * カラム追加のボタンを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private Button createButtonOfAddColumn() {
         WhereSetDialog ownerDialog = this;
@@ -679,7 +679,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     /**
      * WhereSetを編集するコントロールを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private Control createWhereSetEditor() {
         this.paneWhereSetEditor = new VerticalPane();
@@ -697,7 +697,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
      * 指定された検索カラムから、検索条件を編集するペインを作成する。
      * 
      * @param searchableColumn
-     * @return 結果。
+     * @return
      */
     private HorizontalPane createPaneOfSearchColumn(String searchableColumn) {
         WhereSetDialog dialog = this;
@@ -737,7 +737,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
      * カラムの種類から比較演算子を指定させるドロップダウンリストを作成する。
      * 
      * @param columnType
-     * @return 結果。
+     * @return
      */
     private DropDownList<Comparison> createDropDownListOfComparison(ColumnType columnType) {
         Map<Comparison, String> mapComparison = new LinkedHashMap<>();
@@ -825,7 +825,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
      * @param searchableColumn
      * @param columnType 
      * @param comparison
-     * @return 結果。
+     * @return
      */
     private Control[] createValueControls(String searchableColumn, ColumnType columnType, Comparison comparison) {
         List<Control> controls = new ArrayList<>();
@@ -873,7 +873,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
      * 
      * @param searchableColumn
      * @param columnType
-     * @return 結果。
+     * @return
      */
     private Control createValueControl(String searchableColumn, ColumnType columnType) {
         int baseSize = this.getPane().getFont().getSize();
@@ -998,7 +998,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
      * 
      * @param columnType 
      * @param control
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     private Object getValueFromControl(ColumnType columnType, Control control) {

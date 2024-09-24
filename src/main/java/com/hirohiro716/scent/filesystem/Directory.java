@@ -101,7 +101,7 @@ public class Directory extends FilesystemItem {
      * @param directory
      * @param regexToFilterDirectoryName ディレクトリ名をフィルタするための正規表現。
      * @param regexToFilterFileName ファイル名をフィルタするための正規表現。
-     * @return 結果。
+     * @return
      */
     private List<FilesystemItem> searchItems(java.io.File directory, String regexToFilterDirectoryName, String regexToFilterFileName) {
         List<FilesystemItem> items = new ArrayList<>();
@@ -123,7 +123,7 @@ public class Directory extends FilesystemItem {
      * このディレクトリ直下にあるファイルシステムアイテムを検索する。
      * 
      * @param regexToFilterFileName ファイル名をフィルタするための正規表現。
-     * @return 結果。
+     * @return
      */
     public File[] getFiles(String regexToFilterFileName) {
         StringObject fileRegex = new StringObject(regexToFilterFileName);
@@ -142,7 +142,7 @@ public class Directory extends FilesystemItem {
      * 
      * @param regexToFilterDirectoryName ディレクトリ名をフィルタするための正規表現。
      * @param regexToFilterFileName ファイル名をフィルタするための正規表現。
-     * @return 結果。
+     * @return
      */
     public FilesystemItem[] searchItems(String regexToFilterDirectoryName, String regexToFilterFileName) {
         StringObject directoryRegex = new StringObject(regexToFilterDirectoryName);
@@ -161,7 +161,7 @@ public class Directory extends FilesystemItem {
      * もしクラスファイルがjarファイルに含まれる場合はjarファイルの親ディレクトリを取得する。
      * 
      * @param clazz
-     * @return 結果。
+     * @return
      * @throws URISyntaxException
      */
     public static Directory findClassDirectory(Class<?> clazz) throws URISyntaxException {

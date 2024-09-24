@@ -76,14 +76,14 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * レコード検索結果を表示するテーブルビューを作成する。<br>
      * このメソッドはウィンドウを表示した後に自動的に呼び出される。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract TableView<String, DynamicArray<String>> createTableView();
     
     /**
      * レコード検索結果を表示するテーブルビューを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public TableView<String, DynamicArray<String>> getTableView() {
         return this.tableView;
@@ -114,7 +114,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * このレコード検索ウィンドウに表示されているコントロールから検索条件を作成する。<br>
      * このメソッドはスーバークラスで自動的に呼び出される。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract WhereSet[] createWhereSetFromWindowContent();
     
@@ -122,7 +122,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * レコード検索に使用するインスタンスを作成する。<br>
      * このメソッドはスーバークラスで自動的に呼び出される。
      * 
-     * @return 結果。
+     * @return
      * @throws Exception 
      */
     protected abstract S createRecordSearcher() throws Exception;
@@ -130,7 +130,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
     /**
      * WHERE句の前までのSELECT句からFROM句までのSQLを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected String createSelectSQL() {
         return null;
@@ -139,7 +139,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
     /**
      * WHERE句の後の構文。GROUP BY句、HAVING句、ORDER BY句、LIMIT句などを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected String createPartAfterWhereSQL() {
         return null;
@@ -163,7 +163,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * レコード検索結果テーブルに指定されたレコードの表示を許可する場合はtrueを返す。
      * 
      * @param record
-     * @return 結果。
+     * @return
      */
     protected abstract boolean isAllowRecordView(DynamicArray<String> record);
     
@@ -172,7 +172,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
     /**
      * このウィンドウで検索されたレコードを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected List<DynamicArray<String>> getSearchedRecords() {
         return this.searchedRecords;
@@ -252,7 +252,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
     /**
      * 高度な検索に使用する検索条件作成ダイアログを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract WhereSetDialog createAdvancedSearchDialog();
     
@@ -289,7 +289,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
     /**
      * レコードの検索結果のうち一つのレコードを選択してウィンドウを閉じた後に実行する処理を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ProcessAfterSelectingAndClosing getProcessAfterSelectingAndClosing() {
         return this.processAfterSelectingAndClosing;
@@ -400,7 +400,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * このメソッドはウィンドウを表示した後に自動的に呼び出される。
      * 
      * @param tableView 検索結果が表示されるテーブルビュー。
-     * @return 結果。
+     * @return
      */
     protected abstract Control createContentUsingTableView(TableView<String, DynamicArray<String>> tableView);
     

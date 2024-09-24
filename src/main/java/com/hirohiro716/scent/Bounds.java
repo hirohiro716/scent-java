@@ -89,7 +89,7 @@ public class Bounds {
     /**
      * 水平方向位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float getX() {
         return this.x;
@@ -98,7 +98,7 @@ public class Bounds {
     /**
      * 水平方向位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getIntegerX() {
         return (int) this.x;
@@ -118,7 +118,7 @@ public class Bounds {
     /**
      * 垂直方向位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float getY() {
         return this.y;
@@ -127,7 +127,7 @@ public class Bounds {
     /**
      * 垂直方向位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getIntegerY() {
         return (int) this.y;
@@ -147,7 +147,7 @@ public class Bounds {
     /**
      * 幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float getWidth() {
         return this.width;
@@ -156,7 +156,7 @@ public class Bounds {
     /**
      * 幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getIntegerWidth() {
         return (int) this.width;
@@ -176,7 +176,7 @@ public class Bounds {
     /**
      * 高さを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float getHeight() {
         return this.height;
@@ -185,7 +185,7 @@ public class Bounds {
     /**
      * 高さを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getIntegerHeight() {
         return (int) this.height;
@@ -203,7 +203,7 @@ public class Bounds {
     /**
      * このインスタンスの値でJSONオブジェクトを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public JSONObject createJSON() {
         JSONObject jsonObject = new JSONObject();

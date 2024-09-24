@@ -22,7 +22,7 @@ public class ExceptionMessenger {
      * 新しい主要メッセージと、コンストラクタで指定した例外からメッセージを作成する。
      * 
      * @param mainMessage
-     * @return 結果。
+     * @return
      */
     public String make(String mainMessage) {
         this.exception.printStackTrace();
@@ -52,7 +52,7 @@ public class ExceptionMessenger {
     /**
      * コンストラクタで指定した例外からメッセージを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public String make() {
         return this.make(this.exception.getMessage());

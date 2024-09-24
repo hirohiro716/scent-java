@@ -64,7 +64,7 @@ public class DropDownListDialog<T> extends MessageableDialog<T> {
     /**
      * このダイアログのドロップダウンリストを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public DropDownList<T> getDropDownList() {
         return this.dropDownList;
@@ -83,7 +83,7 @@ public class DropDownListDialog<T> extends MessageableDialog<T> {
     /**
      * このダイアログがキャンセル可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCancelable() {
         return this.buttonCancel.isVisible();

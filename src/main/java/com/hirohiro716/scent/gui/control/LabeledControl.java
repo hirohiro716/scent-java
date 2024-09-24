@@ -32,7 +32,7 @@ public abstract class LabeledControl extends Control {
     /**
      * このコントロールに表示されている文字列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getText() {
         return this.text;
@@ -71,7 +71,7 @@ public abstract class LabeledControl extends Control {
     /**
      * このコントロールに表示する文字列を折り返して表示する場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isWrapText() {
         return this.isWrapText;
@@ -90,14 +90,14 @@ public abstract class LabeledControl extends Control {
     /**
      * このコントロールの水平方向のテキスト表示位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract HorizontalAlignment getTextHorizontalAlignment();
 
     /**
      * このコントロールの垂直方向のテキスト表示位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract VerticalAlignment getTextVerticalAlignment();
 
@@ -129,7 +129,7 @@ public abstract class LabeledControl extends Control {
     /**
      * このコントロールのニーモニックを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract KeyCode getMnemonic();
     

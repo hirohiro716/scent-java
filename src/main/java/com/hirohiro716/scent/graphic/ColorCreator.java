@@ -15,7 +15,7 @@ public class ColorCreator {
      * 指定されたHTMLやCSSで使用する "#000000" や "#fff" のような形式の色を作成する。
      * 
      * @param webColor
-     * @return 結果。
+     * @return
      */
     public static Color create(String webColor) {
         StringObject colorString = new StringObject(webColor);
@@ -47,7 +47,7 @@ public class ColorCreator {
      * 
      * @param baseColor
      * @param opacity
-     * @return 結果。
+     * @return
      */
     public static Color createTransparent(Color baseColor, double opacity) {
         int alpha = (int) (baseColor.getAlpha() * opacity);

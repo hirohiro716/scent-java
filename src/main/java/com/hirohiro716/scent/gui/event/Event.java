@@ -33,7 +33,7 @@ public abstract class Event<T extends AWTEvent> {
     /**
      * このイベントがラップしている、GUIライブラリに依存したイベントのインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected T getInnerInstance() {
         return this.innerInstance;
@@ -43,7 +43,7 @@ public abstract class Event<T extends AWTEvent> {
      * このイベントの発生元コンポーネントを取得する。
      * 
      * @param <C> 
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <C extends Component<?>> C getSource() {

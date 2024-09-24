@@ -14,14 +14,14 @@ public interface IdentifiableEnum<T> {
     /**
      * 列挙子ごとのIDを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract T getID();
 
     /**
      * 列挙子の名前を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract String getName();
     
@@ -31,7 +31,7 @@ public interface IdentifiableEnum<T> {
      * @param <E>
      * @param id
      * @param identifiableEnumClass このインターフェースを継承している列挙型のクラス。
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public static <E extends IdentifiableEnum<?>> E enumOf(Object id, Class<E> identifiableEnumClass) {
@@ -53,7 +53,7 @@ public interface IdentifiableEnum<T> {
      * @param <E> 列挙型。
      * @param <T> IDの型。
      * @param identifiableEnumClass このインターフェースを継承している列挙型のクラス。
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public static <E extends IdentifiableEnum<?>, T> LinkedHashMap<T, String> createLinkedHashMap(Class<E> identifiableEnumClass) {

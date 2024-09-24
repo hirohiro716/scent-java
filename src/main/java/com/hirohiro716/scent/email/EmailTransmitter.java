@@ -36,7 +36,7 @@ public class EmailTransmitter extends DynamicClass {
     /**
      * E-mail本文に使用する改行コードを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static String getLineSeparator() {
         return EmailTransmitter.LINE_SEPARATOR;
@@ -149,7 +149,7 @@ public class EmailTransmitter extends DynamicClass {
      * 複数のE-mailアドレスの文字列をInternetAddressのインスタンスにパースする。
      * 
      * @param emailAddresses
-     * @return 結果。
+     * @return
      * @throws Exception
      */
     private Object stringToInternetAddress(String... emailAddresses) throws Exception {

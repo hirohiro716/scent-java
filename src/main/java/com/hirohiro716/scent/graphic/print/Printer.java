@@ -37,7 +37,7 @@ public class Printer extends PrinterElement<PrintService> {
     /**
      * すべての給紙トレイのリストを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public PaperSource[] getPaperSources() {
         if (this.paperSources.size() == 0) {
@@ -58,7 +58,7 @@ public class Printer extends PrinterElement<PrintService> {
      * 指定された給紙トレイ名に一致する要素を取得する。見つからなかった場合はnullを返す。
      * 
      * @param nameOfPaperSource
-     * @return 結果。
+     * @return
      */
     public PaperSource findPaperSource(String nameOfPaperSource) {
         for (PaperSource paperSource : this.getPaperSources()) {
@@ -74,7 +74,7 @@ public class Printer extends PrinterElement<PrintService> {
     /**
      * すべての用紙のリストを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public PaperSize[] getPaperSizes() {
         if (this.paperSizes.size() == 0) {
@@ -95,7 +95,7 @@ public class Printer extends PrinterElement<PrintService> {
      * 指定された用紙名に一致する要素を取得する。見つからなかった場合はnullを返す。
      * 
      * @param nameOfPaperSize
-     * @return 結果。
+     * @return
      */
     public PaperSize findPaperSize(String nameOfPaperSize) {
         for (PaperSize paperSize : this.getPaperSizes()) {
@@ -111,7 +111,7 @@ public class Printer extends PrinterElement<PrintService> {
      * 
      * @param millimeterWidth
      * @param millimeterHeight
-     * @return 結果。
+     * @return
      */
     public PaperSize findPaperSize(float millimeterWidth, float millimeterHeight) {
         for (PaperSize paperSize : this.getPaperSizes()) {
@@ -142,7 +142,7 @@ public class Printer extends PrinterElement<PrintService> {
     /**
      * すべてのプリンターを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static Printer[] getAll() {
         Printer.addAllPrinters();
@@ -153,7 +153,7 @@ public class Printer extends PrinterElement<PrintService> {
      * 指定された名前に一致する要素を取得する。見つからなかった場合はnullを返す。
      * 
      * @param name
-     * @return 結果。
+     * @return
      */
     public static Printer printerOf(String name) {
         Printer.addAllPrinters();
@@ -163,7 +163,7 @@ public class Printer extends PrinterElement<PrintService> {
     /**
      * デフォルトの要素を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static Printer getDefault() {
         return Printer.printerOf(javax.print.PrintServiceLookup.lookupDefaultPrintService().getName());

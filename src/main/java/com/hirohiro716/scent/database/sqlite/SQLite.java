@@ -32,7 +32,7 @@ public abstract class SQLite extends Database {
     /**
      * 開始されているトランザクションの分離レベルを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public IsolationLevel getIsolationLevel() {
         synchronized (SQLite.ISOLATION_LEVEL) {
@@ -106,7 +106,7 @@ public abstract class SQLite extends Database {
      * SQLiteデータベースに指定された物理名のテーブルが存在するか確認する。
      * 
      * @param physicalName
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     public boolean existsTable(String physicalName) throws SQLException {

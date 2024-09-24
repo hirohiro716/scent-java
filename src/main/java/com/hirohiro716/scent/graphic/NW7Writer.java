@@ -77,7 +77,7 @@ public class NW7Writer {
     /**
      * それぞれの英数記号をバーコードの印字パターンの連想配列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     private static Map<String, float[]> getHashMapCharacterPatterns() {
         if (NW7Writer.MAP_CHARACTER_PATTERNS == null) {
@@ -111,7 +111,7 @@ public class NW7Writer {
      * 7DRでチェックディジットを算出する。
      * 
      * @param barcode
-     * @return 結果。
+     * @return
      */
     public static String compute7DR(String barcode) {
         long barcodeLong = StringObject.newInstance(barcode).toLong();
@@ -122,7 +122,7 @@ public class NW7Writer {
      * 7DSRでチェックディジットを算出する。
      * 
      * @param barcode
-     * @return 結果。
+     * @return
      */
     public static String compute7DSR(String barcode) {
         return String.valueOf(7 - Integer.parseInt(NW7Writer.compute7DR(barcode)));

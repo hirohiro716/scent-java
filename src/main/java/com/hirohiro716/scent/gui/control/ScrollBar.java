@@ -33,7 +33,7 @@ public class ScrollBar extends Control {
     /**
      * このスクロールバーのスクロール位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getScrollPosition() {
         return this.getInnerInstance().getValue();
@@ -51,7 +51,7 @@ public class ScrollBar extends Control {
     /**
      * このスクロールバーの最小スクロール位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMinimumScrollPosition() {
         return this.getInnerInstance().getMinimum();
@@ -60,7 +60,7 @@ public class ScrollBar extends Control {
     /**
      * このスクロールバーの最大スクロール位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMaximumScrollPosition() {
         return this.getInnerInstance().getMaximum();

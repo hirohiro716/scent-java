@@ -30,7 +30,7 @@ public abstract class InputEvent<T extends java.awt.event.InputEvent> extends Ev
     /**
      * このイベントが消費済みの場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract boolean isConsumed();
     

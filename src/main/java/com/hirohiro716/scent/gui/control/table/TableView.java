@@ -160,7 +160,7 @@ public abstract class TableView<C, R> extends Control {
     /**
      * このテーブルビューのスクロールペインを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ScrollPane getScrollPane() {
         return this.scrollPane;
@@ -169,7 +169,7 @@ public abstract class TableView<C, R> extends Control {
     /**
      * このテーブルビューで複数選択が可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isAllowMultipleSelection() {
         return this.getInnerInstance().getSelectionModel().getSelectionMode() == ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
@@ -221,7 +221,7 @@ public abstract class TableView<C, R> extends Control {
      * 
      * @param rowInstance
      * @param columnInstance
-     * @return 結果。
+     * @return
      */
     protected abstract Object getValueFromRow(R rowInstance, C columnInstance);
 
@@ -239,7 +239,7 @@ public abstract class TableView<C, R> extends Control {
     /**
      * このテーブルビューに追加されているカラムを識別するためのインスタンスをすべて取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Array<C> getColumnInstances() {
         return this.columnInstances.toArray();
@@ -251,7 +251,7 @@ public abstract class TableView<C, R> extends Control {
      * このテーブルビューに追加されているカラムを識別するインスタンスから、テーブルカラムを取得する。
      * 
      * @param columnInstance
-     * @return 結果。
+     * @return
      */
     public TableColumn getTableColumn(C columnInstance) {
         return this.mapTableColumns.get(columnInstance);
@@ -265,7 +265,7 @@ public abstract class TableView<C, R> extends Control {
      * @param columnInstance
      * @param columnType
      * @param horizontalAlignment 
-     * @return 結果。
+     * @return
      */
     protected TableColumn addColumn(C columnInstance, ColumnType columnType, HorizontalAlignment horizontalAlignment) {
         this.columnInstances.add(columnInstance);
@@ -391,7 +391,7 @@ public abstract class TableView<C, R> extends Control {
     /**
      * このテーブルビューの行情報のインスタンスを格納しているコレクションを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<R> getRowInstances() {
         return this.rowInstances;
@@ -400,7 +400,7 @@ public abstract class TableView<C, R> extends Control {
     /**
      * このテーブルビューで選択されている行情報のインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Array<R> getSelectedRows() {
         List<R> list = new ArrayList<>();
@@ -413,7 +413,7 @@ public abstract class TableView<C, R> extends Control {
     /**
      * このテーブルビューで選択されている行情報のインスタンスの1番目を取得する。選択されているものがなければnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public R getSelectedRow() {
         for (R rowInstance : this.getSelectedRows()) {
@@ -541,7 +541,7 @@ public abstract class TableView<C, R> extends Control {
      * 
      * @param xLocationOnTableView
      * @param yLocationOnTableView
-     * @return 結果。
+     * @return
      */
     public R getRowFromLocation(int xLocationOnTableView, int yLocationOnTableView) {
         try {
@@ -558,7 +558,7 @@ public abstract class TableView<C, R> extends Control {
      * 
      * @param xLocationOnTableView
      * @param yLocationOnTableView
-     * @return 結果。
+     * @return
      */
     public C getColumnFromLocation(int xLocationOnTableView, int yLocationOnTableView) {
         try {
@@ -954,7 +954,7 @@ public abstract class TableView<C, R> extends Control {
         /**
          * このテーブルカラムのタイプを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public ColumnType getColumnType() {
             return this.columnType;
@@ -965,7 +965,7 @@ public abstract class TableView<C, R> extends Control {
         /**
          * このテーブルカラムの数値変換定義を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public NumberFormat getNumberFormat() {
             return this.numberFormat;
@@ -985,7 +985,7 @@ public abstract class TableView<C, R> extends Control {
         /**
          * このテーブルカラムの日時変換定義を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public DateFormat getDateFormat() {
             return this.dateFormat;
@@ -1003,7 +1003,7 @@ public abstract class TableView<C, R> extends Control {
         /**
          * JTable内のJTableHeaderインスタンスを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         private JTableHeader getJTableHeader() {
             TableView<C, R> tableView = TableView.this;
@@ -1013,7 +1013,7 @@ public abstract class TableView<C, R> extends Control {
         /**
          * このコンポーネントがラップしている、GUIライブラリに依存したインスタンスを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         private javax.swing.table.TableColumn getInnerInstance() {
             TableView<C, R> tableView = TableView.this;

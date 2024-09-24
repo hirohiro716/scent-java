@@ -51,7 +51,7 @@ public class PropertyXML {
      * プロパティが存在する場合はtrueを返す。
      * 
      * @param property
-     * @return 結果。
+     * @return
      */
     public boolean exists(PropertyInterface property) {
         XMLNode node = this.xmlNode.findXMLNodeByName(property.getPhysicalName());
@@ -65,7 +65,7 @@ public class PropertyXML {
      * プロパティの値を読み込む。該当がない場合はnullを返す。
      * 
      * @param property
-     * @return 結果。
+     * @return
      */
     public String get(PropertyInterface property) {
         XMLNode node = this.xmlNode.findXMLNodeByName(property.getPhysicalName());

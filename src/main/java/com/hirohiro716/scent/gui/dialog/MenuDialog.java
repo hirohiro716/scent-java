@@ -65,7 +65,7 @@ public class MenuDialog extends TitledDialog<Button> {
     /**
      * このメニューダイアログに表示するボタンのコレクションを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<Button> getButtons() {
         return this.buttons;

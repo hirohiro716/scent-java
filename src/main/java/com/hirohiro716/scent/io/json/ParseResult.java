@@ -27,7 +27,7 @@ public class ParseResult<T> {
     /**
      * 解析した結果、変換されたオブジェクトを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected T getParsed() {
         return this.parsed;
@@ -38,7 +38,7 @@ public class ParseResult<T> {
     /**
      * 解析した結果の元となったJSONデータ定義文をす得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected String getSource() {
         return this.source;
@@ -49,7 +49,7 @@ public class ParseResult<T> {
     /**
      * 解析した結果、残ったJSONのデータ定義文を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected String getRemainder() {
         return this.remainder;

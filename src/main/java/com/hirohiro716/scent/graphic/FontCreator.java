@@ -14,7 +14,7 @@ public class FontCreator {
      * 
      * @param baseFont
      * @param size
-     * @return 結果。
+     * @return
      */
     public static Font create(Font baseFont, int size) {
         return new Font(baseFont.getName(), baseFont.getStyle(), size);
@@ -25,7 +25,7 @@ public class FontCreator {
      * 
      * @param baseFont
      * @param fontName
-     * @return 結果。
+     * @return
      */
     public static Font create(Font baseFont, String fontName) {
         return new Font(fontName, baseFont.getStyle(), baseFont.getSize());
@@ -36,7 +36,7 @@ public class FontCreator {
      * 
      * @param baseFont
      * @param magnificationRatio
-     * @return 結果。
+     * @return
      */
     public static Font create(Font baseFont, double magnificationRatio) {
         return new Font(baseFont.getName(), baseFont.getStyle(), (int) (baseFont.getSize2D() * magnificationRatio));

@@ -65,7 +65,7 @@ public class Encrypter {
     /**
      * このインスタンスで使用している共通鍵を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ByteArray getKey() {
         return this.key;
@@ -74,7 +74,7 @@ public class Encrypter {
     /**
      * このインスタンスで使用している初期ベクトルを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ByteArray getIV() {
         if (this.cipher.getIV() == null) {
@@ -87,7 +87,7 @@ public class Encrypter {
      * 指定された値を暗号化する。
      * 
      * @param value
-     * @return 結果。
+     * @return
      * @throws InvalidKeyException
      * @throws InvalidAlgorithmParameterException
      * @throws IllegalBlockSizeException
@@ -104,7 +104,7 @@ public class Encrypter {
      * 
      * @param encrypted
      * @param iv 暗号化する際に使用された初期ベクトル。nullを指定可能。
-     * @return 結果。
+     * @return
      * @throws InvalidKeyException
      * @throws InvalidAlgorithmParameterException
      * @throws IllegalBlockSizeException
@@ -124,7 +124,7 @@ public class Encrypter {
      * 暗号化されたbyte配列を復号化する。
      * 
      * @param encrypted
-     * @return 結果。
+     * @return
      * @throws InvalidKeyException
      * @throws InvalidAlgorithmParameterException
      * @throws IllegalBlockSizeException
@@ -137,7 +137,7 @@ public class Encrypter {
     /**
      * 利用可能なアルゴリズムを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static String[] getAvailableAlgorithms() {
         List<String> algorithms = new ArrayList<>();

@@ -25,7 +25,7 @@ public class CSV {
     /**
      * このインスタンスのヘッダーの情報を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public List<String> getHeaders() {
         return this.headers;
@@ -78,7 +78,7 @@ public class CSV {
     /**
      * このインスタンス内のすべての行を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public List<List<String>> getRows() {
         return this.rows;
@@ -335,7 +335,7 @@ public class CSV {
         /**
          * 取り込みが未完了の値を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public List<String> getIncompleteValues() {
             return this.values;
@@ -366,7 +366,7 @@ public class CSV {
         /**
          * 処理中に発生した例外を取得する。発生していない場合はnullを返す。
          * 
-         * @return 結果。
+         * @return
          */
         public Exception getException() {
             return this.exception;

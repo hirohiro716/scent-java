@@ -47,7 +47,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントがラップしている、GUIライブラリに依存したインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public T getInnerInstance() {
         return this.innerInstance;
@@ -58,7 +58,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントのレイアウトに使用する、GUIライブラリに依存したインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public java.awt.Component getInnerInstanceForLayout() {
         return this.innerInstanceForLayout;
@@ -72,7 +72,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの名前を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getName() {
         return this.getInnerInstance().getName();
@@ -90,7 +90,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの背景色を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract Color getBackgroundColor();
     
@@ -104,7 +104,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Point getLocation() {
         return this.getInnerInstanceForLayout().getLocation();
@@ -132,7 +132,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの水平方向位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getX() {
         return (int) this.getLocation().getX();
@@ -150,7 +150,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの垂直方向位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getY() {
         return (int) this.getLocation().getY();
@@ -169,7 +169,7 @@ public abstract class Component<T extends java.awt.Component> {
      * このコンポーネントの画面上の位置を取得する。<br>
      * コンポーネントが画面に表示されていない場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public Point getLocationOnScreen() {
         try {
@@ -186,7 +186,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントのサイズを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Dimension getSize() {
         java.awt.Dimension awtDimension = this.getInnerInstanceForLayout().getSize();
@@ -221,7 +221,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public final int getWidth() {
         return (int) this.getSize().getWidth();
@@ -243,7 +243,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの高さを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public final int getHeight() {
         return (int) this.getSize().getHeight();
@@ -297,7 +297,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの最小サイズを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Dimension getMinimumSize() {
         if (this.minimumSize == null) {
@@ -331,7 +331,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの最小幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public final int getMinimumWidth() {
         return this.getMinimumSize().getIntegerWidth();
@@ -349,7 +349,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの最小高さを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public final int getMinimumHeight() {
         return this.getMinimumSize().getIntegerHeight();
@@ -369,7 +369,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの最大サイズを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Dimension getMaximumSize() {
         if (this.maximumSize == null) {
@@ -403,7 +403,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの最大幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public final int getMaximumWidth() {
         return this.getMaximumSize().getIntegerWidth();
@@ -421,7 +421,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの最大高さを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public final int getMaximumHeight() {
         return this.getMaximumSize().getIntegerHeight();
@@ -441,7 +441,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントの位置とサイズを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Bounds getBounds() {
         if (this.bounds.getX() != this.getX() || this.bounds.getY() != this.getY()
@@ -507,7 +507,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントにフォーカスできる場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isFocusable() {
         return this.getInnerInstance().isFocusable();
@@ -532,7 +532,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントがフォーカスされている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isFocused() {
         return this.getInnerInstance().isFocusOwner();
@@ -553,7 +553,7 @@ public abstract class Component<T extends java.awt.Component> {
      * 以前セットした任意のインスタンスを取得する。
      * 
      * @param <I>
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <I> I getInstanceForUseLater() {
@@ -572,7 +572,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントのスクリーンショットを作成する。
      * 
-     * @return 結果。
+     * @return
      * @throws IOException
      */
     public Image screenshot() throws IOException {
@@ -584,7 +584,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントが表示されているグラフィックデバイスを検索する。該当するものがない場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public GraphicsDevice findPlacedGraphicsDevice() {
         try {
@@ -617,7 +617,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントが表示されている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isVisible() {
         return this.getInnerInstanceForLayout().isVisible();
@@ -649,7 +649,7 @@ public abstract class Component<T extends java.awt.Component> {
     /**
      * このコンポーネントが無効な状態の場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isDisabled() {
         return ! this.getInnerInstance().isEnabled();

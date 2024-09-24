@@ -109,7 +109,7 @@ public abstract class TextInputControl extends Control {
     /**
      * このテキスト入力コントロールに入力されている文字列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getText() {
         return this.getInnerInstance().getText();
@@ -150,7 +150,7 @@ public abstract class TextInputControl extends Control {
     /**
      * このテキスト入力コントロールが編集可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isEditable() {
         return this.getInnerInstance().isEditable();
@@ -175,7 +175,7 @@ public abstract class TextInputControl extends Control {
     /**
      * このテキスト入力コントロールの水平方向のテキスト表示位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract HorizontalAlignment getTextHorizontalAlignment();
     
@@ -189,7 +189,7 @@ public abstract class TextInputControl extends Control {
     /**
      * このテキスト入力コントロールの選択されている文字列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getSelectedText() {
         return this.getInnerInstance().getSelectedText();
@@ -198,7 +198,7 @@ public abstract class TextInputControl extends Control {
     /**
      * このテキスト入力コントロールの選択文字列の開始位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getSelectionStart() {
         return this.getInnerInstance().getSelectionStart();
@@ -207,7 +207,7 @@ public abstract class TextInputControl extends Control {
     /**
      * このテキスト入力コントロールの選択文字列の終了位置を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getSelectionEnd() {
         return this.getInnerInstance().getSelectionEnd();
@@ -235,7 +235,7 @@ public abstract class TextInputControl extends Control {
     /**
      * このテキスト入力コントロールがフォーカスされた際に、すべての文字列を選択状態にする場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isEnableSelectAllWhenFocused() {
         return this.isEnableSelectAllWhenFocused;
@@ -319,7 +319,7 @@ public abstract class TextInputControl extends Control {
     /**
      * このテキスト入力コントロールに入力できる最大文字数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMaxLength() {
         return this.maximumLength;
@@ -339,7 +339,7 @@ public abstract class TextInputControl extends Control {
     /**
      * 文字列の入力を制限している正規表現のパターンをすべて取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Pattern[] getLimitByRegexPatterns() {
         return this.inputLimitRegexPatterns.keySet().toArray(new Pattern[] {});
@@ -350,7 +350,7 @@ public abstract class TextInputControl extends Control {
      * 指定されたパターンが存在しない場合はnullを返す。
      * 
      * @param pattern
-     * @return 結果。
+     * @return
      */
     public Boolean isInverseLimitByRegex(Pattern pattern) {
         return this.inputLimitRegexPatterns.get(pattern);
@@ -388,7 +388,7 @@ public abstract class TextInputControl extends Control {
     /**
      * このテキスト入力コントロールのコンテキストメニューを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ContextMenu getContextMenu() {
         return this.contextMenu;
@@ -399,7 +399,7 @@ public abstract class TextInputControl extends Control {
     /**
      * このテキスト入力コントロールで記録する変更履歴の最大数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMaximumNumberOfHistories() {
         return this.maximumNumberOfHistories;
@@ -510,7 +510,7 @@ public abstract class TextInputControl extends Control {
     /**
      * テキスト入力コントロール用のコンテキストメニューを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     private ContextMenu createContextMenu() {
         TextInputControl control = this;

@@ -76,7 +76,7 @@ public abstract class SingleRecordMapper extends com.hirohiro716.scent.database.
      * データベースに対して排他処理を行うための新しいデータベースインスタンスを作成する。<br>
      * 接続処理はスーパークラスで自動的に行われる。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract SQLite createDatabaseForEditing();
     

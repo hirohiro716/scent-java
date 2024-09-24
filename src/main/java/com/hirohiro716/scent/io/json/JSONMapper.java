@@ -14,7 +14,7 @@ public interface JSONMapper<P extends PropertyInterface> {
     /**
      * JSONに含まれるすべてのプロパティを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract P[] getProperties();
 
@@ -22,7 +22,7 @@ public interface JSONMapper<P extends PropertyInterface> {
      * 初期値が入力されたJSONオブジェクトを作成する。
      * 
      * @param <K> 
-     * @return 結果。
+     * @return
      */
     public default <K extends PropertyInterface> JSONObject createDefaultJSONObject() {
         JSONObject jsonObject = new JSONObject();

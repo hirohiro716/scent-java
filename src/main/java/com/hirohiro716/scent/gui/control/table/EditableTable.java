@@ -281,7 +281,7 @@ public abstract class EditableTable<C, R> extends Control {
     /**
      * このテーブルのアクティブな行情報のインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public R getActiveRowInstance() {
         if (this.rowInstances.contains(this.activeRowInstance)) {
@@ -386,7 +386,7 @@ public abstract class EditableTable<C, R> extends Control {
     /**
      * このテーブルのアクティブなカラム情報のインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public C getActiveColumnInstance() {
         if (this.columnInstances.contains(this.activeColumnInstance)) {
@@ -435,7 +435,7 @@ public abstract class EditableTable<C, R> extends Control {
      * このテーブルに指定された行情報のインスタンスに対応するコントロールが表示領域内に表示されている場合はtrueを返す。
      * 
      * @param rowInstance
-     * @return 結果。
+     * @return
      */
     public boolean isDisplayRow(R rowInstance) {
         Pane pane = this.mapRowControlPanes.get(rowInstance);
@@ -452,7 +452,7 @@ public abstract class EditableTable<C, R> extends Control {
      * @param <T> コントロールの型。
      * @param rowInstance
      * @param columnInstance
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <T extends Control> T findControl(R rowInstance, C columnInstance) {
@@ -476,7 +476,7 @@ public abstract class EditableTable<C, R> extends Control {
      * 指定されたコントロールの行情報のインスタンスを取得する。失敗した場合はnullを返す。
      * 
      * @param control
-     * @return 結果。
+     * @return
      */
     public R findRow(Control control) {
         for (Pane pane : this.mapOfRowControlMap.keySet()) {
@@ -493,7 +493,7 @@ public abstract class EditableTable<C, R> extends Control {
      * 
      * @param row
      * @param columnInstance
-     * @return 結果。
+     * @return
      */
     protected abstract Object getValueFromRow(R row, C columnInstance);
     
@@ -511,7 +511,7 @@ public abstract class EditableTable<C, R> extends Control {
     /**
      * このテーブルのデフォルトのカラム幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getDefaultColumnWidth() {
         return this.defaultColumnWidth;
@@ -531,7 +531,7 @@ public abstract class EditableTable<C, R> extends Control {
     /**
      * このテーブルのカラム情報のインスタンスをすべて取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Array<C> getColumnInstances() {
         return this.columnInstances.toArray();
@@ -630,7 +630,7 @@ public abstract class EditableTable<C, R> extends Control {
      * このテーブルに追加されているカラムを識別するインスタンスから、テーブルカラムを取得する。
      * 
      * @param columnInstance
-     * @return 結果。
+     * @return
      */
     public TableColumn getTableColumn(C columnInstance) {
         return this.mapTableColumns.get(columnInstance);
@@ -778,7 +778,7 @@ public abstract class EditableTable<C, R> extends Control {
     /**
      * このテーブルの行情報のインスタンスを格納しているコレクションを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<R> getRowInstances() {
         return this.rowInstances;
@@ -988,7 +988,7 @@ public abstract class EditableTable<C, R> extends Control {
     /**
      * このテーブルのコントロールを表示できる行数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getNumberOfDisplayRows() {
         return this.numberOfDisplayRows;
@@ -1466,7 +1466,7 @@ public abstract class EditableTable<C, R> extends Control {
         /**
          * このテーブルカラムのタイプを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public ColumnType getColumnType() {
             return this.columnType;

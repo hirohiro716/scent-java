@@ -12,14 +12,14 @@ public interface PropertyInterface {
     /**
      * 論理名を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract String getLogicalName();
     
     /**
      * 物理名を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public default String getPhysicalName() {
         return this.toString().toLowerCase();
@@ -28,14 +28,14 @@ public interface PropertyInterface {
     /**
      * 初期値を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract Object getDefaultValue();
     
     /**
      * 最大文字数を取得する。-1は無制限。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract int getMaximumLength();
 
@@ -45,7 +45,7 @@ public interface PropertyInterface {
      * @param <P> プロパティ列挙型。
      * @param physicalName
      * @param propertyEnumClass このインターフェースを継承している列挙型のクラス。
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public static <P extends PropertyInterface> P propertyOf(String physicalName, Class<P> propertyEnumClass) {
@@ -66,7 +66,7 @@ public interface PropertyInterface {
      * 
      * @param <P> プロパティ列挙型。
      * @param propertyEnumClass このインターフェースを継承している列挙型のクラス。
-     * @return 結果。
+     * @return
      */
     public static <P extends PropertyInterface> LinkedHashMap<String, String> createLinkedHashMap(Class<P> propertyEnumClass) {
         LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();

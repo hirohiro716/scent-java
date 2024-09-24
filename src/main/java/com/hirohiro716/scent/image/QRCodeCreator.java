@@ -42,7 +42,7 @@ public class QRCodeCreator extends DynamicClass {
      * 
      * @param contents
      * @param pixelSize
-     * @return 結果。
+     * @return
      * @throws IOException 
      */
     public BufferedImage createBufferedImage(String contents, int pixelSize) throws IOException {

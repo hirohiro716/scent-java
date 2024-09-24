@@ -92,7 +92,7 @@ public abstract class ListSelectControl<T> extends Control {
     /**
      * このコントロールのリストアイテムの高さを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected int getItemHeight() {
         return (int) (this.getFont().getSize2D() * 2.4);
@@ -148,7 +148,7 @@ public abstract class ListSelectControl<T> extends Control {
     /**
      * このコントロールで選択可能なリストアイテムを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<T> getItems() {
         return this.items;
@@ -157,14 +157,14 @@ public abstract class ListSelectControl<T> extends Control {
     /**
      * このコントロールで選択されているリストアイテムを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract Array<T> getSelectedItems();
     
     /**
      * このコントロールで選択されているリストアイテムの1番目を取得する。選択されているものがなければnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public T getSelectedItem() {
         for (T item : this.getSelectedItems()) {
@@ -219,7 +219,7 @@ public abstract class ListSelectControl<T> extends Control {
     /**
      * リストアイテムの文字列表現の代わりに表示するテキストを定義したマップを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Map<T, String> getMapDisplayTextForItem() {
         return this.mapDisplayTextForItem;

@@ -78,7 +78,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      * このインスタンスの文字列と、指定されたオブジェクトの文字列表現を比較する。
      * 
      * @param object
-     * @return 結果。
+     * @return
      */
     @Override
     public boolean equals(Object object) {
@@ -89,7 +89,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      * このインスタンスの文字列と、指定された文字列の文字列表現を比較する。
      * 
      * @param string
-     * @return 結果。
+     * @return
      */
     public boolean equals(String string) {
         return this.toString().equals(string);
@@ -108,7 +108,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      * このインスタンスの文字列として、指定されたオブジェクトの文字列表現をセットする。
      * 
      * @param value
-     * @return 結果。
+     * @return
      */
     public StringObject set(Object value) {
         this.value = new StringBuilder();
@@ -494,7 +494,7 @@ public class StringObject implements Cloneable, Iterable<String> {
     /**
      * 文字列表現を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     @Override
     public String toString() {
@@ -505,7 +505,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      * 指定された文字セットの文字列表現を取得する。
      * 
      * @param charset
-     * @return 結果。
+     * @return
      */
     public String toString(Charset charset) {
         return new String(this.value.toString().getBytes(charset), charset);
@@ -593,7 +593,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      * 文字列をbooleanに変換する。<br>
      * 大文字小文字を区別しない"true"という文字列以外はfalseを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public Boolean toBoolean() {
         try {
@@ -645,7 +645,7 @@ public class StringObject implements Cloneable, Iterable<String> {
     /**
      * このインスタンスの文字列中の整数一桁をすべて抽出し、その和を求める。
      * 
-     * @return 結果。
+     * @return
      */
     public long sum() {
         long result = 0;

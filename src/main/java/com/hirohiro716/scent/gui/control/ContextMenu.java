@@ -51,7 +51,7 @@ public class ContextMenu extends Control {
     /**
      * 呼び出し元のコントロールを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Control getInvoker() {
         return this.invoker;
@@ -62,7 +62,7 @@ public class ContextMenu extends Control {
     /**
      * このコンテキストメニューのアイテムを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ContextMenuItem[] getContextMenuItems() {
         List<ContextMenuItem> items = new ArrayList<>();

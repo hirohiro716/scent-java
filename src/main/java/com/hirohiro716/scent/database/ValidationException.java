@@ -47,7 +47,7 @@ public class ValidationException extends Exception {
      * 検証に失敗した原因のレコードを取得する。
      * 
      * @param <C> 
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <C extends ColumnInterface> DynamicArray<C> getCauseRecord() {
@@ -70,7 +70,7 @@ public class ValidationException extends Exception {
      * 検証に失敗した原因のカラムの配列を取得する。
      * 
      * @param <C> 
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public  <C extends ColumnInterface> C[] getCauseColumns() {
@@ -80,7 +80,7 @@ public class ValidationException extends Exception {
     /**
      * 検証に失敗した原因の数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getNumberOfCauseColumns() {
         return this.errorMessages.size();

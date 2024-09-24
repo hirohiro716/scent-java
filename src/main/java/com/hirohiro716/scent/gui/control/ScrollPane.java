@@ -75,7 +75,7 @@ public class ScrollPane extends Control {
      * このスクロールペインに表示するコントロールを取得する。
      * 
      * @param <C>
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <C extends Control> C getContent() {
@@ -98,7 +98,7 @@ public class ScrollPane extends Control {
      * このスクロールペインに配置されているコントロールが表示されている場合はtrueを返す。
      * 
      * @param control
-     * @return 結果。
+     * @return
      */
     public boolean isDisplayEntireControl(Control control) {
         int targetX = control.getX();
@@ -127,7 +127,7 @@ public class ScrollPane extends Control {
      * @param y
      * @param width
      * @param height
-     * @return 結果。
+     * @return
      */
     public boolean isDisplayedBounds(int x, int y, int width, int height) {
         int targetX = x;
@@ -167,7 +167,7 @@ public class ScrollPane extends Control {
     /**
      * このスクロールペインの水平方向のスクロールバーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ScrollBar getHorizontalScrollBar() {
         return this.horizontalScrollBar;
@@ -176,7 +176,7 @@ public class ScrollPane extends Control {
     /**
      * このスクロールペインの垂直方向のスクロールバーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ScrollBar getVerticalScrollBar() {
         return this.verticalScrollBar;
@@ -185,7 +185,7 @@ public class ScrollPane extends Control {
     /**
      * 水平方向のスクロールバー表示ポリシーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ScrollBarDisplayPolicy getHorizontalScrollBarDisplayPolicy() {
         switch (this.getInnerInstance().getHorizontalScrollBarPolicy()) {
@@ -221,7 +221,7 @@ public class ScrollPane extends Control {
     /**
      * 垂直方向のスクロールバー表示ポリシーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ScrollBarDisplayPolicy getVerticalScrollBarDisplayPolicy() {
         switch (this.getInnerInstance().getVerticalScrollBarPolicy()) {

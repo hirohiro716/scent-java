@@ -251,7 +251,7 @@ public class StringValidator {
      * 検証パターン毎のエラーメッセージを作成する。
      * 
      * @param pattern
-     * @return 結果。
+     * @return
      */
     private ValidationException createValidationException(Pattern pattern) {
         StringObject message = new StringObject();
@@ -322,7 +322,7 @@ public class StringValidator {
         /**
          * 検証に失敗した場合のメッセージを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public String getErrorMessage() {
             return this.errorMessage;

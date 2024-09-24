@@ -31,7 +31,7 @@ public abstract class RecordMapper {
     /**
      * コンストラクタで指定したDatabaseインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Database getDatabase() {
         return this.database;
@@ -49,7 +49,7 @@ public abstract class RecordMapper {
     /**
      * レコードが保存されているテーブルを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract TableInterface getTable();
     
@@ -60,7 +60,7 @@ public abstract class RecordMapper {
      * @param <D>
      * @param recordMapperClass
      * @param databaseClass
-     * @return 結果。
+     * @return
      */
     public static <M extends RecordMapper, D extends Database> TableInterface getTable(Class<M> recordMapperClass, Class<D> databaseClass) {
         try {
@@ -76,7 +76,7 @@ public abstract class RecordMapper {
     /**
      * レコードに含まれるすべてのカラムを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ColumnInterface[] getColumns() {
         return this.getTable().getColumns();
@@ -86,7 +86,7 @@ public abstract class RecordMapper {
      * 初期値が入力されたレコードの配列を作成する。
      * 
      * @param <C> 
-     * @return 結果。
+     * @return
      */
     public <C extends ColumnInterface> DynamicArray<C> createDefaultRecord() {
         return this.getTable().createRecord();
@@ -118,7 +118,7 @@ public abstract class RecordMapper {
      * このインスタンスにマップされているレコードを取得する。
      * 
      * @param <C> 
-     * @return 結果。
+     * @return
      */
     @SuppressWarnings("unchecked")
     public <C extends ColumnInterface> DynamicArray<C>[] getRecords() {
@@ -191,7 +191,7 @@ public abstract class RecordMapper {
      * マップするレコードを排他制御を行ってから連想配列で取得する。
      * 
      * @param orderByColumnsForEdit "column_name1 ASC" や "column_name2 DESC" などのレコードの並び順を定義するカラム文字列の配列。またはnull。
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     protected abstract DynamicArray<String>[] fetchRecordsForEdit(String[] orderByColumnsForEdit) throws SQLException;
@@ -213,7 +213,7 @@ public abstract class RecordMapper {
     /**
      * 編集、削除するレコードを特定するための検索条件が未指定の場合でも、更新を許可している場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract boolean isPermittedUpdateWhenEmptySearchCondition();
     
@@ -245,7 +245,7 @@ public abstract class RecordMapper {
     /**
      * マップ対象を特定するための検索条件に該当するレコードが、データベースに存在する場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      * @throws SQLException
      */
     public boolean exists() throws SQLException {

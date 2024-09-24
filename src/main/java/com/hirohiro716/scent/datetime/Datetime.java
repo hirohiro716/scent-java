@@ -313,7 +313,7 @@ public class Datetime implements Cloneable {
     /**
      * このインスタンスの「年」だけを西暦で取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getYear() {
         return this.calendar.get(Calendar.YEAR);
@@ -322,7 +322,7 @@ public class Datetime implements Cloneable {
     /**
      * このインスタンスの「月」だけを1から12の数値で取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMonth() {
         return this.calendar.get(Calendar.MONTH) + 1;
@@ -331,7 +331,7 @@ public class Datetime implements Cloneable {
     /**
      * このインスタンスの「日」だけを1から31の数値で取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getDay() {
         return this.calendar.get(Calendar.DAY_OF_MONTH);
@@ -340,7 +340,7 @@ public class Datetime implements Cloneable {
     /**
      * このインスタンスの「時」だけを0から23の数値で取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getHour() {
         return this.calendar.get(Calendar.HOUR_OF_DAY);
@@ -349,7 +349,7 @@ public class Datetime implements Cloneable {
     /**
      * このインスタンスの「分」だけを0から59の数値で取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMinute() {
         return this.calendar.get(Calendar.MINUTE);
@@ -358,7 +358,7 @@ public class Datetime implements Cloneable {
     /**
      * このインスタンスの秒だけを0から59の数値で取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getSecond() {
         return this.calendar.get(Calendar.SECOND);
@@ -367,7 +367,7 @@ public class Datetime implements Cloneable {
     /**
      * このインスタンスのミリ秒だけを数値で取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getMilliSecond() {
         return this.calendar.get(Calendar.MILLISECOND);
@@ -376,7 +376,7 @@ public class Datetime implements Cloneable {
     /**
      * このインスタンスの曜日を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public DayOfWeek getDayOfWeek() {
         switch (this.calendar.get(Calendar.DAY_OF_WEEK)) {
@@ -401,7 +401,7 @@ public class Datetime implements Cloneable {
     /**
      * java.util.Dateのインスタンスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Date getDate() {
         return this.calendar.getTime();
@@ -411,7 +411,7 @@ public class Datetime implements Cloneable {
      * このインスタンスの年月日と時刻を文字列にフォーマットした結果を取得する。
      * 
      * @param dateFormat
-     * @return 結果。
+     * @return
      */
     public String toString(DateFormat dateFormat) {
         return dateFormat.format(this.calendar.getTime());
@@ -421,7 +421,7 @@ public class Datetime implements Cloneable {
      * このインスタンスの年月日と時刻を文字列にフォーマットした結果を取得する。<br>
      * フォーマットパターンはコンストラクタ、setメソッドで指定していなければ、DEFAULT_FORMAT_PATTERNが使用される。
      * 
-     * @return 結果。
+     * @return
      */
     @Override
     public final String toString() {
@@ -448,7 +448,7 @@ public class Datetime implements Cloneable {
      * このインスタンスと指定されたオブジェクトが等しい場合はtrueを返す。
      * 
      * @param date 
-     * @return 結果。
+     * @return
      */
     public boolean equals(Date date) {
         if (date == null) {
@@ -461,7 +461,7 @@ public class Datetime implements Cloneable {
      * このインスタンスと指定されたインスタンスが等しい場合はtrueを返す。
      * 
      * @param datetime
-     * @return 結果。
+     * @return
      */
     public boolean equals(Datetime datetime) {
         if (datetime == null) {
@@ -476,7 +476,7 @@ public class Datetime implements Cloneable {
      * @param year
      * @param month
      * @param day
-     * @return 結果。
+     * @return
      */
     public boolean eqaulsDate(int year, int month, int day) {
         return (this.getYear() == year && this.getMonth() == month && this.getDay() == day);
@@ -486,7 +486,7 @@ public class Datetime implements Cloneable {
      * このインスタンスと指定されたインスタンスの年月日が等しい場合はtrueを返す。
      * 
      * @param datetime
-     * @return 結果。
+     * @return
      */
     public boolean eqaulsDate(Datetime datetime) {
         if (datetime == null) {
@@ -501,7 +501,7 @@ public class Datetime implements Cloneable {
      * @param hour 
      * @param minute 
      * @param second 
-     * @return 結果。
+     * @return
      */
     public boolean eqaulsTime(int hour, int minute, int second) {
         return (this.getHour() == hour && this.getMinute() == minute && this.getSecond() == second);
@@ -511,7 +511,7 @@ public class Datetime implements Cloneable {
      * このインスタンスと指定されたインスタンスの時刻が等しい場合はtrueを返す。
      * 
      * @param datetime
-     * @return 結果。
+     * @return
      */
     public boolean eqaulsTime(Datetime datetime) {
         if (datetime == null) {
@@ -529,7 +529,7 @@ public class Datetime implements Cloneable {
      * このインスタンスの年月日を文字列にフォーマットした結果を取得する。<br>
      * フォーマットパターンは、DEFAULT_FORMAT_PATTERN_ONLY_DATEが使用される。
      * 
-     * @return 結果。
+     * @return
      */
     public final String toStringOnlyDate() {
         return this.toString(Datetime.DEFAULT_DATE_FORMAT_ONLY_DATE);
@@ -539,7 +539,7 @@ public class Datetime implements Cloneable {
      * このインスタンスの時刻を文字列にフォーマットした結果を取得する。<br>
      * フォーマットパターンは、DEFAULT_FORMAT_PATTERN_ONLY_TIMEが使用される。
      * 
-     * @return 結果。
+     * @return
      */
     public final String toStringOnlyTime() {
         return this.toString(Datetime.DEFAULT_DATE_FORMAT_ONLY_TIME);
@@ -639,7 +639,7 @@ public class Datetime implements Cloneable {
      * @param thisYear 
      * @param subtraction
      * @param addition
-     * @return 結果。
+     * @return
      */
     public static List<Integer> createYearsList(int thisYear, int subtraction, int addition) {
         List<Integer> years = new ArrayList<>();
@@ -656,7 +656,7 @@ public class Datetime implements Cloneable {
      * 
      * @param subtraction
      * @param addition
-     * @return 結果。
+     * @return
      */
     public static List<Integer> createYearsList(int subtraction, int addition) {
         Datetime datetime = new Datetime();
@@ -667,7 +667,7 @@ public class Datetime implements Cloneable {
      * プログラムを実行しているコンピューターの現在の年を基準に西暦の年のリストを作成する。
      * 
      * @param addition
-     * @return 結果。
+     * @return
      */
     public static List<Integer> createYearsList(int addition) {
         Datetime datetime = new Datetime();
@@ -677,7 +677,7 @@ public class Datetime implements Cloneable {
     /**
      * 西暦の月のリストを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public static List<Integer> createMonthsList() {
         List<Integer> months = new ArrayList<>();

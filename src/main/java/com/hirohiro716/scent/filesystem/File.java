@@ -92,7 +92,7 @@ public class File extends FilesystemItem {
     /**
      * このファイルのサイズ(byte)を取得する。
      * 
-     * @return 結果。
+     * @return
      * @throws IOException
      */
     public long getSize() throws IOException {
@@ -223,7 +223,7 @@ public class File extends FilesystemItem {
         /**
          * カウントされたCSVファイルの行数を返す。
          * 
-         * @return 結果。
+         * @return
          */
         public int getNumberOfLines() {
             return this.numberOfLines;

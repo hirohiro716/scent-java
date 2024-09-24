@@ -93,7 +93,7 @@ public class MarkableGroup {
     /**
      * このグループに所属するマーク可能なコントロールをすべて取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public MarkableControl[] getMarkableControls() {
         return this.hashMap.values().toArray(new MarkableControl[] {});
@@ -128,7 +128,7 @@ public class MarkableGroup {
     /**
      * マークされているコントロールを取得する。存在しない場合はnullを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public MarkableControl getMarkedControl() {
         for (MarkableControl control : this.getMarkableControls()) {

@@ -108,7 +108,7 @@ public enum Regex {
     /**
      * 正規表現を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public String getRegex() {
         return this.regex;
@@ -117,7 +117,7 @@ public enum Regex {
     /**
      * コンパイル済みの正規表現を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Pattern getPattern() {
         return Pattern.compile(this.regex);

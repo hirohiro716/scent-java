@@ -33,7 +33,7 @@ public abstract class EventHandler<E extends Event<?>> {
      * @param <I> イベントを処理するGUIライブラリに依存したインスタンスの型。
      * @param component
      * @param innerInstanceCreator
-     * @return 結果。
+     * @return
      */
     public <I> I createInnerInstance(Component<?> component, InnerInstanceCreator<I> innerInstanceCreator) {
         List<Object> innerInstanceList = this.mapInnerInstanceList.get(component);
@@ -50,7 +50,7 @@ public abstract class EventHandler<E extends Event<?>> {
      * コンポーネントに応じて、このハンドラーで作成されたGUIライブラリに依存したハンドラーのインスタンスを取得する。
      * 
      * @param component 
-     * @return 結果。
+     * @return
      */
     public Object[] getInnerInstances(Component<?> component) {
         if (this.mapInnerInstanceList.containsKey(component)) {

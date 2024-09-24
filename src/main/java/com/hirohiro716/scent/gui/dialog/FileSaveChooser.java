@@ -32,7 +32,7 @@ public class FileSaveChooser extends FileChooser {
     /**
      * ファイルの保存ダイアログを表示する。ダイアログがキャンセルされた場合はfalseを返す。
      * 
-     * @return 結果。
+     * @return
      */
     @Override
     public boolean showAndWait() {

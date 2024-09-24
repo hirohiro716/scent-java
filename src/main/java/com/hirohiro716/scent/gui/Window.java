@@ -128,7 +128,7 @@ public class Window extends Frame<JFrame> {
     /**
      * このウィンドウが最大化されている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isMaximized() {
         return this.getInnerInstance().getExtendedState() == JFrame.MAXIMIZED_BOTH;
@@ -144,7 +144,7 @@ public class Window extends Frame<JFrame> {
     /**
      * このウィンドウが最小化されている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isMinimized() {
         return this.getInnerInstance().getExtendedState() == JFrame.ICONIFIED;

@@ -64,7 +64,7 @@ public class GUI {
     /**
      * クリップボードの文字列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static String getClipboardString() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -94,7 +94,7 @@ public class GUI {
     /**
      * 利用できるフォントの配列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static Font[] getAvailableFonts() {
         return GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
@@ -103,7 +103,7 @@ public class GUI {
     /**
      * 利用できるフォント名の配列を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static String[] getAvailableFontNames() {
         List<String> list = new ArrayList<>();
@@ -118,7 +118,7 @@ public class GUI {
     /**
      * GUIのコントロール共通のフォント名を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static String getFontName() {
         return GUI.FONT_NAME;
@@ -138,7 +138,7 @@ public class GUI {
     /**
      * GUIすべてのコントロールのフォントに対して加算するサイズを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static int getFontSizeToAdd() {
         return GUI.FONT_SIZE_TO_ADD;
@@ -158,7 +158,7 @@ public class GUI {
     /**
      * 文字色を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static Color getTextColor() {
         if (GUI.TEXT_COLOR == null) {
@@ -172,7 +172,7 @@ public class GUI {
     /**
      * 境界線色を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static Color getBorderColor() {
         if (GUI.BORDER_COLOR == null) {
@@ -204,7 +204,7 @@ public class GUI {
     /**
      * 利用できるGUIのルックアンドフィールのバイナリ名を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static String[] getAvailableLookAndFeel() {
         List<String> list = new ArrayList<>();
@@ -219,7 +219,7 @@ public class GUI {
     /**
      * デフォルトのグラフィックデバイスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static GraphicsDevice getDefaultGraphicsDevice() {
         return GUI.defaultGraphicsDevice;
@@ -240,7 +240,7 @@ public class GUI {
     /**
      * すべてのグラフィックデバイスを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public static GraphicsDevice[] getGraphicsDevices() {
         return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
@@ -250,7 +250,7 @@ public class GUI {
      * 指定されたグラフィックデバイスの表示領域のうち、ウィンドウの表示に使用できる最大領域を取得する。
      * 
      * @param graphicsDevice
-     * @return 結果。
+     * @return
      */
     public static Rectangle getMaximumWindowBounds(GraphicsDevice graphicsDevice) {
         GraphicsConfiguration graphicsConfiguration = graphicsDevice.getDefaultConfiguration();

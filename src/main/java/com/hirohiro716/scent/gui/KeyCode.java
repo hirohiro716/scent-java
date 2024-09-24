@@ -379,7 +379,7 @@ public enum KeyCode implements IdentifiableEnum<Integer> {
     /**
      * このキーコードに相対するjava.awt.event.KeyEventで使用できる数値を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getKeyCodeAWT() {
         return this.keyCodeAWT;

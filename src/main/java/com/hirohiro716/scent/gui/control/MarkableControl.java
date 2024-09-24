@@ -114,7 +114,7 @@ public abstract class MarkableControl extends LabeledControl {
     /**
      * このコントロールがマークされている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isMarked() {
         return this.getInnerInstance().isSelected();

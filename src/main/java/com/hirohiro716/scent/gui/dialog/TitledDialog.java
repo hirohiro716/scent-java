@@ -45,7 +45,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
     /**
      * このダイアログのタイトルラベルを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Label getLabelOfTitle() {
         return this.labelOfTitle;
@@ -54,7 +54,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
     /**
      * このダイアログに閉じる記号を表示する場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract boolean isShowCloseSymbol();
     
@@ -63,7 +63,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
     /**
      * このダイアログのコントロールを表示するペインを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public VerticalPane getVerticalPaneOfControls() {
         return this.verticalPane;
@@ -145,14 +145,14 @@ public abstract class TitledDialog<R> extends Dialog<R> {
      * このダイアログに表示するコントロールを作成する。<br>
      * このメソッドはスーバークラスのコンストラクタで自動的に呼び出される。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract Control[] createControls();
 
     /**
      * このダイアログを表示した際にフォーカスするコントロールを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract Control getInitialFocusControl();
     

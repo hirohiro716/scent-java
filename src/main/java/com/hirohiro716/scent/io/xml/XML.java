@@ -56,7 +56,7 @@ public class XML {
     /**
      * このインスタンスのルートのXMLNodeを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public XMLNode getRoot() {
         return this.root;
@@ -67,7 +67,7 @@ public class XML {
     /**
      * このインスタンスのStandalone属性値を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Boolean isStandalone() {
         return this.isStandalone;
@@ -115,7 +115,7 @@ public class XML {
      * 指定されたエンコーディングを使用して、このインスタンスと同じ内容のソースを作成する。
      * 
      * @param encoding "UTF-8"や"Shift_JIS"などのエンコーディング。
-     * @return 結果。
+     * @return
      * @throws TransformerException
      */
     public String buildSource(String encoding) throws TransformerException {
@@ -127,7 +127,7 @@ public class XML {
     /**
      * UTF-8のエンコーディングを使用して、このインスタンスと同じ内容のソースを作成する。
      * 
-     * @return 結果。
+     * @return
      * @throws TransformerException
      */
     public final String buildSource() throws TransformerException {
@@ -234,7 +234,7 @@ public class XML {
         /**
          * このXML要素にラップされているインスタンスを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public Node getInnerInstance() {
             return this.node;
@@ -243,7 +243,7 @@ public class XML {
         /**
          * このXML要素の名前を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public String getName() {
             return this.getInnerInstance().getNodeName();
@@ -252,7 +252,7 @@ public class XML {
         /**
          * このXML要素のテキストを取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public String getTextContent() {
             return this.getInnerInstance().getTextContent();
@@ -271,7 +271,7 @@ public class XML {
          * このXML要素の属性値を取得する。
          * 
          * @param name
-         * @return 結果。
+         * @return
          */
         public String getAttributeValue(String name) {
             return this.getInnerInstance().getAttributes().getNamedItem(name).getNodeValue();
@@ -315,7 +315,7 @@ public class XML {
         /**
          * このXML要素内の子要素を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public Array<XMLNode> getChildren() {
             List<XMLNode> nodes = new ArrayList<>();

@@ -74,7 +74,7 @@ public class Dimension {
     /**
      * 幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float getWidth() {
         return this.width;
@@ -83,7 +83,7 @@ public class Dimension {
     /**
      * 幅を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getIntegerWidth() {
         return (int) this.width;
@@ -103,7 +103,7 @@ public class Dimension {
     /**
      * 高さを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public float getHeight() {
         return this.height;
@@ -112,7 +112,7 @@ public class Dimension {
     /**
      * 高さを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getIntegerHeight() {
         return (int) this.height;
@@ -130,7 +130,7 @@ public class Dimension {
     /**
      * このインスタンスの値でJSONオブジェクトを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public JSONObject createJSON() {
         JSONObject jsonObject = new JSONObject();

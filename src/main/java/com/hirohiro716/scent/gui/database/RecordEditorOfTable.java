@@ -41,7 +41,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
      * このエディターのテーブルコントロールに指定されたレコードの表示を許可する場合はtrueを返す。
      * 
      * @param record
-     * @return 結果。
+     * @return
      */
     protected abstract boolean isAllowRecordView(DynamicArray<C> record);
     
@@ -69,7 +69,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     /**
      * このエディターのテーブルコントロールを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected EditableTable<C, DynamicArray<C>> getEditableTable() {
         return this.editableTable;
@@ -78,7 +78,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     /**
      * このテーブルコントロールで最初にフォーカスするカラムを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     protected abstract C getInitialFocusColumn();
     
@@ -191,7 +191,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     /**
      * このウィンドウのテーブルコントロールの上部に表示するコントロールを作成する。
      * 
-     * @return 結果。
+     * @return
      * @throws Exception
      */
     protected abstract Control createTopContent() throws Exception;
@@ -199,7 +199,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     /**
      * このウィンドウのテーブルコントロールの下部に表示するコントロールを作成する。
      * 
-     * @return 結果。
+     * @return
      * @throws Exception
      */
     protected abstract Control createBottomContent() throws Exception;
@@ -207,7 +207,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     /**
      * レコードを編集するテーブルを作成する。
      * 
-     * @return 結果。
+     * @return
      * @throws Exception 
      */
     protected abstract EditableTable<C, DynamicArray<C>> createEditableTable() throws Exception;

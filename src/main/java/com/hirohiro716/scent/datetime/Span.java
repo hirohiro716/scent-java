@@ -25,7 +25,7 @@ public class Span {
     /**
      * 開始日時のDatetimeを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Datetime getStartDatetime() {
         return this.startDatetime;
@@ -36,7 +36,7 @@ public class Span {
     /**
      * 終了日時のDatetimeを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Datetime getEndDatetime() {
         return this.endDatetime;

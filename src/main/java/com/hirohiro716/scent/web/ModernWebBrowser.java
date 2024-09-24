@@ -85,7 +85,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
      * 指定されたタイプのWEBドライバーを作成する。
      * 
      * @param type
-     * @return 結果。
+     * @return
      * @throws Exception
      */
     public Object createWebDriver(Type type) throws Exception {
@@ -566,7 +566,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         /**
          * システムにセットするプロパティ名を取得する。
          * 
-         * @return 結果。
+         * @return
          */
         public String getSystemPropertyName() {
             return this.systemPropertyName;
@@ -576,7 +576,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
          * 指定されたWEBドライバーのファイルから、該当する列挙子を取得する。該当するものがない場合はnullを返す。
          * 
          * @param seleniumWebDriver 
-         * @return 結果。
+         * @return
          */
         public static Type enumOf(File seleniumWebDriver) {
             StringObject absolutePath = new StringObject();

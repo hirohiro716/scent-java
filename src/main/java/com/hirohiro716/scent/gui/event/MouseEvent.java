@@ -41,7 +41,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
     /**
      * このイベントの原因となったマウスボタンを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public MouseButton getMouseButton() {
         switch (this.getInnerInstance().getButton()) {
@@ -58,7 +58,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
     /**
      * このイベントのマウスクリック回数を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getClickCount() {
         return this.getInnerInstance().getClickCount();
@@ -67,7 +67,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
     /**
      * このイベントの水平方向絶対座標を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getScreenX() {
         return this.getInnerInstance().getXOnScreen();
@@ -76,7 +76,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
     /**
      * このイベントの垂直方向絶対座標を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getScreenY() {
         return this.getInnerInstance().getYOnScreen();
@@ -85,7 +85,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
     /**
      * このイベントの発生元コンポーネントを基準とした、水平方向相対座標を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getX() {
         return this.getInnerInstance().getX();
@@ -94,7 +94,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
     /**
      * このイベントの発生元コンポーネントを基準とした、垂直方向相対座標を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getY() {
         return this.getInnerInstance().getY();
@@ -103,7 +103,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
     /**
      * このイベントの発生元コンポーネントが配置されているウィンドウを基準とした、水平方向相対座標を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getRootX() {
         int x = this.getInnerInstance().getX();
@@ -124,7 +124,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
     /**
      * このイベントの発生元コンポーネントが配置されているウィンドウを基準とした、垂直方向相対座標を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getRootY() {
         int y = this.getInnerInstance().getY();
@@ -145,7 +145,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
     /**
      * このイベントのマウスホイール回転量を取得する。手前に回転させた場合は正数、奥に回転させた場合は負数を返す。
      * 
-     * @return 結果。
+     * @return
      */
     public int getWheelRotationAmount() {
         if (this.getInnerInstance() instanceof MouseWheelEvent) {
@@ -159,7 +159,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * このイベントでマウスホイールが回転したことによるスクロール量を取得する。<br>
      * 手前に回転させた場合は正数、奥に回転させた場合は負数を返す。
      * 
-     * @return 結果。
+     * @return
      */
     public int getScrollAmount() {
         if (this.getInnerInstance() instanceof MouseWheelEvent) {
@@ -194,7 +194,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseListener createInnerMouseClickedEventHandler(Control control, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -218,7 +218,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * @param control
      * @param mouseButton 
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseListener createInnerMouseClickedEventHandler(Control control, MouseButton mouseButton, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -244,7 +244,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseListener createInnerMousePressedEventHandler(Control control, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -268,7 +268,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * @param control
      * @param mouseButton 
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseListener createInnerMousePressedEventHandler(Control control, MouseButton mouseButton, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -294,7 +294,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseListener createInnerMouseReleasedEventHandler(Control control, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -318,7 +318,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * @param control
      * @param mouseButton 
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseListener createInnerMouseReleasedEventHandler(Control control, MouseButton mouseButton, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -344,7 +344,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseListener createInnerMouseEnteredEventHandler(Control control, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -367,7 +367,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseListener createInnerMouseExitedEventHandler(Control control, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -390,7 +390,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseMotionListener createInnerMouseMovedEventHandler(Control control, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -413,7 +413,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseMotionListener createInnerMouseDraggedEventHandler(Control control, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {
@@ -436,7 +436,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
      * 
      * @param control
      * @param eventHandler
-     * @return 結果。
+     * @return
      */
     public static MouseWheelListener createInnerMouseWheelEventHandler(Control control, EventHandler<MouseEvent> eventHandler) {
         return eventHandler.createInnerInstance(control, new InnerInstanceCreator<>() {

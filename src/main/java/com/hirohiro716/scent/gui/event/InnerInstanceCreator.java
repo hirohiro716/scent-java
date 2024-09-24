@@ -12,7 +12,7 @@ public interface InnerInstanceCreator<T> {
     /**
      * GUIライブラリに依存したイベントを処理するインスタンスを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract T create();
 }

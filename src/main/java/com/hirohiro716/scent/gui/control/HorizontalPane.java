@@ -81,7 +81,7 @@ public class HorizontalPane extends Pane {
     /**
      * 子要素がペインの高さまで拡大される場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isFillChildToPaneHeight() {
         return this.isFillChildToPaneHeight;
@@ -102,7 +102,7 @@ public class HorizontalPane extends Pane {
     /**
      * このペインに配置されている子要素間のスペースを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public int getSpacing() {
         return this.spacing;
@@ -142,7 +142,7 @@ public class HorizontalPane extends Pane {
     /**
      * このペインの余ったスペースを使用して、水平方向に拡大することができる子要素のコレクションを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<Control> getGrowableControls() {
         return this.growableControls;

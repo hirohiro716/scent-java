@@ -128,7 +128,7 @@ public class ListView<T> extends ListSelectControl<T> {
     /**
      * このリストビューのマウスがホバーしているアイテムを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public T getMouseHoverItem() {
         try {
@@ -266,7 +266,7 @@ public class ListView<T> extends ListSelectControl<T> {
     /**
      * このリストビューで複数選択が可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isAllowMultipleSelection() {
         return this.getInnerInstance().getSelectionModel().getSelectionMode() == ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
@@ -297,7 +297,7 @@ public class ListView<T> extends ListSelectControl<T> {
     /**
      * このリストビューで使用している水平方向のスクロールバーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ScrollBar getHorizontalScrollBar() {
         return this.scrollPane.getHorizontalScrollBar();
@@ -306,7 +306,7 @@ public class ListView<T> extends ListSelectControl<T> {
     /**
      * このリストビューで使用している垂直方向のスクロールバーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ScrollBar getVerticalScrollBar() {
         return this.scrollPane.getVerticalScrollBar();

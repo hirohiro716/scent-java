@@ -78,7 +78,7 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
     /**
      * このダイアログに表示するソートできるアイテムのコレクションを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Collection<T> getSortableItems() {
         return this.sortableItems;
@@ -90,7 +90,7 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
      * 指定されたアイテムに関連づいたラベルを作成する。
      * 
      * @param sortableItem
-     * @return 結果。
+     * @return
      */
     private Label createSortableItemLabel(T sortableItem) {
         Label label = new Label();
@@ -109,7 +109,7 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
      * 指定されたアイテムに関連づいたラベルを取得する。
      * 
      * @param sortableItem
-     * @return 結果。
+     * @return
      */
     public Label getSortableItemLabel(T sortableItem) {
         return this.mapSortableItemLabels.get(sortableItem);
@@ -120,7 +120,7 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
     /**
      * ソートできるアイテムの文字列表現の代わりに表示するテキストを定義したマップを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Map<T, String> getMapDisplayTextForSortableItem() {
         return this.mapDisplayTextForSortableItem;
@@ -238,7 +238,7 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
     /**
      * このダイアログがキャンセル可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCancelable() {
         return this.buttonCancel.isVisible();

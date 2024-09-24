@@ -87,7 +87,7 @@ public class JAN13Writer {
      * JAN-13の値として有効かどうかを確認する。有効な場合はtrueを返す。
      * 
      * @param barcode
-     * @return 結果。
+     * @return
      */
     public static boolean isValid(String barcode) {
         StringObject stringObject = new StringObject(barcode);

@@ -38,7 +38,7 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
     /**
      * このインスタンスにマップするXMLを作成する。
      * 
-     * @return 結果。
+     * @return
      * @throws IOException 
      */
     protected abstract PropertyXML createPropertyXML() throws IOException;
@@ -48,7 +48,7 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
     /**
      * このインスタンスにマップされているXMLを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public PropertyXML getPropertyXML() {
         return this.propertyXML;
@@ -59,14 +59,14 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
     /**
      * XMLに含まれるすべてのプロパティを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public abstract P[] getProperties();
     
     /**
      * このインスタンスにマップされている、すべての値を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public DynamicArray<P> getValues() {
         return this.propertyValues;

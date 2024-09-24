@@ -179,7 +179,7 @@ public class DatePicker extends TextField {
     /**
      * このコントロールの日付フォーマットパターンを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public DateFormat getFormatPattern() {
         return this.dateFormat;
@@ -255,7 +255,7 @@ public class DatePicker extends TextField {
     /**
      * このコントロールの入力からDatetimeインスタンスを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public Datetime toDatetime() {
         Datetime datetime = new Datetime();
@@ -319,7 +319,7 @@ public class DatePicker extends TextField {
     /**
      * このコントロールの入力からDateインスタンスを作成する。
      * 
-     * @return 結果。
+     * @return
      */
     public Date toDate() {
         Datetime datetime = this.toDatetime();
@@ -334,7 +334,7 @@ public class DatePicker extends TextField {
     /**
      * このコントロールのカレンダーに使用しているポップアップを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Popup getPopup() {
         return this.popup;
@@ -486,7 +486,7 @@ public class DatePicker extends TextField {
          * カレンダーの年を変更するコントロールを作成する。
          * 
          * @param defaultDatetime
-         * @return 結果。
+         * @return
          */
         private DropDownList<Integer> createYearDropDownList(Datetime defaultDatetime) {
             DatePicker control = DatePicker.this;
@@ -504,7 +504,7 @@ public class DatePicker extends TextField {
          * カレンダーの月を変更するコントロールを作成する。
          * 
          * @param defaultDatetime
-         * @return 結果。
+         * @return
          */
         private DropDownList<Integer> createMonthDropDownList(Datetime defaultDatetime) {
             DatePicker control = DatePicker.this;
@@ -543,7 +543,7 @@ public class DatePicker extends TextField {
         /**
          * カレンダー用のGridPaneを作成する。
          * 
-         * @return 結果。
+         * @return
          */
         private GridPane createCalendarGridPane() {
             DatePicker control = DatePicker.this;

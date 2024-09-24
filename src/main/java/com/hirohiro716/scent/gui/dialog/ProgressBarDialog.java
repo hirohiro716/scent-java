@@ -47,7 +47,7 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     /**
      * このダイアログで実行するコールバックを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Callable<R> getCallable() {
         return this.callable;
@@ -78,7 +78,7 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     /**
      * このダイアログのプログレスバーを取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public ProgressBar getProgressBar() {
         return this.progressBar;
@@ -107,7 +107,7 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     /**
      * このダイアログがキャンセル可能な場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCancelable() {
         return this.buttonCancel.isVisible();
@@ -127,7 +127,7 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     /**
      * このダイアログのキャンセルボタンが押されている場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCanceled() {
         return this.isCanceled;
@@ -138,7 +138,7 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     /**
      * 実行するコールバックが終了した際に自動的にダイアログを閉じる場合はtrueを返す。
      * 
-     * @return 結果。
+     * @return
      */
     public boolean isCloseAutomaticallyWhenFinished() {
         return this.isCloseAutomaticallyWhenFinished;
@@ -230,7 +230,7 @@ public class ProgressBarDialog<R> extends MessageableDialog<R> {
     /**
      * このダイアログの処理中に発生した例外を取得する。
      * 
-     * @return 結果。
+     * @return
      */
     public Exception getException() {
         return this.exception;
