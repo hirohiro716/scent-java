@@ -2,6 +2,7 @@ package com.hirohiro716.scent.web;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.CookieHandler;
@@ -161,10 +162,16 @@ public class WebsiteRequester {
                 }
                 break;
         }
-        try (InputStreamReader streamReader = new InputStreamReader(connection.getInputStream(), this.charsetName)) {
+        int code = connection.getResponseCode();
+        InputStream inputStream = null;
+        if (code < 400) {
+            inputStream = connection.getInputStream();
+        } else {
+            inputStream = connection.getErrorStream();
+        }
+        try (InputStreamReader streamReader = new InputStreamReader(inputStream, this.charsetName)) {
             try (BufferedReader bufferedReader = new BufferedReader(streamReader)) {
                 StringObject resultBody = new StringObject();
-                int code = connection.getResponseCode();
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     resultBody.append(line);
