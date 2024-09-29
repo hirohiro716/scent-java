@@ -137,15 +137,15 @@ public class WebsiteRequester {
     }
     
     /**
-     * 送信する本文を指定してリクエストを送信し、その結果を取得する。
+     * 送信するURLに対して本文を指定してリクエストを送信し、その結果を取得する。
      * 
+     * @param url
      * @param body
      * @return
      * @throws IOException
      */
-    public Response request(String body) throws IOException {
+    private Response request(URL url, String body) throws IOException {
         CookieHandler.setDefault(WebsiteRequester.cookieManager);
-        URL url = new URL(this.url);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(this.connectTimeoutMillisecond);
         connection.setReadTimeout(this.requestTimeoutMillisecond);
@@ -153,9 +153,11 @@ public class WebsiteRequester {
         connection.setDoInput(true);
         switch (this.method) {
             case GET:
+            case DELETE:
                 connection.setDoOutput(false);
                 break;
             case POST:
+            case PUT:
                 connection.setDoOutput(true);
                 try (OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream(), this.charsetName)) {
                     streamWriter.write(StringObject.newInstance(body).toString());
@@ -183,23 +185,15 @@ public class WebsiteRequester {
     }
 
     /**
-     * POST送信するパラメーターを指定してリクエストを送信し、その結果を取得する。
+     * 送信する本文を指定してリクエストを送信し、その結果を取得する。
      * 
-     * @param postRequestParameters
+     * @param body
      * @return
      * @throws IOException
      */
-    public Response request(Map<String, String> postRequestParameters) throws IOException {
-        StringObject body = new StringObject();
-        for (String key : postRequestParameters.keySet()) {
-            if (body.length() > 0) {
-                body.append("&");
-            }
-            body.append(URLEncoder.encode(key, this.charsetName));
-            body.append("=");
-            body.append(URLEncoder.encode(postRequestParameters.get(key), this.charsetName));
-        }
-        return this.request(body.toString());
+    public Response request(String body) throws IOException {
+        URL url = new URL(this.url);
+        return this.request(url, body);
     }
 
     /**
@@ -213,6 +207,34 @@ public class WebsiteRequester {
     }
 
     /**
+     * 送信するパラメーターを指定してリクエストを送信、その結果を取得する。
+     * 
+     * @param requestParameters
+     * @return
+     * @throws IOException
+     */
+    public Response request(Map<String, String> requestParameters) throws IOException {
+        StringObject parameters = new StringObject();
+        for (String key : requestParameters.keySet()) {
+            if (parameters.length() > 0) {
+                parameters.append("&");
+            }
+            parameters.append(URLEncoder.encode(key, this.charsetName));
+            parameters.append("=");
+            parameters.append(URLEncoder.encode(requestParameters.get(key), this.charsetName));
+        }
+        switch (this.method) {
+            case GET:
+            case DELETE:
+                return this.request(new URL(StringObject.join(this.url, "?", parameters).toString()), "");
+            case POST:
+            case PUT:
+                break;
+        }
+        return this.request(parameters.toString());
+    }
+
+    /**
      * リクエストメソッドの列挙型。
      * 
      * @author hiro
@@ -223,9 +245,17 @@ public class WebsiteRequester {
          */
         GET("get", "GETメソッドを使用して送信"),
         /**
-         * POST。
+         * POSTメソッドを使用して送信。。
          */
         POST("post", "POSTメソッドを使用して送信"),
+        /**
+         * PUTメソッドを使用して送信。
+         */
+        PUT("put", "PUTメソッドを使用して送信"),
+        /**
+         * DELETEメソッドを使用して送信。
+         */
+        DELETE("delete", "DELETEメソッドを使用して送信"),
         ;
         
         /**
