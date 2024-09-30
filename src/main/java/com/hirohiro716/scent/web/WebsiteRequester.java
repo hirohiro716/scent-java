@@ -116,7 +116,7 @@ public class WebsiteRequester {
         this.method = method;
     }
 
-    private String contentType = "application/x-www-form-urlencoded";
+    private String contentType = null;
 
     /**
      * リクエストの"content-type"を取得する。
@@ -150,6 +150,15 @@ public class WebsiteRequester {
         connection.setConnectTimeout(this.connectTimeoutMillisecond);
         connection.setReadTimeout(this.requestTimeoutMillisecond);
         connection.setRequestMethod(this.method.getID().toUpperCase());
+        StringObject contentType = new StringObject(this.contentType);
+        if (contentType.clone().lower().toString().contains("charset") == false) {
+            if (contentType.length() > 0) {
+                contentType.append("; ");
+            }
+            contentType.append("charset=");
+            contentType.append(this.charsetName);
+        }
+        connection.addRequestProperty("Content-Type", contentType.toString());
         connection.setDoInput(true);
         switch (this.method) {
             case GET:
@@ -219,9 +228,9 @@ public class WebsiteRequester {
             if (parameters.length() > 0) {
                 parameters.append("&");
             }
-            parameters.append(URLEncoder.encode(key, this.charsetName));
+            parameters.append(URLEncoder.encode(key, "UTF-8"));
             parameters.append("=");
-            parameters.append(URLEncoder.encode(requestParameters.get(key), this.charsetName));
+            parameters.append(URLEncoder.encode(requestParameters.get(key), "UTF-8"));
         }
         switch (this.method) {
             case GET:
