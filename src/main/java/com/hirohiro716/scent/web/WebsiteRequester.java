@@ -168,7 +168,7 @@ public class WebsiteRequester {
             case POST:
             case PUT:
                 connection.setDoOutput(true);
-                try (OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream(), this.charsetName)) {
+                try (OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream(), "UTF-8")) {
                     streamWriter.write(StringObject.newInstance(body).toString());
                 }
                 break;
