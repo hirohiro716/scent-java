@@ -160,18 +160,14 @@ public class WebsiteRequester {
         }
         connection.addRequestProperty("Content-Type", contentType.toString());
         connection.setDoInput(true);
-        switch (this.method) {
-            case GET:
-            case DELETE:
-                connection.setDoOutput(false);
-                break;
-            case POST:
-            case PUT:
-                connection.setDoOutput(true);
-                try (OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream(), "UTF-8")) {
-                    streamWriter.write(StringObject.newInstance(body).toString());
-                }
-                break;
+        StringObject bodyStringObject = new StringObject(body);
+        if (bodyStringObject.length() > 0) {
+            connection.setDoOutput(true);
+            try (OutputStreamWriter streamWriter = new OutputStreamWriter(connection.getOutputStream(), "UTF-8")) {
+                streamWriter.write(bodyStringObject.toString());
+            }
+        } else {
+            connection.setDoOutput(false);
         }
         int code = connection.getResponseCode();
         InputStream inputStream = null;
