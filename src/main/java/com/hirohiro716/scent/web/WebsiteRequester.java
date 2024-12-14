@@ -176,17 +176,7 @@ public class WebsiteRequester {
         } else {
             inputStream = connection.getErrorStream();
         }
-        try (InputStreamReader streamReader = new InputStreamReader(inputStream, this.charsetName)) {
-            try (BufferedReader bufferedReader = new BufferedReader(streamReader)) {
-                StringObject resultBody = new StringObject();
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    resultBody.append(line);
-                    resultBody.append("\n");
-                }
-                return new Response(code, resultBody.toString());
-            }
-        }
+        return new Response(code, inputStream, this.charsetName);
     }
 
     /**
@@ -309,16 +299,20 @@ public class WebsiteRequester {
          * コンストラクタ。
          * 
          * @param code レスポンスコード。
-         * @param body レスポンスのボディ。
+         * @param inputStream レスポンスのストリーム。
+         * @param charsetName 使用する文字コード。
          */
-        public Response(int code, String body) {
+        public Response(int code, InputStream inputStream, String charsetName) {
             this.code = code;
-            this.body = body;
+            this.inputStream = inputStream;
+            this.charsetName = charsetName;
         }
 
         private int code;
 
-        private String body;
+        private InputStream inputStream;
+
+        private String charsetName;
 
         /**
          * レスポンスコードを取得する。
@@ -329,13 +323,38 @@ public class WebsiteRequester {
             return  this.code;
         }
 
+        private String bodyText = null;
+
         /**
-         * レスポンスのボディを取得する。
+         * レスポンスのボディを文字列として取得する。
          * 
          * @return
          */
-        public String getBody() {
-            return this.body;
+        public String getBodyAsString() {
+            try (InputStreamReader streamReader = new InputStreamReader(inputStream, this.charsetName)) {
+                try (BufferedReader bufferedReader = new BufferedReader(streamReader)) {
+                    StringObject resultBody = new StringObject();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        resultBody.append(line);
+                        resultBody.append("\n");
+                    }
+                    this.bodyText = resultBody.toString();
+                    return resultBody.toString();
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+            return null;
+        }
+
+        /**
+         * レスポンスのボディをInputStreamとして取得する。
+         * 
+         * @return
+         */
+        public InputStream getBodyAsInputStream() {
+            return this.inputStream;
         }
 
         @Override
@@ -344,7 +363,11 @@ public class WebsiteRequester {
             stringObject.append(this.code);
             stringObject.append("\n");
             stringObject.append("body: ");
-            stringObject.append(this.body);
+            if (this.bodyText != null) {
+                stringObject.append(this.bodyText);
+            } else {
+                stringObject.append("[Stream Data]");
+            }
             return stringObject.toString();
         }
     }
