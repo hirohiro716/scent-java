@@ -408,6 +408,15 @@ public class Datetime implements Cloneable {
     }
     
     /**
+     * このインスタンスで、0ミリ秒が表す日時(UTC 1970-01-01 00:00:00.000)からの経過ミリ秒を取得する。
+     * 
+     * @return
+     */
+    public long getAllMilliSecond() {
+        return this.calendar.getTime().getTime();
+    }
+    
+    /**
      * このインスタンスの年月日と時刻を文字列にフォーマットした結果を取得する。
      * 
      * @param dateFormat
