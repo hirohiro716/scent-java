@@ -122,19 +122,21 @@ public class Directory extends FilesystemItem {
     /**
      * このディレクトリ直下にあるファイルシステムアイテムを検索する。
      * 
-     * @param regexToFilterFileName ファイル名をフィルタするための正規表現。
+     * @param regexToFilterName アイテム名をフィルタするための正規表現。
      * @return
      */
-    public File[] getFiles(String regexToFilterFileName) {
-        StringObject fileRegex = new StringObject(regexToFilterFileName);
-        if (fileRegex.length() == 0) {
-            fileRegex.append(".*");
+    public FilesystemItem[] getFilesystemItems(String regexToFilterName) {
+        StringObject regex = new StringObject(regexToFilterName);
+        if (regex.length() == 0) {
+            regex.append(".*");
         }
-        List<File> files = new ArrayList<>();
-        for (FilesystemItem filesystemItem : this.searchItems(this.toJavaIoFile(), "", fileRegex.toString()).toArray(new FilesystemItem[] {})) {
-            files.add((File) filesystemItem);
+        List<FilesystemItem> items = new ArrayList<>();
+        for (java.io.File file : this.toJavaIoFile().listFiles()) {
+            if (file.getName().matches(regex.toString())) {
+                items.add(FilesystemItem.newInstance(file));
+            }
         }
-        return files.toArray(new File[] {});
+        return items.toArray(new FilesystemItem[] {});
     }
     
     /**
