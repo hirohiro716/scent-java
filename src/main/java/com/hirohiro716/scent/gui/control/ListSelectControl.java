@@ -115,6 +115,7 @@ public abstract class ListSelectControl<T> extends Control {
                     return null;
                 }
                 Label label = new Label(jLabel);
+                label.setFont(control.getFont());
                 if (control.getMapDisplayTextForItem() != null && control.getMapDisplayTextForItem().containsKey(value)) {
                     label.setText(control.getMapDisplayTextForItem().get(value));
                 }
