@@ -113,9 +113,14 @@ public class TabPane extends Control {
      * 
      * @param title
      * @param pane
+     * @return 追加したタブ。
      */
-    public void addTab(String title, Pane pane) {
-        this.tabs.add(new Tab(title, pane));
+    public Tab addTab(String title, Pane pane) {
+        int numberOfTabs = this.tabs.size();
+        Tab tab = new Tab(title, pane);
+        this.tabs.add(tab);
+        this.getInnerInstance().setTabComponentAt(numberOfTabs, tab.getTitleLabel().getInnerInstance());
+        return tab;
     }
     
     /**
@@ -171,6 +176,7 @@ public class TabPane extends Control {
          */
         public Tab(String title, Pane pane) {
             this.title = title;
+            this.titleLabel = new Label(title);
             this.pane = pane;
             for (Control child : this.pane.getChildren().findAll()) {
                 child.removeEventHandler(Tab.KEY_PRESSED_EVENT_HANDLER);
@@ -179,7 +185,7 @@ public class TabPane extends Control {
         }
         
         private String title;
-        
+
         /**
          * タブのタイトルを取得する。
          * 
@@ -187,6 +193,17 @@ public class TabPane extends Control {
          */
         public String getTitle() {
             return this.title;
+        }
+        
+        private Label titleLabel;
+
+        /**
+         * タブのタイトルラベルを取得する。
+         * 
+         * @return
+         */
+        public Label getTitleLabel() {
+            return this.titleLabel;
         }
         
         private Pane pane;
