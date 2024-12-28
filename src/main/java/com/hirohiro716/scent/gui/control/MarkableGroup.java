@@ -57,6 +57,11 @@ public class MarkableGroup {
             changeListener.execute(eventSourceControl, markableControl, this.previousMarkedControl);
         }
         this.previousMarkedControl = markableControl;
+        for (MarkableControl control : this.hashMap.values()) {
+            if (control != markableControl) {
+                control.executeMarkChangeListener();
+            }
+        }
     }
     
     private EventHandler<KeyEvent> keyReleasedEventHandler = new EventHandler<KeyEvent>() {

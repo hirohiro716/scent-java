@@ -168,4 +168,13 @@ public abstract class MarkableControl extends LabeledControl {
         }
         this.markChangeListeners.remove(changeListener);
     }
+
+    /**
+     * このコントロールのマーク状態が変更された際のリスナーを実行する。
+     */
+    protected void executeMarkChangeListener() {
+        for (ChangeListener<Boolean> changeListener : this.markChangeListeners) {
+            changeListener.executeWhenChanged(this, this.isMarked());
+        }
+    }
 }
