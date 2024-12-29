@@ -81,7 +81,7 @@ public abstract class PostgreSQL extends Database {
      * @param table
      * @throws SQLException
      */
-    public void lockTable(TableInterface table) throws SQLException {
+    public final void lockTable(TableInterface table) throws SQLException {
         this.lockTable(table.getPhysicalName());
     }
     
@@ -104,7 +104,7 @@ public abstract class PostgreSQL extends Database {
      * @param table
      * @throws SQLException
      */
-    public void lockTableReadonly(TableInterface table) throws SQLException {
+    public final void lockTableReadonly(TableInterface table) throws SQLException {
         this.lockTableReadonly(table.getPhysicalName());
     }
     
