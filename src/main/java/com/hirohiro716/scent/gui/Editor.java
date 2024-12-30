@@ -89,7 +89,7 @@ public abstract class Editor<T> extends Window {
                 processAfterSuccess.execute(this.getTarget());
             }
         } catch (Exception exception) {
-            QuestionDialog dialog = new QuestionDialog(this);
+            QuestionDialog dialog = this.createQuestionDialog();
             dialog.setTitle("編集再試行の確認");
             StringObject message = new StringObject();
             if (this.getGenericNameOfTarget() != null) {
@@ -177,6 +177,33 @@ public abstract class Editor<T> extends Window {
         super.show();
         this.processAfterShowing();
     }
+
+    /**
+     * メッセージダイアログのインスタンスを作成する。
+     * 
+     * @return
+     */
+    protected MessageDialog createMessageDialog() {
+        return new MessageDialog(this);
+    }
+
+    /**
+     * 確認ダイアログのインスタンスを作成する。
+     * 
+     * @return
+     */
+    protected ConfirmationDialog createConfirmationDialog() {
+        return new ConfirmationDialog(this);
+    }
+
+    /**
+     * 質問ダイアログのインスタンスを作成する。
+     * 
+     * @return
+     */
+    protected QuestionDialog createQuestionDialog() {
+        return new QuestionDialog(this);
+    }
     
     private boolean isShowConfirmationBeforeClosing = true;
     
@@ -225,7 +252,7 @@ public abstract class Editor<T> extends Window {
      * @param processAfterDialogClosing ダイアログを閉じた後の処理。
      */
     protected void showValidationException(Exception exception, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
-        MessageDialog dialog = new MessageDialog(this);
+        MessageDialog dialog = this.createMessageDialog();
         dialog.setTitle("バリデーションに失敗");
         dialog.setMessage(exception.getMessage());
         dialog.setProcessAfterClosing(processAfterDialogClosing);
@@ -260,7 +287,7 @@ public abstract class Editor<T> extends Window {
     }
     
     private boolean isAgreeToClose = false;
-    
+
     /**
      * このエディターを閉じる際のイベントハンドラー。
      * 
@@ -282,7 +309,7 @@ public abstract class Editor<T> extends Window {
                     return;
                 }
                 editor.setCloseOperation(CloseOperation.DO_NOT_CLOSE);
-                this.dialog = new ConfirmationDialog(editor);
+                this.dialog = editor.createConfirmationDialog();
                 this.dialog.setTitle(CloseEventHandler.DIALOG_TITLE);
                 this.dialog.setMessage(CloseEventHandler.DIALOG_MESSAGE);
                 this.dialog.setDefaultValue(ResultButton.OK);
