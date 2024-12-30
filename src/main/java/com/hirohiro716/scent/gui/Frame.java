@@ -246,6 +246,16 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     private Map<Label, PropertyInterface> mapLabelAndProperty = new HashMap<>();
     
     private Map<PropertyInterface, Control> mapPropertyAndControl = new HashMap<>();
+
+    /**
+     * プロパティに対応するコントロールの関連付けを追加する。
+     * 
+     * @param property
+     * @param control
+     */
+    protected void addPropertyRelation(PropertyInterface property, Control control) {
+        this.mapPropertyAndControl.put(property, control);
+    }
     
     /**
      * このフレームでコントロールのために追加されたすべてのラベルをコントロールにバインドする。
