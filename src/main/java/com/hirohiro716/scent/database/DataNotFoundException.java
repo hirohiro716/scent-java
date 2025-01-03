@@ -6,7 +6,6 @@ import java.sql.SQLException;
  * データが存在しない場合に発生する例外クラス。
  * 
  * @author hiro
- * 
  */
 public class DataNotFoundException extends SQLException {
     

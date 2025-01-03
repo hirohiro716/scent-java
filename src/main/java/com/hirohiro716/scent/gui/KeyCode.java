@@ -8,7 +8,6 @@ import com.hirohiro716.scent.IdentifiableEnum;
  * キーコードの列挙型。
  * 
  * @author hiro
- * 
  */
 public enum KeyCode implements IdentifiableEnum<Integer> {
     /**

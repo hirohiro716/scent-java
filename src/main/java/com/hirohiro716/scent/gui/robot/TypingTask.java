@@ -160,7 +160,6 @@ public class TypingTask {
      * キーボードの入力を自動的に行うタスクのクラス。
      * 
      * @author hiro
-     * 
      */
     private class Task {
 
@@ -224,7 +223,6 @@ public class TypingTask {
      * タスク種類の列挙型。
      * 
      * @author hiro
-     * 
      */
     private enum TaskType {
         /**

@@ -1180,7 +1180,6 @@ public abstract class EditableTable<C, R> extends Control {
      * このテーブルの行に配置されたコントロールのフォーカスが変更された場合のリスナー。
      * 
      * @author hiro
-     * 
      */
     private class ControlFocusChangeListener extends ChangeListener<Boolean> {
         

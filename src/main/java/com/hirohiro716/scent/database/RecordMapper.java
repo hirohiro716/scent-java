@@ -12,7 +12,6 @@ import com.hirohiro716.scent.StringObject;
  * データベースのレコードとオブジェクトをマップするための抽象クラス。
  * 
  * @author hiro
- * 
  */
 public abstract class RecordMapper {
     
@@ -195,7 +194,7 @@ public abstract class RecordMapper {
      * @throws SQLException
      */
     protected abstract DynamicArray<String>[] fetchRecordsForEdit(String[] orderByColumnsForEdit) throws SQLException;
-    
+
     /**
      * データベースからレコードを、排他制御を行ってから、このインスタンスにマップする。
      * 
@@ -203,7 +202,8 @@ public abstract class RecordMapper {
      */
     public void edit() throws SQLException {
         List<DynamicArray<ColumnInterface>> records = new ArrayList<>();
-        for (DynamicArray<String> fetchedRecord : this.fetchRecordsForEdit(this.getOrderByColumnsForEdit())) {
+        DynamicArray<String>[] fetchedRecords = this.fetchRecordsForEdit(this.getOrderByColumnsForEdit());
+        for (DynamicArray<String> fetchedRecord : fetchedRecords) {
             DynamicArray<ColumnInterface> record = this.getTable().createRecord(fetchedRecord);
             records.add(record);
         }

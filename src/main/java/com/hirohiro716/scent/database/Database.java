@@ -677,7 +677,6 @@ public abstract class Database implements Closeable {
      * プリペアドステートメントを利用して更新系のSQLを実行する。
      * 
      * @author hiro
-     * 
      */
     public class PreparedStatement implements Closeable {
         
