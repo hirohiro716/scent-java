@@ -45,7 +45,7 @@ public class RecordConflictException extends SQLException {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public <C extends ColumnInterface> DynamicArray<C>[] getCauseRecord() {
+    public <C extends ColumnInterface> DynamicArray<C>[] getCauseRecords() {
         return (DynamicArray[]) this.causeRecords;
     }
 }
