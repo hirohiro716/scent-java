@@ -8,14 +8,15 @@ import com.hirohiro716.scent.DynamicArray;
 import com.hirohiro716.scent.StringObject;
 import com.hirohiro716.scent.database.DataNotFoundException;
 import com.hirohiro716.scent.database.sqlite.SQLite.IsolationLevel;
+import com.hirohiro716.scent.datetime.Datetime;
 import com.hirohiro716.scent.filesystem.File;
 
 /**
- * SQLiteデータベースの単一レコードとオブジェクトをマップするための抽象クラス。
+ * SQLiteデータベースの単一レコードとオブジェクトを悲観的ロックでマップするための抽象クラス。
  * 
  * @author hiro
 */
-public abstract class SingleRecordMapper extends com.hirohiro716.scent.database.SingleRecordMapper implements Closeable, ForciblyCloseableRecordMapper {
+public abstract class PessimisticLockSingleRecordMapper extends com.hirohiro716.scent.database.SingleRecordMapper implements Closeable, ForciblyCloseableRecordMapper {
     
     /**
      * コンストラクタ。<br>
@@ -23,8 +24,19 @@ public abstract class SingleRecordMapper extends com.hirohiro716.scent.database.
      * 
      * @param database
      */
-    public SingleRecordMapper(SQLite database) {
+    public PessimisticLockSingleRecordMapper(SQLite database) {
         super(database);
+        this.setConflictIgnored(true);
+    }
+    
+    @Override
+    public String getIdentifier(DynamicArray<String> record) {
+        return null;
+    }
+
+    @Override
+    protected Datetime getLastUpdateTime(DynamicArray<String> record) {
+        return null;
     }
     
     @Override

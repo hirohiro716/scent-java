@@ -80,9 +80,11 @@ public abstract class SingleRecordMapper extends RecordMapper {
      */
     public abstract boolean isDeleted();
     
+    @SuppressWarnings("unchecked")
     @Override
     public void edit() throws SQLException {
         super.edit();
+        this.setPreEditRecords(new DynamicArray[] {SingleRecordMapper.createStringKeyRecord(this.getRecord())});
         if (this.isDeleted()) {
             this.getDatabase().rollback();
             throw new DataNotFoundException();
@@ -96,6 +98,7 @@ public abstract class SingleRecordMapper extends RecordMapper {
      */
     @Override
     public void update() throws SQLException {
+        this.detectConflict();
         this.getDatabase().update(this.getRecord(), this.getTable(), this.getWhereSet());
     }
     

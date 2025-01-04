@@ -7,14 +7,15 @@ import java.sql.SQLException;
 import com.hirohiro716.scent.DynamicArray;
 import com.hirohiro716.scent.StringObject;
 import com.hirohiro716.scent.database.sqlite.SQLite.IsolationLevel;
+import com.hirohiro716.scent.datetime.Datetime;
 import com.hirohiro716.scent.filesystem.File;
 
 /**
- * SQLiteデータベースのレコードとオブジェクトをマップするための抽象クラス。
+ * SQLiteデータベースのレコードとオブジェクトを悲観的ロックでマップするための抽象クラス。
  * 
  * @author hiro
 */
-public abstract class RecordMapper extends com.hirohiro716.scent.database.RecordMapper implements Closeable, ForciblyCloseableRecordMapper {
+public abstract class PessimisticLockRecordMapper extends com.hirohiro716.scent.database.RecordMapper implements Closeable, ForciblyCloseableRecordMapper {
     
     /**
      * コンストラクタ。<br>
@@ -22,13 +23,24 @@ public abstract class RecordMapper extends com.hirohiro716.scent.database.Record
      * 
      * @param database
      */
-    public RecordMapper(SQLite database) {
+    public PessimisticLockRecordMapper(SQLite database) {
         super(database);
+        this.setConflictIgnored(true);
     }
     
     @Override
     public SQLite getDatabase() {
         return (SQLite) super.getDatabase();
+    }
+    
+    @Override
+    public String getIdentifier(DynamicArray<String> record) {
+        return null;
+    }
+
+    @Override
+    protected Datetime getLastUpdateTime(DynamicArray<String> record) {
+        return null;
     }
     
     @Override

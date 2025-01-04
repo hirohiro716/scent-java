@@ -1,15 +1,16 @@
-package com.hirohiro716.scent.database.postgresql;
+package com.hirohiro716.scent.database.sqlite;
 
 import java.sql.SQLException;
+
 import com.hirohiro716.scent.DynamicArray;
 import com.hirohiro716.scent.StringObject;
 
 /**
- * PostgreSQLデータベースの単一レコードとオブジェクトをマップするための抽象クラス。
+ * SQLiteデータベースの単一レコードとオブジェクトを楽観的ロックでマップするための抽象クラス。
  * 
  * @author hiro
 */
-public abstract class SingleRecordMapper extends com.hirohiro716.scent.database.SingleRecordMapper {
+public abstract class OptimisticLockSingleRecordMapper extends com.hirohiro716.scent.database.SingleRecordMapper {
     
     /**
      * コンストラクタ。<br>
@@ -17,13 +18,13 @@ public abstract class SingleRecordMapper extends com.hirohiro716.scent.database.
      * 
      * @param database
      */
-    public SingleRecordMapper(PostgreSQL database) {
+    public OptimisticLockSingleRecordMapper(SQLite database) {
         super(database);
     }
-
+    
     @Override
-    public PostgreSQL getDatabase() {
-        return (PostgreSQL) super.getDatabase();
+    public SQLite getDatabase() {
+        return (SQLite) super.getDatabase();
     }
     
     @Override
@@ -32,7 +33,7 @@ public abstract class SingleRecordMapper extends com.hirohiro716.scent.database.
         sql.append(this.getTable().getPhysicalName());
         sql.append(" WHERE ");
         sql.append(this.getWhereSet().buildPlaceholderClause());
-        sql.append(" FOR UPDATE NOWAIT;");
+        sql.append(";");
         return this.getDatabase().fetchRecord(sql.toString(), this.getWhereSet().buildParameters());
     }
 }

@@ -2,11 +2,14 @@ package com.hirohiro716.scent.database;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.hirohiro716.scent.DynamicArray;
 import com.hirohiro716.scent.StringObject;
+import com.hirohiro716.scent.datetime.Datetime;
 
 /**
  * データベースのレコードとオブジェクトをマップするための抽象クラス。
@@ -178,6 +181,24 @@ public abstract class RecordMapper {
     }
 
     /**
+     * 指定されたレコードの識別子を取得する。
+     * 
+     * @param <C> 
+     * @param record
+     * @return
+     */
+    public abstract String getIdentifier(DynamicArray<String> record);
+
+    /**
+     * 指定されたレコードの最終更新日時を取得する。更新日時の概念が無い場合はnullを返す。
+     * 
+     * @param <C>
+     * @param record
+     * @return
+     */
+    protected abstract Datetime getLastUpdateTime(DynamicArray<String> record);
+
+    /**
      * マップするレコードの並び順を定義する、カラム文字列の配列を取得する。<br>
      * このメソッドを呼び出すと、次のような値と同じ形式の配列を返す。<br>
      * new String[] {"column_name1", "column_name2 ASC", "column_name3 DESC"}
@@ -195,19 +216,124 @@ public abstract class RecordMapper {
      */
     protected abstract DynamicArray<String>[] fetchRecordsForEdit(String[] orderByColumnsForEdit) throws SQLException;
 
+    private DynamicArray<String>[] preEditRecords = null;
+
+    /**
+     * コンフリクトの検出に使用される、編集開始時のデータベースレコードのクローンを取得する。
+     * 
+     * @return
+     */
+    public DynamicArray<String>[] getPreEditRecords() {
+        return this.preEditRecords;
+    }
+
+    /**
+     * コンフリクトの検出に使用される、編集開始時のデータベースレコードのをセットする。
+     * 
+     * @param records
+     */
+    public void setPreEditRecords(DynamicArray<String>[] records) {
+        this.preEditRecords = records;
+    }
+                                                                        
     /**
      * データベースからレコードを、排他制御を行ってから、このインスタンスにマップする。
      * 
      * @throws SQLException
      */
+    @SuppressWarnings("unchecked")
     public void edit() throws SQLException {
+        List<DynamicArray<String>> preEditRecords = new ArrayList<>();
         List<DynamicArray<ColumnInterface>> records = new ArrayList<>();
         DynamicArray<String>[] fetchedRecords = this.fetchRecordsForEdit(this.getOrderByColumnsForEdit());
         for (DynamicArray<String> fetchedRecord : fetchedRecords) {
+            preEditRecords.add(fetchedRecord);
             DynamicArray<ColumnInterface> record = this.getTable().createRecord(fetchedRecord);
             records.add(record);
         }
+        this.preEditRecords = preEditRecords.toArray(new DynamicArray[] {});
         this.setRecords(records);
+    }
+    
+    private boolean isConflictIgnored = false;
+
+    /**
+     * コンフリクトを無視する場合はtrueを返す。
+     * 
+     * @return
+     */
+    public boolean isConflictIgnored() {
+        return this.isConflictIgnored;
+    }
+
+    /**
+     * コンフリクトを無視する場合はtrueをセットする。
+     * 
+     * @param isConflictIgnored
+     */
+    public void setConflictIgnored(boolean isConflictIgnored) {
+        this.isConflictIgnored = isConflictIgnored;
+    }
+
+    /**
+     * コンフリクトを検出する。
+     * 
+     * @throws RecordConflictException データベースレコードがコンフリクトした場合。
+     * @throws SQLException
+     */
+    @SuppressWarnings("unchecked")
+    protected void detectConflict() throws RecordConflictException, SQLException {
+        if (this.isConflictIgnored == false) {
+            if (this.preEditRecords == null) {
+                throw new SQLException("No pre-edit record has been set.");
+            }
+            Map<String, DynamicArray<String>> mapOfIdentifierAndPreEditRecord = new HashMap<>();
+            for (DynamicArray<String> preEditRecord : this.preEditRecords) {
+                mapOfIdentifierAndPreEditRecord.put(this.getIdentifier(preEditRecord), preEditRecord);
+            }
+            List<DynamicArray<ColumnInterface>> conflictRecords = new ArrayList<>();
+            Map<String, DynamicArray<String>> mapOfIdentifierAndCurrentDatabaseRecord = new HashMap<>();
+            for (DynamicArray<String> currentDatabaseRecord : this.fetchRecordsForEdit(this.getOrderByColumnsForEdit())) {
+                String id = this.getIdentifier(currentDatabaseRecord);
+                if (mapOfIdentifierAndPreEditRecord.containsKey(id)) {
+                    mapOfIdentifierAndCurrentDatabaseRecord.put(id, currentDatabaseRecord);
+                } else {
+                    conflictRecords.add(this.getTable().createRecord(currentDatabaseRecord));
+                }
+            }
+            List<DynamicArray<ColumnInterface>> deletedRecords = new ArrayList<>();
+            for (DynamicArray<String> preEditRecord : this.preEditRecords) {
+                String id = this.getIdentifier(preEditRecord);
+                DynamicArray<String> currentDatabaseRecord = mapOfIdentifierAndCurrentDatabaseRecord.get(id);
+                if (currentDatabaseRecord != null) {
+                    Datetime preEditRecordUpdateTime = this.getLastUpdateTime(preEditRecord);
+                    Datetime currentDatabaseRecordUpdateTime = this.getLastUpdateTime(currentDatabaseRecord);
+                    if (preEditRecordUpdateTime != null && currentDatabaseRecordUpdateTime != null && preEditRecordUpdateTime.getAllMilliSecond() < currentDatabaseRecordUpdateTime.getAllMilliSecond()) {
+                        conflictRecords.add(this.getTable().createRecord(currentDatabaseRecord));
+                    }
+                } else {
+                    deletedRecords.add(this.getTable().createRecord(preEditRecord));
+                }
+            }
+            if (conflictRecords.size() > 0) {
+                throw new RecordConflictException(conflictRecords.toArray(new DynamicArray[] {}));
+            }
+            if (deletedRecords.size() > 0) {
+                Map<String, DynamicArray<ColumnInterface>> mapOfIdentifierAndRecord = new HashMap<>();
+                for (DynamicArray<ColumnInterface> record : this.getRecords()) {
+                    DynamicArray<String> stringKeyRecord = RecordMapper.createStringKeyRecord(record);
+                    String id = this.getIdentifier(stringKeyRecord);
+                    mapOfIdentifierAndRecord.put(id, record);
+                }
+                for (DynamicArray<ColumnInterface> deletedRecord : deletedRecords) {
+                    DynamicArray<String> stringKeyRecord = RecordMapper.createStringKeyRecord(deletedRecord);
+                    String id = this.getIdentifier(stringKeyRecord);
+                    if (mapOfIdentifierAndRecord.containsKey(id)) {
+                        throw new RecordConflictException("編集中のレコードが削除され競合が発生しました。", deletedRecords.toArray(new DynamicArray[] {}));
+                    }
+                }
+            }
+        }
     }
     
     /**
@@ -220,9 +346,11 @@ public abstract class RecordMapper {
     /**
      * データベースのレコードを、このインスタンスにマップされている連想配列の内容に置き換える。
      * 
+     * @throws RecordConflictException データベースレコードがコンフリクトした場合。
      * @throws SQLException
      */
     public void update() throws SQLException {
+        this.detectConflict();
         StringObject sql = new StringObject("DELETE FROM ");
         sql.append(this.getTable().getPhysicalName());
         if (this.getWhereSet() == null) {
@@ -275,4 +403,19 @@ public abstract class RecordMapper {
      * @throws Exception
      */
     public abstract void normalize() throws Exception;
+
+    /**
+     * キーがカラム列挙型のレコード配列から、キーがカラム文字列の配列を作成する。
+     * 
+     * @param <C>
+     * @param record
+     * @return
+     */
+    public static <C extends ColumnInterface> DynamicArray<String> createStringKeyRecord(DynamicArray<C> record) {
+        DynamicArray<String> stringKeyRecord = new DynamicArray<>();
+        for (C column : record.getKeys()) {
+            record.put(column, record.get(column));
+        }
+        return stringKeyRecord;
+    }
 }
