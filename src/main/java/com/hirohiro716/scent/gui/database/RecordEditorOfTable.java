@@ -5,10 +5,11 @@ import com.hirohiro716.scent.database.ColumnInterface;
 import com.hirohiro716.scent.database.Database;
 import com.hirohiro716.scent.database.RecordMapper;
 import com.hirohiro716.scent.gui.KeyCode;
+import com.hirohiro716.scent.gui.VerticalAlignment;
 import com.hirohiro716.scent.gui.collection.Collection;
-import com.hirohiro716.scent.gui.control.AnchorPane;
 import com.hirohiro716.scent.gui.control.Button;
 import com.hirohiro716.scent.gui.control.Control;
+import com.hirohiro716.scent.gui.control.HorizontalPane;
 import com.hirohiro716.scent.gui.control.VerticalPane;
 import com.hirohiro716.scent.gui.control.table.EditableTable;
 import com.hirohiro716.scent.gui.event.ActionEvent;
@@ -117,33 +118,31 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
             rootPane.getChildren().add(bottomContent);
         }
         // Button pane
-        this.anchorPaneOfBottomButton = new AnchorPane();
-        this.anchorPaneOfBottomButton.setPadding(15);
-        rootPane.getChildren().add(this.anchorPaneOfBottomButton);
+        this.paneOfBottomButton.setPadding(15);
+        rootPane.getChildren().add(this.paneOfBottomButton);
         // Add button
         Button buttonAdd = new Button("追加(A)");
         buttonAdd.setMnemonic(KeyCode.A);
         buttonAdd.addActionEventHandler(this.addEventHandler);
-        this.anchorPaneOfBottomButton.getChildren().add(buttonAdd);
-        this.anchorPaneOfBottomButton.setAnchor(buttonAdd, null, null, null, 0);
+        this.paneOfBottomButton.getChildren().add(buttonAdd);
         // Save button
+        this.paneOfBottomButton.addStretchableSpacer(1);
         Button buttonSave = new Button("保存(S)");
         buttonSave.setMnemonic(KeyCode.S);
         buttonSave.addActionEventHandler(this.saveEventHandler);
-        this.anchorPaneOfBottomButton.getChildren().add(buttonSave);
-        this.anchorPaneOfBottomButton.setAnchor(buttonSave, null, 0, null, null);
+        this.paneOfBottomButton.getChildren().add(buttonSave);
         return rootPane;
     }
 
-    private AnchorPane anchorPaneOfBottomButton = new AnchorPane();
+    private HorizontalPane paneOfBottomButton = new HorizontalPane(VerticalAlignment.CENTER);
     
     /**
      * ウィンドウ下部のボタンが表示されているペインを取得する。
      * 
      * @return
      */
-    protected AnchorPane getAnchorPaneOfBottomButton() {
-        return this.anchorPaneOfBottomButton;
+    protected HorizontalPane getPaneOfBottomButton() {
+        return this.paneOfBottomButton;
     }
     
     /**
