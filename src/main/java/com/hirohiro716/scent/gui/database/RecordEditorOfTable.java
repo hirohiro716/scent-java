@@ -117,24 +117,35 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
             rootPane.getChildren().add(bottomContent);
         }
         // Button pane
-        AnchorPane anchorPaneButton = new AnchorPane();
-        anchorPaneButton.setPadding(15);
-        rootPane.getChildren().add(anchorPaneButton);
+        this.anchorPaneOfBottomButton = new AnchorPane();
+        this.anchorPaneOfBottomButton.setPadding(15);
+        rootPane.getChildren().add(this.anchorPaneOfBottomButton);
         // Add button
         Button buttonAdd = new Button("追加(A)");
         buttonAdd.setMnemonic(KeyCode.A);
         buttonAdd.addActionEventHandler(this.addEventHandler);
-        anchorPaneButton.getChildren().add(buttonAdd);
-        anchorPaneButton.setAnchor(buttonAdd, null, null, null, 0);
+        this.anchorPaneOfBottomButton.getChildren().add(buttonAdd);
+        this.anchorPaneOfBottomButton.setAnchor(buttonAdd, null, null, null, 0);
         // Save button
         Button buttonSave = new Button("保存(S)");
         buttonSave.setMnemonic(KeyCode.S);
         buttonSave.addActionEventHandler(this.saveEventHandler);
-        anchorPaneButton.getChildren().add(buttonSave);
-        anchorPaneButton.setAnchor(buttonSave, null, 0, null, null);
+        this.anchorPaneOfBottomButton.getChildren().add(buttonSave);
+        this.anchorPaneOfBottomButton.setAnchor(buttonSave, null, 0, null, null);
         return rootPane;
     }
 
+    private AnchorPane anchorPaneOfBottomButton = new AnchorPane();
+    
+    /**
+     * ウィンドウ下部のボタンが表示されているペインを取得する。
+     * 
+     * @return
+     */
+    protected AnchorPane getAnchorPaneOfBottomButton() {
+        return this.anchorPaneOfBottomButton;
+    }
+    
     /**
      * レコードの追加イベントハンドラー。
      */
