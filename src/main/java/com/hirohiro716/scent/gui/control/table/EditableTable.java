@@ -1,6 +1,7 @@
 package com.hirohiro716.scent.gui.control.table;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
@@ -59,7 +60,9 @@ public abstract class EditableTable<C, R> extends Control {
         super(new JPanel());
         EditableTable<C, R> editableTable = this;
         // Root pane
+        Font defaultFont = this.getInnerInstance().getFont();
         this.root = Pane.newInstance(this.getInnerInstance());
+        this.root.setFont(defaultFont);
         this.root.setParent(this);
         GridBagLayout layout = new GridBagLayout();
         this.root.getInnerInstance().setLayout(layout);
