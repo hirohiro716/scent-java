@@ -3,8 +3,12 @@ package com.hirohiro716.scent.gui.database;
 import java.sql.SQLException;
 
 import com.hirohiro716.scent.database.Database;
+import com.hirohiro716.scent.database.RecordConflictException;
 import com.hirohiro716.scent.database.RecordMapper;
 import com.hirohiro716.scent.gui.Editor;
+import com.hirohiro716.scent.gui.dialog.MessageableDialog.ResultButton;
+import com.hirohiro716.scent.gui.dialog.ProcessAfterDialogClosing;
+import com.hirohiro716.scent.gui.dialog.QuestionDialog;
 import com.hirohiro716.scent.gui.event.EventHandler;
 import com.hirohiro716.scent.gui.event.FrameEvent;
 
@@ -103,5 +107,43 @@ public abstract class RecordEditor<D extends Database, T extends RecordMapper> e
         this.database = this.createDatabase();
         this.connectDatabase(this.database);
         return this.editRecordMapper(this.database);
+    }
+
+    /**
+     * レコードがコンフリクトした場合の質問メッセージを表示する。
+     * 
+     * @param message 質問のメッセージ。
+     * @param processAfterDialogClosing ダイアログを閉じた後の処理。
+     */
+    protected void showRecordConflictQuestionDialog(String message, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
+        RecordEditor<D, T> editor = this;
+        QuestionDialog dialog = this.createQuestionDialog();
+        dialog.setTitle("データベースレコードの競合");
+        dialog.setMessage(message);
+        dialog.setCancelable(false);
+        dialog.setDefaultValue(ResultButton.NO);
+        dialog.setProcessAfterClosing(new ProcessAfterDialogClosing<ResultButton>() {
+
+            @Override
+            public void execute(ResultButton dialogResult) {
+                if (dialogResult == ResultButton.YES) {
+                    editor.getTarget().setConflictIgnored(true);
+                }
+                if (processAfterDialogClosing != null) {
+                    processAfterDialogClosing.execute(dialogResult);
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    /**
+     * レコードがコンフリクトした場合の質問メッセージを表示する。
+     * 
+     * @param exception 発生した例外。
+     * @param processAfterDialogClosing ダイアログを閉じた後の処理。
+     */
+    protected void showRecordConflictQuestionDialog(RecordConflictException exception, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
+        this.showRecordConflictQuestionDialog(exception.getMessage() + "ほかで行われた変更を取り消して保存を続行しますか？", processAfterDialogClosing);
     }
 }
