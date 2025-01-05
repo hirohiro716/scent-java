@@ -316,7 +316,7 @@ public abstract class RecordMapper {
                 }
             }
             if (conflictRecords.size() > 0) {
-                throw new RecordConflictException(conflictRecords.toArray(new DynamicArray[] {}));
+                throw new RecordConflictException(conflictRecords.toArray(new DynamicArray[] {}), null);
             }
             if (deletedRecords.size() > 0) {
                 Map<String, DynamicArray<ColumnInterface>> mapOfIdentifierAndRecord = new HashMap<>();
@@ -329,7 +329,7 @@ public abstract class RecordMapper {
                     DynamicArray<String> stringKeyRecord = RecordMapper.createStringKeyRecord(deletedRecord);
                     String id = this.getIdentifier(stringKeyRecord);
                     if (mapOfIdentifierAndRecord.containsKey(id)) {
-                        throw new RecordConflictException("編集中のレコードが削除され競合が発生しました。", deletedRecords.toArray(new DynamicArray[] {}));
+                        throw new RecordConflictException("編集中のレコードがほかの操作で削除され競合が発生しました。", null, deletedRecords.toArray(new DynamicArray[] {}));
                     }
                 }
             }

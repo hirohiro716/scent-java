@@ -18,34 +18,56 @@ public class RecordConflictException extends SQLException {
      * 
      * @param <C>
      * @param message
-     * @param causeRecords
+     * @param conflictRecords ほかの操作によってコンフリクトしたレコード。
+     * @param deletedRecords ほか操作によって削除されたレコード。
      */
     @SuppressWarnings("unchecked")
-    public <C extends ColumnInterface> RecordConflictException(String message, DynamicArray<C>[] causeRecords) {
+    public <C extends ColumnInterface> RecordConflictException(String message, DynamicArray<C>[] conflictRecords, DynamicArray<C>[] deletedRecords) {
         super(message);
-        this.causeRecords = (DynamicArray[]) causeRecords;
+        this.conflictRecords = new DynamicArray[] {};
+        if (conflictRecords != null) {
+            this.conflictRecords = (DynamicArray[]) conflictRecords;
+        }
+        this.deletedRecords = new DynamicArray[] {};
+        if (deletedRecords != null) {
+            this.deletedRecords = (DynamicArray[]) deletedRecords;
+        }
     }
 
     /**
      * コンフリクトの原因のレコードを指定して、初期の例外メッセージを持つ新規例外を構築する。
      * 
      * @param <C>
-     * @param causeRecords コンフリクトした原因のレコード。
+     * @param conflictRecords ほかの操作によってコンフリクトしたレコード。
+     * @param deletedRecords ほか操作によって削除されたレコード。
      */
-    public <C extends ColumnInterface> RecordConflictException(DynamicArray<C>[] causeRecords) {
-        this(RecordConflictException.MESSAGE, causeRecords);
+    public <C extends ColumnInterface> RecordConflictException(DynamicArray<C>[] conflictRecords, DynamicArray<C>[] deletedRecords) {
+        this(RecordConflictException.MESSAGE, conflictRecords, deletedRecords);
     }
 
-    private DynamicArray<ColumnInterface>[] causeRecords;
+    private DynamicArray<ColumnInterface>[] conflictRecords;
     
     /**
-     * コンフリクトした原因のレコードを取得する。
+     * ほかの操作によってコンフリクトしたレコードを取得する。
      * 
      * @param <C> 
      * @return
      */
     @SuppressWarnings("unchecked")
-    public <C extends ColumnInterface> DynamicArray<C>[] getCauseRecords() {
-        return (DynamicArray[]) this.causeRecords;
+    public <C extends ColumnInterface> DynamicArray<C>[] getConflictRecords() {
+        return (DynamicArray[]) this.conflictRecords;
+    }
+
+    private DynamicArray<ColumnInterface>[] deletedRecords;
+    
+    /**
+     * ほかの操作によって削除されたレコードを取得する。
+     * 
+     * @param <C> 
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public <C extends ColumnInterface> DynamicArray<C>[] getDeletedRecords() {
+        return (DynamicArray[]) this.deletedRecords;
     }
 }
