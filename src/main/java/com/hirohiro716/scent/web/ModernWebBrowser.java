@@ -10,6 +10,7 @@ import java.util.Map;
 import com.hirohiro716.scent.Array;
 import com.hirohiro716.scent.IdentifiableEnum;
 import com.hirohiro716.scent.StringObject;
+import com.hirohiro716.scent.datetime.Datetime;
 import com.hirohiro716.scent.filesystem.Directory;
 import com.hirohiro716.scent.filesystem.File;
 import com.hirohiro716.scent.reflection.Method;
@@ -151,7 +152,10 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
                 case "NoSuchWindowException":
                     return true;
                 case "WebDriverException":
-                    if (exception.getCause().getMessage().contains("window was closed")) {
+                    if (exception.getCause().getMessage().toLowerCase().contains("window was closed")) {
+                        return true;
+                    }
+                    if (exception.getCause().getMessage().toLowerCase().contains("failed to connect to localhost")) {
                         return true;
                     }
                     break;
@@ -186,6 +190,31 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
 
     private Class<?> classBy = this.loadClass("org.openqa.selenium.By");
     
+    private Class<?> classJavascriptExecutor = this.loadClass("org.openqa.selenium.JavascriptExecutor");
+    
+    /**
+     * WEBページの読み込み開始と読み込み完了を待つ。
+     * 
+     * @throws Exception
+     */
+    public void waitForLoadingAndComplete() throws Exception {
+        Datetime limit = new Datetime();
+        limit.addSecond(1);
+        String result = "";
+        while (result.equals("loading") == false) {
+            Method method = new Method(this.classJavascriptExecutor, this.webDriver);
+            result = method.invoke("executeScript", "return document.readyState;", new Object[] {});
+            if (limit.getAllMilliSecond() < Datetime.newInstance().getAllMilliSecond()) {
+                break;
+            }
+            Thread.sleep(200);
+        }
+        while (result.equals("complete") == false) {
+            Method method = new Method(this.classJavascriptExecutor, this.webDriver);
+            result = method.invoke("executeScript", "return document.readyState;", new Object[] {});
+        }
+    }
+
     @Override
     public void load(URL url) throws Exception {
     	this.acceptDialog();
@@ -216,8 +245,6 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
             return null;
         }
     }
-    
-    private Class<?> classJavascriptExecutor = this.loadClass("org.openqa.selenium.JavascriptExecutor");
     
     @Override
     public void executeJavaScript(String javascript) {
