@@ -178,33 +178,6 @@ public abstract class Editor<T> extends Window {
         this.processAfterShowing();
     }
 
-    /**
-     * メッセージダイアログのインスタンスを作成する。
-     * 
-     * @return
-     */
-    protected MessageDialog createMessageDialog() {
-        return new MessageDialog(this);
-    }
-
-    /**
-     * 確認ダイアログのインスタンスを作成する。
-     * 
-     * @return
-     */
-    protected ConfirmationDialog createConfirmationDialog() {
-        return new ConfirmationDialog(this);
-    }
-
-    /**
-     * 質問ダイアログのインスタンスを作成する。
-     * 
-     * @return
-     */
-    protected QuestionDialog createQuestionDialog() {
-        return new QuestionDialog(this);
-    }
-    
     private boolean isShowConfirmationBeforeClosing = true;
     
     /**

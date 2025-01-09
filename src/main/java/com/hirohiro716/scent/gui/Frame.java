@@ -31,8 +31,10 @@ import com.hirohiro716.scent.gui.control.RootPane;
 import com.hirohiro716.scent.gui.control.TextArea;
 import com.hirohiro716.scent.gui.control.TextField;
 import com.hirohiro716.scent.gui.control.ToggleButton;
+import com.hirohiro716.scent.gui.dialog.ConfirmationDialog;
 import com.hirohiro716.scent.gui.dialog.MessageDialog;
 import com.hirohiro716.scent.gui.dialog.ProcessAfterDialogClosing;
+import com.hirohiro716.scent.gui.dialog.QuestionDialog;
 import com.hirohiro716.scent.gui.dialog.MessageableDialog.ResultButton;
 import com.hirohiro716.scent.gui.event.EventHandler;
 import com.hirohiro716.scent.gui.event.FrameEvent;
@@ -340,6 +342,33 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
+     * メッセージダイアログのインスタンスを作成する。
+     * 
+     * @return
+     */
+    protected MessageDialog createMessageDialog() {
+        return new MessageDialog(this);
+    }
+
+    /**
+     * 確認ダイアログのインスタンスを作成する。
+     * 
+     * @return
+     */
+    protected ConfirmationDialog createConfirmationDialog() {
+        return new ConfirmationDialog(this);
+    }
+
+    /**
+     * 質問ダイアログのインスタンスを作成する。
+     * 
+     * @return
+     */
+    protected QuestionDialog createQuestionDialog() {
+        return new QuestionDialog(this);
+    }
+    
+    /**
      * 例外が発生した場合のメッセージを表示する。
      * 
      * @param message メッセージ。
@@ -347,7 +376,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * @param processAfterDialogClosing ダイアログを閉じた後の処理。
      */
     public void showException(String message, Exception exception, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
-        MessageDialog dialog = new MessageDialog(this);
+        MessageDialog dialog = this.createMessageDialog();
         dialog.setTitle("例外の発生");
         dialog.setMessage(ExceptionMessenger.newInstance(exception).make(message));
         dialog.setProcessAfterClosing(processAfterDialogClosing);
