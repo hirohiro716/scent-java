@@ -349,10 +349,15 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param arrays
      */
     @SuppressWarnings("unchecked")
-    public void merge(DynamicArray<K>... arrays) {
-        for (DynamicArray<K> array : arrays) {
-            for (K key : array.getKeys()) {
-                this.put(key, array.get(key));
+    public void merge(DynamicArray<?>... arrays) {
+        for (DynamicArray<?> array : arrays) {
+            try {
+                DynamicArray<K> castedArray = (DynamicArray<K>) array;
+                for (K key : castedArray.getKeys()) {
+                    this.put(key, castedArray.get(key));
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         }
     }
