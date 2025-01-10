@@ -798,6 +798,7 @@ public abstract class TableView<C, R> extends Control {
             C columnInstance = tableView.columnInstances.get(column);
             JLabel jLabel = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             Label label = Label.newInstance(jLabel);
+            label.setFont(tableView.getFont());
             if (tableView.mapColumnHorizontalAlignment.containsKey(columnInstance)) {
                 label.setTextHorizontalAlignment(tableView.mapColumnHorizontalAlignment.get(columnInstance));
             }
