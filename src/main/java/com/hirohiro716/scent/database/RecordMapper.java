@@ -254,6 +254,31 @@ public abstract class RecordMapper {
         this.preEditRecords = preEditRecords.toArray(new DynamicArray[] {});
         this.setRecords(records);
     }
+
+    /**
+     * 指定されたレコードが、編集開始時のデータベースレコードと同じ内容の場合はtrueを返す。
+     * 
+     * @param <C> 
+     * @param record
+     */
+    public <C extends ColumnInterface> boolean isSameAsPreEditRecord(DynamicArray<C> record) {
+        DynamicArray<String> stringKeyRecord = new DynamicArray<>();
+        for (C column : record.getKeys()) {
+            stringKeyRecord.put(column.getPhysicalName(), record.get(column));
+        }
+        String id = this.getIdentifier(stringKeyRecord);
+        for (DynamicArray<String> stringKeyPreEditRecord: this.preEditRecords) {
+            if (id.equals(this.getIdentifier(stringKeyPreEditRecord))) {
+                for (String physicalName : stringKeyPreEditRecord.getKeys()) {
+                    if (StringObject.newInstance(stringKeyRecord.getString(physicalName)).equals(stringKeyPreEditRecord.getString(physicalName)) == false) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
     
     private boolean isConflictIgnored = false;
 
