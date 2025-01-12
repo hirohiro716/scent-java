@@ -59,7 +59,7 @@ public abstract class SingleRecordMapper extends RecordMapper {
     }
     
     /**
-     * マップするレコードを排他制御を行ってから連想配列で取得する。
+     * マップするレコードを連想配列で取得する。
      * 
      * @return
      * @throws SQLException
@@ -91,6 +91,20 @@ public abstract class SingleRecordMapper extends RecordMapper {
         }
     }
 
+    /**
+     * コンフリクトを検出するための現在のレコードを連想配列で取得する。
+     * 
+     * @return
+     * @throws SQLException
+     */
+    protected abstract DynamicArray<String> fetchCurrentRecordForDetectConflict() throws SQLException;
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected DynamicArray<String>[] fetchCurrentRecordsForDetectConflict() throws SQLException {
+        return new DynamicArray[] {this.fetchCurrentRecordForDetectConflict()};
+    }
+    
     /**
      * データベースのレコードを、このインスタンスにマップされている連想配列の内容で上書きする。
      * 

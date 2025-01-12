@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import com.hirohiro716.scent.DynamicArray;
 import com.hirohiro716.scent.StringObject;
+import com.hirohiro716.scent.database.Database;
+import com.hirohiro716.scent.database.sqlite.SQLite.IsolationLevel;
 
 /**
  * SQLiteデータベースの単一レコードとオブジェクトを楽観的ロックでマップするための抽象クラス。
@@ -35,5 +37,13 @@ public abstract class OptimisticLockSingleRecordMapper extends com.hirohiro716.s
         sql.append(this.getWhereSet().buildPlaceholderClause());
         sql.append(";");
         return this.getDatabase().fetchRecord(sql.toString(), this.getWhereSet().buildParameters());
+    }
+
+    @Override
+    protected DynamicArray<String> fetchCurrentRecordForDetectConflict() throws SQLException {
+        if (this.getDatabase().getIsolationLevel() == IsolationLevel.NOLOCK) {
+            throw new SQLException(Database.ERROR_MESSAGE_TRANSACTION_NOT_BEGUN);
+        }
+        return this.fetchRecordForEdit();
     }
 }

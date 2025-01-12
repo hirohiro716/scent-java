@@ -47,4 +47,9 @@ public abstract class PhysicalLockSingleRecordMapper extends com.hirohiro716.sce
         sql.append(" FOR UPDATE NOWAIT;");
         return this.getDatabase().fetchRecord(sql.toString(), this.getWhereSet().buildParameters());
     }
+
+    @Override
+    protected DynamicArray<String> fetchCurrentRecordForDetectConflict() throws SQLException {
+        return null;
+    }
 }

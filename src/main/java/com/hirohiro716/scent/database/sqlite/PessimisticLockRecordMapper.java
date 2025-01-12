@@ -130,6 +130,11 @@ public abstract class PessimisticLockRecordMapper extends com.hirohiro716.scent.
             this.isEditing = true;
         }
     }
+
+    @Override
+    protected DynamicArray<String>[] fetchCurrentRecordsForDetectConflict() throws SQLException {
+        return null;
+    }
     
     @Override
     public void close() throws IOException {

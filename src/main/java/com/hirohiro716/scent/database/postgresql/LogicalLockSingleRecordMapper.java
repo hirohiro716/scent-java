@@ -36,4 +36,14 @@ public abstract class LogicalLockSingleRecordMapper extends com.hirohiro716.scen
         sql.append(";");
         return this.getDatabase().fetchRecord(sql.toString(), this.getWhereSet().buildParameters());
     }
+
+    @Override
+    protected DynamicArray<String> fetchCurrentRecordForDetectConflict() throws SQLException {
+        StringObject sql = new StringObject("SELECT * FROM ");
+        sql.append(this.getTable().getPhysicalName());
+        sql.append(" WHERE ");
+        sql.append(this.getWhereSet().buildPlaceholderClause());
+        sql.append(" FOR UPDATE NOWAIT;");
+        return this.getDatabase().fetchRecord(sql.toString(), this.getWhereSet().buildParameters());
+    }
 }

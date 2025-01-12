@@ -208,7 +208,7 @@ public abstract class RecordMapper {
     protected abstract String[] getOrderByColumnsForEdit();
     
     /**
-     * マップするレコードを排他制御を行ってから連想配列で取得する。
+     * マップするレコードを連想配列で取得する。
      * 
      * @param orderByColumnsForEdit "column_name1 ASC" や "column_name2 DESC" などのレコードの並び順を定義するカラム文字列の配列。またはnull。
      * @return
@@ -301,6 +301,14 @@ public abstract class RecordMapper {
     }
 
     /**
+     * コンフリクトを検出するための現在のレコードを連想配列で取得する。
+     * 
+     * @return
+     * @throws SQLException
+     */
+    protected abstract DynamicArray<String>[] fetchCurrentRecordsForDetectConflict() throws SQLException;
+
+    /**
      * コンフリクトを検出する。
      * 
      * @throws RecordConflictException データベースレコードがコンフリクトした場合。
@@ -318,7 +326,7 @@ public abstract class RecordMapper {
             }
             List<DynamicArray<ColumnInterface>> conflictRecords = new ArrayList<>();
             Map<String, DynamicArray<String>> mapOfIdentifierAndCurrentDatabaseRecord = new HashMap<>();
-            for (DynamicArray<String> currentDatabaseRecord : this.fetchRecordsForEdit(this.getOrderByColumnsForEdit())) {
+            for (DynamicArray<String> currentDatabaseRecord : this.fetchCurrentRecordsForDetectConflict()) {
                 String id = this.getIdentifier(currentDatabaseRecord);
                 if (mapOfIdentifierAndPreEditRecord.containsKey(id)) {
                     mapOfIdentifierAndCurrentDatabaseRecord.put(id, currentDatabaseRecord);

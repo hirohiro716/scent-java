@@ -111,6 +111,11 @@ public abstract class PessimisticLockSingleRecordMapper extends com.hirohiro716.
             this.isEditing = true;
         }
     }
+
+    @Override
+    protected DynamicArray<String> fetchCurrentRecordForDetectConflict() throws SQLException {
+        return null;
+    }
     
     @Override
     public void close() throws IOException {
