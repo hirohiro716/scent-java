@@ -439,7 +439,7 @@ public abstract class RecordMapper {
     public static <C extends ColumnInterface> DynamicArray<String> createStringKeyRecord(DynamicArray<C> record) {
         DynamicArray<String> stringKeyRecord = new DynamicArray<>();
         for (C column : record.getKeys()) {
-            record.put(column, record.get(column));
+            stringKeyRecord.put(column.getPhysicalName(), record.get(column));
         }
         return stringKeyRecord;
     }
