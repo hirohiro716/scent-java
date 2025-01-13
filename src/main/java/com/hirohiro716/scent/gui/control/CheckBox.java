@@ -38,6 +38,16 @@ public class CheckBox extends MarkableControl {
     }
     
     /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param innerInstance GUIライブラリに依存したインスタンス。
+     * @return 新しいインスタンス。
+     */
+    public static CheckBox newInstance(JCheckBox innerInstance) {
+        return new CheckBox(innerInstance);
+    }
+    
+    /**
      * コンストラクタ。<br>
      * このチェックボックスに表示するテキストを指定する。
      * 

@@ -43,6 +43,7 @@ import com.hirohiro716.scent.gui.KeyCode;
 import com.hirohiro716.scent.gui.collection.Collection;
 import com.hirohiro716.scent.gui.control.Button;
 import com.hirohiro716.scent.gui.control.CenterPane;
+import com.hirohiro716.scent.gui.control.CheckBox;
 import com.hirohiro716.scent.gui.control.ContextMenu;
 import com.hirohiro716.scent.gui.control.Control;
 import com.hirohiro716.scent.gui.control.Label;
@@ -384,6 +385,17 @@ public abstract class TableView<C, R> extends Control {
         this.columnInstances.clear();
         this.mapTableColumns.clear();
         this.mapColumnHorizontalAlignment.clear();
+    }
+
+    private Collection<CellControlCallback<C>> cellControlCallbacks = new Collection<>();
+
+    /**
+     * このテーブルビューのセル内で生成されるコントロールに対するコールバックを格納しているコレクションを取得する。
+     * 
+     * @return
+     */
+    public Collection<CellControlCallback<C>> getCellControlCallbacks() {
+        return this.cellControlCallbacks;
     }
 
     private Collection<R> rowInstances = new Collection<>();
@@ -802,6 +814,9 @@ public abstract class TableView<C, R> extends Control {
             if (tableView.mapColumnHorizontalAlignment.containsKey(columnInstance)) {
                 label.setTextHorizontalAlignment(tableView.mapColumnHorizontalAlignment.get(columnInstance));
             }
+            for (CellControlCallback<C> callback : tableView.cellControlCallbacks) {
+                callback.call(columnInstance, label);
+            }
             return label.getInnerInstance();
         }
     }
@@ -826,12 +841,16 @@ public abstract class TableView<C, R> extends Control {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             TableView<C, R> tableView = TableView.this;
+            C columnInstance = tableView.columnInstances.get(column);
             Boolean booleanValue = StringObject.newInstance(value).toBoolean();
-            JCheckBox checkBox = (JCheckBox) this.defaultRenderer.getTableCellRendererComponent(table, booleanValue, isSelected, hasFocus, row, column);
+            CheckBox checkBox = CheckBox.newInstance((JCheckBox) this.defaultRenderer.getTableCellRendererComponent(table, booleanValue, isSelected, hasFocus, row, column));
             checkBox.setFont(tableView.getFont());
-            checkBox.setBackground(new Color(checkBox.getBackground().getRGB()));
-            checkBox.setOpaque(true);
-            return checkBox;
+            checkBox.getInnerInstance().setBackground(new Color(checkBox.getInnerInstance().getBackground().getRGB()));
+            checkBox.getInnerInstance().setOpaque(true);
+            for (CellControlCallback<C> callback : tableView.cellControlCallbacks) {
+                callback.call(columnInstance, checkBox);
+            }
+            return checkBox.getInnerInstance();
         }
     }
 
@@ -863,6 +882,9 @@ public abstract class TableView<C, R> extends Control {
             pane.setPadding(3);
             pane.setBackgroundColor(new Color(jLabel.getBackground().getRGB()));
             pane.setControl(button);
+            for (CellControlCallback<C> callback : tableView.cellControlCallbacks) {
+                callback.call(columnInstance, button);
+            }
             return pane.getInnerInstance();
         }
         
@@ -887,14 +909,32 @@ public abstract class TableView<C, R> extends Control {
             pane.setPadding(3);
             pane.setBackgroundColor(new Color(tableView.getInnerInstance().getSelectionBackground().getRGB()));
             pane.setControl(button);
+            for (CellControlCallback<C> callback : tableView.cellControlCallbacks) {
+                callback.call(columnInstance, button);
+            }
             return pane.getInnerInstance();
-            
         }
         
         @Override
         public Object getCellEditorValue() {
             return null;
         }
+    }
+
+    /**
+     * セルに生成されたコントロールに対するコールバックインターフェイス。
+     * 
+     * @param <C> カラム情報インスタンスの型。
+     */
+    public interface CellControlCallback<C> {
+        
+        /**
+         * 指定されたカラム情報インスタンス、コントロールに対して処理を実行する。
+         * 
+         * @param columnInstance
+         * @param control
+         */
+        public abstract void call(C columnInstance, Control control);
     }
     
     /**
