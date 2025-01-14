@@ -30,6 +30,7 @@ import com.hirohiro716.scent.gui.HorizontalAlignment;
 import com.hirohiro716.scent.gui.KeyCode;
 import com.hirohiro716.scent.gui.VerticalAlignment;
 import com.hirohiro716.scent.gui.collection.AddListener;
+import com.hirohiro716.scent.gui.collection.Collection;
 import com.hirohiro716.scent.gui.collection.RemoveListener;
 import com.hirohiro716.scent.gui.control.Button;
 import com.hirohiro716.scent.gui.control.CheckBox;
@@ -192,6 +193,29 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     public void addNumberStringComparison(Comparison comparison, String text) {
         this.mapNumberStringComparison.put(comparison, text);
     }
+
+    private Collection<RowControlCallback> rowControlCallbacks = new Collection<>();
+
+    /**
+     * このダイアログの行で生成されるコントロールに対するコールバックを格納しているコレクションを取得する。
+     * 
+     * @return
+     */
+    public Collection<RowControlCallback> getRowControlCallbacks() {
+        return this.rowControlCallbacks;
+    }
+
+    /**
+     * 行で生成されたコントロールに対するコールバックをすべて呼び出す。
+     * 
+     * @param columnPhysicalName
+     * @param control
+     */
+    private void callControlCallbackAll(String columnPhysicalName, Control control) {
+        for (RowControlCallback callback : this.rowControlCallbacks) {
+            callback.call(columnPhysicalName, control);
+        }
+    }
     
     @Override
     public boolean isCancelableByClickBackground() {
@@ -322,6 +346,15 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     }
 
     /**
+     * 質問ダイアログのインスタンスを作成する。
+     * 
+     * @return
+     */
+    protected QuestionDialog createQuestionDialog() {
+        return new QuestionDialog(this.getOwner());
+    }
+    
+    /**
      * 保存ボタンを作成する。
      * 
      * @return
@@ -364,7 +397,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     }
                 };
                 if (file.exists()) {
-                    QuestionDialog questionDialog = new QuestionDialog(dialog.getOwner());
+                    QuestionDialog questionDialog = dialog.createQuestionDialog();
                     questionDialog.setTitle("ファイルの上書き確認");
                     questionDialog.setMessage("指定されたファイルは既に存在します。上書きしますか？");
                     questionDialog.setCancelable(false);
@@ -641,6 +674,15 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     }
     
     /**
+     * ドロップダウンリストを表示するダイアログのインスタンスを作成する。
+     * 
+     * @return
+     */
+    protected DropDownListDialog<String> createDropDownListDialog() {
+        return new DropDownListDialog<>(this.getOwner());
+    }
+
+    /**
      * カラム追加のボタンを作成する。
      * 
      * @return
@@ -653,7 +695,8 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             
             @Override
             protected void handle(ActionEvent event) {
-                DropDownListDialog<String> dialog = new DropDownListDialog<>(ownerDialog.getOwner(), ownerDialog.searchableColumns);
+                DropDownListDialog<String> dialog = ownerDialog.createDropDownListDialog();
+                dialog.getDropDownList().getItems().addAll(ownerDialog.searchableColumns);
                 dialog.getDropDownList().setMapDisplayTextForItem(ownerDialog.mapLogicalName);
                 dialog.setTitle("検索するカラムの追加");
                 dialog.setMessage("検索条件に追加するカラムを選択してください。");
@@ -730,6 +773,9 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         paneValues.setName(WhereSetDialog.NAME_OF_VALUES_PANE);
         paneValues.setSpacing(5);
         pane.getChildren().add(paneValues);
+        for (Control control : pane.getChildren()) {
+            dialog.callControlCallbackAll(searchableColumn, control);
+        }
         return pane;
     }
     
@@ -808,6 +854,9 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 return;
             }
             Control[] controls = dialog.createValueControls(searchableColumn, columnType, changedValue);
+            for (Control control : controls) {
+                dialog.callControlCallbackAll(searchableColumn, control);
+            }
             paneValues.getChildren().addAll(controls);
             paneValues.updateLayout();
         }
@@ -931,6 +980,15 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     }
     
     /**
+     * 日付と時刻を入力するダイアログのインスタンスを作成する。
+     * 
+     * @return
+     */
+    protected DatetimeInputDialog createDatetimeInputDialog() {
+        return new DatetimeInputDialog(this.getOwner());
+    }
+
+    /**
      * 日付の検索値を入力するダイアログを表示するイベントハンドラー。
      */
     private EventHandler<MouseEvent> dateMouseClickedEventHandler = new EventHandler<MouseEvent>() {
@@ -939,7 +997,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         protected void handle(MouseEvent event) {
             WhereSetDialog ownerDialog = WhereSetDialog.this;
             TextField textField = (TextField) event.getSource();
-            DatetimeInputDialog dialog = new DatetimeInputDialog(ownerDialog.getOwner());
+            DatetimeInputDialog dialog = ownerDialog.createDatetimeInputDialog();
             dialog.setTitle("日付の入力");
             dialog.setMessage("日付を選択してください。");
             dialog.setTimeInput(false);
@@ -972,7 +1030,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         protected void handle(MouseEvent event) {
             WhereSetDialog ownerDialog = WhereSetDialog.this;
             TextField textField = (TextField) event.getSource();
-            DatetimeInputDialog dialog = new DatetimeInputDialog(ownerDialog.getOwner());
+            DatetimeInputDialog dialog = ownerDialog.createDatetimeInputDialog();
             dialog.setTitle("日付と時刻の入力");
             dialog.setMessage("日付と時刻を入力してください。");
             try {
@@ -1127,5 +1185,19 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
          */
         SELECTABLE,
         ;
+    }
+
+    /**
+     * 検索条件の行で生成されたコントロールに対するコールバックインターフェイス。
+     */
+    public interface RowControlCallback {
+        
+        /**
+         * 指定されたカラム、コントロールに対して処理を実行する。
+         * 
+         * @param column
+         * @param control
+         */
+        public abstract void call(String column, Control control);
     }
 }
