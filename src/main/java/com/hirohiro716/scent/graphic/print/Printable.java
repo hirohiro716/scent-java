@@ -657,14 +657,29 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterY
      * @param millimeterWidth
      * @param millimeterHeight
+     * @param barScale バー描画の拡大率。1が初期値。
      */
-    protected void printJAN13(String barcode, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
+    protected void printJAN13(String barcode, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight, float barScale) {
         float x = MillimeterValue.newInstance(millimeterX).toPoint();
         float y = MillimeterValue.newInstance(millimeterY).toPoint();
         float width = MillimeterValue.newInstance(millimeterWidth).toPoint();
         float height = MillimeterValue.newInstance(millimeterHeight).toPoint();
         JAN13Writer jan13Writer = new JAN13Writer(barcode, this.graphics2D);
+        jan13Writer.setBarScale(barScale);
         jan13Writer.write(x, y, width, height);
+    }
+    
+    /**
+     * 指定された位置に指定された大きさでJAN-13のバーコードを印刷する。
+     * 
+     * @param barcode
+     * @param millimeterX
+     * @param millimeterY
+     * @param millimeterWidth
+     * @param millimeterHeight
+     */
+    protected void printJAN13(String barcode, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
+        this.printJAN13(barcode, millimeterX, millimeterY, millimeterWidth, millimeterHeight, 1);
     }
     
     /**
