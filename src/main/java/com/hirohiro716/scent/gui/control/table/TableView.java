@@ -120,18 +120,23 @@ public abstract class TableView<C, R> extends Control {
                 tableView.setSelectedRow(clickedRow);
                 int clickedColumnIndex = tableView.getColumnInstances().indexOf(clickedColumn);
                 innerInstance.setColumnSelectionInterval(clickedColumnIndex, clickedColumnIndex);
-                ContextMenu menu = new ContextMenu(event.getSource());
-                menu.addContextMenuItem("値のコピー(C)", KeyCode.C, new Runnable() {
-                    
-                    @Override
-                    public void run() {
-                        StringObject value = new StringObject(tableView.getValueFromRow(clickedRow, clickedColumn));
-                        if (value.length() > 0) {
-                            GUI.setClipboardString(value.toString());
+                ContextMenu contextMenu;
+                if (tableView.cellContextMenuFactory != null) {
+                    contextMenu = tableView.cellContextMenuFactory.newInstance();
+                } else {
+                    contextMenu = new ContextMenu(event.getSource());
+                    contextMenu.addContextMenuItem("値のコピー(C)", KeyCode.C, new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                            StringObject value = new StringObject(tableView.getValueFromRow(clickedRow, clickedColumn));
+                            if (value.length() > 0) {
+                                GUI.setClipboardString(value.toString());
+                            }
                         }
-                    }
-                });
-                menu.show(event.getX(), event.getY());
+                    });
+                }
+                contextMenu.show(event.getX(), event.getY());
             }
         });
         this.adjustRowHeight();
@@ -547,6 +552,17 @@ public abstract class TableView<C, R> extends Control {
         this.selectedRowChangeListeners.remove(changeListener);
         this.selectedRowsChangeListeners.remove(changeListener);
     }
+
+    private CellContextMenuFactory cellContextMenuFactory = null;
+
+    /**
+     * セルを右クリックした際に表示するコンテキストメニューを生成するコールバックをセットする。
+     * 
+     * @return
+     */
+    public void setCellContextMenuFactory(CellContextMenuFactory cellContextMenuFactory) {
+        this.cellContextMenuFactory = cellContextMenuFactory;
+    }
     
     /**
      * このテーブルビュー上の位置から行情報インスタンスを取得する。
@@ -935,6 +951,19 @@ public abstract class TableView<C, R> extends Control {
          * @param control
          */
         public abstract void call(C columnInstance, Control control);
+    }
+
+    /**
+     * セルを右クリックした際に表示されるコンテキストメニューを生成するインターフェイス。
+     */
+    public interface CellContextMenuFactory {
+        
+        /**
+         * コンテキストメニューの新しいインスタンスを作成する。
+         * 
+         * @return
+         */
+        public abstract ContextMenu newInstance();
     }
     
     /**
