@@ -369,6 +369,33 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
     }
     
     /**
+     * メッセージを表示する。
+     * 
+     * @param title タイトル。
+     * @param message メッセージ。
+     * @param processAfterDialogClosing ダイアログを閉じた後の処理。
+     */
+    public void showMessageDialog(String title, String message, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
+        MessageDialog dialog = this.createMessageDialog();
+        dialog.setTitle(title);
+        dialog.setMessage(message);
+        if (processAfterDialogClosing != null) {
+            dialog.setProcessAfterClosing(processAfterDialogClosing);
+        }
+        dialog.show();
+    }
+    
+    /**
+     * メッセージを表示する。
+     * 
+     * @param title タイトル。
+     * @param message メッセージ。
+     */
+    public void showMessageDialog(String title, String message) {
+        this.showMessageDialog(title, message, null);
+    }
+    
+    /**
      * 例外が発生した場合のメッセージを表示する。
      * 
      * @param message メッセージ。
@@ -376,11 +403,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * @param processAfterDialogClosing ダイアログを閉じた後の処理。
      */
     public void showException(String message, Exception exception, ProcessAfterDialogClosing<ResultButton> processAfterDialogClosing) {
-        MessageDialog dialog = this.createMessageDialog();
-        dialog.setTitle("例外の発生");
-        dialog.setMessage(ExceptionMessenger.newInstance(exception).make(message));
-        dialog.setProcessAfterClosing(processAfterDialogClosing);
-        dialog.show();
+        this.showMessageDialog("例外の発生", ExceptionMessenger.newInstance(exception).make(message), processAfterDialogClosing);
     }
     
     /**
