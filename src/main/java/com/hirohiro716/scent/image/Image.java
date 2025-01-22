@@ -154,11 +154,11 @@ public class Image extends ByteArray implements Cloneable {
     public void resize(int longSide, boolean isEnlarged) throws IOException {
         BufferedImage bufferedImage = this.createBufferedImage();
         if (bufferedImage.getWidth() > bufferedImage.getHeight()) {
-            double rate = (double) bufferedImage.getWidth() / (double) bufferedImage.getHeight();
-            this.resize(bufferedImage, longSide, (int) (longSide / rate), isEnlarged);
+            double ratio = (double) bufferedImage.getWidth() / (double) bufferedImage.getHeight();
+            this.resize(bufferedImage, longSide, (int) (longSide / ratio), isEnlarged);
         } else {
-            double rate = (double) bufferedImage.getHeight() / (double) bufferedImage.getWidth();
-            this.resize(bufferedImage, (int) (longSide / rate), longSide, isEnlarged);
+            double ratio = (double) bufferedImage.getHeight() / (double) bufferedImage.getWidth();
+            this.resize(bufferedImage, (int) (longSide / ratio), longSide, isEnlarged);
         }
     }
 
