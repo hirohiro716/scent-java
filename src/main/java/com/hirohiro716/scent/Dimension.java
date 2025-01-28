@@ -29,7 +29,7 @@ public class Dimension {
      * @param json
      */
     public Dimension(JSONObject json) {
-        for (String key : json.getContent().keySet()) {
+        for (String key: json.getContent().keySet()) {
             try {
                 JSONNumber jsonNumber = (JSONNumber) json.getContent().get(key);
                 switch (key) {

@@ -89,7 +89,7 @@ public class ValidationException extends Exception {
     @Override
     public String getMessage() {
         StringObject message = new StringObject(super.getMessage());
-        for (ColumnInterface column : this.errorMessages.keySet()) {
+        for (ColumnInterface column: this.errorMessages.keySet()) {
             message.append(OS.thisOS().getLineSeparator());
             message.append("・");
             message.append(this.errorMessages.get(column));

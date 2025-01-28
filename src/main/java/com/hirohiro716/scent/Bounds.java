@@ -33,7 +33,7 @@ public class Bounds {
      * @param json
      */
     public Bounds(JSONObject json) {
-        for (String key : json.getContent().keySet()) {
+        for (String key: json.getContent().keySet()) {
             try {
                 JSONNumber jsonNumber = (JSONNumber) json.getContent().get(key);
                 switch (key) {

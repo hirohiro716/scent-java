@@ -256,7 +256,7 @@ public class Image extends ByteArray implements Cloneable {
          * @return
          */
         public static ImageFormat find(String fileName) {
-            for (ImageFormat imageFormat : ImageFormat.values()) {
+            for (ImageFormat imageFormat: ImageFormat.values()) {
                 if (fileName.endsWith("." + imageFormat.toString().toLowerCase())
                         || fileName.endsWith("." + imageFormat.toString().toUpperCase())) {
                     return imageFormat;

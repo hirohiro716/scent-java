@@ -162,17 +162,17 @@ public class ListView<T> extends ListSelectControl<T> {
     @Override
     public void setSelectedItems(java.util.Collection<T> selectedItems) {
         this.getInnerInstance().clearSelection();
-        for (T item : selectedItems) {
+        for (T item: selectedItems) {
             int index = this.getItems().indexOf(item);
             if (index > -1) {
                 this.getInnerInstance().addSelectionInterval(index, index);
                 this.getInnerInstance().getSelectionModel().setAnchorSelectionIndex(index);
             }
         }
-        for (ChangeListener<T> changeListener : this.selectedRowChangeListeners) {
+        for (ChangeListener<T> changeListener: this.selectedRowChangeListeners) {
             changeListener.executeWhenChanged(this, this.getSelectedItem());
         }
-        for (ChangeListener<Array<T>> changeListener : this.selectedRowsChangeListeners) {
+        for (ChangeListener<Array<T>> changeListener: this.selectedRowsChangeListeners) {
             changeListener.executeWhenChanged(this, this.getSelectedItems());
         }
     }
@@ -228,7 +228,7 @@ public class ListView<T> extends ListSelectControl<T> {
     @Override
     public void removeChangeListener(ChangeListener<?> changeListener) {
         super.removeChangeListener(changeListener);
-        for (Object innerInstance : changeListener.getInnerInstances(this)) {
+        for (Object innerInstance: changeListener.getInnerInstances(this)) {
             if (innerInstance instanceof ListSelectionListener) {
                 this.getInnerInstance().getSelectionModel().removeListSelectionListener((ListSelectionListener) innerInstance);
             }

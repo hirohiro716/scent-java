@@ -127,7 +127,7 @@ public abstract class MarkableControl extends LabeledControl {
      */
     public void setMarked(boolean isMarked) {
         this.getInnerInstance().setSelected(isMarked);
-        for (ChangeListener<Boolean> changeListener : this.markChangeListeners) {
+        for (ChangeListener<Boolean> changeListener: this.markChangeListeners) {
             changeListener.executeWhenChanged(this, isMarked);
         }
     }
@@ -161,7 +161,7 @@ public abstract class MarkableControl extends LabeledControl {
     @Override
     public void removeChangeListener(ChangeListener<?> changeListener) {
         super.removeChangeListener(changeListener);
-        for (Object innerInstance : changeListener.getInnerInstances(this)) {
+        for (Object innerInstance: changeListener.getInnerInstances(this)) {
             if (innerInstance instanceof ActionListener) {
                 this.getInnerInstance().removeActionListener((ActionListener) innerInstance);
             }
@@ -173,7 +173,7 @@ public abstract class MarkableControl extends LabeledControl {
      * このコントロールのマーク状態が変更された際のリスナーを実行する。
      */
     protected void executeMarkChangeListener() {
-        for (ChangeListener<Boolean> changeListener : this.markChangeListeners) {
+        for (ChangeListener<Boolean> changeListener: this.markChangeListeners) {
             changeListener.executeWhenChanged(this, this.isMarked());
         }
     }

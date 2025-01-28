@@ -103,7 +103,7 @@ public class JSONArray extends JSONValue<List<JSONValue<?>>> {
     @Override
     protected String makeJSON(List<JSONValue<?>> values) {
         StringObject result = new StringObject("[");
-        for (JSONValue<?> jsonValue : values) {
+        for (JSONValue<?> jsonValue: values) {
             if (result.length() > 1) {
                 result.append(", ");
             }

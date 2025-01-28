@@ -59,7 +59,7 @@ public class FlowPane extends Pane {
             
             @Override
             protected void added(Control added, int positionIndex) {
-                for (Control child : pane.getChildren()) {
+                for (Control child: pane.getChildren()) {
                     child.removeChangeListener(locationChangeListener);
                     child.removeChangeListener(sizeChangeListener);
                     child.removeChangeListener(visibleChangeListener);
@@ -193,7 +193,7 @@ public class FlowPane extends Pane {
             sizeString.append(this.getFrame().getSize());
         }
         StringObject childrenSizeString = new StringObject();
-        for (Control control : this.getChildren()) {
+        for (Control control: this.getChildren()) {
             if (control.isVisible() == false) {
                 continue;
             }
@@ -223,7 +223,7 @@ public class FlowPane extends Pane {
         if (this.getChildren().size() == 0 || this.getParent() == null || this.isStartedLayoutUpdate) {
             return;
         }
-        for (Control control : this.getChildren()) {
+        for (Control control: this.getChildren()) {
             if (control.getWidth() == 0 || control.getHeight() == 0) {
                 return;
             }
@@ -245,7 +245,7 @@ public class FlowPane extends Pane {
         int height = 0;
         int lineWidth = 0;
         List<Control> lineControls = new ArrayList<>();
-        for (Control control : this.getChildren()) {
+        for (Control control: this.getChildren()) {
             if (control.isVisible() == false) {
                 continue;
             }
@@ -304,13 +304,13 @@ public class FlowPane extends Pane {
      */
     private int getMaximumHeightOfControls(List<Control> controls) {
         int maximumHeight = 0;
-        for (Control control : controls) {
+        for (Control control: controls) {
             if (maximumHeight < control.getHeight()) {
                 maximumHeight = control.getHeight();
             }
         }
         if (this.isFillChildToRowHeight) {
-            for (Control control : controls) {
+            for (Control control: controls) {
                 control.setHeight(maximumHeight);
             }
         }
@@ -324,7 +324,7 @@ public class FlowPane extends Pane {
      * @param height
      */
     private void setHeightOfControls(List<Control> controls, int height) {
-        for (Control control : controls) {
+        for (Control control: controls) {
             control.setHeight(height);
         }
     }

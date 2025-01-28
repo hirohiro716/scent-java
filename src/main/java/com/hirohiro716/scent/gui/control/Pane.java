@@ -62,13 +62,13 @@ public class Pane extends Control {
         if (isDisabled) {
             super.setDisabled(isDisabled);
             this.children.mapControlDisabled.clear();
-            for (Control control : this.children) {
+            for (Control control: this.children) {
                 this.children.mapControlDisabled.put(control, control.isDisabled());
                 control.setDisabled(true);
             }
         } else {
             super.setDisabled(isDisabled);
-            for (Control control : this.children) {
+            for (Control control: this.children) {
                 control.setDisabled(this.children.mapControlDisabled.get(control));
             }
         }
@@ -199,7 +199,7 @@ public class Pane extends Control {
          */
         private List<Control> findControlsAsList() {
             List<Control> finded = new ArrayList<>();
-            for (Control control : this) {
+            for (Control control: this) {
                 finded.add(control);
                 List<Pane> nextPanes = new ArrayList<>();
                 if (control instanceof Pane) {
@@ -213,11 +213,11 @@ public class Pane extends Control {
                 }
                 if (control instanceof TabPane) {
                     TabPane tabPane = (TabPane) control;
-                    for (Tab tab : tabPane.getTabs()) {
+                    for (Tab tab: tabPane.getTabs()) {
                         nextPanes.add(tab.getPane());
                     }
                 }
-                for (Pane nextPane : nextPanes) {
+                for (Pane nextPane: nextPanes) {
                     finded.addAll(nextPane.getChildren().findControlsAsList());
                 }
             }
@@ -235,7 +235,7 @@ public class Pane extends Control {
          */
         @SuppressWarnings("unchecked")
         public final <C extends Control> C findControlByPoint(int x, int y) {
-            for (Control control : this) {
+            for (Control control: this) {
                 if (control.getX() <= x && control.getX() + control.getWidth() >= x && control.getY() <= y && control.getY() + control.getHeight() >= y) {
                     Pane nextPane = null;
                     if (control instanceof Pane) {
@@ -274,7 +274,7 @@ public class Pane extends Control {
          */
         private List<Control> findControlsByNameAsList(String name) {
             List<Control> finded = new ArrayList<>();
-            for (Control control : this) {
+            for (Control control: this) {
                 if (name.equals(control.getName())) {
                     finded.add(control);
                 }
@@ -290,11 +290,11 @@ public class Pane extends Control {
                 }
                 if (control instanceof TabPane) {
                     TabPane tabPane = (TabPane) control;
-                    for (Tab tab : tabPane.getTabs()) {
+                    for (Tab tab: tabPane.getTabs()) {
                         nextPanes.add(tab.getPane());
                     }
                 }
-                for (Pane nextPane : nextPanes) {
+                for (Pane nextPane: nextPanes) {
                     finded.addAll(nextPane.getChildren().findControlsByNameAsList(name));
                 }
             }
@@ -323,7 +323,7 @@ public class Pane extends Control {
         @SuppressWarnings("unchecked")
         private <C extends Control> List<C> findControlsByClassAsList(Class<C> controlClass) {
             List<C> finded = new ArrayList<>();
-            for (Control control : this) {
+            for (Control control: this) {
                 if (control.getClass().getName().equals(controlClass.getName())) {
                     finded.add((C) control);
                 }
@@ -339,11 +339,11 @@ public class Pane extends Control {
                 }
                 if (control instanceof TabPane) {
                     TabPane tabPane = (TabPane) control;
-                    for (Tab tab : tabPane.getTabs()) {
+                    for (Tab tab: tabPane.getTabs()) {
                         nextPanes.add(tab.getPane());
                     }
                 }
-                for (Pane nextPane : nextPanes) {
+                for (Pane nextPane: nextPanes) {
                     finded.addAll(nextPane.getChildren().findControlsByClassAsList(controlClass));
                 }
             }
@@ -373,7 +373,7 @@ public class Pane extends Control {
          */
         public final <C extends Control> Array<Control> findControlsByNameAndClass(String name, Class<C> controlClass) {
             List<Control> findedByName = this.findControlsByNameAsList(name);
-            for (Control control : findedByName.toArray(new Control[] {})) {
+            for (Control control: findedByName.toArray(new Control[] {})) {
                 if (control.getClass().getName().equals(controlClass.getName()) == false) {
                     findedByName.remove(control);
                 }
@@ -391,7 +391,7 @@ public class Pane extends Control {
          */
         @SuppressWarnings("unchecked")
         public final <C extends Control> C findControlByName(String name) {
-            for (Control control : this.findControlsByName(name)) {
+            for (Control control: this.findControlsByName(name)) {
                 try {
                     return (C) control;
                 } catch (Exception exception) {
@@ -408,7 +408,7 @@ public class Pane extends Control {
          * @return
          */
         public final Label findLabelByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof Label) {
                     return (Label) control;
                 }
@@ -424,7 +424,7 @@ public class Pane extends Control {
          * @return
          */
         public final TextField findTextFieldByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof TextField) {
                     return (TextField) control;
                 }
@@ -440,7 +440,7 @@ public class Pane extends Control {
          * @return
          */
         public final AutocompleteTextField findAutocompleteTextFieldByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof AutocompleteTextField) {
                     return (AutocompleteTextField) control;
                 }
@@ -456,7 +456,7 @@ public class Pane extends Control {
          * @return
          */
         public final PasswordField findPasswordFieldByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof PasswordField) {
                     return (PasswordField) control;
                 }
@@ -472,7 +472,7 @@ public class Pane extends Control {
          * @return
          */
         public final DatePicker findDatePickerByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof DatePicker) {
                     return (DatePicker) control;
                 }
@@ -488,7 +488,7 @@ public class Pane extends Control {
          * @return
          */
         public final TextArea findTextAreaByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof TextArea) {
                     return (TextArea) control;
                 }
@@ -504,7 +504,7 @@ public class Pane extends Control {
          * @return
          */
         public final CheckBox findCheckBoxByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof CheckBox) {
                     return (CheckBox) control;
                 }
@@ -520,7 +520,7 @@ public class Pane extends Control {
          * @return
          */
         public final Button findButtonByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof Button) {
                     return (Button) control;
                 }
@@ -536,7 +536,7 @@ public class Pane extends Control {
          * @return
          */
         public final RadioButton findRadioButtonByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof RadioButton) {
                     return (RadioButton) control;
                 }
@@ -552,7 +552,7 @@ public class Pane extends Control {
          * @return
          */
         public final ToggleButton findToggleButtonByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof ToggleButton) {
                     return (ToggleButton) control;
                 }
@@ -570,7 +570,7 @@ public class Pane extends Control {
          */
         @SuppressWarnings("unchecked")
         public final <T> ListView<T> findListViewByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof ListView) {
                     return (ListView<T>) control;
                 }
@@ -588,7 +588,7 @@ public class Pane extends Control {
          */
         @SuppressWarnings("unchecked")
         public final <T> DropDownList<T> findDropDownListByName(String name) {
-            for (Control control : this.findControlsByNameAsList(name)) {
+            for (Control control: this.findControlsByNameAsList(name)) {
                 if (control instanceof DropDownList) {
                     return (DropDownList<T>) control;
                 }

@@ -43,7 +43,7 @@ public interface TableInterface {
     @SuppressWarnings("unchecked")
     public static <T extends TableInterface> T tableOf(String physicalName, Class<T> tableEnumClass) {
         try {
-            for (TableInterface tableEnum : tableEnumClass.getEnumConstants()) {
+            for (TableInterface tableEnum: tableEnumClass.getEnumConstants()) {
                 if (tableEnum.getPhysicalName().equals(physicalName)) {
                     return (T) tableEnum;
                 }
@@ -64,7 +64,7 @@ public interface TableInterface {
     @SuppressWarnings("unchecked")
     public default <C extends ColumnInterface> C findColumn(String physicalColumnName) {
         if (this.getColumns() != null) {
-            for (ColumnInterface column : this.getColumns()) {
+            for (ColumnInterface column: this.getColumns()) {
                 if (column.getPhysicalName().equals(physicalColumnName) || column.getFullPhysicalName().equals(physicalColumnName)) {
                     return (C) column;
                 }
@@ -82,7 +82,7 @@ public interface TableInterface {
     @SuppressWarnings("unchecked")
     public default <C extends ColumnInterface> DynamicArray<C> createRecord() {
         DynamicArray<C> record = new DynamicArray<>();
-        for (ColumnInterface column : this.getColumns()) {
+        for (ColumnInterface column: this.getColumns()) {
             record.put((C) column, column.getDefaultValue());
         }
         return record;
@@ -97,7 +97,7 @@ public interface TableInterface {
      */
     public default <C extends ColumnInterface> DynamicArray<C> createRecord(DynamicArray<String> stringKeyRecord) {
         DynamicArray<C> record = this.createRecord();
-        for (String columnString : stringKeyRecord.getKeys()) {
+        for (String columnString: stringKeyRecord.getKeys()) {
             C column = this.findColumn(columnString);
             if (column != null) {
                 record.put(column, stringKeyRecord.get(columnString));

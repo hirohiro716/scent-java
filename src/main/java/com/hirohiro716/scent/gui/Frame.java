@@ -263,7 +263,7 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
      * このフレームでコントロールのために追加されたすべてのラベルをコントロールにバインドする。
      */
     public void bindLabelForControl() {
-        for (Label label : this.mapLabelAndProperty.keySet()) {
+        for (Label label: this.mapLabelAndProperty.keySet()) {
             Control control = this.mapPropertyAndControl.get(this.mapLabelAndProperty.get(label));
             if (control != null) {
                 label.setLabelFor(control);

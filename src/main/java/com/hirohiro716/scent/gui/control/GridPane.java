@@ -332,7 +332,7 @@ public class GridPane extends Pane {
         this.layout.removeLayoutComponent(this.horizontalSpacer);
         GridBagConstraints horizontalConstraints = new GridBagConstraints();
         int maxGridX = 0;
-        for (Integer gridX : this.mapGridX.values()) {
+        for (Integer gridX: this.mapGridX.values()) {
             if (gridX != null && gridX > maxGridX) {
                 maxGridX = gridX;
             }
@@ -348,7 +348,7 @@ public class GridPane extends Pane {
         this.layout.removeLayoutComponent(this.verticalSpacer);
         GridBagConstraints verticalConstraints = new GridBagConstraints();
         int maxGridY = 0;
-        for (Integer gridY : this.mapGridY.values()) {
+        for (Integer gridY: this.mapGridY.values()) {
             if (gridY != null && gridY > maxGridY) {
                 maxGridY = gridY;
             }

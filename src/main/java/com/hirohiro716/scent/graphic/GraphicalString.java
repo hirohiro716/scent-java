@@ -186,7 +186,7 @@ public class GraphicalString {
             lines.add(stringObject.toString());
             float width = 0;
             float height = 0;
-            for (String line : lines) {
+            for (String line: lines) {
                 Rectangle2D rectangle = fontMetrics.getStringBounds(line, this.graphics2D);
                 if (width < rectangle.getWidth()) {
                     width = (float) rectangle.getWidth();
@@ -292,7 +292,7 @@ public class GraphicalString {
         switch (this.verticalPosition) {
         case TOP:
             drawingY += fontMetrics.getAscent();
-            for (String line : layout.getLines()) {
+            for (String line: layout.getLines()) {
                 Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
                 drawingY += dimension.getHeight();
             }
@@ -303,7 +303,7 @@ public class GraphicalString {
                 drawingY += this.maximumHeight / 2;                
             }
             drawingY -= layout.getHeight() / 2;                
-            for (String line : layout.getLines()) {
+            for (String line: layout.getLines()) {
                 Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
                 drawingY += dimension.getHeight();
             }
@@ -314,7 +314,7 @@ public class GraphicalString {
                 drawingY += this.maximumHeight;
             }
             drawingY -= layout.getHeight();
-            for (String line : layout.getLines()) {
+            for (String line: layout.getLines()) {
                 Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
                 drawingY += dimension.getHeight();
             }
@@ -325,7 +325,7 @@ public class GraphicalString {
                 drawingY += this.maximumHeight;
             }
             drawingY -= layout.getHeight();
-            for (String line : layout.getLines()) {
+            for (String line: layout.getLines()) {
                 Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
                 drawingY += dimension.getHeight();
             }

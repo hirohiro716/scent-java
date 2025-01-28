@@ -109,7 +109,7 @@ public class CSV {
      */
     public final void setRows(List<String>[] rows) {
         this.clearRows();
-        for (List<String> row : rows) {
+        for (List<String> row: rows) {
             this.addRow(row);
         }
     }
@@ -155,7 +155,7 @@ public class CSV {
                 for (int index = 0; index <= lastIndex; index++) {
                     List<String> values = writing.get(index);
                     StringObject line = new StringObject();
-                    for (String value : values) {
+                    for (String value: values) {
                         if (line.length() > 0) {
                             line.append(csv.delimiter);
                         }

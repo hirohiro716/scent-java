@@ -211,11 +211,11 @@ public abstract class FileChooser extends Control implements DialogInterface {
      */
     public void setChoosedFilesystemItems(FilesystemItem... choosedFilesystemItems) {
         this.clearChoosedFilesystemItem();
-        for (FilesystemItem filesystemItem : choosedFilesystemItems) {
+        for (FilesystemItem filesystemItem: choosedFilesystemItems) {
             this.addChoosedFilesystemItem(filesystemItem);
         }
         List<java.io.File> files = new ArrayList<>();
-        for (FilesystemItem filesystemItem : choosedFilesystemItems) {
+        for (FilesystemItem filesystemItem: choosedFilesystemItems) {
             files.add(filesystemItem.toJavaIoFile());
         }
         this.getInnerInstance().setSelectedFiles(files.toArray(new java.io.File[] {}));

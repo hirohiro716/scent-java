@@ -303,7 +303,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
         findElementsMethod.setParameterTypes(this.classBy);
         List<?> elementObjects = findElementsMethod.invoke("findElements", by);
-        for (Object elementObject : elementObjects) {
+        for (Object elementObject: elementObjects) {
             elements.add(this.getElement(elementObject));
         }
         return elements;
@@ -325,7 +325,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
         findElementsMethod.setParameterTypes(this.classBy);
         List<?> elementObjects = findElementsMethod.invoke("findElements", by);
-        for (Object elementObject : elementObjects) {
+        for (Object elementObject: elementObjects) {
             elements.add(this.getElement(elementObject));
         }
         return elements;
@@ -342,7 +342,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
         findElementsMethod.setParameterTypes(this.classBy);
         List<?> elementObjects = findElementsMethod.invoke("findElements", by);
-        for (Object elementObject : elementObjects) {
+        for (Object elementObject: elementObjects) {
             elements.add(this.getElement(elementObject));
         }
         return elements;
@@ -359,7 +359,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         Method findElementsMethod = new Method(this.classRemoteWebElement, parent.element);
         findElementsMethod.setParameterTypes(this.classBy);
         List<?> elementObjects = findElementsMethod.invoke("findElements", by);
-        for (Object elementObject : elementObjects) {
+        for (Object elementObject: elementObjects) {
             elements.add(this.getElement(elementObject));
         }
         return elements;
@@ -482,7 +482,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         
         @Override
         public void clearSelectedOptions() throws Exception {
-            for (Element element : this.getSelectedOptions()) {
+            for (Element element: this.getSelectedOptions()) {
             	element.removeAttribute("selected");
             }
         }

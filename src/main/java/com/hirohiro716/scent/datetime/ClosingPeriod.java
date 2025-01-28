@@ -131,7 +131,7 @@ public class ClosingPeriod {
     public Span findSpan(Date oneDate) {
         ClosingPeriod instance = new ClosingPeriod(this.closingDays);
         instance.setBaseDate(oneDate);
-        for (Span span : instance.createSpans(2)) {
+        for (Span span: instance.createSpans(2)) {
             if (span.getStartDatetime().getDate().getTime() <= oneDate.getTime() && oneDate.getTime() <= span.getEndDatetime().getDate().getTime()) {
                 return span;
             }

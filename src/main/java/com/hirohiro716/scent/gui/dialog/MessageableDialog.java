@@ -73,7 +73,7 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
         HorizontalPane paneButton = new HorizontalPane();
         paneButton.setSpacing(5);
         Button[] buttons = this.createButtons();
-        for (Button button : buttons) {
+        for (Button button: buttons) {
             paneButton.getChildren().add(button);
         }
         AnchorPane anchorPaneButton = new AnchorPane();

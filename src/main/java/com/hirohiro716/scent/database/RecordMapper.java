@@ -146,7 +146,7 @@ public abstract class RecordMapper {
      */
     public <C extends ColumnInterface> void setRecords(Collection<DynamicArray<C>> records) {
         this.editingRecords.clear();
-        for (DynamicArray<C> record : records) {
+        for (DynamicArray<C> record: records) {
             this.addRecord(record);
         }
     }
@@ -246,7 +246,7 @@ public abstract class RecordMapper {
         List<DynamicArray<String>> preEditRecords = new ArrayList<>();
         List<DynamicArray<ColumnInterface>> records = new ArrayList<>();
         DynamicArray<String>[] fetchedRecords = this.fetchRecordsForEdit(this.getOrderByColumnsForEdit());
-        for (DynamicArray<String> fetchedRecord : fetchedRecords) {
+        for (DynamicArray<String> fetchedRecord: fetchedRecords) {
             preEditRecords.add(fetchedRecord);
             DynamicArray<ColumnInterface> record = this.getTable().createRecord(fetchedRecord);
             records.add(record);
@@ -263,13 +263,13 @@ public abstract class RecordMapper {
      */
     public <C extends ColumnInterface> boolean isSameAsPreEditRecord(DynamicArray<C> record) {
         DynamicArray<String> stringKeyRecord = new DynamicArray<>();
-        for (C column : record.getKeys()) {
+        for (C column: record.getKeys()) {
             stringKeyRecord.put(column.getPhysicalName(), record.get(column));
         }
         String id = this.getIdentifier(stringKeyRecord);
         for (DynamicArray<String> stringKeyPreEditRecord: this.preEditRecords) {
             if (id.equals(this.getIdentifier(stringKeyPreEditRecord))) {
-                for (String physicalName : stringKeyPreEditRecord.getKeys()) {
+                for (String physicalName: stringKeyPreEditRecord.getKeys()) {
                     if (StringObject.newInstance(stringKeyRecord.getString(physicalName)).equals(stringKeyPreEditRecord.getString(physicalName)) == false) {
                         return false;
                     }
@@ -321,12 +321,12 @@ public abstract class RecordMapper {
                 throw new SQLException("No pre-edit record has been set.");
             }
             Map<String, DynamicArray<String>> mapOfIdentifierAndPreEditRecord = new HashMap<>();
-            for (DynamicArray<String> preEditRecord : this.preEditRecords) {
+            for (DynamicArray<String> preEditRecord: this.preEditRecords) {
                 mapOfIdentifierAndPreEditRecord.put(this.getIdentifier(preEditRecord), preEditRecord);
             }
             List<DynamicArray<ColumnInterface>> conflictRecords = new ArrayList<>();
             Map<String, DynamicArray<String>> mapOfIdentifierAndCurrentDatabaseRecord = new HashMap<>();
-            for (DynamicArray<String> currentDatabaseRecord : this.fetchCurrentRecordsForDetectConflict()) {
+            for (DynamicArray<String> currentDatabaseRecord: this.fetchCurrentRecordsForDetectConflict()) {
                 String id = this.getIdentifier(currentDatabaseRecord);
                 if (mapOfIdentifierAndPreEditRecord.containsKey(id)) {
                     mapOfIdentifierAndCurrentDatabaseRecord.put(id, currentDatabaseRecord);
@@ -335,7 +335,7 @@ public abstract class RecordMapper {
                 }
             }
             List<DynamicArray<ColumnInterface>> deletedRecords = new ArrayList<>();
-            for (DynamicArray<String> preEditRecord : this.preEditRecords) {
+            for (DynamicArray<String> preEditRecord: this.preEditRecords) {
                 String id = this.getIdentifier(preEditRecord);
                 DynamicArray<String> currentDatabaseRecord = mapOfIdentifierAndCurrentDatabaseRecord.get(id);
                 if (currentDatabaseRecord != null) {
@@ -353,12 +353,12 @@ public abstract class RecordMapper {
             }
             if (deletedRecords.size() > 0) {
                 Map<String, DynamicArray<ColumnInterface>> mapOfIdentifierAndRecord = new HashMap<>();
-                for (DynamicArray<ColumnInterface> record : this.getRecords()) {
+                for (DynamicArray<ColumnInterface> record: this.getRecords()) {
                     DynamicArray<String> stringKeyRecord = RecordMapper.createStringKeyRecord(record);
                     String id = this.getIdentifier(stringKeyRecord);
                     mapOfIdentifierAndRecord.put(id, record);
                 }
-                for (DynamicArray<ColumnInterface> deletedRecord : deletedRecords) {
+                for (DynamicArray<ColumnInterface> deletedRecord: deletedRecords) {
                     DynamicArray<String> stringKeyRecord = RecordMapper.createStringKeyRecord(deletedRecord);
                     String id = this.getIdentifier(stringKeyRecord);
                     if (mapOfIdentifierAndRecord.containsKey(id)) {
@@ -398,7 +398,7 @@ public abstract class RecordMapper {
             sql.append(";");
             this.getDatabase().execute(sql.toString(), this.getWhereSet().buildParameters());
         }
-        for (DynamicArray<ColumnInterface> record : this.getRecords()) {
+        for (DynamicArray<ColumnInterface> record: this.getRecords()) {
             this.getDatabase().insert(record, this.getTable());
         }
     }
@@ -446,7 +446,7 @@ public abstract class RecordMapper {
      */
     public static <C extends ColumnInterface> DynamicArray<String> createStringKeyRecord(DynamicArray<C> record) {
         DynamicArray<String> stringKeyRecord = new DynamicArray<>();
-        for (C column : record.getKeys()) {
+        for (C column: record.getKeys()) {
             stringKeyRecord.put(column.getPhysicalName(), record.get(column));
         }
         return stringKeyRecord;

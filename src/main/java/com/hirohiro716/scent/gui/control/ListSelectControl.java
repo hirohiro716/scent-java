@@ -168,7 +168,7 @@ public abstract class ListSelectControl<T> extends Control {
      * @return
      */
     public T getSelectedItem() {
-        for (T item : this.getSelectedItems()) {
+        for (T item: this.getSelectedItems()) {
             return item;
         }
         return null;

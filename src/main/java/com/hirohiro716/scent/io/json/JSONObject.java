@@ -111,7 +111,7 @@ public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
     @Override
     protected String makeJSON(LinkedHashMap<String, JSONValue<?>> hashMap) {
         StringObject result = new StringObject("{");
-        for (String key : hashMap.keySet()) {
+        for (String key: hashMap.keySet()) {
             JSONValue<?> jsonValue = hashMap.get(key);
             if (result.length() > 1) {
                 result.append(", ");

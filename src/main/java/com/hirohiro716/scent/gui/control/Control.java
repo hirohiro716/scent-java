@@ -459,7 +459,7 @@ public abstract class Control extends Component<JComponent> {
      * @param eventHandler
      */
     public void removeEventHandler(EventHandler<?> eventHandler) {
-        for (Object innerInstance : eventHandler.getInnerInstances(this)) {
+        for (Object innerInstance: eventHandler.getInnerInstances(this)) {
             if (innerInstance instanceof MouseListener) {
                 this.getInnerInstance().removeMouseListener((MouseListener) innerInstance);
             }
@@ -506,7 +506,7 @@ public abstract class Control extends Component<JComponent> {
     @Override
     public void removeChangeListener(ChangeListener<?> changeListener) {
         super.removeChangeListener(changeListener);
-        for (Object innerInstance : changeListener.getInnerInstances(this)) {
+        for (Object innerInstance: changeListener.getInnerInstances(this)) {
             if (innerInstance instanceof FocusListener) {
                 this.getInnerInstance().removeFocusListener((FocusListener) innerInstance);
                 this.getInnerInstanceForLayout().removeFocusListener((FocusListener) innerInstance);

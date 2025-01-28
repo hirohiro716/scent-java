@@ -53,11 +53,11 @@ public class MarkableGroup {
         if (this.previousMarkedControl != null && this.previousMarkedControl.equals(markableControl) || markableControl == null) {
             return;
         }
-        for (ChangeListener<MarkableControl> changeListener : this.markedControlChangeListener) {
+        for (ChangeListener<MarkableControl> changeListener: this.markedControlChangeListener) {
             changeListener.execute(eventSourceControl, markableControl, this.previousMarkedControl);
         }
         this.previousMarkedControl = markableControl;
-        for (MarkableControl control : this.hashMap.values()) {
+        for (MarkableControl control: this.hashMap.values()) {
             if (control != markableControl) {
                 control.executeMarkChangeListener();
             }
@@ -136,7 +136,7 @@ public class MarkableGroup {
      * @return
      */
     public MarkableControl getMarkedControl() {
-        for (MarkableControl control : this.getMarkableControls()) {
+        for (MarkableControl control: this.getMarkableControls()) {
             if (control.isMarked()) {
                 return control;
             }

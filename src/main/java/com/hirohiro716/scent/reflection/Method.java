@@ -79,7 +79,7 @@ public class Method {
         Class<?>[] parameterTypes = this.parameterTypes;
         if (parameterTypes == null) {
             List<Class<?>> parameterTypeList = new ArrayList<>();
-            for (Object parameter : parameters) {
+            for (Object parameter: parameters) {
                 parameterTypeList.add(parameter.getClass());
             }
             parameterTypes = parameterTypeList.toArray(new Class<?>[] {});

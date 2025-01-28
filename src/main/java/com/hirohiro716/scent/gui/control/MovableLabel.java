@@ -182,7 +182,7 @@ public class MovableLabel extends Label {
             }
             int differenceX = event.getScreenX() - label.startScreenPositionX;
             int differenceY = event.getScreenY() - label.startScreenPositionY;
-            for (Operation operation : label.operations) {
+            for (Operation operation: label.operations) {
                 switch (operation) {
                 case MOVE:
                     int maximumY = label.getParent().getHeight() - label.getHeight();

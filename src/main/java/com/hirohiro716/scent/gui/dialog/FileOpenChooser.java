@@ -91,7 +91,7 @@ public class FileOpenChooser extends FileSaveChooser {
         this.clearChoosedFilesystemItem();
         if (this.getInnerInstance().showOpenDialog(component) == JFileChooser.APPROVE_OPTION) {
             if (this.getInnerInstance().isMultiSelectionEnabled()) {
-                for (java.io.File javaIoFile : this.getInnerInstance().getSelectedFiles()) {
+                for (java.io.File javaIoFile: this.getInnerInstance().getSelectedFiles()) {
                     this.addChoosedFilesystemItem(FilesystemItem.newInstance(javaIoFile));
                 }
             } else {

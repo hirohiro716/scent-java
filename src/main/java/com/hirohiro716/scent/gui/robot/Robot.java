@@ -40,10 +40,10 @@ public class Robot extends java.awt.Robot {
      * @param keyCodes
      */
     public void KeyType(Integer... keyCodes) {
-        for (Integer key : keyCodes) {
+        for (Integer key: keyCodes) {
             this.keyPress(key);
         }
-        for (Integer key : keyCodes) {
+        for (Integer key: keyCodes) {
             this.keyRelease(key);
         }
     }
@@ -54,10 +54,10 @@ public class Robot extends java.awt.Robot {
      * @param keyCodes
      */
     public void KeyType(KeyCode... keyCodes) {
-        for (KeyCode keyCode : keyCodes) {
+        for (KeyCode keyCode: keyCodes) {
             this.keyPress(keyCode.getKeyCodeAWT());
         }
-        for (KeyCode keyCode : keyCodes) {
+        for (KeyCode keyCode: keyCodes) {
             this.keyRelease(keyCode.getKeyCodeAWT());
         }
     }

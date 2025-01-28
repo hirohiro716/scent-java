@@ -25,7 +25,7 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
     public PropertyXMLMapper() throws IOException {
         this.propertyXML = this.createPropertyXML();
         this.propertyValues = new DynamicArray<>();
-        for (P property : this.getProperties()) {
+        for (P property: this.getProperties()) {
             String value = this.propertyXML.get(property);
             if (this.propertyXML.exists(property)) {
                 this.propertyValues.put(property, value);
@@ -104,7 +104,7 @@ public abstract class PropertyXMLMapper<P extends PropertyInterface> {
      * @throws TransformerException 
      */
     public void write(String encoding) throws IOException, TransformerException  {
-        for (P property : this.getValues().getKeys()) {
+        for (P property: this.getValues().getKeys()) {
             Object value = this.getValues().get(property);
             if (value == null) {
                 value = "";

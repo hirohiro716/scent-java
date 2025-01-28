@@ -210,7 +210,7 @@ public class WebsiteRequester {
      */
     public Response request(Map<String, String> requestParameters) throws IOException {
         StringObject parameters = new StringObject();
-        for (String key : requestParameters.keySet()) {
+        for (String key: requestParameters.keySet()) {
             if (parameters.length() > 0) {
                 parameters.append("&");
             }

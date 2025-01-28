@@ -182,10 +182,10 @@ public class DropDownList<T> extends ListSelectControl<T> {
             this.isSizeInitialized = true;
             this.setMinimumHeight(this.getItemHeight());
             super.getItems().addAll(this.itemsForInitialization.toUnmodifiableList());
-            for (AddListener<T> addListener : this.itemsForInitialization.getAddListeners()) {
+            for (AddListener<T> addListener: this.itemsForInitialization.getAddListeners()) {
                 super.getItems().addListener(addListener);
             }
-            for (RemoveListener<T> removeListener : this.itemsForInitialization.getRemoveListeners()) {
+            for (RemoveListener<T> removeListener: this.itemsForInitialization.getRemoveListeners()) {
                 super.getItems().addListener(removeListener);
             }
         }
@@ -218,11 +218,11 @@ public class DropDownList<T> extends ListSelectControl<T> {
     @Override
     public void setSelectedItems(Collection<T> selectedItems) {
         this.getInnerInstance().setSelectedItem(null);
-        for (T item : selectedItems) {
+        for (T item: selectedItems) {
             this.getInnerInstance().setSelectedItem(item);
             break;
         }
-        for (ChangeListener<T> changeListener : this.selectedRowChangeListeners) {
+        for (ChangeListener<T> changeListener: this.selectedRowChangeListeners) {
             changeListener.executeWhenChanged(this, this.getSelectedItem());
         }
     }
@@ -252,7 +252,7 @@ public class DropDownList<T> extends ListSelectControl<T> {
     @Override
     public void removeChangeListener(ChangeListener<?> changeListener) {
         super.removeChangeListener(changeListener);
-        for (Object innerInstance : changeListener.getInnerInstances(this)) {
+        for (Object innerInstance: changeListener.getInnerInstances(this)) {
             if (innerInstance instanceof ActionListener) {
                 this.getInnerInstance().removeActionListener((ActionListener) innerInstance);
             }

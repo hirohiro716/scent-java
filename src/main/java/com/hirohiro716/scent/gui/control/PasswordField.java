@@ -19,7 +19,7 @@ public class PasswordField extends TextField {
         super(innerInstance);
         this.setDisableInputMethod(true);
         this.setEnableSelectAllWhenFocused(true);
-        for (ContextMenuItem item : this.getContextMenu().getContextMenuItems()) {
+        for (ContextMenuItem item: this.getContextMenu().getContextMenuItems()) {
             switch (item.getMnemonic()) {
             case C:
             case X:

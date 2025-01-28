@@ -37,7 +37,7 @@ public class TabPane extends Control {
             
             @Override
             public void stateChanged(ChangeEvent event) {
-                for (ChangeListener<Tab> changeListener : instance.selectedTabChangeListeners) {
+                for (ChangeListener<Tab> changeListener: instance.selectedTabChangeListeners) {
                     changeListener.executeWhenChanged(instance, instance.getTabs().get(instance.getInnerInstance().getSelectedIndex()));
                 }
             }
@@ -56,7 +56,7 @@ public class TabPane extends Control {
             protected void removed(Tab removed) {
                 removed.getPane().setParent(null);
                 instance.getInnerInstance().remove(removed.getPane().getInnerInstance());
-                for (ChangeListener<Tab> changeListener : instance.selectedTabChangeListeners) {
+                for (ChangeListener<Tab> changeListener: instance.selectedTabChangeListeners) {
                     changeListener.executeWhenChanged(instance, instance.getTabs().get(instance.getInnerInstance().getSelectedIndex()));
                 }
             }
@@ -85,13 +85,13 @@ public class TabPane extends Control {
         if (isDisabled) {
             super.setDisabled(isDisabled);
             this.mapTabPaneDisabled.clear();
-            for (Tab tab : this.tabs) {
+            for (Tab tab: this.tabs) {
                 this.mapTabPaneDisabled.put(tab.getPane(), tab.getPane().isDisabled());
                 tab.getPane().setDisabled(true);
             }
         } else {
             super.setDisabled(isDisabled);
-            for (Tab tab : this.tabs) {
+            for (Tab tab: this.tabs) {
                 tab.getPane().setDisabled(this.mapTabPaneDisabled.get(tab.getPane()));
             }
         }
@@ -178,7 +178,7 @@ public class TabPane extends Control {
             this.title = title;
             this.titleLabel = new Label(title);
             this.pane = pane;
-            for (Control child : this.pane.getChildren().findAll()) {
+            for (Control child: this.pane.getChildren().findAll()) {
                 child.removeEventHandler(Tab.KEY_PRESSED_EVENT_HANDLER);
                 child.addKeyPressedEventHandler(Tab.KEY_PRESSED_EVENT_HANDLER);
             }

@@ -180,7 +180,7 @@ public class Button extends LabeledControl {
     @Override
     public void removeEventHandler(EventHandler<?> eventHandler) {
         super.removeEventHandler(eventHandler);
-        for (Object innerInstance : eventHandler.getInnerInstances(this)) {
+        for (Object innerInstance: eventHandler.getInnerInstances(this)) {
             if (innerInstance instanceof ActionListener) {
                 this.getInnerInstance().removeActionListener((ActionListener) innerInstance);
             }

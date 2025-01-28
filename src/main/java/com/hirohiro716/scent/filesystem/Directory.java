@@ -106,7 +106,7 @@ public class Directory extends FilesystemItem {
     private List<FilesystemItem> searchItems(java.io.File directory, String regexToFilterDirectoryName, String regexToFilterFileName) {
         List<FilesystemItem> items = new ArrayList<>();
         if (directory.exists()) {
-            for (java.io.File file : directory.listFiles()) {
+            for (java.io.File file: directory.listFiles()) {
                 if (file.isDirectory() && file.getName().matches(regexToFilterDirectoryName)) {
                     items.add(new Directory(file));
                     items.addAll(this.searchItems(file, regexToFilterDirectoryName, regexToFilterFileName));
@@ -131,7 +131,7 @@ public class Directory extends FilesystemItem {
             regex.append(".*");
         }
         List<FilesystemItem> items = new ArrayList<>();
-        for (java.io.File file : this.toJavaIoFile().listFiles()) {
+        for (java.io.File file: this.toJavaIoFile().listFiles()) {
             if (file.getName().matches(regex.toString())) {
                 items.add(FilesystemItem.newInstance(file));
             }

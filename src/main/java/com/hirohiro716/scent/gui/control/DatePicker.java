@@ -219,7 +219,7 @@ public class DatePicker extends TextField {
             if (currentDatetime != null) {
                 changed = currentDatetime.getDate();
             }
-            for (ChangeListener<Date> changeListener : this.dateChangeListeners) {
+            for (ChangeListener<Date> changeListener: this.dateChangeListeners) {
                 changeListener.execute(this, changed, this.previousDate);
             }
             this.previousDate = changed;
@@ -550,7 +550,7 @@ public class DatePicker extends TextField {
             GridPane gridPane = new GridPane();
             gridPane.setBorder(Border.createLine(this.borderColor, 1));
             int columnIndex = 0;
-            for (DayOfWeek week : DayOfWeek.values()) {
+            for (DayOfWeek week: DayOfWeek.values()) {
                 Label label = new Label(week.getName().substring(0, 1));
                 label.setPadding(this.baseSize / 2);
                 label.setFont(control.getFont());

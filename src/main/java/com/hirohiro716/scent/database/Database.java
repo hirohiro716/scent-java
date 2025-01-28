@@ -452,7 +452,7 @@ public abstract class Database implements Closeable {
             sql.append(columns[index]);
         }
         List<Object> convertedValues = new ArrayList<>();
-        for (Object value : values.getValues()) {
+        for (Object value: values.getValues()) {
             convertedValues.add(convertToBindParameter(value));
         }
         sql.append(") VALUES (");
@@ -476,7 +476,7 @@ public abstract class Database implements Closeable {
      */
     public <C extends ColumnInterface> void insert(DynamicArray<C> values, TableInterface table) throws SQLException {
         DynamicArray<String> stringKeyValues = new DynamicArray<>();
-        for (C column : values.getKeys()) {
+        for (C column: values.getKeys()) {
             if (column.getTable() == table) {
                 stringKeyValues.put(column.getPhysicalName(), values.get(column));
             }
@@ -510,7 +510,7 @@ public abstract class Database implements Closeable {
         sql.append(whereSet.buildPlaceholderClause());
         sql.append(";");
         DynamicArray<Integer> parameters = new DynamicArray<>();
-        for (Object value : values.getValues()) {
+        for (Object value: values.getValues()) {
             parameters.add(convertToBindParameter(value));
         }
         parameters.add(whereSet.buildParameters());
@@ -532,7 +532,7 @@ public abstract class Database implements Closeable {
      */
     public <C extends ColumnInterface> void update(DynamicArray<C> values, TableInterface table, WhereSet whereSet) throws SQLException, DataNotFoundException {
         DynamicArray<String> stringKeyValues = new DynamicArray<>();
-        for (C column : values.getKeys()) {
+        for (C column: values.getKeys()) {
             if (column.getTable() == table) {
                 stringKeyValues.put(column.getPhysicalName(), values.get(column));
             }
@@ -598,7 +598,7 @@ public abstract class Database implements Closeable {
         StringBuilder builder = new StringBuilder("CASE ");
         builder.append(columnName);
         builder.append(" ");
-        for (Object key : map.keySet()) {
+        for (Object key: map.keySet()) {
             boolean isNumber = key instanceof Number;
             builder.append("WHEN ");
             if (isNumber == false) {

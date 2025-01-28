@@ -96,7 +96,7 @@ public class MenuDialog extends TitledDialog<Button> {
     protected void processAfterShowing() {
         Font font = this.getPane().getFont();
         this.flowPane.setSpacing(font.getSize());
-        for (Button button : this.getButtons()) {
+        for (Button button: this.getButtons()) {
             this.flowPane.getChildren().add(button);
         }
         this.getVerticalPaneOfControls().getGrowableControls().add(this.flowPane);
@@ -104,7 +104,7 @@ public class MenuDialog extends TitledDialog<Button> {
     
     @Override
     public void close() {
-        for (Button button : this.buttons) {
+        for (Button button: this.buttons) {
             button.removeEventHandler(this.actionEventHandler);
         }
         super.close();

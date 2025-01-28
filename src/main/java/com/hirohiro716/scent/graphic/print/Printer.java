@@ -44,7 +44,7 @@ public class Printer extends PrinterElement<PrintService> {
             Object values = this.getInnerInstance().getSupportedAttributeValues(Media.class, null, null);
             if (values instanceof Media[]) {
                 Media[] medias = (Media[]) values;
-                for (Media media : medias) {
+                for (Media media: medias) {
                     if (media instanceof MediaTray) {
                         this.paperSources.add(new PaperSource((MediaTray) media));
                     }
@@ -61,7 +61,7 @@ public class Printer extends PrinterElement<PrintService> {
      * @return
      */
     public PaperSource findPaperSource(String nameOfPaperSource) {
-        for (PaperSource paperSource : this.getPaperSources()) {
+        for (PaperSource paperSource: this.getPaperSources()) {
             if (paperSource.getName().equals(nameOfPaperSource)) {
                 return paperSource;
             }
@@ -81,7 +81,7 @@ public class Printer extends PrinterElement<PrintService> {
             Object values = this.getInnerInstance().getSupportedAttributeValues(Media.class, null, null);
             if (values instanceof Media[]) {
                 Media[] medias = (Media[]) values;
-                for (Media media : medias) {
+                for (Media media: medias) {
                     if (media instanceof MediaSizeName) {
                         this.paperSizes.add(new PaperSize((MediaSizeName) media));
                     }
@@ -98,7 +98,7 @@ public class Printer extends PrinterElement<PrintService> {
      * @return
      */
     public PaperSize findPaperSize(String nameOfPaperSize) {
-        for (PaperSize paperSize : this.getPaperSizes()) {
+        for (PaperSize paperSize: this.getPaperSizes()) {
             if (paperSize.getName().equals(nameOfPaperSize)) {
                 return paperSize;
             }
@@ -114,7 +114,7 @@ public class Printer extends PrinterElement<PrintService> {
      * @return
      */
     public PaperSize findPaperSize(float millimeterWidth, float millimeterHeight) {
-        for (PaperSize paperSize : this.getPaperSizes()) {
+        for (PaperSize paperSize: this.getPaperSizes()) {
             if (paperSize.getMillimeterWidth() == millimeterWidth && paperSize.getMillimeterHeight() == millimeterHeight) {
                 return paperSize;
             }
@@ -130,7 +130,7 @@ public class Printer extends PrinterElement<PrintService> {
     private static void addAllPrinters() {
         PrintService[] printServices = java.awt.print.PrinterJob.lookupPrintServices();
         if (Printer.PRINTERS.size() != printServices.length) {
-            for (PrintService printService : printServices) {
+            for (PrintService printService: printServices) {
                 if (Printer.PRINTERS.containsKey(printService.getName()) == false) {
                     Printer printer = new Printer(printService);
                     Printer.PRINTERS.put(printer.getName(), printer);

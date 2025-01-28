@@ -33,7 +33,7 @@ public class Array<T> implements Iterable<T> {
      * @param values
      */
     public Array(T[] values) {
-        for (T value : values) {
+        for (T value: values) {
             this.list.add(value);
         }
         Collections.unmodifiableList(this.list);

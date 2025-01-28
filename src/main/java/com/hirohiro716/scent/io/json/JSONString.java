@@ -95,7 +95,7 @@ public class JSONString extends JSONValue<String> {
     protected String makeJSON(String value) {
         StringObject valueObject = new StringObject(value);
         StringObject result = new StringObject("\"");
-        for (String one : valueObject) {
+        for (String one: valueObject) {
             switch (one.toString()) {
             case "\"":
             case "\\":

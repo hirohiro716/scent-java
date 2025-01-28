@@ -199,7 +199,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
             @Override
             protected void handle(ActionEvent event) {
                 List<T> list = new ArrayList<>();
-                for (T item : dialog.pickableItems) {
+                for (T item: dialog.pickableItems) {
                     ToggleButton toggleButton = dialog.mapToggleButton.get(item);
                     if (toggleButton.isMarked()) {
                         list.add(item);
@@ -238,7 +238,7 @@ public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {
                 dialog.flowPane.setMaximumWidth(changedValue.getIntegerWidth());
             }
         });
-        for (T item : this.pickableItems) {
+        for (T item: this.pickableItems) {
             ToggleButton toggleButton = this.createToggleButton(item);
             if (this.defaultValue != null && this.defaultValue.contains(item)) {
                 toggleButton.setMarked(true);

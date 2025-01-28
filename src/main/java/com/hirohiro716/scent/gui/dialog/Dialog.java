@@ -183,7 +183,7 @@ public abstract class Dialog<R> implements DialogInterface {
         if (this.mapVisibleStatuses.size() == 0) {
             return;
         }
-        for (Control control : this.owner.getRootPane().getChildren()) {
+        for (Control control: this.owner.getRootPane().getChildren()) {
             if (control != this.backgroundPane) {
                 control.setVisible(this.mapVisibleStatuses.get(control));
             }
@@ -200,7 +200,7 @@ public abstract class Dialog<R> implements DialogInterface {
         if (this.mapDisableStatuses.size() == 0) {
             return;
         }
-        for (Control control : this.owner.getRootPane().getChildren()) {
+        for (Control control: this.owner.getRootPane().getChildren()) {
             if (control != this.backgroundPane) {
                 control.setDisabled(this.mapDisableStatuses.get(control));
             }
@@ -221,7 +221,7 @@ public abstract class Dialog<R> implements DialogInterface {
             exception.printStackTrace();
         }
         this.mapVisibleStatuses.clear();
-        for (Control control : this.owner.getRootPane().getChildren()) {
+        for (Control control: this.owner.getRootPane().getChildren()) {
             this.mapVisibleStatuses.put(control, control.isVisible());
             control.setVisible(false);
             this.mapDisableStatuses.put(control, control.isDisabled());

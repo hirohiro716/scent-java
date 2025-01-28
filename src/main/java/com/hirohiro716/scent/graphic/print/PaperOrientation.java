@@ -47,7 +47,7 @@ public class PaperOrientation extends PrinterElement<OrientationRequested> {
      * @return
      */
     public static PaperOrientation paperOrientationOf(String name) {
-        for (PaperOrientation paperOrientation : PaperOrientation.createList()) {
+        for (PaperOrientation paperOrientation: PaperOrientation.createList()) {
             if (paperOrientation.getName().equals(name)) {
                 return paperOrientation;
             }

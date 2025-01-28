@@ -36,7 +36,7 @@ public interface IdentifiableEnum<T> {
     @SuppressWarnings("unchecked")
     public static <E extends IdentifiableEnum<?>> E enumOf(Object id, Class<E> identifiableEnumClass) {
         try {
-            for (IdentifiableEnum<?> identifiableEnum : identifiableEnumClass.getEnumConstants()) {
+            for (IdentifiableEnum<?> identifiableEnum: identifiableEnumClass.getEnumConstants()) {
                 if (identifiableEnum.getID().equals(id)) {
                     return (E) identifiableEnum;
                 }
@@ -58,7 +58,7 @@ public interface IdentifiableEnum<T> {
     @SuppressWarnings("unchecked")
     public static <E extends IdentifiableEnum<?>, T> LinkedHashMap<T, String> createLinkedHashMap(Class<E> identifiableEnumClass) {
         LinkedHashMap<T, String> hashMap = new LinkedHashMap<>();
-        for (IdentifiableEnum<?> identifiableEnum : identifiableEnumClass.getEnumConstants()) {
+        for (IdentifiableEnum<?> identifiableEnum: identifiableEnumClass.getEnumConstants()) {
             try {
                 hashMap.put((T) identifiableEnum.getID(), identifiableEnum.getName());
             } catch (Exception exception) {

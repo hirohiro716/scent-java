@@ -263,7 +263,7 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
             @Override
             protected void handle(ActionEvent event) {
                 List<T> list = new ArrayList<>();
-                for (Control control : dialog.verticalPane.getChildren()) {
+                for (Control control: dialog.verticalPane.getChildren()) {
                     Label label = (Label) control;
                     list.add(label.getInstanceForUseLater());
                 }
@@ -293,16 +293,16 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
             List<T> items = new ArrayList<>();
             items.addAll(this.sortableItems.toArray().getUnmodifiableList());
             this.sortableItems.clear();
-            for (T value : this.defaultValue) {
+            for (T value: this.defaultValue) {
                 this.sortableItems.add(value);
                 items.remove(value);
             }
-            for (T value : items) {
+            for (T value: items) {
                 this.sortableItems.add(value);
             }
         }
         // Create sortable labels
-        for (T item : this.sortableItems) {
+        for (T item: this.sortableItems) {
             Label label = this.createSortableItemLabel(item);
             label.addMousePressedEventHandler(MouseButton.BUTTON1, this.mousePressedEventHandler);
             label.addMouseDraggedEventHandler(this.mouseDraggedEventHandler);

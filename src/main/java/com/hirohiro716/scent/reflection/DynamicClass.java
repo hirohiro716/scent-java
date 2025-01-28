@@ -29,14 +29,14 @@ public abstract class DynamicClass {
      */
     public DynamicClass(FilesystemItem... filesystemItems) {
         List<URL> urls = new ArrayList<>();
-        for (FilesystemItem item : filesystemItems) {
+        for (FilesystemItem item: filesystemItems) {
             try {
                 if (item.isFile() && item.toString().endsWith(".jar")) {
                     urls.add(item.toURI().toURL());
                 }
                 if (item.isDirectory()) {
                     Directory directory = (Directory) item;
-                    for (FilesystemItem childFile : directory.searchItems(null, null)) {
+                    for (FilesystemItem childFile: directory.searchItems(null, null)) {
                         if (childFile.isFile() && childFile.toString().endsWith(".jar")) {
                             urls.add(childFile.toURI().toURL());
                         }
@@ -71,7 +71,7 @@ public abstract class DynamicClass {
      * @throws ClassNotFoundException
      */
     protected Class<?> loadClass(String simpleName, Class<?> parentClass) throws ClassNotFoundException {
-        for (Class<?> innerClass : parentClass.getDeclaredClasses()) {
+        for (Class<?> innerClass: parentClass.getDeclaredClasses()) {
             if (innerClass.getSimpleName().equals(simpleName)) {
                 return innerClass;
             }
@@ -89,7 +89,7 @@ public abstract class DynamicClass {
     public Map<String, Object> getEnumConstants(String name) throws ClassNotFoundException {
         Object[] objects = this.loadClass(name).getEnumConstants();
         Map<String, Object> hashMap = new HashMap<>();
-        for (Object object : objects) {
+        for (Object object: objects) {
             hashMap.put(object.toString(), object);
         }
         return hashMap;
@@ -105,10 +105,10 @@ public abstract class DynamicClass {
      */
     public Map<String, Object> getEnumConstants(String simpleName, Class<?> parentClass) throws ClassNotFoundException {
         String fullName = StringObject.join(parentClass.getName(), "$", simpleName).toString();
-        for (Class<?> innerClass : parentClass.getDeclaredClasses()) {
+        for (Class<?> innerClass: parentClass.getDeclaredClasses()) {
             if (innerClass.getSimpleName().equals(simpleName)) {
                 Map<String, Object> hashMap = new HashMap<>();
-                for (Field field : innerClass.getDeclaredFields()) {
+                for (Field field: innerClass.getDeclaredFields()) {
                     if (field.getGenericType().getTypeName().equals(fullName)) {
                         try {
                             Object object = field.get(null);
@@ -169,7 +169,7 @@ public abstract class DynamicClass {
             Class<?>[] parameterTypes = this.parameterTypes;
             if (parameterTypes == null) {
                 List<Class<?>> parameterTypeList = new ArrayList<>();
-                for (Object parameter : parameters) {
+                for (Object parameter: parameters) {
                     parameterTypeList.add(parameter.getClass());
                 }
                 parameterTypes = parameterTypeList.toArray(new Class<?>[] {});

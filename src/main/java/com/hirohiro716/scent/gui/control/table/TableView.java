@@ -421,7 +421,7 @@ public abstract class TableView<C, R> extends Control {
      */
     public Array<R> getSelectedRows() {
         List<R> list = new ArrayList<>();
-        for (int index : this.getInnerInstance().getSelectedRows()) {
+        for (int index: this.getInnerInstance().getSelectedRows()) {
             list.add(this.rowInstances.get(index));
         }
         return new Array<>(list);
@@ -433,7 +433,7 @@ public abstract class TableView<C, R> extends Control {
      * @return
      */
     public R getSelectedRow() {
-        for (R rowInstance : this.getSelectedRows()) {
+        for (R rowInstance: this.getSelectedRows()) {
             if (this.rowInstances.contains(rowInstance)) {
                 return rowInstance;
             }
@@ -448,16 +448,16 @@ public abstract class TableView<C, R> extends Control {
      */
     public void setSelectedRows(java.util.Collection<R> selectedRows) {
         this.getInnerInstance().getSelectionModel().clearSelection();
-        for (R rowInstance : selectedRows) {
+        for (R rowInstance: selectedRows) {
             int index = this.rowInstances.indexOf(rowInstance);
             this.getInnerInstance().getSelectionModel().addSelectionInterval(index, index);
         }
         if (selectedRows.size() > 0) {
-            for (ChangeListener<R> changeListener : this.selectedRowChangeListeners) {
+            for (ChangeListener<R> changeListener: this.selectedRowChangeListeners) {
                 changeListener.executeWhenChanged(this, this.getSelectedRow());
             }
         }
-        for (ChangeListener<Array<R>> changeListener : this.selectedRowsChangeListeners) {
+        for (ChangeListener<Array<R>> changeListener: this.selectedRowsChangeListeners) {
             changeListener.executeWhenChanged(this, this.getSelectedRows());
         }
     }
@@ -544,7 +544,7 @@ public abstract class TableView<C, R> extends Control {
     @Override
     public void removeChangeListener(ChangeListener<?> changeListener) {
         super.removeChangeListener(changeListener);
-        for (Object innerInstance : changeListener.getInnerInstances(this)) {
+        for (Object innerInstance: changeListener.getInnerInstances(this)) {
             if (innerInstance instanceof ListSelectionListener) {
                 this.getInnerInstance().getSelectionModel().removeListSelectionListener((ListSelectionListener) innerInstance);
             }
@@ -602,7 +602,7 @@ public abstract class TableView<C, R> extends Control {
      * カラムの幅を維持する。
      */
     private void keepTableColumnWidth() {
-        for (C column : this.columnInstances) {
+        for (C column: this.columnInstances) {
             TableColumn tableColumn = this.getTableColumn(column);
             tableColumn.setWidth(tableColumn.getWidth());
         }
@@ -672,7 +672,7 @@ public abstract class TableView<C, R> extends Control {
         public void updateStructure() {
             this.fireTableStructureChanged();
             TableView<C, R> tableView = TableView.this;
-            for (TableColumn tableColumn : tableView.mapTableColumns.values()) {
+            for (TableColumn tableColumn: tableView.mapTableColumns.values()) {
                 tableColumn.updateLayoutAndDisplay();
             }
         }
@@ -830,7 +830,7 @@ public abstract class TableView<C, R> extends Control {
             if (tableView.mapColumnHorizontalAlignment.containsKey(columnInstance)) {
                 label.setTextHorizontalAlignment(tableView.mapColumnHorizontalAlignment.get(columnInstance));
             }
-            for (CellControlCallback<C> callback : tableView.cellControlCallbacks) {
+            for (CellControlCallback<C> callback: tableView.cellControlCallbacks) {
                 callback.call(columnInstance, label);
             }
             return label.getInnerInstance();
@@ -863,7 +863,7 @@ public abstract class TableView<C, R> extends Control {
             checkBox.setFont(tableView.getFont());
             checkBox.getInnerInstance().setBackground(new Color(checkBox.getInnerInstance().getBackground().getRGB()));
             checkBox.getInnerInstance().setOpaque(true);
-            for (CellControlCallback<C> callback : tableView.cellControlCallbacks) {
+            for (CellControlCallback<C> callback: tableView.cellControlCallbacks) {
                 callback.call(columnInstance, checkBox);
             }
             return checkBox.getInnerInstance();
@@ -898,7 +898,7 @@ public abstract class TableView<C, R> extends Control {
             pane.setPadding(3);
             pane.setBackgroundColor(new Color(jLabel.getBackground().getRGB()));
             pane.setControl(button);
-            for (CellControlCallback<C> callback : tableView.cellControlCallbacks) {
+            for (CellControlCallback<C> callback: tableView.cellControlCallbacks) {
                 callback.call(columnInstance, button);
             }
             return pane.getInnerInstance();
@@ -925,7 +925,7 @@ public abstract class TableView<C, R> extends Control {
             pane.setPadding(3);
             pane.setBackgroundColor(new Color(tableView.getInnerInstance().getSelectionBackground().getRGB()));
             pane.setControl(button);
-            for (CellControlCallback<C> callback : tableView.cellControlCallbacks) {
+            for (CellControlCallback<C> callback: tableView.cellControlCallbacks) {
                 callback.call(columnInstance, button);
             }
             return pane.getInnerInstance();
@@ -1332,7 +1332,7 @@ public abstract class TableView<C, R> extends Control {
         @Override
         public void removeEventHandler(EventHandler<?> eventHandler) {
             TableView<C, R> tableView = TableView.this;
-            for (Object innerInstance : eventHandler.getInnerInstances(tableView)) {
+            for (Object innerInstance: eventHandler.getInnerInstances(tableView)) {
                 if (innerInstance instanceof MouseListener) {
                     this.getJTableHeader().removeMouseListener((MouseListener) innerInstance);
                 }

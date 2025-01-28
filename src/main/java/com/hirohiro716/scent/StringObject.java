@@ -383,7 +383,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      */
     public StringObject narrow() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String one : this) {
+        for (String one: this) {
             if (getWideToNarrowMap().containsKey(one)) {
                 stringBuilder.append(getWideToNarrowMap().get(one));
             } else {
@@ -426,7 +426,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      */
     public StringObject lower() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String one : this) {
+        for (String one: this) {
             if (getJapaneseUpperToLowerMap().containsKey(one)) {
                 stringBuilder.append(getJapaneseUpperToLowerMap().get(one));
             } else {
@@ -444,7 +444,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      */
     public StringObject upper() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String one : this) {
+        for (String one: this) {
             if (getJapaneseLowerToUpperMap().containsKey(one)) {
                 stringBuilder.append(getJapaneseLowerToUpperMap().get(one));
             } else {
@@ -462,7 +462,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      */
     public StringObject hiragana() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String one : this) {
+        for (String one: this) {
             if (getKatakanaToHiraganaMap().containsKey(one)) {
                 stringBuilder.append(getKatakanaToHiraganaMap().get(one));
             } else {
@@ -480,7 +480,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      */
     public StringObject katakana() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String one : this) {
+        for (String one: this) {
             if (getHiraganaToKatakanaMap().containsKey(one)) {
                 stringBuilder.append(getHiraganaToKatakanaMap().get(one));
             } else {
@@ -675,7 +675,7 @@ public class StringObject implements Cloneable, Iterable<String> {
      */
     public static StringObject joinWithSeparator(Object[] objects, String separator) {
         StringObject stringObject = new StringObject();
-        for (Object object : objects) {
+        for (Object object: objects) {
             if (stringObject.length() > 0) {
                 stringObject.append(separator);
             }

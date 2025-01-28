@@ -26,7 +26,7 @@ public interface JSONMapper<P extends PropertyInterface> {
      */
     public default <K extends PropertyInterface> JSONObject createDefaultJSONObject() {
         JSONObject jsonObject = new JSONObject();
-        for (PropertyInterface property : this.getProperties()) {
+        for (PropertyInterface property: this.getProperties()) {
             jsonObject.put(property, property.getDefaultValue());
         }
         return jsonObject;

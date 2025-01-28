@@ -50,7 +50,7 @@ public interface PropertyInterface {
     @SuppressWarnings("unchecked")
     public static <P extends PropertyInterface> P propertyOf(String physicalName, Class<P> propertyEnumClass) {
         try {
-            for (PropertyInterface propertyInterface : propertyEnumClass.getEnumConstants()) {
+            for (PropertyInterface propertyInterface: propertyEnumClass.getEnumConstants()) {
                 if (propertyInterface.getPhysicalName().equals(physicalName)) {
                     return (P) propertyInterface;
                 }

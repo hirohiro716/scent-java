@@ -591,7 +591,7 @@ public abstract class Component<T extends java.awt.Component> {
             GraphicsDevice[] devices = GUI.getGraphicsDevices();
             Point point = this.getInnerInstanceForLayout().getLocationOnScreen();
             point.setLocation(point.getX() + this.getWidth() / 2, point.getY() + this.getHeight() / 2);
-            for (GraphicsDevice device : devices) {
+            for (GraphicsDevice device: devices) {
                 Rectangle rectangle = device.getDefaultConfiguration().getBounds();
                 if (rectangle.getMinX() <= point.getX() && point.getX() <= rectangle.getMaxX()
                         && rectangle.getMinY() <= point.getY() && point.getY() <= rectangle.getMaxY()) {
@@ -630,7 +630,7 @@ public abstract class Component<T extends java.awt.Component> {
      */
     public void setVisible(boolean isVisible) {
         this.getInnerInstanceForLayout().setVisible(isVisible);
-        for (ChangeListener<Boolean> changeListener : this.visibleChangeListeners) {
+        for (ChangeListener<Boolean> changeListener: this.visibleChangeListeners) {
             changeListener.executeWhenChanged(this, isVisible);
         }
     }
@@ -662,7 +662,7 @@ public abstract class Component<T extends java.awt.Component> {
      */
     public void setDisabled(boolean isDisabled) {
         this.getInnerInstance().setEnabled(! isDisabled);
-        for (ChangeListener<Boolean> changeListener : this.disabledChangeListeners) {
+        for (ChangeListener<Boolean> changeListener: this.disabledChangeListeners) {
             changeListener.executeWhenChanged(this, isDisabled);
         }
     }
@@ -743,7 +743,7 @@ public abstract class Component<T extends java.awt.Component> {
      * @param changeListener
      */
     public void removeChangeListener(ChangeListener<?> changeListener) {
-        for (Object innerInstance : changeListener.getInnerInstances(this)) {
+        for (Object innerInstance: changeListener.getInnerInstances(this)) {
             if (innerInstance instanceof ComponentListener) {
                 this.getInnerInstance().removeComponentListener((ComponentListener) innerInstance);
                 this.getInnerInstanceForLayout().removeComponentListener((ComponentListener) innerInstance);

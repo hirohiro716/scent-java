@@ -335,7 +335,7 @@ public class XML {
          */
         public Array<XMLNode> findXMLNodesByAttribute(String name, String value) {
             List<XMLNode> nodes = new ArrayList<>();
-            for (XMLNode node : this.getChildren()) {
+            for (XMLNode node: this.getChildren()) {
                 if (node.getAttributeValue(name).equals(value)) {
                     nodes.add(node);
                 }
@@ -366,7 +366,7 @@ public class XML {
          */
         public Array<XMLNode> findXMLNodesByName(String name) {
             List<XMLNode> nodes = new ArrayList<>();
-            for (XMLNode node : this.getChildren()) {
+            for (XMLNode node: this.getChildren()) {
                 if (node.getName().equals(name)) {
                     nodes.add(node);
                 }

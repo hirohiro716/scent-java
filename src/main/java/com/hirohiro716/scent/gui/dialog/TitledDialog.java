@@ -109,7 +109,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
         this.verticalPane.setSpacing(padding2);
         this.verticalPane.setFillChildToPaneWidth(true);
         Control[] controls = this.createControls();
-        for (Control control : controls) {
+        for (Control control: controls) {
             if (control != null) {
                 this.verticalPane.getChildren().add(control);
             }

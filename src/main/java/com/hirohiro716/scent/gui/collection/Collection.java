@@ -129,7 +129,7 @@ public class Collection<T> implements Iterable<T> {
             return;
         }
         this.list.add(positionIndex, value);
-        for (AddListener<T> listener : this.addListeners) {
+        for (AddListener<T> listener: this.addListeners) {
             listener.added(value, positionIndex);
         }
     }
@@ -149,7 +149,7 @@ public class Collection<T> implements Iterable<T> {
      * @param values
      */
     public final void addAll(java.util.Collection<T> values) {
-        for (T value : new Array<>(values)) {
+        for (T value: new Array<>(values)) {
             this.add(value);
         }
     }
@@ -160,7 +160,7 @@ public class Collection<T> implements Iterable<T> {
      * @param values
      */
     public final void addAll(T[] values) {
-        for (T value : values) {
+        for (T value: values) {
             this.add(value);
         }
     }
@@ -172,7 +172,7 @@ public class Collection<T> implements Iterable<T> {
      */
     public void remove(T value) {
         this.list.remove(value);
-        for (RemoveListener<T> listener : this.removeListeners) {
+        for (RemoveListener<T> listener: this.removeListeners) {
             listener.removed(value);
         }
     }
@@ -181,7 +181,7 @@ public class Collection<T> implements Iterable<T> {
      * コレクション内のすべての値を削除する。
      */
     public final void clear() {
-        for (T value : this.toArray()) {
+        for (T value: this.toArray()) {
             this.remove(value);
         }
     }

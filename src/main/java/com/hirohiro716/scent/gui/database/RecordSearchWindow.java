@@ -183,7 +183,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      */
     protected void updateDisplayOfTableView() {
         this.tableView.getRowInstances().clear();
-        for (DynamicArray<String> record : this.searchedRecords) {
+        for (DynamicArray<String> record: this.searchedRecords) {
             if (this.isAllowRecordView(record)) {
                 this.tableView.getRowInstances().add(record);
             }
@@ -216,7 +216,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
                     @Override
                     public void run() {
                         window.searchedRecords.clear();
-                        for (DynamicArray<String> row : rows) {
+                        for (DynamicArray<String> row: rows) {
                             window.searchedRecords.add(row);
                         }
                         window.updateDisplayOfTableView();
@@ -274,7 +274,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
                 }
                 window.lastTimeWhereSets = dialogResult;
                 List<WhereSet> listWhereSet = new ArrayList<>();
-                for (WhereSet whereSet : dialogResult) {
+                for (WhereSet whereSet: dialogResult) {
                     WhereSet copyWhereSet = whereSet.clone();
                     listWhereSet.add(copyWhereSet);
                 }
@@ -322,7 +322,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * @param controls
      */
     protected void addKeyReleasedEventHandlerForSelect(KeyCode keyCode, Control... controls) {
-        for (Control control : controls) {
+        for (Control control: controls) {
             control.addKeyReleasedEventHandler(new EventHandler<KeyEvent>() {
 
                 @Override
@@ -351,7 +351,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * @param controls
      */
     protected void addKeyReleasedEventHandlerForEdit(KeyCode keyCode, Control... controls) {
-        for (Control control : controls) {
+        for (Control control: controls) {
             control.addKeyReleasedEventHandler(new EventHandler<KeyEvent>() {
 
                 @Override
@@ -380,7 +380,7 @@ public abstract class RecordSearchWindow<S extends RecordSearcher> extends Windo
      * @param controls
      */
     protected void addKeyReleasedEventHandlerForDelete(KeyCode keyCode, Control... controls) {
-        for (Control control : controls) {
+        for (Control control: controls) {
             control.addKeyReleasedEventHandler(new EventHandler<KeyEvent>() {
 
                 @Override

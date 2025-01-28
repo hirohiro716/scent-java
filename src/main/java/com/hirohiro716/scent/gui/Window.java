@@ -231,9 +231,9 @@ public class Window extends Frame<JFrame> {
      * キーを押した際の処理を、このレコード検索ウィンドウに属するコントロールすべてにセットする。
      */
     private void setProcessWhenKeyTyped() {
-        for (KeyCode keyCode : this.mapProcessWhenKeyTyped.keySet()) {
+        for (KeyCode keyCode: this.mapProcessWhenKeyTyped.keySet()) {
             Runnable runnable = this.mapProcessWhenKeyTyped.get(keyCode);
-            for (Control child : this.getRootPane().getChildren().findAll()) {
+            for (Control child: this.getRootPane().getChildren().findAll()) {
                 List<Runnable> runnables = this.mapControlsWithAddedProcessWhenKeyTyped.get(child);
                 if (runnables == null) {
                     runnables = new ArrayList<>();

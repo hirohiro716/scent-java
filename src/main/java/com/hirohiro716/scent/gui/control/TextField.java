@@ -118,7 +118,7 @@ public class TextField extends TextInputControl {
     @Override
     public void removeEventHandler(EventHandler<?> eventHandler) {
         super.removeEventHandler(eventHandler);
-        for (Object innerInstance : eventHandler.getInnerInstances(this)) {
+        for (Object innerInstance: eventHandler.getInnerInstances(this)) {
             if (innerInstance instanceof KeyListener) {
                 this.getInnerInstance().removeKeyListener((KeyListener) innerInstance);
             }

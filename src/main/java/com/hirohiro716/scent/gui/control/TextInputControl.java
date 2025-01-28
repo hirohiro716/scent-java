@@ -307,7 +307,7 @@ public abstract class TextInputControl extends Control {
     @Override
     public void removeChangeListener(ChangeListener<?> changeListener) {
         super.removeChangeListener(changeListener);
-        for (Object innerInstance : changeListener.getInnerInstances(this)) {
+        for (Object innerInstance: changeListener.getInnerInstances(this)) {
             if (innerInstance instanceof DocumentListener) {
                 this.getInnerInstance().getDocument().removeDocumentListener((DocumentListener) innerInstance);
             }
@@ -484,9 +484,9 @@ public abstract class TextInputControl extends Control {
             TextInputControl control = TextInputControl.this;
             StringObject input = new StringObject(string);
             StringObject pass = new StringObject();
-            for (String one : input) {
+            for (String one: input) {
                 boolean isPass = true;
-                for (Pattern pattern : control.getLimitByRegexPatterns()) {
+                for (Pattern pattern: control.getLimitByRegexPatterns()) {
                     if (pattern.matcher(one).find() == control.isInverseLimitByRegex(pattern)) {
                         isPass = false;
                         break;

@@ -105,7 +105,7 @@ public class PropertyXML {
      * プロパティのエントリをすべて削除する。ファイルへの書き込みは行わない。
      */
     public void clearEntry() {
-        for (XMLNode node : this.xmlNode.getChildren()) {
+        for (XMLNode node: this.xmlNode.getChildren()) {
             node.remove();
         }
     }

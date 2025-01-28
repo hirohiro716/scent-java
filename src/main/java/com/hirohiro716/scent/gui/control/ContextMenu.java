@@ -66,7 +66,7 @@ public class ContextMenu extends Control {
      */
     public ContextMenuItem[] getContextMenuItems() {
         List<ContextMenuItem> items = new ArrayList<>();
-        for (MenuElement innerInstance : this.getInnerInstance().getSubElements()) {
+        for (MenuElement innerInstance: this.getInnerInstance().getSubElements()) {
             items.add(this.itemInnerInstanceRelations.get(innerInstance));
         }
         return items.toArray(new ContextMenuItem[] {});
@@ -124,7 +124,7 @@ public class ContextMenu extends Control {
      * このコンテキストメニューのアイテムをクリアする。
      */
     public final void clearContextMenuItem() {
-        for (ContextMenuItem item : this.getContextMenuItems()) {
+        for (ContextMenuItem item: this.getContextMenuItems()) {
             this.removeContextMenuItem(item);
         }
     }

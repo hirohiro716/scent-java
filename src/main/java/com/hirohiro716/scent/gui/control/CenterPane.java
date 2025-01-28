@@ -67,7 +67,7 @@ public class CenterPane extends Pane {
         @Override
         protected void added(Control added, int positionIndex) {
             CenterPane pane = CenterPane.this;
-            for (Control control : pane.getChildren().toArray()) {
+            for (Control control: pane.getChildren().toArray()) {
                 if (control != added) {
                     pane.getChildren().remove(control);
                 }

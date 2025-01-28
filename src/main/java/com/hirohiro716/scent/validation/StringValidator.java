@@ -166,7 +166,7 @@ public class StringValidator {
      */
     public void validate(Object target) throws ValidationException {
         StringObject value = new StringObject(target);
-        for (Pattern pattern : this.parameters.getKeys()) {
+        for (Pattern pattern: this.parameters.getKeys()) {
             switch (pattern) {
             case BLANK:
                 if (value.length() == 0) {

@@ -154,7 +154,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
      */
     public void addSearchableColumn(String physicalName, String logicalName, List<?> selectableItems) {
         Map<Object, String> map = new LinkedHashMap<>();
-        for (Object value : selectableItems) {
+        for (Object value: selectableItems) {
             map.put(value, (String) null);
         }
         this.addSearchableColumn(physicalName, logicalName, map);
@@ -212,7 +212,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
      * @param control
      */
     private void callControlCallbackAll(String columnPhysicalName, Control control) {
-        for (RowControlCallback callback : this.rowControlCallbacks) {
+        for (RowControlCallback callback: this.rowControlCallbacks) {
             callback.call(columnPhysicalName, control);
         }
     }
@@ -379,7 +379,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     @Override
                     public void run() {
                         JSONArray json = new JSONArray();
-                        for (WhereSet whereSet : dialog.listView.getItems()) {
+                        for (WhereSet whereSet: dialog.listView.getItems()) {
                             json.add(whereSet.createJSON());
                         }
                         try {
@@ -452,7 +452,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                     if (json.getContent().size() > 0) {
                         dialog.listView.getItems().clear();
                         dialog.whereSetNumber = 1;
-                        for (JSONValue<?> jsonValue : json.getContent()) {
+                        for (JSONValue<?> jsonValue: json.getContent()) {
                             WhereSet whereSet = new WhereSet((JSONArray) jsonValue);
                             dialog.listView.getItems().add(whereSet);
                         }
@@ -575,7 +575,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     private void exportWhereSetToEditor(WhereSet whereSet) {
         this.paneWhereSetEditor.getChildren().clear();
         if (whereSet != null) {
-            for (Where where : whereSet.getWheres()) {
+            for (Where where: whereSet.getWheres()) {
                 // Searchable column
                 String searchableColumn = where.getColumn();
                 // Pane
@@ -631,7 +631,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
      */
     private void importWhereSetFromEditor(WhereSet whereSet) {
         whereSet.clear();
-        for (Control child : this.paneWhereSetEditor.getChildren()) {
+        for (Control child: this.paneWhereSetEditor.getChildren()) {
             HorizontalPane paneOfWhere = (HorizontalPane) child;
             // Searchable column
             String searchableColumn = paneOfWhere.getInstanceForUseLater();
@@ -773,7 +773,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         paneValues.setName(WhereSetDialog.NAME_OF_VALUES_PANE);
         paneValues.setSpacing(5);
         pane.getChildren().add(paneValues);
-        for (Control control : pane.getChildren()) {
+        for (Control control: pane.getChildren()) {
             dialog.callControlCallbackAll(searchableColumn, control);
         }
         return pane;
@@ -793,7 +793,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             width *= 10;
             mapComparison.put(Comparison.EQUAL, "検索値と等しい");
             mapComparison.put(Comparison.LIKE, "検索値を含む");
-            for (Comparison comparison : this.mapStringComparison.keySet()) {
+            for (Comparison comparison: this.mapStringComparison.keySet()) {
                 mapComparison.put(comparison, this.mapStringComparison.get(comparison));
             }
             mapComparison.put(Comparison.IS_NULL, "値が未設定");
@@ -803,7 +803,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
             mapComparison.put(Comparison.EQUAL, "検索値と等しい");
             mapComparison.put(Comparison.BETWEEN, "検索値１～検索値２の間");
             mapComparison.put(Comparison.LIKE, "検索値を含む");
-            for (Comparison comparison : this.mapNumberStringComparison.keySet()) {
+            for (Comparison comparison: this.mapNumberStringComparison.keySet()) {
                 mapComparison.put(comparison, this.mapNumberStringComparison.get(comparison));
             }
             mapComparison.put(Comparison.IS_NULL, "値が未設定");
@@ -854,7 +854,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
                 return;
             }
             Control[] controls = dialog.createValueControls(searchableColumn, columnType, changedValue);
-            for (Control control : controls) {
+            for (Control control: controls) {
                 dialog.callControlCallbackAll(searchableColumn, control);
             }
             paneValues.getChildren().addAll(controls);

@@ -34,14 +34,14 @@ public class WhereSet implements Cloneable {
      * @param json
      */
     public WhereSet(JSONArray json) {
-        for (JSONValue<?> whereOfJSONValue : json.getContent()) {
+        for (JSONValue<?> whereOfJSONValue: json.getContent()) {
             try {
                 JSONObject whereOfJSON = (JSONObject) whereOfJSONValue;
                 String column = (String) whereOfJSON.get("column").getContent();
                 Comparison comparison = Comparison.valueOf((String) whereOfJSON.get("comparison").getContent());
                 List<Object> values = new ArrayList<>();
                 JSONArray valuesOfJSON = (JSONArray) whereOfJSON.get("values");
-                for (JSONValue<?> valueOfJSONValue : valuesOfJSON.getContent()) {
+                for (JSONValue<?> valueOfJSONValue: valuesOfJSON.getContent()) {
                     JSONObject valueOfJSON = (JSONObject) valueOfJSONValue;
                     String className = (String) valueOfJSON.getContent().get("class_name").getContent();
                     switch (className) {
@@ -87,12 +87,12 @@ public class WhereSet implements Cloneable {
      */
     public JSONArray createJSON() {
         JSONArray result = new JSONArray();
-        for (Where where : this.wheres) {
+        for (Where where: this.wheres) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("column", where.getColumn());
             jsonObject.put("comparison", where.getComparison().toString());
             JSONArray valuesOfJSON = new JSONArray();
-            for (Object value : where.getValues()) {
+            for (Object value: where.getValues()) {
                 JSONObject valueOfJSON = new JSONObject();
                 if (value == null) {
                     valueOfJSON.put("class_name", Object.class.getName());
@@ -385,7 +385,7 @@ public class WhereSet implements Cloneable {
      * @return Whereインスタンス、またはnull。
      */
     public Where findWhereFromColumn(String column) {
-        for (Where where : this.wheres) {
+        for (Where where: this.wheres) {
             if (where.getColumn().equals(column)) {
                 return where;
             }
@@ -410,7 +410,7 @@ public class WhereSet implements Cloneable {
      */
     public String buildPlaceholderClause() {
         StringBuilder builder = new StringBuilder();
-        for (Where where : this.wheres) {
+        for (Where where: this.wheres) {
             if (builder.length() > 0) {
                 builder.append(" AND ");
             }
@@ -426,7 +426,7 @@ public class WhereSet implements Cloneable {
      */
     public Object[] buildParameters() {
         List<Object> parameters = new ArrayList<>();
-        for (Where where : this.wheres) {
+        for (Where where: this.wheres) {
             switch (where.getComparison()) {
             case EQUAL:
             case NOT_EQUAL:
@@ -444,7 +444,7 @@ public class WhereSet implements Cloneable {
                 parameters.add(where.getValue2());
                 break;
             case IN:
-                for (Object value : where.getValues()) {
+                for (Object value: where.getValues()) {
                     parameters.add(value);
                 }
                 break;
@@ -459,7 +459,7 @@ public class WhereSet implements Cloneable {
     public WhereSet clone() {
         WhereSet clone = new WhereSet();
         List<Where> cloneWheres = new ArrayList<>();
-        for (Where where : this.wheres) {
+        for (Where where: this.wheres) {
             cloneWheres.add(where.clone());
         }
         clone.wheres.clear();
@@ -670,7 +670,7 @@ public class WhereSet implements Cloneable {
          */
         public void setValues(Object... values) {
             this.values = new ArrayList<>();
-            for (Object value : values) {
+            for (Object value: values) {
                 this.values.add(Database.convertToBindParameter(value));
             }
         }
@@ -747,7 +747,7 @@ public class WhereSet implements Cloneable {
             Where clone = new Where(this.getColumn(), this.getComparison(), this.getValue());
             clone.isNegate = this.isNegate;
             List<Object> cloneValues = new ArrayList<>();
-            for (Object value : this.getValues()) {
+            for (Object value: this.getValues()) {
                 if (value instanceof Date) {
                     try {
                         Date cloneDate = new Date();

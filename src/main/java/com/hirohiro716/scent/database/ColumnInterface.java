@@ -39,7 +39,7 @@ public interface ColumnInterface extends PropertyInterface {
     @SuppressWarnings("unchecked")
     public static <C extends ColumnInterface> C columnOf(String physicalName, Class<C> columnEnumClass) {
         try {
-            for (ColumnInterface columnInterface : columnEnumClass.getEnumConstants()) {
+            for (ColumnInterface columnInterface: columnEnumClass.getEnumConstants()) {
                 if (columnInterface.getFullPhysicalName().equals(physicalName)) {
                     return (C) columnInterface;
                 }

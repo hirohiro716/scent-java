@@ -107,7 +107,7 @@ public class GUI {
      */
     public static String[] getAvailableFontNames() {
         List<String> list = new ArrayList<>();
-        for (Font font : GUI.getAvailableFonts()) {
+        for (Font font: GUI.getAvailableFonts()) {
             list.add(font.getFontName());
         }
         return list.toArray(new String[] {});
@@ -208,7 +208,7 @@ public class GUI {
      */
     public static String[] getAvailableLookAndFeel() {
         List<String> list = new ArrayList<>();
-        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+        for (LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()) {
             list.add(info.getClassName());
         }
         return list.toArray(new String[] {});

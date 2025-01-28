@@ -53,7 +53,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
      */
     protected void updateDisplayOfEditableTable() {
         this.editableTable.getRowInstances().clear();
-        for (DynamicArray<C> record : this.records) {
+        for (DynamicArray<C> record: this.records) {
             if (this.isAllowRecordView(record)) {
                 this.editableTable.getRowInstances().add(record);
             }
@@ -93,7 +93,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
     @Override
     public void inputFromEditor() {
         this.getTarget().clearRecords();
-        for (DynamicArray<C> record : this.records) {
+        for (DynamicArray<C> record: this.records) {
             this.getTarget().addRecord(record);
         }
     }

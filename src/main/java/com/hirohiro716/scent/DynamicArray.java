@@ -107,7 +107,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      */
     public void add(Object[] values) {
         try {
-            for (Object value : values) {
+            for (Object value: values) {
                 synchronized (this.hashMap) {
                     int key = this.size();
                     while (this.hashMap.containsKey(key)) {
@@ -309,7 +309,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      * @param value
      */
     public void removeValue(Object value) {
-        for (Object key : this.hashMap.keySet()) {
+        for (Object key: this.hashMap.keySet()) {
             if (this.hashMap.get(key).equals(value)) {
                 this.hashMap.remove(key);
             }
@@ -350,10 +350,10 @@ public class DynamicArray<K> implements Cloneable, Serializable {
      */
     @SuppressWarnings("unchecked")
     public void merge(DynamicArray<?>... arrays) {
-        for (DynamicArray<?> array : arrays) {
+        for (DynamicArray<?> array: arrays) {
             try {
                 DynamicArray<K> castedArray = (DynamicArray<K>) array;
-                for (K key : castedArray.getKeys()) {
+                for (K key: castedArray.getKeys()) {
                     this.put(key, castedArray.get(key));
                 }
             } catch (Exception exception) {
@@ -377,7 +377,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
             return null;
         }
         array.hashMap = new LinkedHashMap<>(this.hashMap);
-        for (K key : array.getKeys()) {
+        for (K key: array.getKeys()) {
             Object value = array.get(key);
             if (value instanceof Cloneable) {
                 try {

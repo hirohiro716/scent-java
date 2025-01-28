@@ -83,7 +83,7 @@ public class ValidationException extends Exception {
     @Override
     public String getMessage() {
         StringObject message = new StringObject(super.getMessage());
-        for (PropertyInterface property : this.errorMessages.keySet()) {
+        for (PropertyInterface property: this.errorMessages.keySet()) {
             message.append(OS.thisOS().getLineSeparator());
             message.append("・");
             message.append(this.errorMessages.get(property));

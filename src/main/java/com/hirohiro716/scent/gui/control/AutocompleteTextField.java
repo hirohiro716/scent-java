@@ -419,7 +419,7 @@ public class AutocompleteTextField extends TextField {
      */
     public void setListItems(String[] listItems) {
         this.listItems.clear();
-        for (String item : listItems) {
+        for (String item: listItems) {
             if (item != null && item.length() > 0) {
                 this.listItems.add(item);
             }
@@ -560,7 +560,7 @@ public class AutocompleteTextField extends TextField {
                         int runningAdderSize = control.listItemAdders.size();
                         while (runningAdderSize > 0) {
                             runningAdderSize = 0;
-                            for (ListItemAdder activeAdder : control.listItemAdders.toArray(new ListItemAdder[] {})) {
+                            for (ListItemAdder activeAdder: control.listItemAdders.toArray(new ListItemAdder[] {})) {
                                 if (activeAdder.isFinished()) {
                                     control.listItemAdders.remove(activeAdder);
                                 } else {
@@ -618,7 +618,7 @@ public class AutocompleteTextField extends TextField {
             this.isCancelRequested = false;
             this.isFinished = false;
             control.filteredListItems.clear();
-            for (String listItem : new Array<>(control.listItems)) {
+            for (String listItem: new Array<>(control.listItems)) {
                 if (this.changedValue.contains("?")) {
                     this.isFinished = true;
                     break;
@@ -634,7 +634,7 @@ public class AutocompleteTextField extends TextField {
                 }
             }
             Map<String, String> mapListItems = new HashMap<>();
-            for (String listItem : new Array<>(control.listItems)) {
+            for (String listItem: new Array<>(control.listItems)) {
                 if (this.changedValue.contains("?")) {
                     this.isFinished = true;
                     break;
@@ -659,7 +659,7 @@ public class AutocompleteTextField extends TextField {
             List<String> keys = new ArrayList<>();
             keys.addAll(mapListItems.keySet());
             Collections.sort(keys);
-            for (String key : keys) {
+            for (String key: keys) {
                 control.filteredListItems.add(mapListItems.get(key));
                 if (this.isCancelRequested) {
                     break;

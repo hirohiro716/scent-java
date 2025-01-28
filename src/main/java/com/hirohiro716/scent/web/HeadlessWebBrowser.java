@@ -207,7 +207,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
         Method method = new Method(this.loadClass("org.htmlunit.html.DomNode"), parent.element);
         method.setParameterTypes(String.class);
         List<Object> elementObjects = method.invoke("getByXPath", xpath.toString());
-        for (Object elementObject : elementObjects) {
+        for (Object elementObject: elementObjects) {
             elements.add(this.getElement(elementObject));
         }
         return elements;
@@ -225,7 +225,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
         Method method = new Method(this.loadClass("org.htmlunit.html.DomNode"), parent.element);
         method.setParameterTypes(String.class);
         List<Object> elementObjects = method.invoke("getByXPath", xpath.toString());
-        for (Object elementObject : elementObjects) {
+        for (Object elementObject: elementObjects) {
             elements.add(this.getElement(elementObject));
         }
         return elements;
@@ -238,7 +238,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
         Method method = new Method(this.loadClass("org.htmlunit.html.DomNode"), parent.element);
         method.setParameterTypes(String.class);
         List<Object> elementObjects = method.invoke("querySelectorAll", cssSelector);
-        for (Object elementObject : elementObjects) {
+        for (Object elementObject: elementObjects) {
             elements.add(this.getElement(elementObject));
         }
         return elements;
@@ -251,7 +251,7 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
         Method method = new Method(this.loadClass("org.htmlunit.html.DomNode"), parent.element);
         method.setParameterTypes(String.class);
         List<Object> elementObjects = method.invoke("getByXPath", xPath);
-        for (Object elementObject : elementObjects) {
+        for (Object elementObject: elementObjects) {
             elements.add(this.getElement(elementObject));
         }
         return elements;

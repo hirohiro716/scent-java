@@ -92,7 +92,7 @@ public class ScrollBar extends Control {
     @Override
     public void removeChangeListener(ChangeListener<?> changeListener) {
         super.removeChangeListener(changeListener);
-        for (Object innerInstance : changeListener.getInnerInstances(this)) {
+        for (Object innerInstance: changeListener.getInnerInstances(this)) {
             if (innerInstance instanceof AdjustmentListener) {
                 this.getInnerInstance().removeAdjustmentListener((AdjustmentListener) innerInstance);
             }
