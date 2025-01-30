@@ -181,6 +181,74 @@ public class GUI {
         return GUI.BORDER_COLOR;
     }
     
+    private static Color BORDER_LIGHT_COLOR = null;
+    
+    /**
+     * 明るい境界線色を取得する。
+     * 
+     * @return
+     */
+    public static Color getBorderLightColor() {
+        if (GUI.BORDER_LIGHT_COLOR == null) {
+            GUI.BORDER_LIGHT_COLOR = new Color(UIManager.getColor("controlShadow").getRGB());
+        }
+        return GUI.BORDER_LIGHT_COLOR;
+    }
+    
+    private static Color LABEL_FOREGROUND_COLOR = null;
+    
+    /**
+     * ラベルの前景色を取得する。
+     * 
+     * @return
+     */
+    public static Color getLabelForegroundColor() {
+        if (GUI.LABEL_FOREGROUND_COLOR == null) {
+            try {
+                GUI.LABEL_FOREGROUND_COLOR = new Color(UIManager.getColor("Label.foreground").getRGB());
+            } catch (NullPointerException exception) {
+                GUI.LABEL_FOREGROUND_COLOR = GUI.getTextColor();
+            }
+        }
+        return GUI.LABEL_FOREGROUND_COLOR;
+    }
+    
+    private static Color ACTIVE_FOREGROUND_COLOR = null;
+    
+    /**
+     * アクティブな前景色を取得する。
+     * 
+     * @return
+     */
+    public static Color getActiveForegroundColor() {
+        if (GUI.ACTIVE_FOREGROUND_COLOR == null) {
+            try {
+                GUI.ACTIVE_FOREGROUND_COLOR = new Color(UIManager.getColor("List.selectionInactiveForeground").getRGB());
+            } catch (NullPointerException exception) {
+                GUI.ACTIVE_FOREGROUND_COLOR = new Color(UIManager.getColor("textHighlightText").getRGB());
+            }
+        }
+        return GUI.ACTIVE_FOREGROUND_COLOR;
+    }
+    
+    private static Color ACTIVE_BACKGROUND_COLOR = null;
+    
+    /**
+     * アクティブな背景色を取得する。
+     * 
+     * @return
+     */
+    public static Color getActiveBackgroundColor() {
+        if (GUI.ACTIVE_BACKGROUND_COLOR == null) {
+            try {
+                GUI.ACTIVE_BACKGROUND_COLOR = new Color(UIManager.getColor("List.selectionInactiveBackground").getRGB());
+            } catch (NullPointerException exception) {
+                GUI.ACTIVE_BACKGROUND_COLOR = new Color(UIManager.getColor("textHighlight").getRGB());
+            }
+        }
+        return GUI.ACTIVE_BACKGROUND_COLOR;
+    }
+
     /**
      * GUIのルックアンドフィールを変更する。
      * 

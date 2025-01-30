@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import com.hirohiro716.scent.Array;
 import com.hirohiro716.scent.Dimension;
@@ -143,27 +142,17 @@ public abstract class EditableTable<C, R> extends Control {
                 editableTable.removeRow(removed);
             }
         });
-        // Color themes
-        try {
-            this.labelForegroundColor = new Color(UIManager.getColor("Label.foreground").getRGB());
-            this.activatedForegroundColor = new Color(UIManager.getColor("List.selectionInactiveForeground").getRGB());
-            this.activatedBackgroundColor = new Color(UIManager.getColor("List.selectionInactiveBackground").getRGB());
-        } catch (NullPointerException exception) {
-            this.labelForegroundColor = GUI.getTextColor();
-            this.activatedForegroundColor = new Color(UIManager.getColor("textHighlightText").getRGB());
-            this.activatedBackgroundColor = new Color(UIManager.getColor("textHighlight").getRGB());
-        }
     }
     
     private Color borderColor = GUI.getBorderColor();
     
-    private Color lightBorderColor = new Color(UIManager.getColor("controlShadow").getRGB());
+    private Color lightBorderColor = GUI.getBorderLightColor();
     
-    private Color labelForegroundColor;
+    private Color labelForegroundColor = GUI.getLabelForegroundColor();
     
-    private Color activatedForegroundColor;
+    private Color activatedForegroundColor = GUI.getActiveForegroundColor();
     
-    private Color activatedBackgroundColor;
+    private Color activatedBackgroundColor = GUI.getActiveBackgroundColor();
     
     private Pane root;
     
