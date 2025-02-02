@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.AbstractCellEditor;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -75,7 +76,8 @@ public abstract class TableView<C, R> extends Control {
      */
     protected TableView(JTable innerInstance) {
         super(innerInstance, new JScrollPane(innerInstance));
-        this.scrollPane = ScrollPane.newInstance(this.getInnerInstanceForLayout());
+        TableView<C, R> tableView = TableView.this;
+        this.scrollPane = ScrollPane.newInstance(this.getInnerInstanceForLayout(), this);
         this.getInnerInstance().setModel(this.tableModel);
         this.getInnerInstance().setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         this.getInnerInstance().getTableHeader().setDefaultRenderer(new HeaderRenderer());
@@ -107,11 +109,43 @@ public abstract class TableView<C, R> extends Control {
                 }
             }
         });
+        this.addMousePressedEventHandler(MouseButton.BUTTON1, new EventHandler<MouseEvent>() {
+
+            @Override
+            protected void handle(MouseEvent event) {
+                tableView.selectedRowsBeforeScroll = tableView.getSelectedRows().getUnmodifiableList();
+            }
+        });
+        this.addMouseDraggedEventHandler(new EventHandler<MouseEvent>() {
+
+            @Override
+            protected void handle(MouseEvent event) {
+                tableView.isTouchScrollStarted = true;
+                tableView.getInnerInstance().setSelectionModel(new DefaultListSelectionModel() {
+
+                    @Override
+                    public void setSelectionInterval(int index0, int index1) {}
+
+                    @Override
+                    public void addSelectionInterval(int index0, int index1) {}
+                });
+            }
+        });
+        this.addMouseReleasedEventHandler(MouseButton.BUTTON1, new EventHandler<MouseEvent>() {
+
+            @Override
+            protected void handle(MouseEvent event) {
+                if (tableView.isTouchScrollStarted == false || tableView.selectedRowsBeforeScroll == null) {
+                    return;
+                }
+                tableView.getInnerInstance().setSelectionModel(new DefaultListSelectionModel());
+                tableView.setSelectedRows(tableView.selectedRowsBeforeScroll);
+            }
+        });
         this.addMouseClickedEventHandler(MouseButton.BUTTON3, new EventHandler<MouseEvent>() {
 
             @Override
             protected void handle(MouseEvent event) {
-                TableView<C, R> tableView = TableView.this;
                 R clickedRow = tableView.getRowFromLocation(event.getX(), event.getY());
                 C clickedColumn = tableView.getColumnFromLocation(event.getX(), event.getY());
                 if (clickedRow == null || clickedColumn == null) {
@@ -150,7 +184,7 @@ public abstract class TableView<C, R> extends Control {
     }
     
     private TableModel tableModel = new TableModel();
-    
+
     private ScrollPane scrollPane;
     
     @Override
@@ -171,6 +205,10 @@ public abstract class TableView<C, R> extends Control {
     public ScrollPane getScrollPane() {
         return this.scrollPane;
     }
+
+    private List<R> selectedRowsBeforeScroll = null;
+
+    private boolean isTouchScrollStarted = false;
 
     /**
      * このテーブルビューで複数選択が可能な場合はtrueを返す。

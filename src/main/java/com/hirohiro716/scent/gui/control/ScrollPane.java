@@ -58,10 +58,15 @@ public class ScrollPane extends Control {
      * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
      * 
      * @param innerInstance GUIライブラリに依存したインスタンス。
+     * @param content スクロールペインのビューポートに表示するコントロール。
      * @return 新しいインスタンス。
      */
-    public static ScrollPane newInstance(JScrollPane innerInstance) {
-        return new ScrollPane(innerInstance);
+    public static ScrollPane newInstance(JScrollPane innerInstance, Control content) {
+        ScrollPane scrollPane = new ScrollPane(innerInstance);
+        content.addMousePressedEventHandler(MouseButton.BUTTON1, scrollPane.touchScrollMousePressedEventHandler);
+        content.addMouseDraggedEventHandler(scrollPane.touchScrollMouseDraggedEventHandler);
+        scrollPane.content = content;
+        return scrollPane;
     }
     
     @Override
@@ -247,9 +252,6 @@ public class ScrollPane extends Control {
         this.content.addMouseDraggedEventHandler(this.touchScrollMouseDraggedEventHandler);
         if (this.content instanceof Pane) {
             this.addTouchScrollEventHandlerToPaen((Pane) this.content);
-        }
-        if (this.content instanceof Label) {
-            this.addTouchScrollEventHandlerToLabel((Label) this.content);
         }
         this.getInnerInstance().setViewportView(control.getInnerInstanceForLayout());
     }
