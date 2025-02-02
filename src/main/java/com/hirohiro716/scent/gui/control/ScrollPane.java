@@ -1,9 +1,17 @@
 package com.hirohiro716.scent.gui.control;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
+import com.hirohiro716.scent.gui.collection.AddListener;
+import com.hirohiro716.scent.gui.collection.RemoveListener;
+import com.hirohiro716.scent.gui.event.EventHandler;
+import com.hirohiro716.scent.gui.event.MouseEvent;
+import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
 
 /**
  * スクロールバーを表示するペインのクラス。
@@ -69,6 +77,67 @@ public class ScrollPane extends Control {
         }
     }
 
+    private boolean isTouchScrollDisabled = false;
+
+    /**
+     * タッチスクロールが無効になっている場合はtrueを返す。
+     * 
+     * @return
+     */
+    public boolean isTouchScrollDisabled() {
+        return this.isTouchScrollDisabled;
+    }
+
+    /**
+     * タッチスクロールを無効にする場合はtrueをセットする。
+     * 
+     * @param isTouchScrollDisabled
+     */
+    public void setTouchScrollDisabled(boolean isTouchScrollDisabled) {
+        this.isTouchScrollDisabled = isTouchScrollDisabled;
+    }
+
+    private int touchStartedX;
+
+    private int touchStartedHorizontalScrollBarPosition;
+    
+    private int touchStartedY;
+
+    private int touchStartedVerticalScrollBarPosition;
+
+    private List<Control> touchScrollEventHandlerAddedControls = new ArrayList<>();
+    
+    /**
+     * タッチスクロールのマウスのボタンを押した際のイベントハンドラー。
+     */
+    private EventHandler<MouseEvent> touchScrollMousePressedEventHandler = new EventHandler<MouseEvent>() {
+
+        @Override
+        protected void handle(MouseEvent event) {
+            ScrollPane scrollPane = ScrollPane.this;
+            scrollPane.touchStartedX = event.getScreenX();
+            scrollPane.touchStartedHorizontalScrollBarPosition = scrollPane.getHorizontalScrollBar().getScrollPosition();
+            scrollPane.touchStartedY = event.getScreenY();
+            scrollPane.touchStartedVerticalScrollBarPosition = scrollPane.getVerticalScrollBar().getScrollPosition();
+        }
+    };
+
+    /**
+     * タッチスクロールのマウスでドラッグした際のイベントハンドラー。
+     */
+    private EventHandler<MouseEvent> touchScrollMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
+
+        @Override
+        protected void handle(MouseEvent event) {
+            ScrollPane scrollPane = ScrollPane.this;
+            if (scrollPane.isTouchScrollDisabled) {
+                return;
+            }
+            scrollPane.getHorizontalScrollBar().setScrollPosition(scrollPane.touchStartedHorizontalScrollBarPosition + (scrollPane.touchStartedX - event.getScreenX()) * 2);
+            scrollPane.getVerticalScrollBar().setScrollPosition(scrollPane.touchStartedVerticalScrollBarPosition + (scrollPane.touchStartedY - event.getScreenY()) * 2);
+        }
+    };
+
     private Control content = null;
     
     /**
@@ -81,6 +150,76 @@ public class ScrollPane extends Control {
     public <C extends Control> C getContent() {
         return (C) this.content;
     }
+
+    /**
+     * 指定されたラベルにタッチスクロールのイベントハンドラーを追加する。
+     * 
+     * @param label
+     */
+    private void addTouchScrollEventHandlerToLabel(Label label) {
+        ScrollPane scrollPane = this;
+        if (this.touchScrollEventHandlerAddedControls.contains(label)) {
+            return;
+        }
+        label.addMousePressedEventHandler(MouseButton.BUTTON1, scrollPane.touchScrollMousePressedEventHandler);
+        label.addMouseDraggedEventHandler(scrollPane.touchScrollMouseDraggedEventHandler);
+        scrollPane.touchScrollEventHandlerAddedControls.add(label);
+    }
+    
+    /**
+     * 指定されたペインにタッチスクロールのイベントハンドラーを追加する。
+     * 
+     * @param pane
+     */
+    private void addTouchScrollEventHandlerToPaen(Pane pane) {
+        ScrollPane scrollPane = this;
+        if (this.touchScrollEventHandlerAddedControls.contains(pane)) {
+            return;
+        }
+        pane.addMousePressedEventHandler(MouseButton.BUTTON1, scrollPane.touchScrollMousePressedEventHandler);
+        pane.addMouseDraggedEventHandler(scrollPane.touchScrollMouseDraggedEventHandler);
+        scrollPane.touchScrollEventHandlerAddedControls.add(pane);
+        for (Control child: pane.getChildren().findAll()) {
+            if (child instanceof Label) {
+                this.addTouchScrollEventHandlerToLabel((Label) child);
+            }
+            if (child instanceof Pane) {
+                this.addTouchScrollEventHandlerToPaen((Pane) child);
+            }
+        }
+        pane.getChildren().addListener(new AddListener<Control>() {
+
+            @Override
+            protected void added(Control added, int positionIndex) {
+                if (added instanceof Label) {
+                    if (scrollPane.touchScrollEventHandlerAddedControls.contains(added)) {
+                        return;
+                    }
+                    added.addMousePressedEventHandler(MouseButton.BUTTON1, scrollPane.touchScrollMousePressedEventHandler);
+                    added.addMouseDraggedEventHandler(scrollPane.touchScrollMouseDraggedEventHandler);
+                    scrollPane.touchScrollEventHandlerAddedControls.add(added);
+                }
+                if (added instanceof Pane) {
+                    if (scrollPane.touchScrollEventHandlerAddedControls.contains(added)) {
+                        return;
+                    }
+                    added.addMousePressedEventHandler(MouseButton.BUTTON1, scrollPane.touchScrollMousePressedEventHandler);
+                    added.addMouseDraggedEventHandler(scrollPane.touchScrollMouseDraggedEventHandler);
+                    scrollPane.touchScrollEventHandlerAddedControls.add(added);
+                    scrollPane.addTouchScrollEventHandlerToPaen((Pane) added);
+                }
+            }
+        });
+        pane.getChildren().addListener(new RemoveListener<Control>() {
+
+            @Override
+            protected void removed(Control removed) {
+                removed.removeEventHandler(scrollPane.touchScrollMousePressedEventHandler);
+                removed.removeEventHandler(scrollPane.touchScrollMouseDraggedEventHandler);
+                scrollPane.touchScrollEventHandlerAddedControls.remove(removed);
+            }
+        });
+    }
     
     /**
      * このスクロールペインに表示するコントロールをセットする。
@@ -88,9 +227,30 @@ public class ScrollPane extends Control {
      * @param control
      */
     public void setContent(Control control) {
+        if (this.content != null) {
+            this.content.removeEventHandler(this.touchScrollMousePressedEventHandler);
+            this.content.removeEventHandler(this.touchScrollMouseDraggedEventHandler);
+            this.touchScrollEventHandlerAddedControls.remove(this.content);
+            if (this.content instanceof Pane) {
+                Pane pane = (Pane) this.content;
+                for (Control child: pane.getChildren().findAll()) {
+                    child.removeEventHandler(this.touchScrollMousePressedEventHandler);
+                    child.removeEventHandler(this.touchScrollMouseDraggedEventHandler);
+                    this.touchScrollEventHandlerAddedControls.remove(child);
+                }
+            }
+        }
         this.content = control;
         this.content.setParent(this);
         this.content.setDisabled(this.isDisabled());
+        this.content.addMousePressedEventHandler(MouseButton.BUTTON1, this.touchScrollMousePressedEventHandler);
+        this.content.addMouseDraggedEventHandler(this.touchScrollMouseDraggedEventHandler);
+        if (this.content instanceof Pane) {
+            this.addTouchScrollEventHandlerToPaen((Pane) this.content);
+        }
+        if (this.content instanceof Label) {
+            this.addTouchScrollEventHandlerToLabel((Label) this.content);
+        }
         this.getInnerInstance().setViewportView(control.getInnerInstanceForLayout());
     }
     
