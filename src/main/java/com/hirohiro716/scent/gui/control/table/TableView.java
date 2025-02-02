@@ -113,6 +113,10 @@ public abstract class TableView<C, R> extends Control {
 
             @Override
             protected void handle(MouseEvent event) {
+                if (tableView.isTouchScrollStarted) {
+                    return;
+                }
+                tableView.isTouchScrollStarted = true;
                 tableView.selectedRowsBeforeScroll = tableView.getSelectedRows().getUnmodifiableList();
             }
         });
@@ -120,26 +124,28 @@ public abstract class TableView<C, R> extends Control {
 
             @Override
             protected void handle(MouseEvent event) {
-                tableView.isTouchScrollStarted = true;
-                tableView.getInnerInstance().setSelectionModel(new DefaultListSelectionModel() {
-
-                    @Override
-                    public void setSelectionInterval(int index0, int index1) {}
-
-                    @Override
-                    public void addSelectionInterval(int index0, int index1) {}
-                });
+                if (tableView.isTouchScrollStarted == false) {
+                    return;
+                }
+                if (tableView.getInnerInstance().getSelectionModel() != tableView.nonSelectableModel) {
+                    tableView.getInnerInstance().setSelectionModel(tableView.nonSelectableModel);
+                }
             }
         });
         this.addMouseReleasedEventHandler(MouseButton.BUTTON1, new EventHandler<MouseEvent>() {
 
             @Override
             protected void handle(MouseEvent event) {
-                if (tableView.isTouchScrollStarted == false || tableView.selectedRowsBeforeScroll == null) {
+                if (tableView.isTouchScrollStarted == false) {
                     return;
                 }
-                tableView.getInnerInstance().setSelectionModel(new DefaultListSelectionModel());
-                tableView.setSelectedRows(tableView.selectedRowsBeforeScroll);
+                tableView.isTouchScrollStarted = false;
+                if (tableView.getInnerInstance().getSelectionModel() != tableView.defaultSelectionModel) {
+                    tableView.getInnerInstance().setSelectionModel(tableView.defaultSelectionModel);
+                }
+                if (tableView.selectedRowsBeforeScroll != null) {
+                    tableView.setSelectedRows(tableView.selectedRowsBeforeScroll);
+                }
             }
         });
         this.addMouseClickedEventHandler(MouseButton.BUTTON3, new EventHandler<MouseEvent>() {
@@ -209,6 +215,17 @@ public abstract class TableView<C, R> extends Control {
     private List<R> selectedRowsBeforeScroll = null;
 
     private boolean isTouchScrollStarted = false;
+
+    private ListSelectionModel defaultSelectionModel = new DefaultListSelectionModel();
+
+    private ListSelectionModel nonSelectableModel = new DefaultListSelectionModel() {
+
+        @Override
+        public void setSelectionInterval(int index0, int index1) {}
+
+        @Override
+        public void addSelectionInterval(int index0, int index1) {}
+    };
 
     /**
      * このテーブルビューで複数選択が可能な場合はtrueを返す。
