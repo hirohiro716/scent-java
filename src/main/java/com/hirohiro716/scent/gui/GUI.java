@@ -19,6 +19,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.hirohiro716.scent.RoundNumber;
+
 /**
  * GUIのグローバルな静的関数のクラス。
  * 
@@ -90,6 +92,15 @@ public class GUI {
         StringSelection stringSelection = new StringSelection(string);
         clipboard.setContents(stringSelection, stringSelection);
     }
+
+    /**
+     * GUIのコントロール共通のスクロールバーのサイズをセットする。
+     * 
+     * @param scrollBarSize
+     */
+    public static void setScrollBarSize(int scrollBarSize) {
+        UIManager.put("ScrollBar.width", Integer.valueOf(scrollBarSize));
+    }
     
     /**
      * 利用できるフォントの配列を取得する。
@@ -151,6 +162,11 @@ public class GUI {
      */
     public static void setFontSizeToAdd(int fontSizeToAdd) {
         GUI.FONT_SIZE_TO_ADD = fontSizeToAdd;
+        if (fontSizeToAdd >= 6) {
+            int baseFontSize = 18;
+            int scrollBarSize = baseFontSize + (int) RoundNumber.FLOOR.calculate((fontSizeToAdd) * 1.2);
+            GUI.setScrollBarSize(scrollBarSize);
+        }
     }
     
     private static Color TEXT_COLOR = null;
