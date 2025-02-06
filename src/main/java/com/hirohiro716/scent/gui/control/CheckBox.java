@@ -15,6 +15,7 @@ import javax.swing.Icon;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
+import com.hirohiro716.scent.RoundNumber;
 import com.hirohiro716.scent.graphic.ColorCreator;
 import com.hirohiro716.scent.gui.GUI;
 import com.hirohiro716.scent.gui.HorizontalAlignment;
@@ -109,7 +110,7 @@ public class CheckBox extends MarkableControl {
          */
         public CheckBoxIcon(CheckBox checkBox){
             this.checkBox = checkBox;
-            this.size = (int) (checkBox.getFont().getSize() * 1.1);
+            this.size = (int) RoundNumber.ROUND.calculate(checkBox.getFont().getSize() * 0.95);
         }
 
         private CheckBox checkBox;
