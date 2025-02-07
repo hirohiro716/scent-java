@@ -111,7 +111,7 @@ public abstract class Component<T extends java.awt.Component> {
     }
     
     /**
-     * このコンポーネントの位置のセットする。
+     * このコンポーネントの位置をセットする。
      * 
      * @param point
      */
