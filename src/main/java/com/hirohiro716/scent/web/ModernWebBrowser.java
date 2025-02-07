@@ -1,5 +1,6 @@
 package com.hirohiro716.scent.web;
 
+import java.awt.GraphicsDevice;
 import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
@@ -15,6 +16,7 @@ import com.hirohiro716.scent.StringObject;
 import com.hirohiro716.scent.datetime.Datetime;
 import com.hirohiro716.scent.filesystem.Directory;
 import com.hirohiro716.scent.filesystem.File;
+import com.hirohiro716.scent.gui.GUI;
 import com.hirohiro716.scent.reflection.Method;
 
 /**
@@ -196,6 +198,32 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         this.setSize(dimension);
     }
     
+    /**
+     * このWEBブラウザを指定されたデバイスにフルスクリーンで表示する。
+     * 
+     * @param graphicsDevice
+     */
+    public void fullscreen(GraphicsDevice graphicsDevice) {
+        try {
+            this.setLocation((int) graphicsDevice.getDefaultConfiguration().getBounds().getX(), (int) graphicsDevice.getDefaultConfiguration().getBounds().getY());
+            Method manageMethod = new Method(this.classWebDriver, this.webDriver);
+            Object manage = manageMethod.invoke("manage");
+            Method windowMethod = new Method(this.loadClass("org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions"), manage);
+            Object window = windowMethod.invoke("window");
+            Method fullscreenMethod = new Method(this.loadClass("org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions$RemoteWindow"), window);
+            fullscreenMethod.invoke("fullscreen");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * このWEBブラウザを指定されたデフォルトデバイスにフルスクリーンで表示する。
+     */
+    public void fullscreen() {
+        this.fullscreen(GUI.getDefaultGraphicsDevice());
+    }
+
     @Override
     public void close() {
         try {
