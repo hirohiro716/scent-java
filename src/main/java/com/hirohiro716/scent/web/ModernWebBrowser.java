@@ -102,20 +102,23 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         case CHROME:
             optionConstructor = new Constructor("org.openqa.selenium.chrome.ChromeOptions");
             options = optionConstructor.newInstance();
-            Method chromeSetExperimentalOptionMethod = new Method(this.loadClass("org.openqa.selenium.chrome.ChromeOptions"), options);
+            Method chromeOptionsMethod = new Method(this.loadClass("org.openqa.selenium.chrome.ChromeOptions"), options);
+            chromeOptionsMethod.setParameterTypes(String[].class);
+            chromeOptionsMethod.invoke("addArguments", (Object) new String[] {"--allow-file-access-from-files"});
             Map<String, Object> chromePrefs = new HashMap<>();
             chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
-            chromeSetExperimentalOptionMethod.setParameterTypes(String.class, Object.class);
-            chromeSetExperimentalOptionMethod.invoke("setExperimentalOption", "prefs", chromePrefs);
+            chromeOptionsMethod.setParameterTypes(String.class, Object.class);
+            chromeOptionsMethod.invoke("setExperimentalOption", "prefs", chromePrefs);
             webDriverConstructor = new Constructor("org.openqa.selenium.chrome.ChromeDriver");
             webDriver = webDriverConstructor.newInstance(options);
             break;
         case FIREFOX:
             optionConstructor = new Constructor("org.openqa.selenium.firefox.FirefoxOptions");
             options = optionConstructor.newInstance();
-            Method firefoxAddPreferenceMethod = new Method(this.loadClass("org.openqa.selenium.firefox.FirefoxOptions"), options);
-            firefoxAddPreferenceMethod.setParameterTypes(String.class, boolean.class);
-            firefoxAddPreferenceMethod.invoke("addPreference", "pdfjs.disabled", true);
+            Method firefoxOptionsMethod = new Method(this.loadClass("org.openqa.selenium.firefox.FirefoxOptions"), options);
+            firefoxOptionsMethod.setParameterTypes(String.class, boolean.class);
+            firefoxOptionsMethod.invoke("addPreference", "pdfjs.disabled", true);
+            firefoxOptionsMethod.invoke("addPreference", "security.fileuri.strict_origin_policy", false);
             webDriverConstructor = new Constructor("org.openqa.selenium.firefox.FirefoxDriver");
             webDriver = webDriverConstructor.newInstance(options);
             break;
