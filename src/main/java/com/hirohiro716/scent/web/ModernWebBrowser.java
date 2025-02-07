@@ -199,6 +199,38 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
     }
     
     /**
+     * このWEBブラウザを最大化する。
+     */
+    public void maximize() {
+        try {
+            Method manageMethod = new Method(this.classWebDriver, this.webDriver);
+            Object manage = manageMethod.invoke("manage");
+            Method windowMethod = new Method(this.loadClass("org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions"), manage);
+            Object window = windowMethod.invoke("window");
+            Method fullscreenMethod = new Method(this.loadClass("org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions$RemoteWindow"), window);
+            fullscreenMethod.invoke("maximize");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+    
+    /**
+     * このWEBブラウザを最小化する。
+     */
+    public void minimize() {
+        try {
+            Method manageMethod = new Method(this.classWebDriver, this.webDriver);
+            Object manage = manageMethod.invoke("manage");
+            Method windowMethod = new Method(this.loadClass("org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions"), manage);
+            Object window = windowMethod.invoke("window");
+            Method fullscreenMethod = new Method(this.loadClass("org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions$RemoteWindow"), window);
+            fullscreenMethod.invoke("minimize");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
      * このWEBブラウザを指定されたデバイスにフルスクリーンで表示する。
      * 
      * @param graphicsDevice
