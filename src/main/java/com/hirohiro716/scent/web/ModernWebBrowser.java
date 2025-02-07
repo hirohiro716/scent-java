@@ -1,5 +1,6 @@
 package com.hirohiro716.scent.web;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hirohiro716.scent.Array;
+import com.hirohiro716.scent.Dimension;
 import com.hirohiro716.scent.IdentifiableEnum;
 import com.hirohiro716.scent.StringObject;
 import com.hirohiro716.scent.datetime.Datetime;
@@ -130,6 +132,69 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         }
         return webDriver;
     }
+
+    /**
+     * このWEBブラウザの位置をセットする。
+     * 
+     * @param point
+     */
+    public void setLocation(Point point) {
+        try {
+            Constructor pointConstructor = new Constructor("org.openqa.selenium.Point");
+            pointConstructor.setParameterTypes(int.class, int.class);
+            Object innerPoint = pointConstructor.newInstance((int) point.getX(), (int) point.getY());
+            Method manageMethod = new Method(this.classWebDriver, this.webDriver);
+            Object manage = manageMethod.invoke("manage");
+            Method windowMethod = new Method(this.loadClass("org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions"), manage);
+            Object window = windowMethod.invoke("window");
+            Method setPositionMethod = new Method(this.loadClass("org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions$RemoteWindow"), window);
+            setPositionMethod.invoke("setPosition", innerPoint);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * このWEBブラウザの位置をセットする。
+     * 
+     * @param x
+     * @param y
+     */
+    public final void setLocation(int x, int y) {
+        this.setLocation(new Point(x, y));
+    }
+    
+    /**
+     * このWEBブラウザのサイズをセットする。
+     * 
+     * @param dimension
+     */
+    public void setSize(Dimension dimension) {
+        try {
+            Constructor demensionConstructor = new Constructor("org.openqa.selenium.Dimension");
+            demensionConstructor.setParameterTypes(int.class, int.class);
+            Object innerDimension = demensionConstructor.newInstance((int) dimension.getIntegerWidth(), (int) dimension.getIntegerHeight());
+            Method manageMethod = new Method(this.classWebDriver, this.webDriver);
+            Object manage = manageMethod.invoke("manage");
+            Method windowMethod = new Method(this.loadClass("org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions"), manage);
+            Object window = windowMethod.invoke("window");
+            Method setPositionMethod = new Method(this.loadClass("org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions$RemoteWindow"), window);
+            setPositionMethod.invoke("setSize", innerDimension);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+    
+    /**
+     * このWEBブラウザのサイズをセットする。
+     * 
+     * @param width
+     * @param height
+     */
+    public final void setSize(int width, int height) {
+        Dimension dimension = new Dimension(width, height);
+        this.setSize(dimension);
+    }
     
     @Override
     public void close() {
@@ -183,7 +248,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
     	} catch (Exception exception) {
     	}
     }
-    
+
     private Class<?> classRemoteWebElement = this.loadClass("org.openqa.selenium.remote.RemoteWebElement");
 
     private Class<?> classWebElement = this.loadClass("org.openqa.selenium.WebElement");
