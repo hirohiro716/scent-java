@@ -608,12 +608,14 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterX
      * @param millimeterY
      * @param millimeterWidth
+     * @return 印刷された画像の大きさ。
      * @throws IOException
      */
-    protected final void printImageToFitWidth(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterWidth) throws IOException {
+    protected final Dimension printImageToFitWidth(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterWidth) throws IOException {
         float ratio = bufferedImage.getWidth() / millimeterWidth;
         float millimeterHeight = bufferedImage.getHeight() / ratio;
         this.printImage(bufferedImage, millimeterX, millimeterY, millimeterWidth, millimeterHeight);
+        return new Dimension(millimeterWidth, millimeterHeight);
     }
     
     /**
@@ -623,12 +625,14 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterX
      * @param millimeterY
      * @param millimeterHeight
+     * @return 印刷された画像の大きさ。
      * @throws IOException
      */
-    protected final void printImageToFitHeight(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterHeight) throws IOException {
+    protected final Dimension printImageToFitHeight(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterHeight) throws IOException {
         float ratio = bufferedImage.getHeight() / millimeterHeight;
         float millimeterWidth = bufferedImage.getWidth() / ratio;
         this.printImage(bufferedImage, millimeterX, millimeterY, millimeterWidth, millimeterHeight);
+        return new Dimension(millimeterWidth, millimeterHeight);
     }
 
     /**
