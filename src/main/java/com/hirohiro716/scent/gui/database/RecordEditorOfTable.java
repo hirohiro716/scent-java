@@ -98,28 +98,30 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         }
     }
 
+    private VerticalPane paneOfContent;
+
     @Override
     protected Control createContent() throws Exception {
-        // Root pane
-        VerticalPane rootPane = new VerticalPane();
-        rootPane.setFillChildToPaneWidth(true);
+        // Content pane
+        this.paneOfContent = new VerticalPane();
+        this.paneOfContent.setFillChildToPaneWidth(true);
         // Top content
         Control topContent = this.createTopContent();
         if (topContent != null) {
-            rootPane.getChildren().add(topContent);
+            this.paneOfContent.getChildren().add(topContent);
         }
         // EditableTable
         this.editableTable = this.createEditableTable();
-        rootPane.getChildren().add(this.editableTable);
-        rootPane.getGrowableControls().add(this.editableTable);
+        this.paneOfContent.getChildren().add(this.editableTable);
+        this.paneOfContent.getGrowableControls().add(this.editableTable);
         // Bottom content
         Control bottomContent = this.createBottomContent();
         if (bottomContent != null) {
-            rootPane.getChildren().add(bottomContent);
+            this.paneOfContent.getChildren().add(bottomContent);
         }
         // Button pane
         this.paneOfBottomButton.setPadding(15);
-        rootPane.getChildren().add(this.paneOfBottomButton);
+        this.paneOfContent.getChildren().add(this.paneOfBottomButton);
         // Add button
         Button buttonAdd = new Button("追加(A)");
         buttonAdd.setMnemonic(KeyCode.A);
@@ -131,7 +133,16 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
         buttonSave.setMnemonic(KeyCode.S);
         buttonSave.addActionEventHandler(this.saveEventHandler);
         this.paneOfBottomButton.getChildren().add(buttonSave);
-        return rootPane;
+        return this.paneOfContent;
+    }
+
+    /**
+     * このエディターの内容を表示するペインを取得する。
+     * 
+     * @return
+     */
+    public VerticalPane getContentPane() {
+        return this.paneOfContent;
     }
 
     private HorizontalPane paneOfBottomButton = new HorizontalPane(VerticalAlignment.CENTER);
