@@ -314,8 +314,6 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
 
     private Class<?> classRemoteWebElement = this.loadClass("org.openqa.selenium.remote.RemoteWebElement");
 
-    private Class<?> classWebElement = this.loadClass("org.openqa.selenium.WebElement");
-
     private Class<?> classBy = this.loadClass("org.openqa.selenium.By");
     
     private Class<?> classJavascriptExecutor = this.loadClass("org.openqa.selenium.JavascriptExecutor");
@@ -581,16 +579,14 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
 
         @Override
         public Element[] getSelectedOptions() throws Exception {
-            ModernWebBrowser browser = ModernWebBrowser.this;
             List<Element> result = new ArrayList<>();
             if (this.getTagName().equalsIgnoreCase("select")) {
-                Constructor constructor = new Constructor("org.openqa.selenium.support.ui.Select");
-                constructor.setParameterTypes(browser.classWebElement);
-                Object selectElement = constructor.newInstance(this.element);
-                Method method = new Method(selectElement);
-                List<?> options = method.invoke("getAllSelectedOptions");
-                for (Object option: options) {
-                    result.add(browser.getElement(option));
+                for (Element element: this.getChildElements()) {
+                    if (element.getTagName().equalsIgnoreCase("option")) {
+                        if (StringObject.newInstance(element.getAttribute("selected")).length() > 0) {
+                            result.add(element);
+                        }
+                    }
                 }
             }
             return result.toArray(new Element[] {});
@@ -598,13 +594,14 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         
         @Override
         public void addSelectedOption(String value) throws Exception {
-            ModernWebBrowser browser = ModernWebBrowser.this;
             if (this.getTagName().equalsIgnoreCase("select")) {
-                Constructor constructor = new Constructor("org.openqa.selenium.support.ui.Select");
-                constructor.setParameterTypes(browser.classWebElement);
-                Object selectElement = constructor.newInstance(this.element);
-                Method method = new Method(selectElement);
-                method.invoke("selectByValue", value);
+                for (Element element: this.getChildElements()) {
+                    if (element.getTagName().equalsIgnoreCase("option")) {
+                        if (value.equals(element.getAttribute("value"))) {
+                            element.setAttribute("selected", "selected");
+                        }
+                    }
+                }
             }
         }
         
