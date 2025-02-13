@@ -48,17 +48,41 @@ public class PropertyXML {
     private XMLNode xmlNode;
     
     /**
+     * プロパティ名の要素が存在する場合はtrueを返す。
+     * 
+     * @param physicalName
+     * @return
+     */
+    public boolean exists(String physicalName) {
+        XMLNode node = this.xmlNode.findXMLNodeByName(physicalName);
+        if (node == null) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
      * プロパティが存在する場合はtrueを返す。
      * 
      * @param property
      * @return
      */
     public boolean exists(PropertyInterface property) {
-        XMLNode node = this.xmlNode.findXMLNodeByName(property.getPhysicalName());
+        return this.exists(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定された物理名のプロパティ値を読み込む。該当がない場合はnullを返す。
+     * 
+     * @param physicalName
+     * @return
+     */
+    public String get(String physicalName) {
+        XMLNode node = this.xmlNode.findXMLNodeByName(physicalName);
         if (node == null) {
-            return false;
+            return null;
         }
-        return true;
+        return node.getTextContent();
     }
     
     /**
@@ -68,11 +92,21 @@ public class PropertyXML {
      * @return
      */
     public String get(PropertyInterface property) {
-        XMLNode node = this.xmlNode.findXMLNodeByName(property.getPhysicalName());
+        return this.get(property.getPhysicalName());
+    }
+    
+    /**
+     * 指定された物理名のプロパティ値をエントリする。ファイルへの書き込みは行わない。
+     * 
+     * @param physicalName
+     * @param value
+     */
+    public void entry(String physicalName, String value) {
+        XMLNode node = this.xmlNode.findXMLNodeByName(physicalName);
         if (node == null) {
-            return null;
+            node = this.xmlNode.createNode(physicalName);
         }
-        return node.getTextContent();
+        node.setTextContent(StringObject.newInstance(value).toString());
     }
     
     /**
@@ -82,11 +116,19 @@ public class PropertyXML {
      * @param value
      */
     public void entry(PropertyInterface property, String value) {
-        XMLNode node = this.xmlNode.findXMLNodeByName(property.getPhysicalName());
-        if (node == null) {
-            node = this.xmlNode.createNode(property.getPhysicalName());
+        this.entry(property.getPhysicalName(), value);
+    }
+    
+    /**
+     * 指定された物理名のプロパティエントリを削除する。ファイルへの書き込みは行わない。
+     * 
+     * @param physicalName
+     */
+    public void removeEntry(String physicalName) {
+        XMLNode node = this.xmlNode.findXMLNodeByName(physicalName);
+        if (node != null) {
+            node.remove();
         }
-        node.setTextContent(StringObject.newInstance(value).toString());
     }
     
     /**
@@ -95,10 +137,7 @@ public class PropertyXML {
      * @param property
      */
     public void removeEntry(PropertyInterface property) {
-        XMLNode node = this.xmlNode.findXMLNodeByName(property.getPhysicalName());
-        if (node != null) {
-            node.remove();
-        }
+        this.removeEntry(property.getPhysicalName());
     }
     
     /**
