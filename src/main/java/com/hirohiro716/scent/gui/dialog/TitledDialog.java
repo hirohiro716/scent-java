@@ -98,6 +98,7 @@ public abstract class TitledDialog<R> extends Dialog<R> {
                 
                 @Override
                 protected void handle(ActionEvent event) {
+                    dialog.setCanceledDialogResult();
                     dialog.close();
                 }
             });
