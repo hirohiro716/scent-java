@@ -1,10 +1,14 @@
 package com.hirohiro716.scent.database.sqlite;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import com.hirohiro716.scent.StringObject;
 import com.hirohiro716.scent.database.DataNotFoundException;
 import com.hirohiro716.scent.database.Database;
+import com.hirohiro716.scent.datetime.Datetime;
 import com.hirohiro716.scent.filesystem.File;
 
 /**
@@ -101,6 +105,19 @@ public abstract class SQLite extends Database {
      * SQLiteにはBoolean型が無いのでINTEGERで代用する際の無効を表す数値。
      */
     public static final int BOOLEAN_VALUE_DISABLED = 0;
+
+    @Override
+    public Object[] castBindParameters(Object[] parameters) {
+        List<Object> bindParameters = new ArrayList<>();
+        for (Object parameter: parameters) {
+            if (parameter instanceof Date) {
+                bindParameters.add(Datetime.newInstance((Date) parameter).toString());
+            } else {
+                bindParameters.add(parameter);
+            }
+        }
+        return bindParameters.toArray();
+    }
 
     /**
      * SQLiteデータベースに指定された物理名のテーブルが存在するか確認する。

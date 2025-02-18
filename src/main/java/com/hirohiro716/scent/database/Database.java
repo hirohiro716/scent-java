@@ -209,6 +209,14 @@ public abstract class Database implements Closeable {
     public boolean isClosed() throws SQLException {
         return this.connection == null || this.connection.isClosed();
     }
+
+    /**
+     * 指定されたバインド変数をキャストする。
+     * 
+     * @param parameters
+     * @return
+     */
+    public abstract Object[] castBindParameters(Object[] parameters);
     
     /**
      * データベースに対して更新系のSQLを実行する。
@@ -235,8 +243,9 @@ public abstract class Database implements Closeable {
     public int execute(String sql, Object[] parameters) throws SQLException {
         try (java.sql.PreparedStatement statement = this.connection.prepareStatement(sql)) {
             statement.setQueryTimeout(this.queryTimeout);
-            for (int index = 0; index < parameters.length; index++) {
-                statement.setObject(index + 1, convertToBindParameter(parameters[index]));
+            Object[] bindParameters = this.castBindParameters(parameters);
+            for (int index = 0; index < bindParameters.length; index++) {
+                statement.setObject(index + 1, convertToBindParameter(bindParameters[index]));
             }
             return statement.executeUpdate();
         }
@@ -268,8 +277,9 @@ public abstract class Database implements Closeable {
     public <T> T fetchField(String sql, Object[] parameters) throws SQLException, DataNotFoundException {
         try (java.sql.PreparedStatement statement = this.connection.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
             statement.setQueryTimeout(this.queryTimeout);
-            for (int index = 0; index < parameters.length; index++) {
-                statement.setObject(index + 1, convertToBindParameter(parameters[index]));
+            Object[] bindParameters = this.castBindParameters(parameters);
+            for (int index = 0; index < bindParameters.length; index++) {
+                statement.setObject(index + 1, convertToBindParameter(bindParameters[index]));
             }
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -323,8 +333,9 @@ public abstract class Database implements Closeable {
     public DynamicArray<String> fetchRecord(String sql, Object[] parameters) throws SQLException, DataNotFoundException {
         try (java.sql.PreparedStatement statement = this.connection.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
             statement.setQueryTimeout(this.queryTimeout);
-            for (int index = 0; index < parameters.length; index++) {
-                statement.setObject(index + 1, convertToBindParameter(parameters[index]));
+            Object[] bindParameters = this.castBindParameters(parameters);
+            for (int index = 0; index < bindParameters.length; index++) {
+                statement.setObject(index + 1, convertToBindParameter(bindParameters[index]));
             }
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -377,8 +388,9 @@ public abstract class Database implements Closeable {
     public DynamicArray<String>[] fetchRecords(String sql, Object[] parameters) throws SQLException {
         try (java.sql.PreparedStatement statement = this.connection.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
             statement.setQueryTimeout(this.queryTimeout);
-            for (int index = 0; index < parameters.length; index++) {
-                statement.setObject(index + 1, convertToBindParameter(parameters[index]));
+            Object[] bindParameters = this.castBindParameters(parameters);
+            for (int index = 0; index < bindParameters.length; index++) {
+                statement.setObject(index + 1, convertToBindParameter(bindParameters[index]));
             }
             try (ResultSet resultSet = statement.executeQuery()) {
                 List<DynamicArray<String>> rows = new ArrayList<>();
@@ -451,19 +463,15 @@ public abstract class Database implements Closeable {
             }
             sql.append(columns[index]);
         }
-        List<Object> convertedValues = new ArrayList<>();
-        for (Object value: values.getValues()) {
-            convertedValues.add(convertToBindParameter(value));
-        }
         sql.append(") VALUES (");
-        for (int index = 0; index < convertedValues.size(); index++) {
+        for (int index = 0; index < values.getValues().size(); index++) {
             if (index > 0) {
                 sql.append(", ");
             }
             sql.append("?");
         }
         sql.append(");");
-        this.execute(sql.toString(), convertedValues);
+        this.execute(sql.toString(), values.getValues());
     }
     
     /**
@@ -511,7 +519,7 @@ public abstract class Database implements Closeable {
         sql.append(";");
         DynamicArray<Integer> parameters = new DynamicArray<>();
         for (Object value: values.getValues()) {
-            parameters.add(convertToBindParameter(value));
+            parameters.add(value);
         }
         parameters.add(whereSet.buildParameters());
         int result = this.execute(sql.toString(), parameters.getValues());
@@ -713,8 +721,11 @@ public abstract class Database implements Closeable {
          * @throws SQLException
          */
         public void execute(Object[] parameters) throws SQLException {
-            for (int i = 0; i < parameters.length; i++) {
-                this.statement.setObject(i + 1, convertToBindParameter(parameters[i]));
+            @SuppressWarnings("resource")
+            Database database = Database.this;
+            Object[] bindParameters = database.castBindParameters(parameters);
+            for (int i = 0; i < bindParameters.length; i++) {
+                this.statement.setObject(i + 1, convertToBindParameter(bindParameters[i]));
             }
             this.numberOfChanges += this.statement.executeUpdate();
         }

@@ -61,6 +61,11 @@ public abstract class PostgreSQL extends Database {
     public void connect(String serverAddress, String databaseName, String userName, String password, String characterEncoding) throws SQLException {
         this.connect(serverAddress, databaseName, userName, password, characterEncoding, -1);
     }
+
+    @Override
+    public Object[] castBindParameters(Object[] parameters) {
+        return parameters;
+    }
     
     /**
      * テーブルの読み取りと書き込みをロックする。
