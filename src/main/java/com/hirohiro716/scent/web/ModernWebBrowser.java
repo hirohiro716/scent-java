@@ -104,6 +104,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
             options = optionConstructor.newInstance();
             Method chromeOptionsMethod = new Method(this.loadClass("org.openqa.selenium.chrome.ChromeOptions"), options);
             chromeOptionsMethod.setParameterTypes(String[].class);
+            chromeOptionsMethod.invoke("addArguments", (Object) new String[] {"--password-store=basic"});
             chromeOptionsMethod.invoke("addArguments", (Object) new String[] {"--allow-file-access-from-files"});
             Map<String, Object> chromePrefs = new HashMap<>();
             chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
