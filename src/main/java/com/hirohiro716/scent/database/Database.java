@@ -439,7 +439,7 @@ public abstract class Database implements Closeable {
      */
     public long fetchNumberOfRecords(String tableName) throws SQLException {
         try {
-            return this.fetchField(StringObject.join("SELECT COUNT(*) FROM ", tableName, ";").toString());
+            return StringObject.newInstance(this.fetchField(StringObject.join("SELECT COUNT(*) FROM ", tableName, ";").toString())).toLong();
         } catch (DataNotFoundException exception) {
             return 0;
         }
