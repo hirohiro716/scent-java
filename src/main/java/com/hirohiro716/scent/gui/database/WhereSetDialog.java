@@ -6,6 +6,7 @@ import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -192,6 +193,28 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
      */
     public void addNumberStringComparison(Comparison comparison, String text) {
         this.mapNumberStringComparison.put(comparison, text);
+    }
+
+    private Map<String, Comparison[]> mapSearchableColumnAndComparison = new LinkedHashMap<>();
+
+    /**
+     * カラム毎の比較演算子をセットする。
+     * 
+     * @param searchableColumn
+     * @param comparisons
+     */
+    public void setComparisonsByColumn(String searchableColumn, Comparison... comparisons) {
+        this.mapSearchableColumnAndComparison.put(searchableColumn, comparisons);
+    }
+
+    /**
+     * カラム毎の比較演算子をセットする。
+     * 
+     * @param searchableColumn
+     * @param comparisons
+     */
+    public void setComparisonsByColumn(ColumnInterface searchableColumn, Comparison... comparisons) {
+        this.setComparisonsByColumn(searchableColumn.getFullPhysicalName(), comparisons);
     }
 
     private Collection<RowControlCallback> rowControlCallbacks = new Collection<>();
@@ -764,7 +787,7 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
         pane.getChildren().add(label);
         // DropDownList of comparison
         ColumnType columnType = this.mapColumnType.get(searchableColumn);
-        DropDownList<Comparison> dropDownList = this.createDropDownListOfComparison(columnType);
+        DropDownList<Comparison> dropDownList = this.createDropDownListOfComparison(searchableColumn, columnType);
         dropDownList.setName(WhereSetDialog.NAME_OF_COMPARISON_CONTROL);
         dropDownList.addSelectedItemChangeListener(this.comparisonChangeListener);
         pane.getChildren().add(dropDownList);
@@ -780,59 +803,81 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     }
     
     /**
-     * カラムの種類から比較演算子を指定させるドロップダウンリストを作成する。
+     * 検索カラムと種類から比較演算子を指定させるドロップダウンリストを作成する。
      * 
+     * @param searchableColumn
      * @param columnType
      * @return
      */
-    private DropDownList<Comparison> createDropDownListOfComparison(ColumnType columnType) {
-        Map<Comparison, String> mapComparison = new LinkedHashMap<>();
+    private DropDownList<Comparison> createDropDownListOfComparison(String searchableColumn, ColumnType columnType) {
+        Map<Comparison, String> mapDisplayTextForItem = new HashMap<>();
+        mapDisplayTextForItem.put(Comparison.EQUAL, "検索値と等しい");
+        mapDisplayTextForItem.put(Comparison.LIKE, "検索値を含む");
+        mapDisplayTextForItem.put(Comparison.BETWEEN, "検索値１～検索値２の間");
+        mapDisplayTextForItem.put(Comparison.IS_NULL, "値が未設定");
+        List<Comparison> comparisons = new ArrayList<>();
         int width = this.getPane().getFont().getSize();
         switch (columnType) {
         case STRING:
             width *= 10;
-            mapComparison.put(Comparison.EQUAL, "検索値と等しい");
-            mapComparison.put(Comparison.LIKE, "検索値を含む");
+            comparisons.add(Comparison.EQUAL);
+            comparisons.add(Comparison.LIKE);
             for (Comparison comparison: this.mapStringComparison.keySet()) {
-                mapComparison.put(comparison, this.mapStringComparison.get(comparison));
+                comparisons.add(comparison);
+                mapDisplayTextForItem.put(comparison, this.mapStringComparison.get(comparison));
             }
-            mapComparison.put(Comparison.IS_NULL, "値が未設定");
+            comparisons.add(Comparison.IS_NULL);
             break;
         case NUMBER_STRING:
             width *= 14;
-            mapComparison.put(Comparison.EQUAL, "検索値と等しい");
-            mapComparison.put(Comparison.BETWEEN, "検索値１～検索値２の間");
-            mapComparison.put(Comparison.LIKE, "検索値を含む");
+            comparisons.add(Comparison.EQUAL);
+            comparisons.add(Comparison.BETWEEN);
+            comparisons.add(Comparison.LIKE);
             for (Comparison comparison: this.mapNumberStringComparison.keySet()) {
-                mapComparison.put(comparison, this.mapNumberStringComparison.get(comparison));
+                comparisons.add(comparison);
+                mapDisplayTextForItem.put(comparison, this.mapNumberStringComparison.get(comparison));
             }
-            mapComparison.put(Comparison.IS_NULL, "値が未設定");
+            comparisons.add(Comparison.IS_NULL);
             break;
         case NUMBER:
         case DATE:
         case DATE_STRING:
             width *= 14;
-            mapComparison.put(Comparison.EQUAL, "検索値と等しい");
-            mapComparison.put(Comparison.BETWEEN, "検索値１～検索値２の間");
-            mapComparison.put(Comparison.IS_NULL, "値が未設定");
+            comparisons.add(Comparison.EQUAL);
+            comparisons.add(Comparison.BETWEEN);
+            comparisons.add(Comparison.IS_NULL);
             break;
         case DATETIME:
         case DATETIME_STRING:
             width *= 14;
-            mapComparison.put(Comparison.BETWEEN, "検索値１～検索値２の間");
-            mapComparison.put(Comparison.IS_NULL, "値が未設定");
+            comparisons.add(Comparison.BETWEEN);
+            comparisons.add(Comparison.IS_NULL);
             break;
         case BOOLEAN:
         case SELECTABLE:
             width *= 10;
-            mapComparison.put(Comparison.EQUAL, "検索値と等しい");
-            mapComparison.put(Comparison.IS_NULL, "値が未設定");
+            comparisons.add(Comparison.EQUAL);
+            comparisons.add(Comparison.IS_NULL);
             break;
+        }
+        if (this.mapSearchableColumnAndComparison.containsKey(searchableColumn)) {
+            comparisons = Arrays.asList(this.mapSearchableColumnAndComparison.get(searchableColumn));
+            for (Comparison comparison: comparisons) {
+                if (mapDisplayTextForItem.containsKey(comparison) == false) {
+                    if (this.mapStringComparison.containsKey(comparison)) {
+                        mapDisplayTextForItem.put(comparison, this.mapStringComparison.get(comparison));
+                    } else {
+                        if (this.mapNumberStringComparison.containsKey(comparison)) {
+                            mapDisplayTextForItem.put(comparison, this.mapNumberStringComparison.get(comparison));
+                        }    
+                    }
+                }
+            }
         }
         DropDownList<Comparison> dropDownList = new DropDownList<>();
         dropDownList.setMinimumWidth(width);
-        dropDownList.getItems().addAll(mapComparison.keySet());
-        dropDownList.setMapDisplayTextForItem(mapComparison);
+        dropDownList.getItems().addAll(comparisons);
+        dropDownList.setMapDisplayTextForItem(mapDisplayTextForItem);
         return dropDownList;
     }
     
