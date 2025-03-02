@@ -145,7 +145,7 @@ public class WhereSet implements Cloneable {
      * 
      * @param where
      */
-    protected void add(Where where) {
+    public void add(Where where) {
         this.wheres.add(where);
     }
     
