@@ -1,5 +1,6 @@
 package com.hirohiro716.scent.gui.control;
 
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ public class TabPane extends Control {
             
             @Override
             protected void added(Tab added, int positionIndex) {
+                added.getTitleLabel().setFont(instance.getFont());
                 added.getPane().setParent(instance);
                 instance.getInnerInstance().addTab(added.getTitle(), added.getPane().getInnerInstance());
             }
@@ -73,6 +75,16 @@ public class TabPane extends Control {
     @Override
     public JTabbedPane getInnerInstance() {
         return (JTabbedPane) super.getInnerInstance();
+    }
+
+    @Override
+    public void setFont(Font font) {
+        super.setFont(font);
+        if (this.tabs != null) {
+            for (Tab tab: this.tabs) {
+                tab.getTitleLabel().setFont(font);
+            }
+        }
     }
 
     private Map<Pane, Boolean> mapTabPaneDisabled = new HashMap<>();
