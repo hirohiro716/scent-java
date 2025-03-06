@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.AbstractCellEditor;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -117,7 +116,10 @@ public abstract class TableView<C, R> extends Control {
                     return;
                 }
                 tableView.isTouchScrollStarted = true;
-                tableView.selectedRowsBeforeScroll = tableView.getSelectedRows().getUnmodifiableList();
+                if (tableView.defaultSelectionForegroundColor == null || tableView.defaultSelectionBackgroundColor == null) {
+                    tableView.defaultSelectionForegroundColor = tableView.getInnerInstance().getSelectionForeground();
+                    tableView.defaultSelectionBackgroundColor = tableView.getInnerInstance().getSelectionBackground();
+                }
             }
         });
         this.addMouseDraggedEventHandler(new EventHandler<MouseEvent>() {
@@ -127,8 +129,10 @@ public abstract class TableView<C, R> extends Control {
                 if (tableView.isTouchScrollStarted == false) {
                     return;
                 }
-                if (tableView.getInnerInstance().getSelectionModel() != tableView.nonSelectableModel) {
-                    tableView.getInnerInstance().setSelectionModel(tableView.nonSelectableModel);
+                if (tableView.getInnerInstance().getSelectionForeground() != tableView.getInnerInstance().getForeground() || tableView.getInnerInstance().getSelectionBackground() != tableView.getInnerInstance().getBackground()) {
+                    tableView.getInnerInstance().setSelectionForeground(tableView.getInnerInstance().getForeground());
+                    tableView.getInnerInstance().setSelectionBackground(tableView.getInnerInstance().getBackground());
+                    tableView.getInnerInstance().repaint();
                 }
             }
         });
@@ -139,12 +143,10 @@ public abstract class TableView<C, R> extends Control {
                 if (tableView.isTouchScrollStarted == false) {
                     return;
                 }
-                tableView.isTouchScrollStarted = false;
-                if (tableView.getInnerInstance().getSelectionModel() != tableView.defaultSelectionModel) {
-                    tableView.getInnerInstance().setSelectionModel(tableView.defaultSelectionModel);
-                }
-                if (tableView.selectedRowsBeforeScroll != null) {
-                    tableView.setSelectedRows(tableView.selectedRowsBeforeScroll);
+                if (tableView.getInnerInstance().getSelectionForeground() == tableView.getInnerInstance().getForeground() || tableView.getInnerInstance().getSelectionBackground() == tableView.getInnerInstance().getBackground()) {
+                    tableView.getInnerInstance().setSelectionForeground(tableView.defaultSelectionForegroundColor);
+                    tableView.getInnerInstance().setSelectionBackground(tableView.defaultSelectionBackgroundColor);
+                    tableView.getInnerInstance().repaint();
                 }
             }
         });
@@ -212,20 +214,11 @@ public abstract class TableView<C, R> extends Control {
         return this.scrollPane;
     }
 
-    private List<R> selectedRowsBeforeScroll = null;
-
     private boolean isTouchScrollStarted = false;
 
-    private ListSelectionModel defaultSelectionModel = new DefaultListSelectionModel();
+    private Color defaultSelectionForegroundColor = null;
 
-    private ListSelectionModel nonSelectableModel = new DefaultListSelectionModel() {
-
-        @Override
-        public void setSelectionInterval(int index0, int index1) {}
-
-        @Override
-        public void addSelectionInterval(int index0, int index1) {}
-    };
+    private Color defaultSelectionBackgroundColor = null;
 
     /**
      * このテーブルビューで複数選択が可能な場合はtrueを返す。
