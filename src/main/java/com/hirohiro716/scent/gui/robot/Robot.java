@@ -39,7 +39,7 @@ public class Robot extends java.awt.Robot {
      * 
      * @param keyCodes
      */
-    public void KeyType(Integer... keyCodes) {
+    public void keyType(Integer... keyCodes) {
         for (Integer key: keyCodes) {
             this.keyPress(key);
         }
@@ -53,7 +53,7 @@ public class Robot extends java.awt.Robot {
      * 
      * @param keyCodes
      */
-    public void KeyType(KeyCode... keyCodes) {
+    public void keyType(KeyCode... keyCodes) {
         for (KeyCode keyCode: keyCodes) {
             this.keyPress(keyCode.getKeyCodeAWT());
         }

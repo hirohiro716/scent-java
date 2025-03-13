@@ -143,7 +143,7 @@ public class TypingTask {
         for (Task task: this.tasks) {
             switch (task.getTaskType()) {
             case KEY:
-                this.robot.KeyType(task.keyCodes);
+                this.robot.keyType(task.keyCodes);
                 break;
             case SLEEP:
                 try {
