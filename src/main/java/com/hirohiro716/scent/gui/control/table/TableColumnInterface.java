@@ -3,7 +3,7 @@ package com.hirohiro716.scent.gui.control.table;
 import com.hirohiro716.scent.gui.HorizontalAlignment;
 import com.hirohiro716.scent.gui.event.EventHandler;
 import com.hirohiro716.scent.gui.event.MouseEvent;
-import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
+import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * テーブルカラムのインターフェース。

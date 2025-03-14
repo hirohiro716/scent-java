@@ -15,7 +15,7 @@ import com.hirohiro716.scent.gui.KeyCode;
 import com.hirohiro716.scent.gui.VerticalAlignment;
 import com.hirohiro716.scent.gui.event.EventHandler;
 import com.hirohiro716.scent.gui.event.MouseEvent;
-import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
+import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * ラベルのクラス。

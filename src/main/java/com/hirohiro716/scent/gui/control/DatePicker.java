@@ -25,7 +25,7 @@ import com.hirohiro716.scent.gui.event.ChangeListener;
 import com.hirohiro716.scent.gui.event.EventHandler;
 import com.hirohiro716.scent.gui.event.KeyEvent;
 import com.hirohiro716.scent.gui.event.MouseEvent;
-import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
+import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * 日付の入力に特化したテキストフィールドのクラス。

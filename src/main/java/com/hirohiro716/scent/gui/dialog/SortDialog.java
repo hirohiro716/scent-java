@@ -22,7 +22,7 @@ import com.hirohiro716.scent.gui.control.VerticalPane;
 import com.hirohiro716.scent.gui.event.ActionEvent;
 import com.hirohiro716.scent.gui.event.EventHandler;
 import com.hirohiro716.scent.gui.event.MouseEvent;
-import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
+import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * 複数の値をソートするダイアログのクラス。

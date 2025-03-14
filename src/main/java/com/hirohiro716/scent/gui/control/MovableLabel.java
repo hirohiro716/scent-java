@@ -12,7 +12,7 @@ import com.hirohiro716.scent.gui.MouseCursor;
 import com.hirohiro716.scent.gui.event.ChangeListener;
 import com.hirohiro716.scent.gui.event.EventHandler;
 import com.hirohiro716.scent.gui.event.MouseEvent;
-import com.hirohiro716.scent.gui.event.MouseEvent.MouseButton;
+import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * マウス操作で移動やサイズ変更が可能なラベルのクラス。

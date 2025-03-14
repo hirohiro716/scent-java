@@ -8,6 +8,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
 import com.hirohiro716.scent.gui.Component;
+import com.hirohiro716.scent.gui.MouseButton;
 import com.hirohiro716.scent.gui.control.Control;
 
 /**
@@ -168,27 +169,7 @@ public class MouseEvent extends InputEvent<java.awt.event.MouseEvent> {
         }
         return 0;
     }
-        
-    /**
-     * マウスのボタンを表す列挙型。
-     * 
-     * @author hiro
-     */
-    public enum MouseButton {
-        /**
-         * ボタン1、通常のマウスボタン配置で左側。
-         */
-        BUTTON1,
-        /**
-         * ボタン2、通常のマウスボタン配置で中央。
-         */
-        BUTTON2,
-        /**
-         * ボタン3、通常のマウスボタン配置で右側。
-         */
-        BUTTON3,
-    }
-    
+
     /**
      * マウスクリックのイベントを実際に処理する、GUIライブラリに依存したイベントハンドラを作成する。
      * 

@@ -5,6 +5,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
 import com.hirohiro716.scent.gui.KeyCode;
+import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * マウスやキーボードのネイティブなシステム入力イベントを生成し、アプリケーションを自動操作するクラス。
@@ -59,6 +60,34 @@ public class Robot extends java.awt.Robot {
         }
         for (KeyCode keyCode: keyCodes) {
             this.keyRelease(keyCode.getKeyCodeAWT());
+        }
+    }
+
+    /**
+     * 指定されたマウスボタンを押して離す。同時に入力を行う場合は複数の値を指定する。
+     * 
+     * @param buttons
+     */
+    public synchronized void mouseClick(MouseButton... buttons) {
+        for (MouseButton mouseButton: buttons) {
+            super.mousePress(mouseButton.getButtonOfAWT());
+        }
+        for (MouseButton mouseButton: buttons) {
+            super.mouseRelease(mouseButton.getButtonOfAWT());
+        }
+    }
+
+    /**
+     * 指定されたマウスボタンを押して離す。同時に入力を行う場合は複数の値を指定する。
+     * 
+     * @param buttons
+     */
+    public synchronized void mouseClick(Integer... buttons) {
+        for (Integer button: buttons) {
+            super.mousePress(button);
+        }
+        for (Integer button: buttons) {
+            super.mouseRelease(button);
         }
     }
 }
