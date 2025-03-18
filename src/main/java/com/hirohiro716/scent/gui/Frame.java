@@ -3,7 +3,6 @@ package com.hirohiro716.scent.gui;
 import java.awt.Color;
 import java.awt.GraphicsDevice;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hirohiro716.scent.Bounds;
 import com.hirohiro716.scent.Dimension;
 import com.hirohiro716.scent.ExceptionMessenger;
 import com.hirohiro716.scent.Regex;
@@ -280,8 +280,8 @@ public abstract class Frame<T extends java.awt.Window> extends Component<T> {
         Frame<T> frame = this;
         if (this.isSetLocation == false) {
             if (GUI.getGraphicsDevices().length > 0) {
-                Rectangle screenRectangle = GUI.getMaximumWindowBounds(GUI.getDefaultGraphicsDevice());
-                this.setLocation(screenRectangle.x + screenRectangle.width / 2 - this.getWidth() / 2, screenRectangle.y + screenRectangle.height / 2 - this.getHeight() / 2);
+                Bounds screenBounds = GUI.getMaximumWindowBounds(GUI.getDefaultGraphicsDevice());
+                this.setLocation(screenBounds.getIntegerX() + screenBounds.getIntegerWidth() / 2 - this.getWidth() / 2, screenBounds.getIntegerY() + screenBounds.getIntegerHeight() / 2 - this.getHeight() / 2);
             }
         }
         this.bindLabelForControl();

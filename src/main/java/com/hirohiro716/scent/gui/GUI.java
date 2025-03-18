@@ -19,6 +19,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.hirohiro716.scent.Bounds;
 import com.hirohiro716.scent.RoundNumber;
 
 /**
@@ -331,17 +332,27 @@ public class GUI {
     }
     
     /**
+     * 指定されたグラフィックデバイスの領域を取得する。
+     * 
+     * @param graphicsDevice
+     * @return
+     */
+    public static Bounds getGraphicsDeviceBounds(GraphicsDevice graphicsDevice) {
+        GraphicsConfiguration graphicsConfiguration = graphicsDevice.getDefaultConfiguration();
+        Rectangle rectangle = graphicsConfiguration.getBounds();
+        return new Bounds(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+    }
+
+    /**
      * 指定されたグラフィックデバイスの表示領域のうち、ウィンドウの表示に使用できる最大領域を取得する。
      * 
      * @param graphicsDevice
      * @return
      */
-    public static Rectangle getMaximumWindowBounds(GraphicsDevice graphicsDevice) {
+    public static Bounds getMaximumWindowBounds(GraphicsDevice graphicsDevice) {
         GraphicsConfiguration graphicsConfiguration = graphicsDevice.getDefaultConfiguration();
         Rectangle rectangle = graphicsConfiguration.getBounds();
         Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(graphicsConfiguration);
-        rectangle.setLocation(rectangle.x + insets.left, rectangle.y + insets.top);
-        rectangle.setSize(rectangle.width - insets.left - insets.right, rectangle.height - insets.top - insets.bottom);
-        return rectangle;
+        return new Bounds(rectangle.x + insets.left, rectangle.y + insets.top, rectangle.width - insets.left - insets.right, rectangle.height - insets.top - insets.bottom);
     }
 }

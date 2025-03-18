@@ -2,13 +2,13 @@ package com.hirohiro716.scent.gui.control;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hirohiro716.scent.Bounds;
 import com.hirohiro716.scent.Dimension;
 import com.hirohiro716.scent.StringObject;
 import com.hirohiro716.scent.datetime.Datetime;
@@ -395,8 +395,8 @@ public class DatePicker extends TextField {
         this.calendarPane.setYearAndMonth(datetime.getYear(), datetime.getMonth());
         this.popup.setX((int) this.getLocationOnScreen().getX() + 3);
         int y = (int) this.getLocationOnScreen().getY() + this.getHeight() + 3;
-        Rectangle rectangle = GUI.getMaximumWindowBounds(this.findPlacedGraphicsDevice());
-        if (y + this.popup.getHeight() > rectangle.getY() + rectangle.getHeight()) {
+        Bounds bounds = GUI.getMaximumWindowBounds(this.findPlacedGraphicsDevice());
+        if (y + this.popup.getHeight() > bounds.getY() + bounds.getHeight()) {
             y = (int) this.getLocationOnScreen().getY() - this.popup.getHeight() - 3;
         }
         this.popup.setY(y);
