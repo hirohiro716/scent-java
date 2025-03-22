@@ -56,6 +56,7 @@ public class JAN13Writer {
         this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule * this.barScale, height));
         drawingX += oneModule * 2;
         this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule * this.barScale, height));
+        drawingX += oneModule;
         // リーディングディジットを取得する
         int leadingDigit = barcode.clone().extract(0, 1).toInteger();
         // センターガードバーの左側を描画する
