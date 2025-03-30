@@ -298,6 +298,17 @@ public abstract class TableView<C, R> extends Control {
     public Array<C> getColumnInstances() {
         return this.columnInstances.toArray();
     }
+
+    private MouseButton mouseButtonForSortEvent = MouseButton.BUTTON3;
+
+    /**
+     * ソートイベントを実行するマウスボタンをセットする。デフォルトはBUTTON3。
+     * 
+     * @param mouseButton
+     */
+    public void setMouseButtonForSortEvent(MouseButton mouseButton) {
+        this.mouseButtonForSortEvent = mouseButton;
+    }
     
     private Map<C, TableColumn> mapTableColumns = new HashMap<>();
     
@@ -327,7 +338,7 @@ public abstract class TableView<C, R> extends Control {
         this.mapTableColumns.put(columnInstance, tableColumn);
         this.mapColumnHorizontalAlignment.put(columnInstance, horizontalAlignment);
         this.tableModel.updateStructure();
-        tableColumn.addHeaderMouseClickedEventHandler(MouseButton.BUTTON3, new HeaderClickedToSortEventHandler(columnInstance));
+        tableColumn.addHeaderMouseClickedEventHandler(this.mouseButtonForSortEvent, new HeaderClickedToSortEventHandler(columnInstance));
         return tableColumn;
     }
     
