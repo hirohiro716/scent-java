@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.channels.FileLock;
 import java.util.Arrays;
 
 import com.hirohiro716.scent.StringObject;
@@ -125,7 +126,9 @@ public class ByteArray {
      */
     public void saveToFile(File file) throws IOException {
         try (FileOutputStream stream = new FileOutputStream(file)) {
-            stream.write(this.bytes);
+            try (FileLock fileLock = stream.getChannel().lock()) {
+                stream.write(this.bytes);
+            }
         }
     }
 

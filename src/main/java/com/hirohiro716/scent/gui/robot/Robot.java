@@ -3,6 +3,10 @@ package com.hirohiro716.scent.gui.robot;
 import java.awt.AWTException;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import com.hirohiro716.scent.gui.KeyCode;
 import com.hirohiro716.scent.gui.MouseButton;
@@ -34,18 +38,48 @@ public class Robot extends java.awt.Robot {
     public Robot() throws AWTException {
         this(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
     }
-    
+
     /**
-     * 指定されたキーを押して離す。同時にキー入力を行う場合は複数の値を指定する。
+     * 指定されたキーを押す。同時にキー入力を行う場合は複数の値を指定する。
      * 
      * @param keyCodes
      */
-    public void keyType(Integer... keyCodes) {
+    public synchronized void keyPress(Integer... keyCodes) {
         for (Integer key: keyCodes) {
-            this.keyPress(key);
+            super.keyPress(key);
         }
+    }
+    
+    /**
+     * 指定されたキーを押す。同時にキー入力を行う場合は複数の値を指定する。
+     * 
+     * @param keyCodes
+     */
+    public synchronized void keyPress(KeyCode... keyCodes) {
+        for (KeyCode keyCode: keyCodes) {
+            super.keyPress(keyCode.getKeyCodeAWT());
+        }
+    }
+
+    /**
+     * 指定されたキーを離す。同時にキー入力を行う場合は複数の値を指定する。
+     * 
+     * @param keyCodes
+     */
+    public synchronized void keyRelease(Integer... keyCodes) {
         for (Integer key: keyCodes) {
-            this.keyRelease(key);
+            super.keyRelease(key);
+        }
+    }
+    
+    /**
+     * 指定されたキーを離す。同時にキー入力を行う場合は複数の値を指定する。
+     * 
+     * @param keyCodes
+     */
+    public synchronized void keyRelease(KeyCode... keyCodes) {
+        for (KeyCode keyCode: keyCodes) {
+            super.keyRelease(keyCode.getKeyCodeAWT());
         }
     }
     
@@ -54,12 +88,28 @@ public class Robot extends java.awt.Robot {
      * 
      * @param keyCodes
      */
-    public void keyType(KeyCode... keyCodes) {
-        for (KeyCode keyCode: keyCodes) {
-            this.keyPress(keyCode.getKeyCodeAWT());
+    public synchronized void keyType(Integer... keyCodes) {
+        for (Integer key: keyCodes) {
+            super.keyPress(key);
         }
+        for (Integer key: keyCodes) {
+            super.keyRelease(key);
+        }
+    }
+    
+    /**
+     * 指定されたキーを押して離す。同時にキー入力を行う場合は複数の値を指定する。
+     * 
+     * @param keyCodes
+     */
+    public synchronized void keyType(KeyCode... keyCodes) {
         for (KeyCode keyCode: keyCodes) {
-            this.keyRelease(keyCode.getKeyCodeAWT());
+            super.keyPress(keyCode.getKeyCodeAWT());
+        }
+        List<KeyCode> reversedKeyCode = new ArrayList<>(Arrays.asList(keyCodes));
+        Collections.reverse(reversedKeyCode);
+        for (KeyCode keyCode: reversedKeyCode) {
+            super.keyRelease(keyCode.getKeyCodeAWT());
         }
     }
 

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URI;
+import java.nio.channels.FileLock;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -244,12 +245,14 @@ public class File extends FilesystemItem {
      */
     public void write(InputStream inputStream, int bufferByteSize) throws IOException {
         try (FileOutputStream outputStream = new FileOutputStream(this.getAbsolutePath())) {
-            byte buffer[] = new byte[bufferByteSize];
-            int length;
-            while ((length = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, length);
+            try (FileLock fileLock = outputStream.getChannel().lock()) {
+                byte buffer[] = new byte[bufferByteSize];
+                int length;
+                while ((length = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, length);
+                }
+                outputStream.flush();
             }
-            outputStream.flush();
         }
     }
 
@@ -270,8 +273,10 @@ public class File extends FilesystemItem {
             exception.printStackTrace();
         }
         try (FileOutputStream stream = new FileOutputStream(this.toJavaIoFile())) {
-            try (OutputStreamWriter writer = new OutputStreamWriter(stream, charset)) {
-                writingProcess.call(writer);
+            try (FileLock fileLock = stream.getChannel().lock()) {
+                try (OutputStreamWriter writer = new OutputStreamWriter(stream, charset)) {
+                    writingProcess.call(writer);
+                }
             }
         }
     }

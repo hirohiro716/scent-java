@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.channels.FileLock;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,7 +145,9 @@ public class XML {
      */
     public void exportToFile(File file, String encoding) throws IOException, TransformerException {
         try (FileOutputStream outputStream = new FileOutputStream(file.toJavaIoFile())) {
-            this.transform(new StreamResult(outputStream), encoding);
+            try (FileLock fileLock = outputStream.getChannel().lock()) {
+                this.transform(new StreamResult(outputStream), encoding);
+            }
         }
     }
 
