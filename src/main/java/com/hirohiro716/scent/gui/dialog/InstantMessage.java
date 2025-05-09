@@ -146,6 +146,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
      * @param closeAfterMillisecond このミリ秒数を経過後に自動的にメッセージを閉じる。
      */
     public void show(Integer closeAfterMillisecond) {
+        this.updateLocation();
         this.getInnerInstance().setVisible(true);
         if (closeAfterMillisecond != null) {
             Thread thread = new Thread(new Runnable() {
@@ -279,7 +280,6 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
             if (windowWidth != this.getWidth() || windowHeight != this.getHeight()) {
                 this.setSize(windowWidth, windowHeight);
                 this.instantMessage.updateLocation();
-                
             }
             // Draw background
             int arc = fontSize * 2;
