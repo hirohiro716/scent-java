@@ -246,6 +246,10 @@ public abstract class Editor<T> extends Window {
      */
     @Override
     public void close() {
+        try {
+            this.processBeforeClosing();
+        } catch (Exception exception) {
+        }
         this.isShowConfirmationBeforeClosing = false;
         super.close();
     }
@@ -292,12 +296,8 @@ public abstract class Editor<T> extends Window {
                     public void execute(ResultButton dialogResult) {
                         CloseEventHandler handler = CloseEventHandler.this;
                         if (dialogResult == ResultButton.OK) {
-                            try {
-                                editor.processBeforeClosing();
-                                editor.isAgreeToClose = true;
-                                editor.close();
-                            } catch (Exception exception) {
-                            }
+                            editor.isAgreeToClose = true;
+                            editor.close();
                         }
                         handler.dialog = null;
                     }
