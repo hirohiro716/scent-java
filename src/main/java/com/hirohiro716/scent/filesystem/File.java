@@ -273,10 +273,13 @@ public class File extends FilesystemItem {
             exception.printStackTrace();
         }
         try (FileOutputStream stream = new FileOutputStream(this.toJavaIoFile())) {
-            try (FileLock fileLock = stream.getChannel().lock()) {
-                try (OutputStreamWriter writer = new OutputStreamWriter(stream, charset)) {
-                    writingProcess.call(writer);
-                }
+            FileLock fileLock = stream.getChannel().lock();
+            try {
+                OutputStreamWriter writer = new OutputStreamWriter(stream, charset);
+                writingProcess.call(writer);
+                writer.flush();
+            } finally {
+                fileLock.release();
             }
         }
     }
