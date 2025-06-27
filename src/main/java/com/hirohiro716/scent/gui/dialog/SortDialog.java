@@ -223,6 +223,7 @@ public class SortDialog<T> extends MessageableDialog<Array<T>> {
         this.verticalPane.setPadding(this.verticalPane.getFont().getSize());
         this.verticalPane.setFillChildToPaneWidth(true);
         this.scrollPane = new ScrollPane(this.verticalPane);
+        this.scrollPane.setTouchScrollDisabled(true);
         return this.scrollPane;
     }
     
