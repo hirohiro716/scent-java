@@ -417,6 +417,28 @@ public class Datetime implements Cloneable {
     }
     
     /**
+     * 月末の場合はtrueを返す。
+     * 
+     * @returns 
+     */
+    public boolean isLastDayOfMonth() {
+        Datetime copy = this.clone();
+        copy.addDay(1);
+        return this.getMonth() < copy.getMonth();
+    }
+
+    /**
+     * このインスタンスの「日」を月末に変更する。
+     */
+    public void changeToLastDayOfMonth() {
+        if (this.isLastDayOfMonth() == false) {
+            this.addMonth(1);
+            this.modifyDay(1);
+            this.addDay(-1);
+        }
+    }
+
+    /**
      * このインスタンスの年月日と時刻を文字列にフォーマットした結果を取得する。
      * 
      * @param dateFormat
