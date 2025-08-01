@@ -167,12 +167,21 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
             editor.addRecord();
         }
     };
+
+    /**
+     * このテーブルコントロールに追加する新しい行情報を作成する。
+     * 
+     * @return
+     */
+    protected DynamicArray<C> createRecord() {
+        return this.getTarget().createDefaultRecord();
+    }
     
     /**
      * このテーブルコントロールに新しい行情報を追加する。
      */
     protected void addRecord() {
-        DynamicArray<C> record = this.getTarget().createDefaultRecord();
+        DynamicArray<C> record = this.createRecord();
         this.records.add(record);
         this.editableTable.getRowInstances().add(record);
         this.editableTable.activate(record, this.getInitialFocusColumn());
