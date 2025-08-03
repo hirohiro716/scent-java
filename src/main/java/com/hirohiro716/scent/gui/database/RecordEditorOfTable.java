@@ -62,6 +62,7 @@ public abstract class RecordEditorOfTable<D extends Database, T extends RecordMa
             this.editableTable.activate(this.editableTable.getRowInstances().get(0), this.getInitialFocusColumn());
         }
         this.editableTable.displayRowControls(0);
+        this.editableTable.updateLayout();
         this.editableTable.updateDisplay();
     }
     
