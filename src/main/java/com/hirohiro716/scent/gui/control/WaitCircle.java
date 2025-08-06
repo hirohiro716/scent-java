@@ -12,9 +12,7 @@ import com.hirohiro716.scent.gui.event.ChangeListener;
 
 /**
  * 待機中のサークルのクラス。
- * 
- * @author hiro
-*/
+ */
 public class WaitCircle extends Control {
     
     /**
@@ -55,8 +53,6 @@ public class WaitCircle extends Control {
     
     /**
      * 待機中サークルのアニメーションを表示するJPanelクラス。
-     * 
-     * @author hiro
      */
     private static class AnimationPanel extends JPanel {
         

@@ -19,9 +19,7 @@ import com.hirohiro716.scent.io.ByteArray;
 
 /**
  * 文字列を暗号化するクラス。
- * 
- * @author hiro
-*/
+ */
 public class Encrypter {
     
     /**

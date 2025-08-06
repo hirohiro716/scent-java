@@ -16,9 +16,7 @@ import com.hirohiro716.scent.filesystem.FilesystemItem;
 
 /**
  * Reflectionでclasspathにないjarを利用する抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class DynamicClass {
     
     /**
@@ -125,8 +123,6 @@ public abstract class DynamicClass {
     
     /**
      * Reflectionでclasspathにないjarのクラスのコンストラクタを利用するクラス。
-     * 
-     * @author hiro
      */
     protected class Constructor {
         

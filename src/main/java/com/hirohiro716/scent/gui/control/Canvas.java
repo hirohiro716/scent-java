@@ -8,9 +8,7 @@ import javax.swing.JPanel;
 
 /**
  * キャンバスの抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class Canvas extends Control {
     
     /**
@@ -46,8 +44,6 @@ public abstract class Canvas extends Control {
     
     /**
      * キャンバスの描画内容を表示するJPanelクラス。
-     * 
-     * @author hiro
      */
     private static class CanvasPanel extends JPanel {
         

@@ -5,9 +5,7 @@ import javax.print.attribute.standard.MediaSizeName;
 
 /**
  * 用紙サイズのクラス。
- * 
- * @author hiro
-*/
+ */
 public class PaperSize extends PrinterElement<MediaSizeName> {
     
     /**

@@ -16,9 +16,7 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * マウス操作で移動やサイズ変更が可能なラベルのクラス。
- * 
- * @author hiro
-*/
+ */
 public class MovableLabel extends Label {
     
     /**
@@ -233,8 +231,6 @@ public class MovableLabel extends Label {
     
     /**
      * 操作の列挙型。
-     * 
-     * @author hiro
      */
     private enum Operation {
         /**

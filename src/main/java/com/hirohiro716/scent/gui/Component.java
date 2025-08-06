@@ -21,8 +21,6 @@ import com.hirohiro716.scent.image.Image.ImageFormat;
 /**
  * GUIのすべてのコンポーネントの抽象クラス。
  * 
- * @author hiro
- * 
  * @param <T> 内部で使用されるGUIライブラリに依存したインスタンスの型。
  *
  */

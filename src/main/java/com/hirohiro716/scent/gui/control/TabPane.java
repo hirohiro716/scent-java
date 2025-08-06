@@ -20,9 +20,7 @@ import com.hirohiro716.scent.gui.event.KeyEvent;
 
 /**
  * タブによって表示を切り替えるペインのクラス。
- * 
- * @author hiro
-*/
+ */
 public class TabPane extends Control {
 
     /**
@@ -174,8 +172,6 @@ public class TabPane extends Control {
     
     /**
      * タブのクラス。
-     * 
-     * @author hiro
      */
     public static class Tab {
         

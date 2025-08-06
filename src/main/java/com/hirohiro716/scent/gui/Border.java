@@ -14,9 +14,7 @@ import javax.swing.border.MatteBorder;
 
 /**
  * 境界線のクラス。
- * 
- * @author hiro
-*/
+ */
 public class Border {
     
     /**
@@ -118,8 +116,6 @@ public class Border {
     
     /**
      * 影の境界線クラス。
-     * 
-     * @author hiro
      */
     private static class ShadowBorder extends AbstractBorder {
         

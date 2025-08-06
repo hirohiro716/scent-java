@@ -18,9 +18,7 @@ import com.hirohiro716.scent.gui.event.EventHandler;
 
 /**
  * 日付と時刻を入力するダイアログのクラス。
- * 
- * @author hiro
-*/
+ */
 public class DatetimeInputDialog extends MessageableDialog<Datetime> {
     
     /**

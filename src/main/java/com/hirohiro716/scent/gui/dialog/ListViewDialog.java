@@ -13,8 +13,6 @@ import com.hirohiro716.scent.gui.event.EventHandler;
 
 /**
  * リストビューを表示するダイアログのクラス。
- * 
- * @author hiro
  *
  * @param <T> リストビューで選択する値の型。
  */

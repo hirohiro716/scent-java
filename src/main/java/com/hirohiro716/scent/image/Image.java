@@ -15,9 +15,7 @@ import com.hirohiro716.scent.io.ByteArray;
 
 /**
  * 画像のクラス。
- * 
- * @author hiro
-*/
+ */
 public class Image extends ByteArray implements Cloneable {
 
     /**
@@ -223,8 +221,6 @@ public class Image extends ByteArray implements Cloneable {
     
     /**
      * 画像のフォーマットタイプ列挙型。
-     * 
-     * @author hiro
      */
     public enum ImageFormat {
         /**

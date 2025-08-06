@@ -11,9 +11,7 @@ import com.hirohiro716.scent.gui.event.ChangeListener;
 
 /**
  * GUIの子ウィンドウのクラス。
- * 
- * @author hiro
-*/
+ */
 public class ChildWindow extends Frame<JDialog> {
 
     /**
@@ -173,8 +171,6 @@ public class ChildWindow extends Frame<JDialog> {
     
     /**
      * 遅延してウィンドウをリサイズ可能にするスレッドクラス。
-     * 
-     * @author hiro
      */
     private class ResizableThread extends Thread {
         

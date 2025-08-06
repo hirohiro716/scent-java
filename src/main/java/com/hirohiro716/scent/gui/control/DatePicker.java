@@ -29,9 +29,7 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * 日付の入力に特化したテキストフィールドのクラス。
- * 
- * @author hiro
-*/
+ */
 public class DatePicker extends TextField {
     
     /**
@@ -418,8 +416,6 @@ public class DatePicker extends TextField {
     
     /**
      * カレンダーを表示するペインクラス。
-     * 
-     * @author hiro
      */
     private class CalendarPane extends VerticalPane {
         

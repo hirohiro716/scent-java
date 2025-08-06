@@ -23,8 +23,6 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * GUIのダイアログ抽象クラス。
- * 
- * @author hiro
  *
  * @param <R> このダイアログの表示結果の型。
  */
@@ -253,8 +251,6 @@ public abstract class Dialog<R> implements DialogInterface {
     
     /**
      * ダイアログの背景を表示するパネルのクラス。
-     * 
-     * @author hiro
      */
     private class InnerBackgroundPanel extends JPanel {
         
@@ -272,8 +268,6 @@ public abstract class Dialog<R> implements DialogInterface {
     
     /**
      * ダイアログの背景を表示するペインのクラス。
-     * 
-     * @author hiro
      */
     private class BackgroundPane extends CenterPane {
         

@@ -12,9 +12,7 @@ import com.hirohiro716.scent.filesystem.File;
 
 /**
  * SQLiteデータベースのレコードとオブジェクトを悲観的ロックでマップするための抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class PessimisticLockRecordMapper extends com.hirohiro716.scent.database.RecordMapper implements Closeable, ForciblyCloseableRecordMapper {
     
     /**

@@ -14,9 +14,7 @@ import com.hirohiro716.scent.gui.collection.RemoveListener;
 
 /**
  * アンカーポイントにコントロールを配置するペインのクラス。
- * 
- * @author hiro
-*/
+ */
 public class AnchorPane extends Pane {
 
     /**

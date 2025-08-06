@@ -2,8 +2,6 @@ package com.hirohiro716.scent.gui;
 
 /**
  * マウスのボタンを表す列挙型。
- * 
- * @author hiro
  */
 public enum MouseButton {
     /**

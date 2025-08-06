@@ -10,9 +10,7 @@ import com.hirohiro716.scent.filesystem.File;
 
 /**
  * 音源を再生するクラス。
- * 
- * @author hiro
-*/
+ */
 public class SoundPlayer implements Closeable {
     
     /**

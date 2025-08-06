@@ -44,8 +44,6 @@ import com.hirohiro716.scent.property.PropertyInterface;
 /**
  * GUIのウィンドウやダイアログなどの抽象クラス。
  * 
- * @author hiro
- * 
  * @param <T> 内部で使用されるGUIライブラリに依存したインスタンスの型。
  */
 public abstract class Frame<T extends java.awt.Window> extends Component<T> {

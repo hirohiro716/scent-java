@@ -7,9 +7,7 @@ import com.hirohiro716.scent.datetime.Datetime;
 
 /**
  * PostgreSQLデータベースの単一レコードとオブジェクトを物理ロックでマップするための抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class PhysicalLockSingleRecordMapper extends com.hirohiro716.scent.database.SingleRecordMapper {
     
     /**

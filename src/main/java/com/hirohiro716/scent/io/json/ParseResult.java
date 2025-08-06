@@ -2,8 +2,6 @@ package com.hirohiro716.scent.io.json;
 
 /**
  * JSONの解析を行った結果のクラス。
- * 
- * @author hiro
  *
  * @param <T> 解析して変換する型。
  */

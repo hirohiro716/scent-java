@@ -2,8 +2,6 @@ package com.hirohiro716.scent.io.json;
 
 /**
  * JSONの解析に失敗した場合に発生する例外クラス。
- * 
- * @author hiro
  */
 public class ParseException extends Exception {
     

@@ -4,8 +4,6 @@ import com.hirohiro716.scent.gui.control.Control;
 
 /**
  * GUIのすべての入力イベントの抽象クラス。
- * 
- * @author hiro
  *
  * @param <T>
  */

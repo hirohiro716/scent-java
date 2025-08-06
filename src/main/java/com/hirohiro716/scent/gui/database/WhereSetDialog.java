@@ -64,9 +64,7 @@ import com.hirohiro716.scent.io.json.JSONValue;
 
 /**
  * SQLの検索条件を作成するダイアログのクラス。
- * 
- * @author hiro
-*/
+ */
 public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
 
     /**
@@ -1189,8 +1187,6 @@ public class WhereSetDialog extends TitledDialog<Array<WhereSet>> {
     
     /**
      * 検索するカラムの種類列挙型。
-     * 
-     * @author hiro
      */
     public enum ColumnType {
         /**

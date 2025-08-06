@@ -6,8 +6,6 @@ import com.hirohiro716.scent.DynamicArray;
 
 /**
  * データベースレコードがコンフリクトした場合に発生する例外クラス。
- * 
- * @author hiro
  */
 public class RecordConflictException extends SQLException {
     

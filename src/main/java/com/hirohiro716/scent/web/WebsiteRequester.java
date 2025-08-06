@@ -17,9 +17,7 @@ import com.hirohiro716.scent.StringObject;
 
 /**
  * WEBサイトへリクエストするクラス。
- * 
- * @author hiro
-*/
+ */
 public class WebsiteRequester {
     
     /**
@@ -231,8 +229,6 @@ public class WebsiteRequester {
 
     /**
      * リクエストメソッドの列挙型。
-     * 
-     * @author hiro
      */
     public enum Method implements IdentifiableEnum<String> {
         /**

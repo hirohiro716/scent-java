@@ -30,9 +30,7 @@ import com.hirohiro716.scent.filesystem.File;
 
 /**
  * XMLファイルの解析と作成を行うクラス。
- * 
- * @author hiro
-*/
+ */
 public class XML {
     
     /**
@@ -204,8 +202,6 @@ public class XML {
     
     /**
      * XML要素のクラス。
-     * 
-     * @author hiro
      */
     public class XMLNode {
         

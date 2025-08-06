@@ -24,9 +24,7 @@ import com.hirohiro716.scent.RoundNumber;
 
 /**
  * GUIのグローバルな静的関数のクラス。
- * 
- * @author hiro
-*/
+ */
 public class GUI {
     
     /**

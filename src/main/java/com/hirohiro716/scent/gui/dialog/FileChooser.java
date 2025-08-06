@@ -20,9 +20,7 @@ import com.hirohiro716.scent.gui.control.Pane;
 
 /**
  * ファイル選択ダイアログの抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class FileChooser extends Control implements DialogInterface {
     
     /**
@@ -230,8 +228,6 @@ public abstract class FileChooser extends Control implements DialogInterface {
     
     /**
      * ファイルフィルターのクラス。
-     * 
-     * @author hiro
      */
     public static abstract class FileFilter {
         

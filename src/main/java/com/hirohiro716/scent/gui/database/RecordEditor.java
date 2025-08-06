@@ -15,8 +15,6 @@ import com.hirohiro716.scent.gui.event.FrameEvent;
 /**
  * GUIデータベースレコード編集ウィンドウの抽象クラス。
  * 
- * @author hiro
- * 
  * @param <D> データベースの型。
  * @param <T> 編集するターゲットの型。
  */

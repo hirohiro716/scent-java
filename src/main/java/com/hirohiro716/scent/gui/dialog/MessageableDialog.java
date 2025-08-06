@@ -19,8 +19,6 @@ import com.hirohiro716.scent.gui.event.ChangeListener;
 /**
  * メッセージダイアログの抽象クラス。
  * 
- * @author hiro
- * 
  * @param <R> このダイアログの表示結果の型。
  */
 public abstract class MessageableDialog<R> extends TitledDialog<R> {
@@ -137,8 +135,6 @@ public abstract class MessageableDialog<R> extends TitledDialog<R> {
     
     /**
      * メッセージダイアログで押されたボタンの列挙型。
-     * 
-     * @author hiro
      */
     public enum ResultButton {
         /**

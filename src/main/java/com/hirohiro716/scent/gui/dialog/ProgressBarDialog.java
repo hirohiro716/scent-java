@@ -14,8 +14,6 @@ import com.hirohiro716.scent.gui.event.EventHandler;
 /**
  * プログレスバーダイアログのクラス。
  * 
- * @author hiro
- * 
  * @param <R> このダイアログで実行するコールバックの結果の型。
  */
 public class ProgressBarDialog<R> extends MessageableDialog<R> {

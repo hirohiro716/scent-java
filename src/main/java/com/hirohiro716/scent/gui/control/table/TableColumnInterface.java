@@ -8,8 +8,6 @@ import com.hirohiro716.scent.gui.MouseButton;
 /**
  * テーブルカラムのインターフェース。
  * 
- * @author hiro
- * 
  * @param <C> テーブルカラムを識別するオブジェクトの型。
  */
 public interface TableColumnInterface<C> {

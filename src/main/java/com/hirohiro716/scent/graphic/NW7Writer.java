@@ -9,9 +9,7 @@ import com.hirohiro716.scent.StringObject;
 
 /**
  * NW-7のバーコードを描画するクラス。
- * 
- * @author hiro
-*/
+ */
 public class NW7Writer {
     
     /**

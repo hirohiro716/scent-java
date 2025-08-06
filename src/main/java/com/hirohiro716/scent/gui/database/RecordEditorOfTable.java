@@ -18,8 +18,6 @@ import com.hirohiro716.scent.gui.event.EventHandler;
 /**
  * GUIデータベースレコードをテーブルで編集するウィンドウの抽象クラス。
  * 
- * @author hiro
- * 
  * @param <D> データベースの型。
  * @param <T> 編集するレコードマッパーの型。
  * @param <C> レコードマッパーのカラムの型。

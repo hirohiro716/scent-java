@@ -5,8 +5,6 @@ import java.util.concurrent.FutureTask;
 
 /**
  * 別のスレッドで時間のかかる処理を実行するクラス。
- * 
- * @author hiro
  *
  * @param <R> 処理結果の型。
  */
@@ -93,8 +91,6 @@ public abstract class Task<R> {
     
     /**
      * タスク内で実行する処理内容のクラス。
-     * 
-     * @author hiro
      */
     public abstract class Callable implements java.util.concurrent.Callable<R> {
         

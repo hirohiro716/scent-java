@@ -10,8 +10,6 @@ import com.hirohiro716.scent.datetime.Datetime;
 /**
  * WEBブラウザへのタスクを順に処理するクラス。
  * 
- * @author hiro
- * 
  * @param <W> WEBブラウザの型。
  * @param <E> WEBブラウザの要素の型。
  */
@@ -158,8 +156,6 @@ public class WebBrowsingFlow<W extends WebBrowser<E>, E extends WebBrowser.Eleme
     /**
      * WEBブラウザへのタスクのインターフェース。
      * 
-     * @author hiro
-     * 
      * @param <W> WEBブラウザの型。
      */
     public interface Task<W extends WebBrowser<?>> {
@@ -182,8 +178,6 @@ public class WebBrowsingFlow<W extends WebBrowser<E>, E extends WebBrowser.Eleme
     
     /**
      * WEBブラウザへのすべてのタスクが終了した後の処理インターフェース。
-     * 
-     * @author hiro
      */
     public interface ProcessAfterFinishing {
 

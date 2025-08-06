@@ -8,9 +8,7 @@ import java.util.List;
 
 /**
  * 締め日期間のクラス。
- * 
- * @author hiro
-*/
+ */
 public class ClosingPeriod {
     
     /**

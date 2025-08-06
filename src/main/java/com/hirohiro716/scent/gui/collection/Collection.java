@@ -9,8 +9,6 @@ import com.hirohiro716.scent.Array;
 
 /**
  * GUIのコレクションクラス。
- * 
- * @author hiro
  *
  * @param <T>
  */

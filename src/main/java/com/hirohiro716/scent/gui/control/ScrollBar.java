@@ -9,9 +9,7 @@ import com.hirohiro716.scent.gui.event.InnerInstanceCreator;
 
 /**
  * スクロールバーのクラス。
- * 
- * @author hiro
-*/
+ */
 public class ScrollBar extends Control {
     
     /**

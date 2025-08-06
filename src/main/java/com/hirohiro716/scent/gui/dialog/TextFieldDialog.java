@@ -8,9 +8,7 @@ import com.hirohiro716.scent.gui.event.KeyEvent;
 
 /**
  * テキストフィールドを表示するダイアログのクラス。
- * 
- * @author hiro
-*/
+ */
 public class TextFieldDialog extends TextInputControlDialog<TextField> {
     
     /**

@@ -12,9 +12,7 @@ import com.hirohiro716.scent.reflection.Method;
  * QRコードの画像を作成するクラス。<br>
  * ・ZXing core - <a href="https://mvnrepository.com/artifact/com.google.zxing/core">https://mvnrepository.com/artifact/com.google.zxing/core</a><br>
  * ・ZXing Java SE Extension - <a href="https://mvnrepository.com/artifact/com.google.zxing/javase">https://mvnrepository.com/artifact/com.google.zxing/javase</a><br>
- * 
- * @author hiro
-*/
+ */
 public class QRCodeCreator extends DynamicClass {
     
     /**

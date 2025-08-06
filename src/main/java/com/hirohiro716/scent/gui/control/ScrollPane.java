@@ -15,9 +15,7 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * スクロールバーを表示するペインのクラス。
- * 
- * @author hiro
-*/
+ */
 public class ScrollPane extends Control {
     
     /**
@@ -445,8 +443,6 @@ public class ScrollPane extends Control {
     
     /**
      * スクロールバー表示ポリシーの列挙型。
-     * 
-     * @author hiro
      */
     public enum ScrollBarDisplayPolicy {
         /**

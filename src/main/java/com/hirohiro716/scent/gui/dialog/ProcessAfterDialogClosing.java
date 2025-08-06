@@ -2,8 +2,6 @@ package com.hirohiro716.scent.gui.dialog;
 
 /**
  * ダイアログが閉じられた後に実行される処理のインターフェース。
- * 
- * @author hiro
  *
  * @param <R> ダイアログの表示結果の型。
  */

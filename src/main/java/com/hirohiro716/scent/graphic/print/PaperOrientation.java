@@ -6,9 +6,7 @@ import javax.print.attribute.standard.OrientationRequested;
 
 /**
  * 用紙向きのクラス。
- * 
- * @author hiro
-*/
+ */
 public class PaperOrientation extends PrinterElement<OrientationRequested> {
     
     /**

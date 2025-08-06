@@ -4,8 +4,6 @@ import java.util.LinkedHashMap;
 
 /**
  * 列挙型を数値(int)で識別可能にするインターフェース。
- * 
- * @author hiro
  *
  * @param <T> IDの型。
  */

@@ -5,9 +5,7 @@ import javax.swing.OverlayLayout;
 
 /**
  * フレームのルートペインのクラス。
- * 
- * @author hiro
-*/
+ */
 public class RootPane extends Pane {
 
     /**

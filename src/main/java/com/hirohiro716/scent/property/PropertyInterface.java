@@ -4,9 +4,7 @@ import java.util.LinkedHashMap;
 
 /**
  * 設定項目など、プロパティのインターフェース。
- * 
- * @author hiro
-*/
+ */
 public interface PropertyInterface {
     
     /**

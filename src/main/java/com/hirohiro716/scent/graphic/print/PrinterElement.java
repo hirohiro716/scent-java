@@ -3,8 +3,6 @@ package com.hirohiro716.scent.graphic.print;
 /**
  * プリンターの要素の抽象クラス。
  * 
- * @author hiro
- * 
  * @param <T> この要素が内部で保持するライブラリに依存したインスタンスの型。
  */
 public abstract class PrinterElement<T> {

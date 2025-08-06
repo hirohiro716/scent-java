@@ -26,8 +26,6 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * ドロップダウンリストのクラス。
- * 
- * @author hiro
  *
  * @param <T> ドロップダウンリストで選択する値の型。
  */

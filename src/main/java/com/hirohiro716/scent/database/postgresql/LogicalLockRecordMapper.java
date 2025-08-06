@@ -7,9 +7,7 @@ import com.hirohiro716.scent.StringObject;
 
 /**
  * PostgreSQLデータベースのレコードとオブジェクトを論理ロックでマップするための抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class LogicalLockRecordMapper extends com.hirohiro716.scent.database.RecordMapper {
     
     /**

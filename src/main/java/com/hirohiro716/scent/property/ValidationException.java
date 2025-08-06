@@ -8,9 +8,7 @@ import com.hirohiro716.scent.StringObject;
 
 /**
  * プロパティの検証に失敗した場合に発生する例外クラス。
- * 
- * @author hiro
-*/
+ */
 public class ValidationException extends Exception {
     
     private final static String MESSAGE = "プロパティの検証に失敗しました。";

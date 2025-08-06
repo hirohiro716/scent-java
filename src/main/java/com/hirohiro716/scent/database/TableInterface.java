@@ -4,8 +4,6 @@ import com.hirohiro716.scent.DynamicArray;
 
 /**
  * データベーステーブルのインターフェース。
- * 
- * @author hiro
  */
 public interface TableInterface {
 

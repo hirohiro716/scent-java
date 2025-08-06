@@ -5,9 +5,7 @@ import com.hirohiro716.scent.gui.control.Pane;
 
 /**
  * ダイアログのインターフェース。
- * 
- * @author hiro
-*/
+ */
 public interface DialogInterface {
 
     /**

@@ -13,8 +13,6 @@ import com.hirohiro716.scent.datetime.Datetime;
 
 /**
  * データベースのレコードとオブジェクトをマップするための抽象クラス。
- * 
- * @author hiro
  */
 public abstract class RecordMapper {
     

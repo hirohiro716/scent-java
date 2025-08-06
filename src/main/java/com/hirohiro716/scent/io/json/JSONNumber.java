@@ -5,9 +5,7 @@ import com.hirohiro716.scent.StringObject;
 /**
  * 数値のJSON定義文を解析するクラス。
  * (RFC 8259)(ECMA-404 2nd Edition)
- * 
- * @author hiro
-*/
+ */
 public class JSONNumber extends JSONValue<Double> {
     
     /**

@@ -23,8 +23,6 @@ import com.hirohiro716.scent.gui.event.KeyEvent;
 
 /**
  * GUIデータベースレコード検索ウィンドウの抽象クラス。
- * 
- * @author hiro
  *
  * @param <S> 検索に使用するインスタンスの型。
  */

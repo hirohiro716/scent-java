@@ -18,9 +18,7 @@ import com.hirohiro716.scent.StringObject;
 
 /**
  * byte配列のクラス。
- * 
- * @author hiro
-*/
+ */
 public class ByteArray {
     
     /**

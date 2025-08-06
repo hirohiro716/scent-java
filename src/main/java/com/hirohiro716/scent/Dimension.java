@@ -5,9 +5,7 @@ import com.hirohiro716.scent.io.json.JSONObject;
 
 /**
  * サイズのクラス。
- * 
- * @author hiro
-*/
+ */
 public class Dimension {
 
     /**

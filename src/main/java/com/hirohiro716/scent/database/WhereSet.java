@@ -15,9 +15,7 @@ import com.hirohiro716.scent.io.json.JSONValue;
  * SQLのWHERE句をプレースホルダとバインド変数を使用して作成するクラス。<br>
  * 最終的に下記のような、WHEREで使用するプレースホルダと、PreparedStatementで使用するバインド変数を作成することができる。<br>
  * "column1 = ? AND column2 = ?" と new Object[] {"検索値1", "検索値2"}
- * 
- * @author hiro
-*/
+ */
 public class WhereSet implements Cloneable {
 
     /**
@@ -469,8 +467,6 @@ public class WhereSet implements Cloneable {
     
     /**
      * 比較演算子の列挙型。
-     * 
-     * @author hiro
      */
     public enum Comparison {
         /**
@@ -548,8 +544,6 @@ public class WhereSet implements Cloneable {
      * SQLのWHERE句をプレースホルダとバインド変数を使用して作成するクラス。<br>
      * 最終的に下記のような、WHEREで使用するプレースホルダと、PreparedStatementで使用するバインド変数を作成することができる。<br>
      * "column1 IN (?, ?, ?)" と new Object[] {"検索値1", "検索値2", "検索値3}
-     * 
-     * @author hiro
      */
     public static class Where implements Cloneable {
         

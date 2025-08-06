@@ -44,8 +44,6 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * 編集に特化したテーブルのクラス。
- * 
- * @author hiro
  *
  * @param <C> カラム情報インスタンスの型。
  * @param <R> 行情報インスタンスの型。
@@ -1170,8 +1168,6 @@ public abstract class EditableTable<C, R> extends Control {
     
     /**
      * このテーブルの行に配置されたコントロールのフォーカスが変更された場合のリスナー。
-     * 
-     * @author hiro
      */
     private class ControlFocusChangeListener extends ChangeListener<Boolean> {
         
@@ -1198,8 +1194,6 @@ public abstract class EditableTable<C, R> extends Control {
     
     /**
      * このテーブルの行に配置されたコントロールがクリックされた際のイベントハンドラー。
-     * 
-     * @author hiro
      */
     private class ControlClickEventHandler extends MouseAdapter {
         
@@ -1233,8 +1227,6 @@ public abstract class EditableTable<C, R> extends Control {
     
     /**
      * このテーブルの行に配置されたコントロールでキーが押された際のイベントハンドラー。
-     * 
-     * @author hiro
      */
     private class ControlKeyPressedEventHandler extends EventHandler<KeyEvent> {
         
@@ -1424,8 +1416,6 @@ public abstract class EditableTable<C, R> extends Control {
     
     /**
      * テーブルカラムのクラス。
-     * 
-     * @author hiro
      */
     public class TableColumn implements TableColumnInterface<C> {
         
@@ -1570,8 +1560,6 @@ public abstract class EditableTable<C, R> extends Control {
     
     /**
      * カラム種類の列挙型。
-     * 
-     * @author hiro
      */
     public enum ColumnType {
         /**

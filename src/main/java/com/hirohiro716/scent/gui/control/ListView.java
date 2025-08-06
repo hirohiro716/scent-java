@@ -25,8 +25,6 @@ import com.hirohiro716.scent.gui.event.MouseEvent;
 
 /**
  * リストビューのクラス。
- * 
- * @author hiro
  *
  * @param <T> 選択させるリストアイテムの型。
  */

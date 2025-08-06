@@ -35,9 +35,7 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * オートコンプリート機能付きのテキストフィールドのクラス。
- * 
- * @author hiro
-*/
+ */
 public class AutocompleteTextField extends TextField {
     
     /**
@@ -478,8 +476,6 @@ public class AutocompleteTextField extends TextField {
 
     /**
      * このテキストフィールドで文字が押された際のイベントハンドラークラス。
-     * 
-     * @author hiro
      */
     private class KeyPressedEventHandler extends EventHandler<KeyEvent> {
 
@@ -512,8 +508,6 @@ public class AutocompleteTextField extends TextField {
 
     /**
      * このテキストフィールドで文字が入力された際のイベントハンドラークラス。
-     * 
-     * @author hiro
      */
     private class KeyTypedEventHandler extends EventHandler<KeyEvent> {
 
@@ -586,8 +580,6 @@ public class AutocompleteTextField extends TextField {
     
     /**
      * このテキストフィールドにオートコンプリート用のアイテムを追加するクラス。
-     * 
-     * @author hiro
      */
     private class ListItemAdder implements Runnable {
         

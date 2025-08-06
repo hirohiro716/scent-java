@@ -9,8 +9,6 @@ import com.hirohiro716.scent.gui.Component;
 
 /**
  * コントロールの値やプロパティの変更を検知するリスナーの抽象クラス。
- * 
- * @author hiro
  *
  * @param <T> 検知対象の型。
  */

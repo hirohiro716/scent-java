@@ -4,9 +4,7 @@ import java.io.File;
 
 /**
  * OSに依存する部分を吸収するための列挙型。
- * 
- * @author hiro
-*/
+ */
 public enum OS {
     /**
      * Windwos系統。

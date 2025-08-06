@@ -16,8 +16,6 @@ import com.hirohiro716.scent.reflection.DynamicClass;
 /**
  * HTML5、CSS3、JavaScriptをサポートするWEBブラウザのインターフェース。
  * 
- * @author hiro
- * 
  * @param <E> 要素の型。
  */
 public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicClass {
@@ -616,8 +614,6 @@ public abstract class WebBrowser<E extends WebBrowser.Element> extends DynamicCl
     
     /**
      * WebBrowserにおけるHTML文書内の要素を表す。
-     * 
-     * @author hiro
      */
     public interface Element {
 

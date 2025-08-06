@@ -10,9 +10,7 @@ import com.hirohiro716.scent.gui.event.EventHandler;
 
 /**
  * メッセージダイアログのクラス。
- * 
- * @author hiro
-*/
+ */
 public class MessageDialog extends MessageableDialog<ResultButton> {
     
     /**

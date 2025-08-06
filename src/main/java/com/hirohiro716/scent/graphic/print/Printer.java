@@ -12,9 +12,7 @@ import javax.print.attribute.standard.MediaTray;
 
 /**
  * プリンターのクラス。
- * 
- * @author hiro
-*/
+ */
 public class Printer extends PrinterElement<PrintService> {
     
     /**

@@ -14,9 +14,7 @@ import com.hirohiro716.scent.StringObject;
 
 /**
  * ファイルシステム上のディレクトリクラス。
- * 
- * @author hiro
-*/
+ */
 public class Directory extends FilesystemItem {
 
     /**

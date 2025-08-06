@@ -2,9 +2,7 @@ package com.hirohiro716.scent;
 
 /**
  * 価格のクラス。
- * 
- * @author hiro
-*/
+ */
 public class Price {
 
     /**

@@ -20,9 +20,7 @@ import com.hirohiro716.scent.image.Image.ImageFormat;
 
 /**
  * プリンタージョブを作成するクラス。
- * 
- * @author hiro
-*/
+ */
 public class PrinterJob {
     
     /**

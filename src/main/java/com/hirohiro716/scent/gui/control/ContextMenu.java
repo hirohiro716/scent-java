@@ -14,9 +14,7 @@ import com.hirohiro716.scent.gui.KeyCode;
 
 /**
  * コンテキストメニューのクラス。
- * 
- * @author hiro
-*/
+ */
 public class ContextMenu extends Control {
     
     /**

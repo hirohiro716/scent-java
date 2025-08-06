@@ -15,9 +15,7 @@ import com.hirohiro716.scent.reflection.Method;
  * JavaMailを使用してE-mailを送信するクラス。<br>
  * ・JavaMail - <a href="https://javaee.github.io/javamail/">https://javaee.github.io/javamail/</a><br>
  * ・JavaBeans Activation Framework - <a href="https://github.com/javaee/activation/">https://github.com/javaee/activation/</a>
- * 
- * @author hiro
-*/
+ */
 public class EmailTransmitter extends DynamicClass {
     
     /**
@@ -233,8 +231,6 @@ public class EmailTransmitter extends DynamicClass {
     
     /**
      * 受信者タイプの列挙型。
-     * 
-     * @author hiro
      */
     public enum RecipientType {
         /**

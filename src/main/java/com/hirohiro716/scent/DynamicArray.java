@@ -17,8 +17,6 @@ import com.hirohiro716.scent.reflection.Method;
 /**
  * 動的な配列のクラス。<br>
  * ※内部でjava.util.LinkedHashMapを使用している
- * 
- * @author hiro
  *
  * @param <K> 配列のキー型。
  */
@@ -497,10 +495,7 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     /**
      * 指定されたキーに関連づいた値同士を使用して2つの連想配列の順序付けをする比較クラス。
      * 
-     * @author hiro
-     * 
      * @param <K> 
-     *
      */    
     private static class Comparator<K> implements java.util.Comparator<DynamicArray<K>> {
         
@@ -561,8 +556,6 @@ public class DynamicArray<K> implements Cloneable, Serializable {
     
     /**
      * 並び替えに使用できる順序の列挙型。
-     * 
-     * @author hiro
      */
     public enum SortOrder {
         /**

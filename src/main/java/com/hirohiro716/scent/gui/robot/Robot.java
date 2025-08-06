@@ -13,9 +13,7 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * マウスやキーボードのネイティブなシステム入力イベントを生成し、アプリケーションを自動操作するクラス。
- * 
- * @author hiro
-*/
+ */
 public class Robot extends java.awt.Robot {
 
     /**

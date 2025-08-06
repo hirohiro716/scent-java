@@ -5,8 +5,6 @@ import com.hirohiro716.scent.property.PropertyInterface;
 /**
  * JSONとオブジェクトをマップするための抽象クラス。
  * 
- * @author hiro
- * 
  * @param <P> プロパティの型。
  */
 public interface JSONMapper<P extends PropertyInterface> {

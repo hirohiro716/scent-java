@@ -4,9 +4,7 @@ import javax.swing.JProgressBar;
 
 /**
  * プログレスバーのクラス。
- * 
- * @author hiro
-*/
+ */
 public class ProgressBar extends Control {
     
     /**

@@ -28,9 +28,7 @@ import com.hirohiro716.scent.graphic.GraphicalString.VerticalPosition;
 
 /**
  * 印刷物の抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class Printable implements java.awt.print.Printable {
     
     private Graphics2D graphics2D = null;
@@ -753,8 +751,6 @@ public abstract class Printable implements java.awt.print.Printable {
     
     /**
      * フォントスタイルの列挙型。
-     * 
-     * @author hiro
      */
     protected enum FontStyle {
         /**

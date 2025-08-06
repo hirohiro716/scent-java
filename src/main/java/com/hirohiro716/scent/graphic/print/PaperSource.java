@@ -4,9 +4,7 @@ import javax.print.attribute.standard.MediaTray;
 
 /**
  * 給紙トレイのクラス。
- * 
- * @author hiro
-*/
+ */
 public class PaperSource extends PrinterElement<MediaTray> {
     
     /**

@@ -9,9 +9,7 @@ import com.hirohiro716.scent.StringObject;
 
 /**
  * データベースのレコードと検索するための抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class RecordSearcher {
 
     /**

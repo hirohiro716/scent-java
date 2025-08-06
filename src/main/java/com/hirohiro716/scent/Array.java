@@ -8,8 +8,6 @@ import java.util.List;
 
 /**
  * 配列のクラス。
- * 
- * @author hiro
  *
  * @param <T>
  */

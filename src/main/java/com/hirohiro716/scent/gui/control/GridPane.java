@@ -15,9 +15,7 @@ import com.hirohiro716.scent.gui.collection.RemoveListener;
 
 /**
  * グリッド状に配置するペインのクラス。
- * 
- * @author hiro
-*/
+ */
 public class GridPane extends Pane {
 
     /**
@@ -364,8 +362,6 @@ public class GridPane extends Pane {
     
     /**
      * グリッドペインセルのコントロール表示方法の列挙型。
-     * 
-     * @author hiro
      */
     public enum CellLayout {
         /**

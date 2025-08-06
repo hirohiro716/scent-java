@@ -15,8 +15,6 @@ import com.hirohiro716.scent.gui.event.FrameEvent;
 /**
  * GUIエディターの抽象クラス。
  * 
- * @author hiro
- * 
  * @param <T> 編集するターゲットの型。
  */
 public abstract class Editor<T> extends Window {
@@ -267,8 +265,6 @@ public abstract class Editor<T> extends Window {
 
     /**
      * このエディターを閉じる際のイベントハンドラー。
-     * 
-     * @author hiro
      */
     private class CloseEventHandler extends EventHandler<FrameEvent> {
         

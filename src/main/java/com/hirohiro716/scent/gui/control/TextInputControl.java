@@ -30,9 +30,7 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * GUIのすべてのテキスト入力コントロールの抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class TextInputControl extends Control {
     
     /**
@@ -474,8 +472,6 @@ public abstract class TextInputControl extends Control {
     
     /**
      * このテキスト入力コントロールの入力値を制限するクラス。
-     * 
-     * @author hiro
      */
     private class RestrictedDocument extends PlainDocument {
         

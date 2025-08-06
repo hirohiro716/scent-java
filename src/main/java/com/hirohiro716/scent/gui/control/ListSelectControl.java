@@ -23,8 +23,6 @@ import com.hirohiro716.scent.gui.event.KeyEvent;
 /**
  * リストから選択するコントロールの抽象クラス。
  * 
- * @author hiro
- * 
  * @param <T> 選択させるリストアイテムの型。
  */
 public abstract class ListSelectControl<T> extends Control {

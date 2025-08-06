@@ -9,9 +9,7 @@ import com.hirohiro716.scent.gui.KeyCode;
 
 /**
  * キーボードの入力を、タスクを定義した順に自動的に行うクラス。
- * 
- * @author hiro
-*/
+ */
 public class TypingTask {
     
     /**
@@ -158,8 +156,6 @@ public class TypingTask {
 
     /**
      * キーボードの入力を自動的に行うタスクのクラス。
-     * 
-     * @author hiro
      */
     private class Task {
 
@@ -221,8 +217,6 @@ public class TypingTask {
     
     /**
      * タスク種類の列挙型。
-     * 
-     * @author hiro
      */
     private enum TaskType {
         /**

@@ -17,9 +17,7 @@ import com.hirohiro716.scent.gui.event.ChangeListener;
 
 /**
  * 左から右に向かって折り返しながら配置するペインのクラス。
- * 
- * @author hiro
-*/
+ */
 public class FlowPane extends Pane {
     
     /**

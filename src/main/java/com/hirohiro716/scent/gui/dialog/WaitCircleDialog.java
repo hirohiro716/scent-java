@@ -15,8 +15,6 @@ import com.hirohiro716.scent.gui.event.EventHandler;
 /**
  * 待機中サークルダイアログのクラス。
  * 
- * @author hiro
- * 
  * @param <R> このダイアログで実行するコールバックの結果の型。
  */
 public class WaitCircleDialog<R> extends MessageableDialog<R> {

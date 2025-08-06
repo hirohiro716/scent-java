@@ -29,9 +29,7 @@ import com.hirohiro716.scent.datetime.Datetime;
 
 /**
  * JDBCドライバでデータベースに接続するための抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class Database implements Closeable {
     
     /**
@@ -683,8 +681,6 @@ public abstract class Database implements Closeable {
     
     /**
      * プリペアドステートメントを利用して更新系のSQLを実行する。
-     * 
-     * @author hiro
      */
     public class PreparedStatement implements Closeable {
         

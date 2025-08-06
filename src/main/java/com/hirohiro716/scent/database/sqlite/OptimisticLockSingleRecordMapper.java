@@ -9,9 +9,7 @@ import com.hirohiro716.scent.database.sqlite.SQLite.IsolationLevel;
 
 /**
  * SQLiteデータベースの単一レコードとオブジェクトを楽観的ロックでマップするための抽象クラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class OptimisticLockSingleRecordMapper extends com.hirohiro716.scent.database.SingleRecordMapper {
     
     /**

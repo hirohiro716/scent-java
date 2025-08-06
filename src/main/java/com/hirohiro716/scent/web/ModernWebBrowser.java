@@ -23,9 +23,7 @@ import com.hirohiro716.scent.reflection.Method;
  * HTML5、CSS3、JavaScriptをサポートするモダンWEBブラウザのクラス。<br>
  * ・Selenium - <a href="https://www.selenium.dev/downloads/">https://www.selenium.dev/downloads/</a><br>
  * ・WebDriver - <a href="https://www.selenium.dev/documentation/en/webdriver/driver_requirements/">https://www.selenium.dev/documentation/en/webdriver/driver_requirements/</a>
- * 
- * @author hiro
-*/
+ */
 public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
     
     /**
@@ -494,8 +492,6 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
 
     /**
      * WebBrowserにおけるHTML文書内の要素を表す。
-     * 
-     * @author hiro
      */
     public class Element implements WebBrowser.Element {
         
@@ -660,8 +656,6 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
 
     /**
      * WEBブラウザ種類の列挙型。
-     * 
-     * @author hiro
      */
     public enum Type implements IdentifiableEnum<String> {
         /**

@@ -5,9 +5,7 @@ import com.hirohiro716.scent.io.json.JSONObject;
 
 /**
  * 位置とサイズのクラス。
- * 
- * @author hiro
-*/
+ */
 public class Bounds {
     
     /**

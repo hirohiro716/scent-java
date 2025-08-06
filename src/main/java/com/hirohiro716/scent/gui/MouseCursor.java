@@ -4,9 +4,7 @@ import java.awt.Cursor;
 
 /**
  * マウスカーソルの列挙型。
- * 
- * @author hiro
-*/
+ */
 public enum MouseCursor {
     /**
      * デフォルトカーソル。

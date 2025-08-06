@@ -22,9 +22,7 @@ import com.hirohiro716.scent.gui.HorizontalAlignment;
 
 /**
  * チェックボックスのクラス。
- * 
- * @author hiro
-*/
+ */
 public class CheckBox extends MarkableControl {
 
     /**

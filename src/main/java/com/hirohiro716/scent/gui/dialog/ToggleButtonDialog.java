@@ -24,8 +24,6 @@ import com.hirohiro716.scent.gui.event.EventHandler;
 /**
  * 複数のトグルボタンを表示するダイアログのクラス。
  * 
- * @author hiro
- * 
  * @param <T> このダイアログで選択する値の型。
  */
 public class ToggleButtonDialog<T> extends MessageableDialog<Array<T>> {

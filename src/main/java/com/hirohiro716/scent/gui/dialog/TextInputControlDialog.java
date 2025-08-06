@@ -11,8 +11,6 @@ import com.hirohiro716.scent.gui.event.EventHandler;
 /**
  * テキスト入力コントロールを表示するダイアログのクラス。
  * 
- * @author hiro
- * 
  * @param <C> テキスト入力コントロール実装クラスの型。
  */
 public abstract class TextInputControlDialog<C extends TextInputControl> extends MessageableDialog<String> {

@@ -14,9 +14,7 @@ import com.hirohiro716.scent.gui.event.InnerInstanceCreator;
 
 /**
  * テキストフィールドのクラス。
- * 
- * @author hiro
-*/
+ */
 public class TextField extends TextInputControl {
     
     /**

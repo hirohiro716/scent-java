@@ -24,8 +24,6 @@ import com.hirohiro716.scent.gui.event.EventHandler;
 /**
  * タイトル付きダイアログの抽象クラス。
  * 
- * @author hiro
- * 
  * @param <R> このダイアログの表示結果の型。
  */
 public abstract class TitledDialog<R> extends Dialog<R> {

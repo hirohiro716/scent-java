@@ -10,8 +10,6 @@ import com.hirohiro716.scent.gui.control.Control;
 
 /**
  * コントロールのイベントを処理するハンドラーの抽象クラス。
- * 
- * @author hiro
  *
  * @param <E> 扱うイベントの型。
  */

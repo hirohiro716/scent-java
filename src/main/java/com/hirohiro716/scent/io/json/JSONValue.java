@@ -3,8 +3,6 @@ package com.hirohiro716.scent.io.json;
 /**
  * 値のJSON定義文を解析する抽象クラス。
  * (RFC 8259)(ECMA-404 2nd Edition)
- * 
- * @author hiro
  *
  * @param <T> 解析後に変換する型。
  */

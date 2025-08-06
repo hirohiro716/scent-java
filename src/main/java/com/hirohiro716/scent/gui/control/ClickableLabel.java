@@ -14,9 +14,7 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * クリックできるラベルのクラス。
- * 
- * @author hiro
-*/
+ */
 public class ClickableLabel extends Button {
     
     /**

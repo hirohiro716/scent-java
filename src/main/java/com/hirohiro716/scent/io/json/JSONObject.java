@@ -10,9 +10,7 @@ import com.hirohiro716.scent.property.PropertyInterface;
 /**
  * 連想配列(JSONオブジェクト)のJSON定義文を解析するクラス。
  * (RFC 8259)(ECMA-404 2nd Edition)
- * 
- * @author hiro
-*/
+ */
 public class JSONObject extends JSONValue<LinkedHashMap<String, JSONValue<?>>> {
 
     /**

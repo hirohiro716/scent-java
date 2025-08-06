@@ -26,8 +26,6 @@ import com.hirohiro716.scent.gui.MouseButton;
 
 /**
  * 複数の値をソートするダイアログのクラス。
- * 
- * @author hiro
  *
  * @param <T> 並び替える値の型。
  */

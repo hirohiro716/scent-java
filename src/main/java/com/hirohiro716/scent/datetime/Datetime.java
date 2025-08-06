@@ -13,9 +13,7 @@ import com.hirohiro716.scent.StringObject;
 
 /**
  * 年月日と時刻のクラス。
- * 
- * @author hiro
-*/
+ */
 public class Datetime implements Cloneable {
 
     /**
@@ -720,8 +718,6 @@ public class Datetime implements Cloneable {
     
     /**
      * 曜日を表す列挙型。
-     * 
-     * @author hiro
      */
     public static enum DayOfWeek implements IdentifiableEnum<Integer> {
         /**

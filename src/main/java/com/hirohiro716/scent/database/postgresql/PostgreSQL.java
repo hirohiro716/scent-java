@@ -9,9 +9,7 @@ import com.hirohiro716.scent.database.TableInterface;
 
 /**
  * JDBCドライバでPostgreSQLデータベースに接続するためのクラス。
- * 
- * @author hiro
-*/
+ */
 public abstract class PostgreSQL extends Database {
     
     @Override

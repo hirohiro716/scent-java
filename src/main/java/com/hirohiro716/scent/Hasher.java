@@ -7,9 +7,7 @@ import com.hirohiro716.scent.io.ByteArray;
 
 /**
  * 文字列をハッシュ化するクラス。
- * 
- * @author hiro
-*/
+ */
 public class Hasher {
     
     /**

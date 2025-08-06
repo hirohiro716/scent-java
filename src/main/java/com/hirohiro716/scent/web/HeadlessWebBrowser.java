@@ -17,9 +17,7 @@ import com.hirohiro716.scent.reflection.Method;
 /**
  * HTML5、CSS3、JavaScriptをサポートするヘッドレスWEBブラウザのクラス。<br>
  * ・HtmlUnit - <a href="https://htmlunit.sourceforge.io/">https://htmlunit.sourceforge.io/</a>
- * 
- * @author hiro
-*/
+ */
 public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
 
     /**
@@ -259,8 +257,6 @@ public class HeadlessWebBrowser extends WebBrowser<HeadlessWebBrowser.Element> {
 
     /**
      * WebBrowserにおけるHTML文書内の要素を表す。
-     * 
-     * @author hiro
      */
     public class Element implements WebBrowser.Element {
 

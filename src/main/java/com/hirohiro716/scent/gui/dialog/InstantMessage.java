@@ -24,9 +24,7 @@ import com.hirohiro716.scent.gui.event.ChangeListener;
 
 /**
  * インスタントメッセージのクラス。
- * 
- * @author hiro
-*/
+ */
 public class InstantMessage extends Component<InstantMessage.JWindowForInstantMessage> {
     
     /**
@@ -231,8 +229,6 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
     
     /**
      * このインスタントメッセージで使用するJWindow拡張クラス。
-     * 
-     * @author hiro
      */
     protected static class JWindowForInstantMessage extends javax.swing.JWindow {
         

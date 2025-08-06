@@ -10,9 +10,7 @@ import com.hirohiro716.scent.StringObject;
 /**
  * 配列のJSON定義文を解析するクラス。
  * (RFC 8259)(ECMA-404 2nd Edition)
- * 
- * @author hiro
-*/
+ */
 public class JSONArray extends JSONValue<List<JSONValue<?>>> {
 
     /**

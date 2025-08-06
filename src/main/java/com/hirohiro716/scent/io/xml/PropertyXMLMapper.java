@@ -11,8 +11,6 @@ import com.hirohiro716.scent.property.ValidationException;
 /**
  * XMLとオブジェクトをマップするための抽象クラス。
  * 
- * @author hiro
- * 
  * @param <P> プロパティの型。
  */
 public abstract class PropertyXMLMapper<P extends PropertyInterface> {

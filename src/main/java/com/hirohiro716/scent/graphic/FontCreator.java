@@ -4,9 +4,7 @@ import java.awt.Font;
 
 /**
  * フォントを作成する静的関数のクラス。
- * 
- * @author hiro
-*/
+ */
 public class FontCreator {
 
     /**

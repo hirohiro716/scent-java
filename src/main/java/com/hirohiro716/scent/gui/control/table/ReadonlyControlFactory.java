@@ -4,8 +4,6 @@ import com.hirohiro716.scent.gui.control.Control;
 
 /**
  * テーブルに表示する、読み取り専用のコントロールを作成するファクトリークラス。
- * 
- * @author hiro
  *
  * @param <C> テーブルのカラム情報インスタンスの型。
  * @param <R> テーブルの行情報のインスタンスの型。

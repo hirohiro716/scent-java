@@ -60,8 +60,6 @@ import com.hirohiro716.scent.gui.MouseButton;
 /**
  * テーブルビューのクラス。
  * 
- * @author hiro
- * 
  * @param <C> カラム情報インスタンスの型。
  * @param <R> 行情報インスタンスの型。
  */
@@ -685,8 +683,6 @@ public abstract class TableView<C, R> extends Control {
     
     /**
      * カラム種類の列挙型。
-     * 
-     * @author hiro
      */
     protected enum ColumnType {
         /**
@@ -713,8 +709,6 @@ public abstract class TableView<C, R> extends Control {
     
     /**
      * テーブルモデルのクラス。
-     * 
-     * @author hiro
      */
     private class TableModel extends AbstractTableModel {
         
@@ -844,8 +838,6 @@ public abstract class TableView<C, R> extends Control {
 
     /**
      * テーブルヘッダーのレンダラークラス。
-     * 
-     * @author hiro
      */
     private class HeaderRenderer extends DefaultTableCellRenderer {
         
@@ -874,8 +866,6 @@ public abstract class TableView<C, R> extends Control {
     
     /**
      * テーブルセルのレンダラークラス。
-     * 
-     * @author hiro
      */
     private class CellRenderer extends DefaultTableCellRenderer {
         
@@ -898,8 +888,6 @@ public abstract class TableView<C, R> extends Control {
 
     /**
      * チェックボックスセルのレンダラークラス。
-     * 
-     * @author hiro
      */
     private class CheckBoxCellRenderer implements TableCellRenderer {
         
@@ -931,8 +919,6 @@ public abstract class TableView<C, R> extends Control {
 
     /**
      * ボタンセルのレンダラークラス。
-     * 
-     * @author hiro
      */
     private class ButtonCellRenderer extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
         
@@ -1027,8 +1013,6 @@ public abstract class TableView<C, R> extends Control {
     
     /**
      * テーブルビューカラムのクラス。
-     * 
-     * @author hiro
      */
     public class TableColumn implements TableColumnInterface<C> {
         
@@ -1436,8 +1420,6 @@ public abstract class TableView<C, R> extends Control {
 
     /**
      * テーブルビューのヘッダーをクリックしてソートするイベントハンドラー。
-     * 
-     * @author hiro
      */
     private class HeaderClickedToSortEventHandler extends EventHandler<MouseEvent> {
         
@@ -1517,8 +1499,6 @@ public abstract class TableView<C, R> extends Control {
 
     /**
      * 指定されたカラムの値同士を使用して2つの行情報のインスタンスの順序付けをする比較クラス。
-     * 
-     * @author hiro
      */
     private class Comparator implements java.util.Comparator<R> {
         
