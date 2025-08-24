@@ -55,17 +55,6 @@ public class ClosingPeriod {
     }
     
     /**
-     * 指定された日時を月末に変更する。
-     * 
-     * @param datetime
-     */
-    private void changeToLastDayOfMonth(Datetime datetime) {
-        datetime.addMonth(1);
-        datetime.modifyDay(1);
-        datetime.addDay(-1);
-    }
-    
-    /**
      * 指定された月数分、基準日の前後の期間を作成する。
      * 
      * @param numberOfMonths
@@ -82,7 +71,7 @@ public class ClosingPeriod {
                     Datetime forward = datetime.clone();
                     forward.addMonth(monthNumber);
                     if (closingDay >= 28) {
-                        this.changeToLastDayOfMonth(forward);
+                        forward.changeToLastDayOfMonth();
                     } else {
                         forward.modifyDay(closingDay);
                     }
@@ -93,7 +82,7 @@ public class ClosingPeriod {
                         Datetime backward = datetime.clone();
                         backward.addMonth(monthNumber * -1);
                         if (closingDay >= 28) {
-                            this.changeToLastDayOfMonth(backward);
+                            backward.changeToLastDayOfMonth();
                         } else {
                             backward.modifyDay(closingDay);
                         }
