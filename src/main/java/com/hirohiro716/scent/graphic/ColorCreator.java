@@ -2,6 +2,7 @@ package com.hirohiro716.scent.graphic;
 
 import java.awt.Color;
 
+import com.hirohiro716.scent.RoundNumber;
 import com.hirohiro716.scent.StringObject;
 
 /**
@@ -40,6 +41,38 @@ public class ColorCreator {
         return createTransparent(Color.BLACK, 0);
     }
     
+    /**
+     * 指定された色をベースに、指定された暗さで新しい色を作成する。
+     * 
+     * @param baseColor
+     * @param darkness
+     * @return
+     */
+    public static Color createDarken(Color baseColor, double darkness) {
+        int red = (int) RoundNumber.ROUND.calculate(baseColor.getRed() * darkness);
+        if (red < 0) {
+            red = 0;
+        }
+        if (red > 255) {
+            red = 255;
+        }
+        int green = (int) RoundNumber.ROUND.calculate(baseColor.getGreen() * darkness);
+        if (green < 0) {
+            green = 0;
+        }
+        if (green > 255) {
+            green = 255;
+        }
+        int blue = (int) RoundNumber.ROUND.calculate(baseColor.getBlue() * darkness);
+        if (blue < 0) {
+            blue = 0;
+        }
+        if (blue > 255) {
+            blue = 255;
+        }
+        return new Color(red, green, blue);
+    }
+
     /**
      * 指定された色をベースに、指定された不透明度で新しい色を作成する。
      * 
