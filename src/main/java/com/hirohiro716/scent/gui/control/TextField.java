@@ -3,6 +3,7 @@ package com.hirohiro716.scent.gui.control;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.regex.Pattern;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -25,6 +26,7 @@ public class TextField extends TextInputControl {
      */
     protected TextField(JTextField innerInstance) {
         super(innerInstance);
+        this.addLimitByRegex(Pattern.compile("(\n|\r)"), true);
     }
     
     /**
