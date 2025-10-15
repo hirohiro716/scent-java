@@ -212,7 +212,7 @@ public class DatePicker extends TextField {
         if (this.previousDate == null && currentDatetime == null) {
             return;
         }
-        if (this.previousDate == null || Datetime.newInstance(this.previousDate).eqaulsDate(currentDatetime) == false) {
+        if (this.previousDate == null || Datetime.newInstance(this.previousDate).equalsDate(currentDatetime) == false) {
             Date changed = null;
             if (currentDatetime != null) {
                 changed = currentDatetime.getDate();
@@ -604,12 +604,12 @@ public class DatePicker extends TextField {
                     if (datetime.getMonth() != month) {
                         label.setForegroundColor(this.inactiveForeground);
                     } else {
-                        if (datetime.eqaulsDate(picked)) {
+                        if (datetime.equalsDate(picked)) {
                             label.setBackgroundColor(this.focusedBackground);
                             label.setForegroundColor(this.focusedForeground);
                         } else {
                             label.setBackgroundColor(this.getBackgroundColor());
-                            if (datetime.eqaulsDate(today)) {
+                            if (datetime.equalsDate(today)) {
                                 label.setForegroundColor(this.todayForeground);
                             } else {
                                 label.setForegroundColor(this.getForegroundColor());

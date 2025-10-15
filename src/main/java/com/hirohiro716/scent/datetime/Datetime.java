@@ -507,7 +507,7 @@ public class Datetime implements Cloneable {
      * @param day
      * @return
      */
-    public boolean eqaulsDate(int year, int month, int day) {
+    public boolean equalsDate(int year, int month, int day) {
         return (this.getYear() == year && this.getMonth() == month && this.getDay() == day);
     }
     
@@ -517,11 +517,24 @@ public class Datetime implements Cloneable {
      * @param datetime
      * @return
      */
-    public boolean eqaulsDate(Datetime datetime) {
+    public boolean equalsDate(Datetime datetime) {
         if (datetime == null) {
             return false;
         }
-        return this.eqaulsDate(datetime.getYear(), datetime.getMonth(), datetime.getDay());
+        return this.equalsDate(datetime.getYear(), datetime.getMonth(), datetime.getDay());
+    }
+
+    /**
+     * このインスタンスと指定されたインスタンスの年月日が等しい場合はtrueを返す。
+     * 
+     * @param date
+     * @return
+     */
+    public boolean equalsDate(Date date) {
+        if (date == null) {
+            return false;
+        }
+        return this.equalsDate(Datetime.newInstance(date));
     }
 
     /**
@@ -532,7 +545,7 @@ public class Datetime implements Cloneable {
      * @param second 
      * @return
      */
-    public boolean eqaulsTime(int hour, int minute, int second) {
+    public boolean equalsTime(int hour, int minute, int second) {
         return (this.getHour() == hour && this.getMinute() == minute && this.getSecond() == second);
     }
     
@@ -542,11 +555,24 @@ public class Datetime implements Cloneable {
      * @param datetime
      * @return
      */
-    public boolean eqaulsTime(Datetime datetime) {
+    public boolean equalsTime(Datetime datetime) {
         if (datetime == null) {
             return false;
         }
-        return this.eqaulsTime(datetime.getHour(), datetime.getMinute(), datetime.getSecond());
+        return this.equalsTime(datetime.getHour(), datetime.getMinute(), datetime.getSecond());
+    }
+    
+    /**
+     * このインスタンスと指定されたインスタンスの時刻が等しい場合はtrueを返す。
+     * 
+     * @param date
+     * @return
+     */
+    public boolean equalsTime(Date date) {
+        if (date == null) {
+            return false;
+        }
+        return this.equalsTime(Datetime.newInstance(date));
     }
     
     @Override
