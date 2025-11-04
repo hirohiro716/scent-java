@@ -26,9 +26,10 @@ public abstract class PostgreSQL extends Database {
      * @param password
      * @param characterEncoding UTF8やSJISなどの文字セット。
      * @param portNumber
+     * @param isEnableTLS
      * @throws SQLException
      */
-    public void connect(String serverAddress, String databaseName, String userName, String password, String characterEncoding, int portNumber) throws SQLException {
+    public void connect(String serverAddress, String databaseName, String userName, String password, String characterEncoding, int portNumber, boolean isEnableTLS) throws SQLException {
         StringObject connectionString = new StringObject("jdbc:postgresql://");
         connectionString.append(serverAddress);
         if (portNumber > 0) {
@@ -43,7 +44,25 @@ public abstract class PostgreSQL extends Database {
         connectionString.append(password);
         connectionString.append("&characterEncoding=");
         connectionString.append(characterEncoding);
+        if (isEnableTLS) {
+            connectionString.append("&sslmode=require");
+        }
         this.connect(connectionString.toString());
+    }
+
+    /**
+     * PostgreSQLデータベースに接続する。
+     * 
+     * @param serverAddress サーバーのIPアドレスやFQDNなど。
+     * @param databaseName
+     * @param userName
+     * @param password
+     * @param characterEncoding UTF8やSJISなどの文字セット。
+     * @param isEnableTLS
+     * @throws SQLException
+     */
+    public void connect(String serverAddress, String databaseName, String userName, String password, String characterEncoding, boolean isEnableTLS) throws SQLException {
+        this.connect(serverAddress, databaseName, userName, password, characterEncoding, -1, isEnableTLS);
     }
 
     /**
@@ -57,7 +76,7 @@ public abstract class PostgreSQL extends Database {
      * @throws SQLException
      */
     public void connect(String serverAddress, String databaseName, String userName, String password, String characterEncoding) throws SQLException {
-        this.connect(serverAddress, databaseName, userName, password, characterEncoding, -1);
+        this.connect(serverAddress, databaseName, userName, password, characterEncoding, -1, false);
     }
 
     @Override
