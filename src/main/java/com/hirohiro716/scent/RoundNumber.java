@@ -46,19 +46,37 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
     public String getName() {
         return this.name;
     }
+
+    /**
+     * 指定された数と一番近い整数を比較して、差が0.000001未満の場合は整数を、それ以上の場合は元の値を返す。
+     * 
+     * @param target
+     * @return
+     */
+    private BigDecimal normalize(double target) {
+        String stringValue = String.valueOf(target);
+        BigDecimal bigDecimal = new BigDecimal(stringValue);
+        BigDecimal nearest = bigDecimal.setScale(0, RoundingMode.HALF_UP);
+        BigDecimal difference = bigDecimal.subtract(nearest).abs();
+        BigDecimal epsilon = new BigDecimal("0.000001");
+        if (difference.compareTo(epsilon) < 0) {
+            return nearest;
+        }
+        return bigDecimal;
+    }
     
     /**
-     * 端数処理を行い整数の結果を取得する。
+     * 端数処理を行い整数の結果を取得する。<br>
+     * 引数に渡される少数は、その数と一番近い整数の差が0.000001未満の場合、整数として扱われる。
      * 
      * @param target
      * @return
      */
     public long calculate(double target) {
-        BigDecimal bigDecimal = new BigDecimal(String.valueOf(target));
+        BigDecimal bigDecimal = this.normalize(target);
         switch (this) {
         case FLOOR:
             break;
-            
         case CEIL:
             bigDecimal = bigDecimal.add(new BigDecimal("0.9"));
             break;
@@ -69,9 +87,9 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
         return bigDecimal.setScale(0, RoundingMode.FLOOR).longValue();
     }
 
-
     /**
      * 指定された桁で端数処理を行い結果を取得する。<br>
+     * 引数に渡される少数は、その数と一番近い整数の差が0.000001未満の場合、整数として扱われる。<br>
      * Examples:<br>
      * RoundNumber.ROUND.execute(2.5, 0) returns 3.0<br>
      * RoundNumber.FLOOR.execute(2.59, 1) returns 2.5<br>
@@ -85,7 +103,7 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
         if (digit < 0) {
             throw new IllegalArgumentException("Processing with negative digits is not supported: " + digit);
         }
-        BigDecimal bigDecimal = new BigDecimal(String.valueOf(target));
+        BigDecimal bigDecimal = this.normalize(target);
         StringObject leftPart = new StringObject("0.");
         leftPart.append(StringObject.repeat("0", digit));
         switch (this) {
