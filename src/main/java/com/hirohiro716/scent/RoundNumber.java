@@ -48,19 +48,24 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
     }
 
     /**
-     * 指定された数と一番近い整数を比較して、差が0.000001未満の場合は整数を、それ以上の場合は元の値を返す。
+     * 指定された数と一番近い整数、または一番近いポイントファイブを比較して、<br>
+     * 差が0.000001未満の場合は整数やポイントファイブを、それ以上の場合は元の値を返す。
      * 
      * @param target
      * @return
      */
-    private BigDecimal normalize(double target) {
+    private BigDecimal humanize(double target) {
         String stringValue = String.valueOf(target);
         BigDecimal bigDecimal = new BigDecimal(stringValue);
-        BigDecimal nearest = bigDecimal.setScale(0, RoundingMode.HALF_UP);
-        BigDecimal difference = bigDecimal.subtract(nearest).abs();
         BigDecimal epsilon = new BigDecimal("0.000001");
-        if (difference.compareTo(epsilon) < 0) {
-            return nearest;
+        BigDecimal nearestInt = bigDecimal.setScale(0, RoundingMode.HALF_UP);
+        if (bigDecimal.subtract(nearestInt).abs().compareTo(epsilon) < 0) {
+            return nearestInt;
+        }
+        BigDecimal fraction = bigDecimal.remainder(BigDecimal.ONE).abs();
+        BigDecimal half = new BigDecimal("0.5");
+        if (fraction.subtract(half).abs().compareTo(epsilon) < 0) {
+            return bigDecimal.setScale(1, RoundingMode.HALF_UP);
         }
         return bigDecimal;
     }
@@ -73,7 +78,7 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
      * @return
      */
     public long calculate(double target) {
-        BigDecimal bigDecimal = this.normalize(target);
+        BigDecimal bigDecimal = this.humanize(target);
         switch (this) {
         case FLOOR:
             break;
@@ -103,7 +108,7 @@ public enum RoundNumber implements IdentifiableEnum<Integer> {
         if (digit < 0) {
             throw new IllegalArgumentException("Processing with negative digits is not supported: " + digit);
         }
-        BigDecimal bigDecimal = this.normalize(target);
+        BigDecimal bigDecimal = this.humanize(target);
         StringObject leftPart = new StringObject("0.");
         leftPart.append(StringObject.repeat("0", digit));
         switch (this) {
