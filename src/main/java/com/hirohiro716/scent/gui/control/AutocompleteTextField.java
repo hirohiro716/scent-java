@@ -551,24 +551,28 @@ public class AutocompleteTextField extends TextField {
                 public void run() {
                     ListItemAdder adder = new ListItemAdder(control.getText());
                     try {
-                        int runningAdderSize = control.listItemAdders.size();
-                        while (runningAdderSize > 0) {
-                            runningAdderSize = 0;
-                            for (ListItemAdder activeAdder: control.listItemAdders.toArray(new ListItemAdder[] {})) {
-                                if (activeAdder.isFinished()) {
-                                    control.listItemAdders.remove(activeAdder);
-                                } else {
-                                    activeAdder.cancel();
-                                    runningAdderSize++;
+                        synchronized (control.listItemAdders) {
+                            int runningAdderSize = control.listItemAdders.size();
+                            while (runningAdderSize > 0) {
+                                runningAdderSize = 0;
+                                for (ListItemAdder activeAdder: control.listItemAdders.toArray(new ListItemAdder[] {})) {
+                                    if (activeAdder.isFinished()) {
+                                        control.listItemAdders.remove(activeAdder);
+                                    } else {
+                                        activeAdder.cancel();
+                                        runningAdderSize++;
+                                    }
                                 }
+                                Thread.sleep(100);
                             }
-                            Thread.sleep(100);
+                            control.listItemAdders.add(adder);
                         }
-                        control.listItemAdders.add(adder);
                         adder.run();
                     } catch (Exception exception) {
                         adder.cancel();
-                        control.listItemAdders.remove(adder);
+                        synchronized (control.listItemAdders) {
+                            control.listItemAdders.remove(adder);
+                        }
                     }
                 }
             });
