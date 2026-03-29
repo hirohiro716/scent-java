@@ -15,6 +15,8 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.MediaPrintableArea;
 import javax.print.attribute.standard.MediaSize;
 import javax.print.attribute.standard.MediaSizeName;
+
+import com.hirohiro716.scent.graphic.LengthUnit;
 import com.hirohiro716.scent.image.Image;
 import com.hirohiro716.scent.image.Image.ImageFormat;
 
@@ -249,8 +251,9 @@ public class PrinterJob {
             job.setJobName(this.name);
         }
         if (this.printable != null) {
-            this.printable.setMarginTop((int) MillimeterValue.newInstance(this.millimeterMarginTop).toPoint());
-            this.printable.setMarginLeft((int) MillimeterValue.newInstance(this.millimeterMarginLeft).toPoint());
+            
+            this.printable.setMarginTop((int) LengthUnit.MILLIMETER.toPoint(this.millimeterMarginTop));
+            this.printable.setMarginLeft((int) LengthUnit.MILLIMETER.toPoint(this.millimeterMarginLeft));
             this.printable.setNumberOfCopies(this.numberOfCopies);
             job.setPrintable(this.printable);
         }
@@ -308,21 +311,21 @@ public class PrinterJob {
      * @throws IOException
      */
     public Image[] printToImages(double expansionRatio, ImageFormat imageFormat) throws PrinterException, IOException {
-        float width = 0;
-        float height = 0;
+        float millimeterWidth = 0;
+        float millimeterHeight = 0;
         if (this.paperSize != null) {
-            width = (float) (this.paperSize.getMillimeterWidth() * expansionRatio);
-            height = (float) (this.paperSize.getMillimeterHeight() * expansionRatio);
+            millimeterWidth = (float) (this.paperSize.getMillimeterWidth() * expansionRatio);
+            millimeterHeight = (float) (this.paperSize.getMillimeterHeight() * expansionRatio);
         }
-        MillimeterValue millimeterWidth = new MillimeterValue(width);
-        MillimeterValue millimeterHeight = new MillimeterValue(height);
+        float width = LengthUnit.MILLIMETER.toPoint(millimeterWidth);
+        float height = LengthUnit.MILLIMETER.toPoint(millimeterHeight);
         int printResult = Printable.PAGE_EXISTS;
         List<Image> images = new ArrayList<>();
         for (int pageIndex = 0; printResult == Printable.PAGE_EXISTS; pageIndex++) {
-            BufferedImage bufferedImage = new BufferedImage((int) millimeterWidth.toPoint(), (int) millimeterHeight.toPoint(), BufferedImage.TYPE_INT_RGB);
+            BufferedImage bufferedImage = new BufferedImage((int) width, (int) height, BufferedImage.TYPE_INT_RGB);
             Graphics2D graphics2d = bufferedImage.createGraphics();
             graphics2d.setColor(Color.white);
-            graphics2d.fillRect(0, 0, (int) millimeterWidth.toPoint(), (int) millimeterHeight.toPoint());
+            graphics2d.fillRect(0, 0, (int) width, (int) height);
             graphics2d.setColor(Color.black);
             graphics2d.transform(AffineTransform.getScaleInstance(expansionRatio, expansionRatio));
             graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

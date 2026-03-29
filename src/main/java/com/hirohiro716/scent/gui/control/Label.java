@@ -8,6 +8,7 @@ import javax.swing.SwingConstants;
 
 import com.hirohiro716.scent.Dimension;
 import com.hirohiro716.scent.IdentifiableEnum;
+import com.hirohiro716.scent.graphic.AWTDrawContext;
 import com.hirohiro716.scent.graphic.FontCreator;
 import com.hirohiro716.scent.graphic.GraphicalString;
 import com.hirohiro716.scent.gui.HorizontalAlignment;
@@ -74,10 +75,10 @@ public class Label extends LabeledControl {
      * このラベルのサイズに合わせてフォントを自動調整する。
      */
     public void adjustFontToFitSize() {
-        Graphics2D graphics2D = GraphicalString.createGraphics2D();
+        Graphics2D graphics2D = AWTDrawContext.createGraphics2D();
         Font font = this.getFont();
         graphics2D.setFont(FontCreator.create(font, this.getHeight()));
-        GraphicalString graphicalString = new GraphicalString(this.getText(), graphics2D);
+        GraphicalString graphicalString = new GraphicalString(this.getText(), AWTDrawContext.newInstance(graphics2D));
         int maximumWidth = this.getWidth() - 2 - this.getPadding().getLeft() + this.getPadding().getRight();
         graphicalString.setMaximumWidth(maximumWidth);
         int maximumHeight = this.getHeight() - this.getPadding().getTop() + this.getPadding().getBottom();
@@ -91,10 +92,10 @@ public class Label extends LabeledControl {
      * このラベルに設定されているテキストに合わせてサイズを自動調整する。
      */
     public void adjustSizeToFitText() {
-        Graphics2D graphics2D = GraphicalString.createGraphics2D();
+        Graphics2D graphics2D = AWTDrawContext.createGraphics2D();
         Font font = this.getFont();
         graphics2D.setFont(font);
-        GraphicalString graphicalString = new GraphicalString(this.getText(), graphics2D);
+        GraphicalString graphicalString = new GraphicalString(this.getText(), AWTDrawContext.newInstance(graphics2D));
         graphicalString.setMaximumWidth(this.getMaximumWidth());
         graphicalString.setMaximumHeight(this.getMaximumHeight());
         Dimension dimension = graphicalString.createDimension();

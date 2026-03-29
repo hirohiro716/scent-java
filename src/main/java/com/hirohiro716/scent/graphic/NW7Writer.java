@@ -1,7 +1,5 @@
 package com.hirohiro716.scent.graphic;
 
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,16 +14,16 @@ public class NW7Writer {
      * コンストラクタ。
      * 
      * @param barcode 
-     * @param graphics2D
+     * @param drawContext
      */
-    public NW7Writer(String barcode, Graphics2D graphics2D) {
+    public NW7Writer(String barcode, DrawContext<?> drawContext) {
         this.barcode = barcode;
-        this.graphics2D = graphics2D;
+        this.drawContext = drawContext;
     }
     
     private String barcode;
     
-    private Graphics2D graphics2D;
+    private DrawContext<?> drawContext;
     
     /**
      * NW-7のバーコードを描画する。
@@ -58,8 +56,7 @@ public class NW7Writer {
             for (float barWidthRatio: characterPatterns) {
                 float barWidth = oneWidth * barWidthRatio;
                 if (isPause == false) {
-                    Rectangle2D.Float rectangle = new Rectangle2D.Float(drawingX, y, barWidth, height);
-                    this.graphics2D.fill(rectangle);
+                    this.drawContext.drawRectangleFill(drawingX, y, barWidth, height);
                     isPause = true;
                 } else {
                     isPause = false;

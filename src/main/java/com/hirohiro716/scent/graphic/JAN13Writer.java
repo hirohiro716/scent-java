@@ -1,7 +1,4 @@
 package com.hirohiro716.scent.graphic;
-
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import com.hirohiro716.scent.StringObject;
 
 /**
@@ -13,16 +10,16 @@ public class JAN13Writer {
      * コンストラクタ。
      * 
      * @param barcode
-     * @param graphics2D
+     * @param drawContext
      */
-    public JAN13Writer(String barcode, Graphics2D graphics2D) {
+    public JAN13Writer(String barcode, DrawContext<?> drawContext) {
         this.barcode = barcode;
-        this.graphics2D = graphics2D;
+        this.drawContext = drawContext;
     }
     
     private String barcode;
     
-    private Graphics2D graphics2D;
+    private DrawContext<?> drawContext;
 
     private float barScale = 1;
 
@@ -51,9 +48,9 @@ public class JAN13Writer {
         StringObject barcode = new StringObject(this.barcode);
         float drawingX = x;
         // ノーマルガードバー
-        this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule * this.barScale, height));
+        this.drawContext.drawRectangleFill(drawingX, y, oneModule * this.barScale, height);
         drawingX += oneModule * 2;
-        this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule * this.barScale, height));
+        this.drawContext.drawRectangleFill(drawingX, y, oneModule * this.barScale, height);
         drawingX += oneModule;
         // リーディングディジットを取得する
         int leadingDigit = barcode.clone().extract(0, 1).toInteger();
@@ -65,16 +62,16 @@ public class JAN13Writer {
             int[] parities = JAN13Writer.LEFT_PARITIES[typeIndex][drawing];
             for (int parity: parities) {
                 if (parity == 1) {
-                    this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule * this.barScale, height));
+                    this.drawContext.drawRectangleFill(drawingX, y, oneModule * this.barScale, height);
                 }
                 drawingX += oneModule;
             }
         }
         // センターガードバー
         drawingX += oneModule;
-        this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule * this.barScale, height));
+        this.drawContext.drawRectangleFill(drawingX, y, oneModule * this.barScale, height);;
         drawingX += oneModule * 2;
-        this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule * this.barScale, height));
+        this.drawContext.drawRectangleFill(drawingX, y, oneModule * this.barScale, height);;
         drawingX += oneModule * 2;
         // センターガードバーの右側を描画する
         for (int index = 7; index <= 12; index++) {
@@ -82,15 +79,15 @@ public class JAN13Writer {
             int[] parities = JAN13Writer.RIGHT_PARITIES[drawing];
             for (int parity: parities) {
                 if (parity == 1) {
-                    this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule * this.barScale, height));
+                    this.drawContext.drawRectangleFill(drawingX, y, oneModule * this.barScale, height);;
                 }
                 drawingX += oneModule;
             }
         }
         // ライトガードバー
-        this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule * this.barScale, height));
+        this.drawContext.drawRectangleFill(drawingX, y, oneModule * this.barScale, height);;
         drawingX += oneModule * 2;
-        this.graphics2D.fill(new Rectangle2D.Float(drawingX, y, oneModule * this.barScale, height));
+        this.drawContext.drawRectangleFill(drawingX, y, oneModule * this.barScale, height);;
     }
     
     /**

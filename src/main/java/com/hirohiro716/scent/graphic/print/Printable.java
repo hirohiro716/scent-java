@@ -1,28 +1,20 @@
 package com.hirohiro716.scent.graphic.print;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.hirohiro716.scent.Dimension;
-import com.hirohiro716.scent.graphic.ColorCreator;
-import com.hirohiro716.scent.graphic.FontCreator;
-import com.hirohiro716.scent.graphic.GraphicalString;
-import com.hirohiro716.scent.graphic.JAN13Writer;
-import com.hirohiro716.scent.graphic.NW7Writer;
+import com.hirohiro716.scent.graphic.AWTDrawContext;
+import com.hirohiro716.scent.graphic.LengthUnit;
+import com.hirohiro716.scent.graphic.DrawContext.FontStyle;
 import com.hirohiro716.scent.graphic.GraphicalString.HorizontalPosition;
 import com.hirohiro716.scent.graphic.GraphicalString.VerticalPosition;
 
@@ -31,7 +23,7 @@ import com.hirohiro716.scent.graphic.GraphicalString.VerticalPosition;
  */
 public abstract class Printable implements java.awt.print.Printable {
     
-    private Graphics2D graphics2D = null;
+    private AWTDrawContext drawContext = null;
     
     private PageFormat pageFormat = null;
     
@@ -99,9 +91,10 @@ public abstract class Printable implements java.awt.print.Printable {
     
     @Override
     public final int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-        this.graphics2D = (Graphics2D) graphics;
+        this.drawContext = new AWTDrawContext((Graphics2D) graphics);
+        this.drawContext.setLengthUnit(LengthUnit.MILLIMETER);
         this.pageFormat = pageFormat;
-        this.graphics2D.translate(this.marginLeft, this.marginTop);
+        graphics.translate(this.marginLeft, this.marginTop);
         boolean existsPage = this.print(pageIndex);
         if (existsPage) {
             if (this.listOfExistedPage.contains(pageIndex) == false) {
@@ -115,7 +108,7 @@ public abstract class Printable implements java.awt.print.Printable {
             this.print(copyIndex);
             return PAGE_EXISTS;
         }
-        this.graphics2D = null;
+        this.drawContext = null;
         this.pageFormat = null;
         return NO_SUCH_PAGE;
     }
@@ -139,12 +132,12 @@ public abstract class Printable implements java.awt.print.Printable {
     public abstract boolean print(int pageIndex) throws PrinterException;
     
     /**
-     * 印刷対象のGraphics2Dインスタンスを取得する。印刷が開始されていない場合はnullを返す。
+     * 描画命令を実行するコンテキストインスタンスを取得する。印刷が開始されていない場合はnullを返す。
      * 
      * @return
      */
-    protected Graphics2D getGraphics2D() {
-        return this.graphics2D;
+    protected AWTDrawContext getAWTDrawContext() {
+        return this.drawContext;
     }
 
     /**
@@ -162,7 +155,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param color
      */
     protected void setColor(Color color) {
-        this.graphics2D.setColor(color);
+        this.drawContext.setColor(color);
     }
     
     /**
@@ -171,10 +164,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param webColor
      */
     protected void setWebColor(String webColor) {
-        Color color = ColorCreator.create(webColor);
-        if (color.getAlpha() > 0) {
-            this.graphics2D.setColor(color);
-        }
+        this.drawContext.setWebColor(webColor);
     }
     
     /**
@@ -183,7 +173,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @return
      */
     protected Font getFont() {
-        return this.graphics2D.getFont();
+        return this.drawContext.getFont();
     }
 
     /**
@@ -192,7 +182,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param font
      */
     protected void setFont(Font font) {
-        this.graphics2D.setFont(font);
+        this.drawContext.setFont(font);
     }
     
     /**
@@ -202,8 +192,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param size
      * @param fontStyle
      */
-    protected final void setFont(String fontName, float size, FontStyle fontStyle) {
-        this.setFont(new Font(fontName, fontStyle.getValue(), (int) size));
+    protected void setFont(String fontName, float size, FontStyle fontStyle) {
+        this.drawContext.setFont(fontName, size, fontStyle);
     }
     
     /**
@@ -212,8 +202,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param fontName
      * @param size
      */
-    protected final void setFont(String fontName, float size) {
-        this.setFont(fontName, size, FontStyle.PLAIN);
+    protected void setFont(String fontName, float size) {
+        this.drawContext.setFont(fontName, size);
     }
     
     /**
@@ -221,8 +211,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * 
      * @param fontName
      */
-    protected final void setFontName(String fontName) {
-        this.setFont(FontCreator.create(this.getFont(), fontName));
+    protected void setFontName(String fontName) {
+        this.drawContext.setFontName(fontName);
     }
     
     /**
@@ -230,8 +220,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * 
      * @param size
      */
-    protected final void setFontSize(float size) {
-        this.setFont(FontCreator.create(this.getFont(), (int) size));
+    protected void setFontSize(float size) {
+        this.drawContext.setFontSize(size);
     }
     
     /**
@@ -239,29 +229,25 @@ public abstract class Printable implements java.awt.print.Printable {
      * 
      * @param fontStyle
      */
-    protected final void setFontStyle(FontStyle fontStyle) {
-        this.setFont(this.getFont().getFontName(), this.getFont().getSize(), fontStyle);
+    protected void setFontStyle(FontStyle fontStyle) {
+        this.drawContext.setFontStyle(fontStyle);
     }
     
-    private Float leading = null;
-
     /**
      * 印刷する文字列の行と行との間隔を設定する。
      * 
      * @param millimeterLeading
      */
     protected void setLeading(float millimeterLeading) {
-        this.leading = MillimeterValue.newInstance(millimeterLeading).toPoint();
+        this.drawContext.setLeading(millimeterLeading);
     }
 
     /**
      * 印刷する文字列の行と行との間隔をフォントに基づく初期設定にする。
      */
     protected void setDefaultLeading() {
-        this.leading = null;
+        this.drawContext.setDefaultLeading();
     }
-    
-    private boolean isDisabledMultipleLine = false;
     
     /**
      * 印刷する文字列の自動改行が無効になっている場合はtrueを返す。
@@ -269,7 +255,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @return
      */
     protected boolean isDisabledMultipleLine() {
-        return this.isDisabledMultipleLine;
+        return this.drawContext.isDisabledMultipleLine();
     }
     
     /**
@@ -278,11 +264,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param isDisabledMultipleLine
      */
     protected void setDisabledMultipleLine(boolean isDisabledMultipleLine) {
-        this.isDisabledMultipleLine = isDisabledMultipleLine;
+        this.drawContext.setDisabledMultipleLine(isDisabledMultipleLine);
     }
-    
-    
-    private HorizontalPosition horizontalPosition = HorizontalPosition.LEFT;
     
     /**
      * 文字列を印刷する際の水平方向の基準を設定する。
@@ -290,10 +273,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param horizontalPosition
      */
     protected void setHorizontalPositionOfString(HorizontalPosition horizontalPosition) {
-        this.horizontalPosition = horizontalPosition;
+        this.drawContext.setHorizontalPositionOfString(horizontalPosition);
     }
-    
-    private VerticalPosition verticalPosition = VerticalPosition.BASELINE;
     
     /**
      * 文字列を印刷する際の垂直方向の基準を設定する。
@@ -301,10 +282,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param verticalPosition
      */
     protected void setVerticalPositionOfString(VerticalPosition verticalPosition) {
-        this.verticalPosition = verticalPosition;
+        this.drawContext.setVerticalPositionOfString(verticalPosition);
     }
-    
-    private Font lastAutomaticallyAdjustedFont = null;
 
     /**
      * 最後に自動調整されたフォントを取得する。
@@ -312,7 +291,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @return
      */
     public Font getLastAutomaticallyAdjustedFont() {
-        return this.lastAutomaticallyAdjustedFont;
+        return this.drawContext.getLastAutomaticallyAdjustedFont();
     }
 
     /**
@@ -323,15 +302,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @return
      */
     protected Dimension createStringDimension(String string) {
-        GraphicalString graphicalString = new GraphicalString(string, this.graphics2D);
-        if (this.leading != null) {
-            graphicalString.setLeading(this.leading);
-        }
-        graphicalString.setDisabledMultipleLine(this.isDisabledMultipleLine);
-        Dimension dimension = graphicalString.createDimension();
-        this.lastAutomaticallyAdjustedFont = graphicalString.getLastAutomaticallyAdjustedFont();
-        dimension = new Dimension(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
-        return dimension;
+        return this.drawContext.createStringDimension(string);
     }
     
     /**
@@ -344,19 +315,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @return
      */
     protected Dimension createStringDimension(String string, float millimeterMaximumWidth, float millimeterMaximumHeight) {
-        GraphicalString graphicalString = new GraphicalString(string, this.graphics2D);
-        if (this.leading != null) {
-            graphicalString.setLeading(this.leading);
-        }
-        graphicalString.setDisabledMultipleLine(this.isDisabledMultipleLine);
-        float maximumWidth = MillimeterValue.newInstance(millimeterMaximumWidth).toPoint();
-        float maximumHeight = MillimeterValue.newInstance(millimeterMaximumHeight).toPoint();
-        graphicalString.setMaximumWidth(maximumWidth);
-        graphicalString.setMaximumHeight(maximumHeight);
-        Dimension dimension = graphicalString.createDimension();
-        this.lastAutomaticallyAdjustedFont = graphicalString.getLastAutomaticallyAdjustedFont();
-        dimension = new Dimension(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
-        return dimension;
+        return this.drawContext.createStringDimension(string, millimeterMaximumWidth, millimeterMaximumHeight);
     }
     
     /**
@@ -369,19 +328,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @return 印刷された文字列の大きさ。
      */
     protected Dimension printString(String string, float millimeterX, float millimeterY) {
-        GraphicalString graphicalString = new GraphicalString(string, this.graphics2D);
-        if (this.leading != null) {
-            graphicalString.setLeading(this.leading);
-        }
-        graphicalString.setDisabledMultipleLine(this.isDisabledMultipleLine);
-        graphicalString.setHorizontalPosition(this.horizontalPosition);
-        graphicalString.setVerticalPosition(this.verticalPosition);
-        float x = MillimeterValue.newInstance(millimeterX).toPoint();
-        float y = MillimeterValue.newInstance(millimeterY).toPoint();
-        Dimension dimension = graphicalString.draw(x, y);
-        this.lastAutomaticallyAdjustedFont = graphicalString.getLastAutomaticallyAdjustedFont();
-        dimension = new Dimension(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
-        return dimension;
+        return this.drawContext.drawString(string, millimeterX, millimeterY);
     }
     
     /**
@@ -396,21 +343,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @return 印刷された文字列の大きさ。
      */
     protected Dimension printStringInBox(String string, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        GraphicalString graphicalString = new GraphicalString(string, this.graphics2D);
-        if (this.leading != null) {
-            graphicalString.setLeading(this.leading);
-        }
-        graphicalString.setDisabledMultipleLine(this.isDisabledMultipleLine);
-        graphicalString.setHorizontalPosition(this.horizontalPosition);
-        graphicalString.setVerticalPosition(this.verticalPosition);
-        float width = MillimeterValue.newInstance(millimeterWidth).toPoint();
-        float height = MillimeterValue.newInstance(millimeterHeight).toPoint();
-        float x = MillimeterValue.newInstance(millimeterX).toPoint();
-        float y = MillimeterValue.newInstance(millimeterY).toPoint();
-        Dimension dimension = graphicalString.drawInBox(x, y, width, height);
-        this.lastAutomaticallyAdjustedFont = graphicalString.getLastAutomaticallyAdjustedFont();
-        dimension = new Dimension(MillimeterValue.fromPoint(dimension.getWidth()).get(), MillimeterValue.fromPoint(dimension.getHeight()).get());
-        return dimension;
+        return this.drawContext.drawStringInBox(string, millimeterX, millimeterY, millimeterWidth, millimeterHeight);
     }
 
     /**
@@ -419,8 +352,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterWidth
      */
     protected void setStrokeWidth(float millimeterWidth) {
-        BasicStroke basicStroke = (BasicStroke) this.graphics2D.getStroke();
-        this.graphics2D.setStroke(new BasicStroke(MillimeterValue.newInstance(millimeterWidth).toPoint(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke.getMiterLimit(), basicStroke.getDashArray(), basicStroke.getDashPhase()));
+        this.drawContext.setStrokeWidth(millimeterWidth);
     }
     
     /**
@@ -429,22 +361,14 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterDashes 破線パターンを表す配列。
      */
     protected void setStrokeDashArray(float... millimeterDashes) {
-        if (millimeterDashes.length > 0) {
-            float[] dashes = new float[millimeterDashes.length];
-            for (int index = 0; index < millimeterDashes.length; index++) {
-                dashes[index] = MillimeterValue.newInstance(millimeterDashes[index]).toPoint();
-            }
-            BasicStroke basicStroke = (BasicStroke) this.graphics2D.getStroke();
-            this.graphics2D.setStroke(new BasicStroke(basicStroke.getLineWidth(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke.getMiterLimit(), dashes, basicStroke.getDashPhase()));
-        }
+        this.drawContext.setStrokeDashArray(millimeterDashes);
     }
     
     /**
      * 印刷に使用する線を破線から実線に戻す。
      */
     protected void clearStrokeDashArray() {
-        BasicStroke basicStroke = (BasicStroke) this.graphics2D.getStroke();
-        this.graphics2D.setStroke(new BasicStroke(basicStroke.getLineWidth(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke.getMiterLimit(), null, basicStroke.getDashPhase()));
+        this.drawContext.clearStrokeDashArray();
     }
 
     /**
@@ -456,11 +380,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterEndY
      */
     protected void printLine(float millimeterStartX, float millimeterStartY, float millimeterEndX, float millimeterEndY) {
-        double startX = MillimeterValue.newInstance(millimeterStartX).toPoint();
-        double startY = MillimeterValue.newInstance(millimeterStartY).toPoint();
-        double endX = MillimeterValue.newInstance(millimeterEndX).toPoint();
-        double endY = MillimeterValue.newInstance(millimeterEndY).toPoint();
-        this.graphics2D.draw(new Line2D.Double(startX, startY, endX, endY));
+        this.drawContext.drawLine(millimeterStartX, millimeterStartY, millimeterEndX, millimeterEndY);
     }
     
     /**
@@ -470,8 +390,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterStartY
      * @param millimeterLength
      */
-    protected final void printHorizontalLine(float millimeterStartX, float millimeterStartY, float millimeterLength) {
-        this.printLine(millimeterStartX, millimeterStartY, millimeterStartX + millimeterLength, millimeterStartY);
+    protected void printHorizontalLine(float millimeterStartX, float millimeterStartY, float millimeterLength) {
+        this.drawContext.drawHorizontalLine(millimeterStartX, millimeterStartY, millimeterLength);
     }
     
     /**
@@ -481,8 +401,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterStartY
      * @param millimeterLength
      */
-    protected final void printVerticalLine(float millimeterStartX, float millimeterStartY, float millimeterLength) {
-        this.printLine(millimeterStartX, millimeterStartY, millimeterStartX, millimeterStartY + millimeterLength);
+    protected void printVerticalLine(float millimeterStartX, float millimeterStartY, float millimeterLength) {
+        this.drawContext.drawVerticalLine(millimeterStartX, millimeterStartY, millimeterLength);
     }
     
     /**
@@ -492,15 +412,10 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterY
      * @param millimeterWidth
      * @param millimeterHeight
-     * @param millimeterArc 角を丸くする場合の直径。
+     * @param millimeterDiameter 角を丸くする場合の直径。
      */
-    protected void printRectangleLine(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight, float millimeterArc) {
-        double x = MillimeterValue.newInstance(millimeterX).toPoint();
-        double y = MillimeterValue.newInstance(millimeterY).toPoint();
-        double width = MillimeterValue.newInstance(millimeterWidth).toPoint();
-        double height = MillimeterValue.newInstance(millimeterHeight).toPoint();
-        double arc = MillimeterValue.newInstance(millimeterArc).toPoint();
-        this.graphics2D.draw(new RoundRectangle2D.Double(x, y, width, height, arc, arc));
+    protected void printRectangleLine(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight, float millimeterDiameter) {
+        this.drawContext.drawRectangleLine(millimeterX, millimeterY, millimeterWidth, millimeterHeight, millimeterDiameter);
     }
 
     /**
@@ -511,8 +426,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterWidth
      * @param millimeterHeight
      */
-    protected final void printRectangleLine(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        this.printRectangleLine(millimeterX, millimeterY, millimeterWidth, millimeterHeight, 0);
+    protected void printRectangleLine(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
+        this.drawContext.drawRectangleLine(millimeterX, millimeterY, millimeterWidth, millimeterHeight);
     }
 
     /**
@@ -522,15 +437,10 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterY
      * @param millimeterWidth
      * @param millimeterHeight
-     * @param millimeterArc 角を丸くする場合の直径。
+     * @param millimeterDiameter 角を丸くする場合の直径。
      */
-    protected void printRectangleFill(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight, float millimeterArc) {
-        double x = MillimeterValue.newInstance(millimeterX).toPoint();
-        double y = MillimeterValue.newInstance(millimeterY).toPoint();
-        double width = MillimeterValue.newInstance(millimeterWidth).toPoint();
-        double height = MillimeterValue.newInstance(millimeterHeight).toPoint();
-        double arc = MillimeterValue.newInstance(millimeterArc).toPoint();
-        this.graphics2D.fill(new RoundRectangle2D.Double(x, y, width, height, arc, arc));
+    protected void printRectangleFill(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight, float millimeterDiameter) {
+        this.drawContext.drawRectangleFill(millimeterX, millimeterY, millimeterWidth, millimeterHeight, millimeterDiameter);
     }
 
     /**
@@ -541,8 +451,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterWidth
      * @param millimeterHeight
      */
-    protected final void printRectangleFill(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        this.printRectangleFill(millimeterX, millimeterY, millimeterWidth, millimeterHeight, 0);
+    protected void printRectangleFill(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
+        this.drawContext.drawRectangleFill(millimeterX, millimeterY, millimeterWidth, millimeterHeight);
     }
 
     /**
@@ -554,11 +464,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterHeight
      */
     protected void printEllipseLine(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        double x = MillimeterValue.newInstance(millimeterX).toPoint();
-        double y = MillimeterValue.newInstance(millimeterY).toPoint();
-        double width = MillimeterValue.newInstance(millimeterWidth).toPoint();
-        double height = MillimeterValue.newInstance(millimeterHeight).toPoint();
-        this.graphics2D.draw(new Ellipse2D.Double(x, y, width, height));
+        this.drawContext.drawEllipseLine(millimeterX, millimeterY, millimeterWidth, millimeterHeight);
     }
 
     /**
@@ -570,11 +476,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterHeight
      */
     protected void printEllipseFill(float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        double x = MillimeterValue.newInstance(millimeterX).toPoint();
-        double y = MillimeterValue.newInstance(millimeterY).toPoint();
-        double width = MillimeterValue.newInstance(millimeterWidth).toPoint();
-        double height = MillimeterValue.newInstance(millimeterHeight).toPoint();
-        this.graphics2D.fill(new Ellipse2D.Double(x, y, width, height));
+        this.drawContext.drawEllipseFill(millimeterX, millimeterY, millimeterWidth, millimeterHeight);
     }
     
     /**
@@ -588,15 +490,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @throws IOException 
      */
     protected void printImage(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) throws IOException {
-        AffineTransform transform = this.graphics2D.getTransform();
-        double translateX = MillimeterValue.newInstance(millimeterX).toPoint();
-        double translateY = MillimeterValue.newInstance(millimeterY).toPoint();
-        double scaleX = MillimeterValue.newInstance(millimeterWidth).toPoint() / bufferedImage.getWidth();
-        double scaleY = MillimeterValue.newInstance(millimeterHeight).toPoint() / bufferedImage.getHeight();
-        this.graphics2D.translate(translateX, translateY);
-        this.graphics2D.scale(scaleX, scaleY);
-        this.graphics2D.drawImage(bufferedImage, 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), null);
-        this.graphics2D.setTransform(transform);
+        this.drawContext.drawImage(bufferedImage, millimeterX, millimeterY, millimeterWidth, millimeterHeight);
     }
     
     /**
@@ -609,11 +503,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @return 印刷された画像の大きさ。
      * @throws IOException
      */
-    protected final Dimension printImageToFitWidth(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterWidth) throws IOException {
-        float ratio = bufferedImage.getWidth() / millimeterWidth;
-        float millimeterHeight = bufferedImage.getHeight() / ratio;
-        this.printImage(bufferedImage, millimeterX, millimeterY, millimeterWidth, millimeterHeight);
-        return new Dimension(millimeterWidth, millimeterHeight);
+    protected Dimension printImageToFitWidth(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterWidth) throws IOException {
+        return this.drawContext.drawImageToFitWidth(bufferedImage, millimeterX, millimeterY, millimeterWidth);
     }
     
     /**
@@ -626,11 +517,8 @@ public abstract class Printable implements java.awt.print.Printable {
      * @return 印刷された画像の大きさ。
      * @throws IOException
      */
-    protected final Dimension printImageToFitHeight(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterHeight) throws IOException {
-        float ratio = bufferedImage.getHeight() / millimeterHeight;
-        float millimeterWidth = bufferedImage.getWidth() / ratio;
-        this.printImage(bufferedImage, millimeterX, millimeterY, millimeterWidth, millimeterHeight);
-        return new Dimension(millimeterWidth, millimeterHeight);
+    protected Dimension printImageToFitHeight(BufferedImage bufferedImage, float millimeterX, float millimeterY, float millimeterHeight) throws IOException {
+        return this.drawContext.drawImageToFitHeight(bufferedImage, millimeterX, millimeterY, millimeterHeight);
     }
 
     /**
@@ -643,12 +531,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterWidth
      */
     protected void printNW7(String barcode, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        float x = MillimeterValue.newInstance(millimeterX).toPoint();
-        float y = MillimeterValue.newInstance(millimeterY).toPoint();
-        float width = MillimeterValue.newInstance(millimeterWidth).toPoint();
-        float height = MillimeterValue.newInstance(millimeterHeight).toPoint();
-        NW7Writer nw7Writer = new NW7Writer(barcode, this.graphics2D);
-        nw7Writer.write(x, y, width, height);
+        this.drawContext.drawNW7(barcode, millimeterX, millimeterY, millimeterWidth, millimeterHeight);
     }
     
     /**
@@ -662,13 +545,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param barScale バー描画の拡大率。1が初期値。
      */
     protected void printJAN13(String barcode, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight, float barScale) {
-        float x = MillimeterValue.newInstance(millimeterX).toPoint();
-        float y = MillimeterValue.newInstance(millimeterY).toPoint();
-        float width = MillimeterValue.newInstance(millimeterWidth).toPoint();
-        float height = MillimeterValue.newInstance(millimeterHeight).toPoint();
-        JAN13Writer jan13Writer = new JAN13Writer(barcode, this.graphics2D);
-        jan13Writer.setBarScale(barScale);
-        jan13Writer.write(x, y, width, height);
+        this.drawContext.drawJAN13(barcode, millimeterX, millimeterY, millimeterWidth, millimeterHeight, barScale);
     }
     
     /**
@@ -681,7 +558,7 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterHeight
      */
     protected void printJAN13(String barcode, float millimeterX, float millimeterY, float millimeterWidth, float millimeterHeight) {
-        this.printJAN13(barcode, millimeterX, millimeterY, millimeterWidth, millimeterHeight, 1);
+        this.drawContext.drawJAN13(barcode, millimeterX, millimeterY, millimeterWidth, millimeterHeight);
     }
     
     /**
@@ -692,95 +569,6 @@ public abstract class Printable implements java.awt.print.Printable {
      * @param millimeterY 
      */
     protected void setRotate(int angle, float millimeterX, float millimeterY) {
-        float x = MillimeterValue.newInstance(millimeterX).toPoint();
-        float y = MillimeterValue.newInstance(millimeterY).toPoint();
-        this.graphics2D.rotate(Math.toRadians(angle), x, y);
-    }
-    
-    private static List<String> NEED_TO_VERITICAL_LIST = null;
-    
-    /**
-     * 文字列を垂直書きで印刷する場合に、90度回転させる必要がある文字列のリストを取得する。
-     * 
-     * @return
-     */
-    protected static List<String> getNeedToVerticalList() {
-        if (Printable.NEED_TO_VERITICAL_LIST == null) {
-            List<String> list = new ArrayList<>();
-            list.add("(");
-            list.add(")");
-            list.add("-");
-            list.add("<");
-            list.add("=");
-            list.add(">");
-            list.add("[");
-            list.add("]");
-            list.add("{");
-            list.add("|");
-            list.add("}");
-            list.add("~");
-            list.add("‐");
-            list.add("−");
-            list.add("〈");
-            list.add("〉");
-            list.add("《");
-            list.add("》");
-            list.add("「");
-            list.add("」");
-            list.add("『");
-            list.add("』");
-            list.add("【");
-            list.add("】");
-            list.add("〔");
-            list.add("〕");
-            list.add("〜");
-            list.add("ー");
-            list.add("（");
-            list.add("）");
-            list.add("＝");
-            list.add("［");
-            list.add("］");
-            list.add("｛");
-            list.add("｜");
-            list.add("｝");
-            Collections.unmodifiableList(list);
-            Printable.NEED_TO_VERITICAL_LIST = list;
-        }
-        return Printable.NEED_TO_VERITICAL_LIST;
-    }
-    
-    /**
-     * フォントスタイルの列挙型。
-     */
-    protected enum FontStyle {
-        /**
-         * 標準のテキスト。
-         */
-        PLAIN,
-        /**
-         * 太字のテキスト。
-         */
-        BOLD,
-        /**
-         * 斜体のテキスト。
-         */
-        ITALIC,
-        ;
-        
-        /**
-         * フォントのスタイルとして有効な値を取得する。
-         * 
-         * @return
-         */
-        public int getValue() {
-            switch (this) {
-            case BOLD:
-                return Font.BOLD;
-            case ITALIC:
-                return Font.ITALIC;
-            default:
-                return Font.PLAIN;
-            }
-        }
+        this.drawContext.setRotate(angle, millimeterX, millimeterY);
     }
 }

@@ -1,7 +1,6 @@
 package com.hirohiro716.scent.gui.control;
 
 import java.awt.Component;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import com.hirohiro716.scent.Array;
 import com.hirohiro716.scent.DynamicArray;
+import com.hirohiro716.scent.graphic.AWTDrawContext;
 import com.hirohiro716.scent.graphic.GraphicalString;
 import com.hirohiro716.scent.gui.collection.Collection;
 import com.hirohiro716.scent.gui.collection.RemoveListener;
@@ -96,7 +96,7 @@ public abstract class ListSelectControl<T> extends Control {
         return (int) (this.getFont().getSize2D() * 2.4);
     }
 
-    private Graphics2D graphics = GraphicalString.createGraphics2D();
+    private AWTDrawContext drawContext = new AWTDrawContext(AWTDrawContext.createGraphics2D());
 
     /**
      * このコントロールのリストアイテムの表示を更新する。
@@ -118,8 +118,8 @@ public abstract class ListSelectControl<T> extends Control {
                     label.setText(control.getMapDisplayTextForItem().get(value));
                 }
                 int height = control.getItemHeight();
-                control.graphics.setFont(control.getFont());
-                GraphicalString graphicalString = new GraphicalString(label.getText(), control.graphics);
+                control.drawContext.setFont(control.getFont());
+                GraphicalString graphicalString = new GraphicalString(label.getText(), control.drawContext);
                 int width = (int) graphicalString.createDimension().getWidth() + control.getItemHeight();
                 label.setSize(width, height);
                 int padding = (int) (height * 0.32);

@@ -13,6 +13,7 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JPanel;
 
 import com.hirohiro716.scent.Dimension;
+import com.hirohiro716.scent.graphic.AWTDrawContext;
 import com.hirohiro716.scent.graphic.GraphicalString;
 import com.hirohiro716.scent.graphic.GraphicalString.HorizontalPosition;
 import com.hirohiro716.scent.graphic.GraphicalString.VerticalPosition;
@@ -267,7 +268,7 @@ public class InstantMessage extends Component<InstantMessage.JWindowForInstantMe
             int paddingX = (int) (fontSize * 1.5);
             int paddingY = (int) (fontSize * 1.2);
             int maximumWidth = this.instantMessage.owner.getWidth() - paddingX * 4;
-            GraphicalString graphicalString = new GraphicalString(this.instantMessage.text, graphics2D);
+            GraphicalString graphicalString = new GraphicalString(this.instantMessage.text, AWTDrawContext.newInstance(graphics2D));
             graphicalString.setMaximumWidth(maximumWidth);
             com.hirohiro716.scent.Dimension textSize = graphicalString.createDimension();
             // Calculate window size

@@ -1,15 +1,12 @@
 package com.hirohiro716.scent.graphic;
 
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.hirohiro716.scent.Dimension;
 import com.hirohiro716.scent.StringObject;
+import com.hirohiro716.scent.graphic.DrawContext.FontMetrics;
 
 /**
  * 文字列を描画するクラス。
@@ -18,23 +15,20 @@ public class GraphicalString {
     
     /**
      * コンストラクタ。<br>
-     * 描画する文字列、使用するGraphics2Dインスタンスを指定する。
+     * 描画する文字列、使用する描画コンテキストを指定する。
      * 
      * @param string 
-     * @param graphics2D
+     * @param drawContext
      */
-    public GraphicalString(String string, Graphics2D graphics2D) {
-        this.graphics2D = graphics2D;
-        this.graphics2DForFontMetrics = GraphicalString.createGraphics2D();
+    public GraphicalString(String string, DrawContext<?> drawContext) {
+        this.drawContext = drawContext;
         this.string = new StringObject(string);
         this.string.replaceCRLF("\n").replaceCR("\n");
     }
     
     private StringObject string;
     
-    private Graphics2D graphics2D;
-    
-    private Graphics2D graphics2DForFontMetrics;
+    private DrawContext<?> drawContext;
 
     private HorizontalPosition horizontalPosition = HorizontalPosition.LEFT;
     
@@ -57,7 +51,6 @@ public class GraphicalString {
     public void setVerticalPosition(VerticalPosition verticalPosition) {
         this.verticalPosition = verticalPosition;
     }
-    
     
     private Float maximumWidth = null;
     
@@ -94,19 +87,8 @@ public class GraphicalString {
     public void clearMaximumHeight() {
         this.maximumHeight = null;
     }
-    
+
     private Float leading = null;
-    
-    /**
-     * フォントメトリックを取得する。<br>
-     * 元と同じGraphics2Dインスタンスを使用するとLANDSCAPE印刷で異常値を返すバグ(OpenJDK11で確認)が発生する。
-     * 
-     * @return
-     */
-    private FontMetrics getFontMetrics() {
-        this.graphics2DForFontMetrics.setFont(this.graphics2D.getFont());
-        return this.graphics2DForFontMetrics.getFontMetrics();
-    }
     
     /**
      * 行と行との間隔を取得する。
@@ -114,7 +96,7 @@ public class GraphicalString {
      * @return
      */
     public Float getLeading() {
-        float leading = this.getFontMetrics().getLeading();
+        float leading = this.drawContext.createFontMetrics().getLeading();
         if (this.leading != null) {
             leading = this.leading;
         }
@@ -164,15 +146,14 @@ public class GraphicalString {
      */
     private Layout createLayout() {
         List<String> lines = new ArrayList<>();
-        Font font = this.graphics2D.getFont();
+        Font font = this.drawContext.getFont();
         Layout layout = null;
         while (layout == null) {
-            FontMetrics fontMetrics = this.getFontMetrics();
             StringObject stringObject = new StringObject();
             for (int index = 0; index < this.string.length(); index++) {
                 StringObject one = this.string.clone().extract(index, index + 1);
-                Rectangle2D rectangle = fontMetrics.getStringBounds(stringObject.clone().append(one).toString(), this.graphics2D);
-                if (this.isDisabledMultipleLine == false && this.maximumWidth != null && this.maximumWidth < rectangle.getWidth() || one.equals("\n")) {
+                float lineWidth = this.drawContext.measureStringWidth(stringObject.clone().append(one).toString());
+                if (this.isDisabledMultipleLine == false && this.maximumWidth != null && this.maximumWidth < lineWidth || one.equals("\n")) {
                     if (stringObject.length() > 0) {
                         lines.add(stringObject.toString());
                     }
@@ -185,13 +166,14 @@ public class GraphicalString {
             float width = 0;
             float height = 0;
             for (String line: lines) {
-                Rectangle2D rectangle = fontMetrics.getStringBounds(line, this.graphics2D);
-                if (width < rectangle.getWidth()) {
-                    width = (float) rectangle.getWidth();
+                float lineWidth = this.drawContext.measureStringWidth(line);
+                if (width < lineWidth) {
+                    width = lineWidth;
                 }
                 if (height > 0) {
                     height += this.getLeading();
                 }
+                FontMetrics fontMetrics = this.drawContext.createFontMetrics();
                 height += fontMetrics.getHeight() - fontMetrics.getLeading(); 
             }
             boolean isLayout = true;
@@ -209,7 +191,7 @@ public class GraphicalString {
             }
             lines.clear();
             font = font.deriveFont(font.getSize2D() - 0.5f);
-            this.graphics2D.setFont(font);
+            this.drawContext.setFont(font);
         }
         this.lastAutomaticallyAdjustedFont = layout.getFont();
         return layout;
@@ -232,46 +214,46 @@ public class GraphicalString {
      * @return
      */
     public Dimension createDimension() {
-        Font font = this.graphics2D.getFont();
+        Font font = this.drawContext.getFont();
         Layout layout = this.createLayout();
         Dimension dimension = new Dimension(layout.getWidth(), layout.getHeight());
-        this.graphics2D.setFont(font);
+        this.drawContext.setFont(font);
         return dimension;
     }
 
     /**
      * 一行を描画する。
      * 
-     * @param oneLine
+     * @param singleLine
      * @param x
      * @param y
      * @return 描画した文字列のサイズ。
      */
-    private Dimension drawOneLine(String oneLine, float x, float y) {
-        FontMetrics fontMetrics = this.getFontMetrics();
-        Rectangle2D rectangle = fontMetrics.getStringBounds(oneLine, this.graphics2D);
+    private Dimension drawSingleLine(String singleLine, float x, float y) {
+        float lineWidth = this.drawContext.measureStringWidth(singleLine);
         float drawingX = x;
         switch (this.horizontalPosition) {
         case LEFT:
-            this.graphics2D.drawString(oneLine, drawingX, y);
+            this.drawContext.drawSingleLineString(singleLine, drawingX, y);
             break;
         case CENTER:
             if (this.maximumWidth != null) {
                 drawingX += this.maximumWidth / 2;
             }
-            drawingX -= rectangle.getWidth() / 2;
-            this.graphics2D.drawString(oneLine, drawingX, y);
+            drawingX -= lineWidth / 2;
+            this.drawContext.drawSingleLineString(singleLine, drawingX, y);
             break;
         case RIGHT:
             if (this.maximumWidth != null) {
                 drawingX += this.maximumWidth;
             }
-            drawingX -= rectangle.getWidth();
-            this.graphics2D.drawString(oneLine, drawingX, y);
+            drawingX -= lineWidth;
+            this.drawContext.drawSingleLineString(singleLine, drawingX, y);
             break;
         }
-        Dimension dimension = new Dimension((float) rectangle.getWidth(), fontMetrics.getAscent() + fontMetrics.getDescent() + this.getLeading());
-        return dimension;
+        FontMetrics fontMetrics = this.drawContext.createFontMetrics();
+        Dimension result = new Dimension(lineWidth, fontMetrics.getAscent() + fontMetrics.getDescent() + this.getLeading());
+        return result;
     }
     
     /**
@@ -282,16 +264,16 @@ public class GraphicalString {
      * @return 描画した文字列のサイズ。
      */
     public Dimension draw(float x, float y) {
-        Font defaultFont = this.graphics2D.getFont();
+        Font defaultFont = this.drawContext.getFont();
         Layout layout = this.createLayout();
-        FontMetrics fontMetrics = this.getFontMetrics();
         float drawingY = y;
         float drawingX = x;
+        FontMetrics fontMetrics = this.drawContext.createFontMetrics();
         switch (this.verticalPosition) {
         case TOP:
             drawingY += fontMetrics.getAscent();
             for (String line: layout.getLines()) {
-                Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
+                Dimension dimension = this.drawSingleLine(line, drawingX, drawingY);
                 drawingY += dimension.getHeight();
             }
             break;
@@ -302,7 +284,7 @@ public class GraphicalString {
             }
             drawingY -= layout.getHeight() / 2;                
             for (String line: layout.getLines()) {
-                Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
+                Dimension dimension = this.drawSingleLine(line, drawingX, drawingY);
                 drawingY += dimension.getHeight();
             }
             break;
@@ -313,7 +295,7 @@ public class GraphicalString {
             }
             drawingY -= layout.getHeight();
             for (String line: layout.getLines()) {
-                Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
+                Dimension dimension = this.drawSingleLine(line, drawingX, drawingY);
                 drawingY += dimension.getHeight();
             }
             break;
@@ -324,13 +306,13 @@ public class GraphicalString {
             }
             drawingY -= layout.getHeight();
             for (String line: layout.getLines()) {
-                Dimension dimension = this.drawOneLine(line, drawingX, drawingY);
+                Dimension dimension = this.drawSingleLine(line, drawingX, drawingY);
                 drawingY += dimension.getHeight();
             }
             break;
         }
         Dimension dimension = new Dimension(layout.getWidth(), layout.getHeight());
-        this.graphics2D.setFont(defaultFont);
+        this.drawContext.setFont(defaultFont);
         return dimension;
     }
     
@@ -352,16 +334,6 @@ public class GraphicalString {
         this.maximumWidth = defaultMaxWidth;
         this.maximumHeight = defaultMaxHeight;
         return dimension;
-    }
-    
-    /**
-     * このクラスで使用できるGraphics2Dインスタンスを新しく作成する。
-     * 
-     * @return
-     */
-    public static Graphics2D createGraphics2D() {
-        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        return (Graphics2D) image.getGraphics();
     }
     
     /**
