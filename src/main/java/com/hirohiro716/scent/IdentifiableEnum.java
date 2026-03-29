@@ -3,7 +3,7 @@ package com.hirohiro716.scent;
 import java.util.LinkedHashMap;
 
 /**
- * 列挙型を数値(int)で識別可能にするインターフェース。
+ * 列挙型を指定の型で識別可能にするインターフェース。
  *
  * @param <T> IDの型。
  */
