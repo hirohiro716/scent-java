@@ -104,6 +104,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
             chromeOptionsMethod.setParameterTypes(String[].class);
             chromeOptionsMethod.invoke("addArguments", (Object) new String[] {"--password-store=basic"});
             chromeOptionsMethod.invoke("addArguments", (Object) new String[] {"--allow-file-access-from-files"});
+            chromeOptionsMethod.invoke("addArguments", (Object) new String[] {"--disable-web-security"});
             Map<String, Object> chromePrefs = new HashMap<>();
             chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
             chromeOptionsMethod.setParameterTypes(String.class, Object.class);
@@ -118,6 +119,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
             firefoxOptionsMethod.setParameterTypes(String.class, boolean.class);
             firefoxOptionsMethod.invoke("addPreference", "pdfjs.disabled", true);
             firefoxOptionsMethod.invoke("addPreference", "security.fileuri.strict_origin_policy", false);
+            firefoxOptionsMethod.invoke("addPreference", "content.cors.disable", true);
             webDriverConstructor = new Constructor("org.openqa.selenium.firefox.FirefoxDriver");
             webDriver = webDriverConstructor.newInstance(options);
             break;
