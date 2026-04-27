@@ -103,6 +103,15 @@ public class ScrollPane extends Control {
 
     private boolean isTouchScrollStarted = false;
 
+    /**
+     * タッチスクロール中の場合はtrueを返す。
+     * 
+     * @return
+     */
+    public boolean isTouchScrollStarted() {
+        return this.isTouchScrollStarted;
+    }
+
     private int touchStartedX;
 
     private int touchStartedHorizontalScrollBarPosition;
@@ -174,19 +183,19 @@ public class ScrollPane extends Control {
     }
 
     /**
-     * 指定されたラベルにタッチスクロールのイベントハンドラーを追加する。
+     * 指定されたコントロールにタッチスクロールのイベントハンドラーを追加する。
      * 
-     * @param label
+     * @param control
      */
-    private void addTouchScrollEventHandlerToLabel(Label label) {
+    public void addTouchScrollEventHandlerToControl(Control control) {
         ScrollPane scrollPane = this;
-        if (this.touchScrollEventHandlerAddedControls.contains(label)) {
+        if (this.touchScrollEventHandlerAddedControls.contains(control)) {
             return;
         }
-        label.addMousePressedEventHandler(MouseButton.BUTTON1, scrollPane.touchScrollMousePressedEventHandler);
-        label.addMouseDraggedEventHandler(scrollPane.touchScrollMouseDraggedEventHandler);
-        label.addMouseReleasedEventHandler(MouseButton.BUTTON1, scrollPane.touchScrollMouseReleasedEventHandler);
-        scrollPane.touchScrollEventHandlerAddedControls.add(label);
+        control.addMousePressedEventHandler(MouseButton.BUTTON1, scrollPane.touchScrollMousePressedEventHandler);
+        control.addMouseDraggedEventHandler(scrollPane.touchScrollMouseDraggedEventHandler);
+        control.addMouseReleasedEventHandler(MouseButton.BUTTON1, scrollPane.touchScrollMouseReleasedEventHandler);
+        scrollPane.touchScrollEventHandlerAddedControls.add(control);
     }
     
     /**
@@ -205,7 +214,7 @@ public class ScrollPane extends Control {
         scrollPane.touchScrollEventHandlerAddedControls.add(pane);
         for (Control child: pane.getChildren().findAll()) {
             if (child instanceof Label) {
-                this.addTouchScrollEventHandlerToLabel((Label) child);
+                this.addTouchScrollEventHandlerToControl(child);
             }
             if (child instanceof Pane) {
                 this.addTouchScrollEventHandlerToPaen((Pane) child);
