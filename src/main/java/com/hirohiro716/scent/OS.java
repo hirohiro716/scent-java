@@ -1,6 +1,10 @@
 package com.hirohiro716.scent;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hirohiro716.scent.filesystem.Directory;
 
 /**
  * OSに依存する部分を吸収するための列挙型。
@@ -44,6 +48,36 @@ public enum OS {
      */
     public String getFileSeparator() {
         return this.fileSeparator;
+    }
+
+    /**
+     * フォントの保存場所を取得する。
+     * 
+     * @return
+     */
+    public Directory[] getFontDirectories() {
+        List<Directory> directories = new ArrayList<>();
+        switch (this) {
+            case WINDOWS:
+                directories.add(new Directory(System.getenv("LOCALAPPDATA") + "\\Microsoft\\Windows\\Fonts"));
+                directories.add(new Directory(System.getenv("SYSTEMROOT") + "\\Fonts"));
+                break;
+            case MACOS:
+                directories.add(new Directory(System.getProperty("user.home") + "/Library/Fonts"));
+                directories.add(new Directory("/Library/Fonts"));
+                directories.add(new Directory("/System/Library/Fonts"));
+                break;
+            case LINUX:
+                directories.add(new Directory(System.getProperty("user.home") + "/.fonts"));
+                directories.add(new Directory(System.getProperty("user.home") + "/.local/share/fonts"));
+                directories.add(new Directory("/usr/local/share/fonts"));
+                directories.add(new Directory("/usr/share/fonts"));
+                break;
+            case UNKNOWN:
+                break;
+
+        }
+        return directories.toArray(new Directory[] {});
     }
 
     /**

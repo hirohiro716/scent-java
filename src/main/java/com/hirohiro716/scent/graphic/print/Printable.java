@@ -13,6 +13,7 @@ import java.util.List;
 
 import com.hirohiro716.scent.Dimension;
 import com.hirohiro716.scent.graphic.AWTDrawContext;
+import com.hirohiro716.scent.graphic.DrawContext;
 import com.hirohiro716.scent.graphic.LengthUnit;
 import com.hirohiro716.scent.graphic.DrawContext.FontStyle;
 import com.hirohiro716.scent.graphic.GraphicalString.HorizontalPosition;
@@ -23,8 +24,17 @@ import com.hirohiro716.scent.graphic.GraphicalString.VerticalPosition;
  */
 public abstract class Printable implements java.awt.print.Printable {
     
-    private AWTDrawContext drawContext = null;
+    private DrawContext<?> drawContext = null;
     
+    /**
+     * 描画命令を実行するコンテキストインスタンスを取得する。印刷が開始されていない場合はnullを返す。
+     * 
+     * @return
+     */
+    protected DrawContext<?> getDrawContext() {
+        return this.drawContext;
+    }
+
     private PageFormat pageFormat = null;
     
     private int marginTop = 0;
@@ -132,14 +142,20 @@ public abstract class Printable implements java.awt.print.Printable {
     public abstract boolean print(int pageIndex) throws PrinterException;
     
     /**
-     * 描画命令を実行するコンテキストインスタンスを取得する。印刷が開始されていない場合はnullを返す。
+     * 指定された描画コンテキストに指定インデックスにあるページを印刷する。ページが存在しない場合はfalseを返す。
      * 
-     * @return
+     * @param drawContext
+     * @param pageIndex
+     * @return 指定されたページが存在しない場合はfalse、それ以外の場合はtrue。
+     * @throws PrinterException
      */
-    protected AWTDrawContext getAWTDrawContext() {
-        return this.drawContext;
+    public boolean print(DrawContext<?> drawContext, int pageIndex) throws PrinterException {
+        this.drawContext = drawContext;
+        boolean result = this.print(pageIndex);
+        this.drawContext = null;
+        return result;
     }
-
+    
     /**
      * 印刷時に指定されたページ形式を取得する。
      * 

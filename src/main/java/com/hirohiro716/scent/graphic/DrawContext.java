@@ -411,7 +411,6 @@ public abstract class DrawContext<I> {
         this.setStrokeWidth(this.innerInstance, this.unit.toPoint(width));
     }
 
-
     /**
      * 描画に使用する線を破線に設定する。
      * 
