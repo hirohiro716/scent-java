@@ -103,15 +103,6 @@ public class ScrollPane extends Control {
 
     private boolean isTouchScrollStarted = false;
 
-    /**
-     * タッチスクロール中の場合はtrueを返す。
-     * 
-     * @return
-     */
-    public boolean isTouchScrollStarted() {
-        return this.isTouchScrollStarted;
-    }
-
     private int touchStartedX;
 
     private int touchStartedHorizontalScrollBarPosition;
@@ -119,6 +110,17 @@ public class ScrollPane extends Control {
     private int touchStartedY;
 
     private int touchStartedVerticalScrollBarPosition;
+
+    private boolean isTouchScrolled = false;
+
+    /**
+     * タッチスクロールした場合はtrueを返す。
+     * 
+     * @return
+     */
+    public boolean isTouchScrolled() {
+        return this.isTouchScrolled;
+    }
 
     private List<Control> touchScrollEventHandlerAddedControls = new ArrayList<>();
     
@@ -133,6 +135,7 @@ public class ScrollPane extends Control {
             if (scrollPane.isTouchScrollStarted) {
                 return;
             }
+            scrollPane.isTouchScrolled = false;
             scrollPane.isTouchScrollStarted = true;
             scrollPane.touchStartedX = event.getScreenX();
             scrollPane.touchStartedHorizontalScrollBarPosition = scrollPane.getHorizontalScrollBar().getScrollPosition();
@@ -152,6 +155,7 @@ public class ScrollPane extends Control {
             if (scrollPane.isTouchScrollDisabled || scrollPane.isTouchScrollStarted == false) {
                 return;
             }
+            scrollPane.isTouchScrolled = true;
             scrollPane.getHorizontalScrollBar().setScrollPosition(scrollPane.touchStartedHorizontalScrollBarPosition + (scrollPane.touchStartedX - event.getScreenX()) * 2);
             scrollPane.getVerticalScrollBar().setScrollPosition(scrollPane.touchStartedVerticalScrollBarPosition + (scrollPane.touchStartedY - event.getScreenY()) * 2);
         }
