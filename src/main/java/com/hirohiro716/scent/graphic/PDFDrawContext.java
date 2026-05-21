@@ -134,8 +134,9 @@ public class PDFDrawContext extends DrawContext<PDFDrawContext.PDFCreator> {
      * @throws PrinterException 
      */
     public void drawPrintable(Printable printable) throws PrinterException {
+        AWTDrawContext awtDrawContext = new AWTDrawContext(AWTDrawContext.createGraphics2D());
         int maximumPageNumber = 0;
-        while (printable.print(this, maximumPageNumber)) {
+        while (printable.print(awtDrawContext, maximumPageNumber)) {
             maximumPageNumber++;
         }
         for (int pageIndex = 0; pageIndex < maximumPageNumber; pageIndex++) {
@@ -340,11 +341,21 @@ public class PDFDrawContext extends DrawContext<PDFDrawContext.PDFCreator> {
                     this.classPDPageContentStream.getMethod("close").invoke(this.pdPageContentStream);
                 }
                 float pageWidth = LengthUnit.MILLIMETER.toPoint(this.pageSize.getWidth());
-                this.pageHeight = LengthUnit.MILLIMETER.toPoint(this.pageSize.getHeight());;
+                this.pageHeight = LengthUnit.MILLIMETER.toPoint(this.pageSize.getHeight());
                 Object pdRectangle = this.classPDRectangle.getConstructor(float.class, float.class).newInstance(pageWidth, this.pageHeight);
                 this.pdPage = this.classPDPage.getConstructor(classPDRectangle).newInstance(pdRectangle);
                 this.pdPageContentStream = this.classPDPageContentStream.getConstructor(this.classPDDocument, this.classPDPage).newInstance(this.pdDocument, this.pdPage);
                 this.classPDDocument.getMethod("addPage", this.classPDPage).invoke(this.pdDocument, this.pdPage);
+                if (this.scaleMatrix != null) {
+                    this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, this.scaleMatrix);
+                }
+                if (this.rotateMatrix1 != null && this.rotateMatrix2 != null) {
+                    this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, this.rotateMatrix1);
+                    this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, this.rotateMatrix2);
+                }
+                if (this.translateMatrix != null) {
+                    this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, this.translateMatrix);
+                }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -763,6 +774,8 @@ public class PDFDrawContext extends DrawContext<PDFDrawContext.PDFCreator> {
 
         private Class<?> classMatrix = this.loadClass("org.apache.pdfbox.util.Matrix");
 
+        private Object scaleMatrix = null;
+
         /**
          * 横方向と縦方向の倍率を指定して以後の描画をスケーリング(拡大縮小)して行うよう設定する。
          * 
@@ -771,12 +784,16 @@ public class PDFDrawContext extends DrawContext<PDFDrawContext.PDFCreator> {
          */
         public void setScale(float scaleX, float scaleY) {
             try {
-                Object matrix = this.classMatrix.getMethod("getScaleInstance", float.class, float.class).invoke(null, scaleX, scaleY);
-                this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, matrix);
+                this.scaleMatrix = this.classMatrix.getMethod("getScaleInstance", float.class, float.class).invoke(null, scaleX, scaleY);
+                this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, this.scaleMatrix);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
+
+        private Object rotateMatrix1 = null;
+
+        private Object rotateMatrix2 = null;
 
         /**
          * 角度と回転の中心を指定して以後の描画を回転して行うよう設定する。
@@ -787,14 +804,16 @@ public class PDFDrawContext extends DrawContext<PDFDrawContext.PDFCreator> {
          */
         protected void setRotate(int angle, float x, float y) {
             try {
-                Object rotateMatrix = this.classMatrix.getMethod("getRotateInstance", double.class, float.class, float.class).invoke(null, Math.toRadians(angle * -1), x, this.pageHeight - y);
-                this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, rotateMatrix);
-                Object translateMatrix = this.classMatrix.getMethod("getTranslateInstance", float.class, float.class).invoke(null, 0, this.pageHeight * -1);
-                this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, translateMatrix);
+                this.rotateMatrix1 = this.classMatrix.getMethod("getRotateInstance", double.class, float.class, float.class).invoke(null, Math.toRadians(angle * -1), x, this.pageHeight - y);
+                this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, this.rotateMatrix1);
+                this.rotateMatrix2 = this.classMatrix.getMethod("getTranslateInstance", float.class, float.class).invoke(null, 0, this.pageHeight * -1);
+                this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, this.rotateMatrix2);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
+
+        private Object translateMatrix = null;
 
         /**
          * 横方向と縦方向の位置を指定して以後の描画を移動して行うよう設定する。
@@ -804,8 +823,8 @@ public class PDFDrawContext extends DrawContext<PDFDrawContext.PDFCreator> {
          */
         public void setTranslate(float x, float y) {
             try {
-                Object matrix = this.classMatrix.getMethod("getTranslateInstance", float.class, float.class).invoke(null, x, y * -1);
-                this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, matrix);
+                this.translateMatrix = this.classMatrix.getMethod("getTranslateInstance", float.class, float.class).invoke(null, x, y * -1);
+                this.classPDPageContentStream.getMethod("transform", this.classMatrix).invoke(this.pdPageContentStream, this.translateMatrix);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
