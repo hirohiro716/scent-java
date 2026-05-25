@@ -26,7 +26,7 @@ public class Directory extends FilesystemItem {
      */
     public Directory(java.io.File file) throws IllegalArgumentException {
         super(file);
-        if (this.toJavaIoFile().exists() && this.isDirectory() == false) {
+        if (this.toJavaIoFile().exists() && this.toJavaIoFile().canRead() && this.isDirectory() == false) {
             throw new IllegalArgumentException("Argument must be directory:" + this.getPath());
         }
     }
@@ -64,7 +64,7 @@ public class Directory extends FilesystemItem {
     
     @Override
     public boolean exists() {
-        return this.toJavaIoFile().exists() && this.isDirectory();
+        return this.toJavaIoFile().exists() && this.toJavaIoFile().canRead() && this.isDirectory();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class Directory extends FilesystemItem {
      */
     private List<FilesystemItem> searchItems(java.io.File directory, String regexToFilterDirectoryName, String regexToFilterFileName) {
         List<FilesystemItem> items = new ArrayList<>();
-        if (directory.exists()) {
+        if (directory.exists() && directory.canRead()) {
             for (java.io.File file: directory.listFiles()) {
                 if (file.isDirectory() && file.getName().matches(regexToFilterDirectoryName)) {
                     items.add(new Directory(file));
