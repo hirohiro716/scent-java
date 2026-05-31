@@ -17,6 +17,8 @@ import java.util.Map;
 
 import com.hirohiro716.scent.IdentifiableEnum;
 import com.hirohiro716.scent.StringObject;
+import com.hirohiro716.scent.filesystem.File;
+import com.hirohiro716.scent.filesystem.FileExtension;
 
 /**
  * WEBサイトへリクエストするクラス。
@@ -203,23 +205,30 @@ public class WebsiteRequester {
                         streamWriter.flush();
                         continue;
                     }
+                    if (parameter instanceof File) {
+                        File file = (File) parameter;
+                        FileExtension fileExtension = FileExtension.fromFileName(file.getAbsolutePath());
+                        if (fileExtension != null) {
+                            parameter = new SendableFile(file.getAbsolutePath(), fileExtension.getContentType());
+                        }
+                    }
                     if (parameter instanceof SendableFile) {
-                        SendableFile file = (SendableFile) parameter;
+                        SendableFile sendableFile = (SendableFile) parameter;
                         streamWriter.append("--");
                         streamWriter.append(boundary.toString());
                         streamWriter.append("\r\n");
                         streamWriter.append("Content-Disposition: form-data; name=\"");
                         streamWriter.append(key);
                         streamWriter.append("\"; filename=\"");
-                        streamWriter.append(file.getName());
+                        streamWriter.append(sendableFile.getName());
                         streamWriter.append("\"");
                         streamWriter.append("\r\n");
                         streamWriter.append("Content-Type: ");
-                        streamWriter.append(file.getContentType());
+                        streamWriter.append(sendableFile.getContentType());
                         streamWriter.append("\r\n");
                         streamWriter.append("\r\n");
                         streamWriter.flush();
-                        try (FileInputStream fileInputStream = new FileInputStream(file.toJavaIoFile())) {
+                        try (FileInputStream fileInputStream = new FileInputStream(sendableFile.toJavaIoFile())) {
                             byte[] buffer = new byte[4096];
                             int bytesRead;
                             while ((bytesRead = fileInputStream.read(buffer)) != -1) {
