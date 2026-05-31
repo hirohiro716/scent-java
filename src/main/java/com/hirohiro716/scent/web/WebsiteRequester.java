@@ -1,13 +1,16 @@
 package com.hirohiro716.scent.web;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -114,10 +117,10 @@ public class WebsiteRequester {
         this.method = method;
     }
 
-    private String contentType = null;
+    private String contentType = "application/x-www-form-urlencoded";
 
     /**
-     * リクエストの"content-type"を取得する。
+     * リクエストのContent-Typeを取得する。
      * 
      * @return
      */
@@ -126,14 +129,127 @@ public class WebsiteRequester {
     }
 
     /**
-     * リクエストの"content-type"を設定する。初期値は"application/x-www-form-urlencoded"。<br>
+     * リクエストのContent-Typeを設定する。初期値は"application/x-www-form-urlencoded"。
      * 
      * @param contentType "application/json"や"application/x-www-form-urlencoded"など。
      */
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
-    
+
+    /**
+     * 送信するURLに対してパラメーターを指定してリクエストを送信し、その結果を取得する。
+     * 
+     * @param requestParameters
+     * @return
+     * @throws IOException
+     */
+    private Response multipartRequest(Map<String, Object> requestParameters) throws IOException {
+        URL url = new URL(this.url);
+        CookieHandler.setDefault(WebsiteRequester.cookieManager);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setConnectTimeout(this.connectTimeoutMillisecond);
+        connection.setReadTimeout(this.requestTimeoutMillisecond);
+        connection.setRequestMethod(this.method.getID().toUpperCase());
+        StringObject contentType = new StringObject();
+        StringObject charset = new StringObject();
+        StringObject boundary = new StringObject();
+        for (String part: StringObject.newInstance(this.contentType).split(";")) {
+            if (part.trim().startsWith("charset=")) {
+                charset.append(part);
+                charset.trim();
+                charset.replace("charset=", "");
+                continue;
+            }
+            if (part.trim().startsWith("boundary=")) {
+                boundary.append(part);
+                boundary.trim();
+                boundary.replace("boundary=", "");
+                continue;
+            }
+            if (contentType.length() > 0) {
+                contentType.append("; ");
+            }
+            contentType.append(part);
+        }
+        if (charset.length() == 0) {
+            charset.append(this.charsetName);
+        }
+        contentType.append("; charset=");
+        contentType.append(charset);
+        if (boundary.length() == 0) {
+            boundary.append("hirohiro716-boundary");
+        }
+        contentType.append("; boundary=");
+        contentType.append(boundary);
+        connection.addRequestProperty("Content-Type", contentType.toString());
+        connection.setDoInput(true);
+        connection.setDoOutput(true);
+        try (OutputStream outputStream = connection.getOutputStream()) {
+            try (OutputStreamWriter streamWriter = new OutputStreamWriter(outputStream, "UTF-8")) {
+                for (String key: requestParameters.keySet()) {
+                    Object parameter = requestParameters.get(key);
+                    if (parameter instanceof String || parameter instanceof Integer || parameter instanceof Long || parameter instanceof Float || parameter instanceof Double || parameter instanceof Boolean) {
+                        streamWriter.append("--");
+                        streamWriter.append(boundary.toString());
+                        streamWriter.append("\r\n");
+                        streamWriter.append("Content-Disposition: form-data; name=\"");
+                        streamWriter.append(key);
+                        streamWriter.append("\"");
+                        streamWriter.append("\r\n");
+                        streamWriter.append("\r\n");
+                        streamWriter.append(String.valueOf(parameter));
+                        streamWriter.append("\r\n");
+                        streamWriter.flush();
+                        continue;
+                    }
+                    if (parameter instanceof SendableFile) {
+                        SendableFile file = (SendableFile) parameter;
+                        streamWriter.append("--");
+                        streamWriter.append(boundary.toString());
+                        streamWriter.append("\r\n");
+                        streamWriter.append("Content-Disposition: form-data; name=\"");
+                        streamWriter.append(key);
+                        streamWriter.append("\"; filename=\"");
+                        streamWriter.append(file.getName());
+                        streamWriter.append("\"");
+                        streamWriter.append("\r\n");
+                        streamWriter.append("Content-Type: ");
+                        streamWriter.append(file.getContentType());
+                        streamWriter.append("\r\n");
+                        streamWriter.append("\r\n");
+                        streamWriter.flush();
+                        try (FileInputStream fileInputStream = new FileInputStream(file.toJavaIoFile())) {
+                            byte[] buffer = new byte[4096];
+                            int bytesRead;
+                            while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                                outputStream.write(buffer, 0, bytesRead);
+                            }
+                            outputStream.flush();
+                        }
+                        streamWriter.append("\r\n");
+                        streamWriter.flush();
+                        continue;
+                    }
+                    throw new IOException("The only parameters that can be sent are \"String\" or \"SendableFile\".");
+                }
+                streamWriter.append("--");
+                streamWriter.append(boundary.toString());
+                streamWriter.append("--");
+                streamWriter.append("\r\n");
+                streamWriter.flush();
+            }
+        }
+        int code = connection.getResponseCode();
+        InputStream inputStream = null;
+        if (code < 400) {
+            inputStream = connection.getInputStream();
+        } else {
+            inputStream = connection.getErrorStream();
+        }
+        return new Response(code, inputStream, this.charsetName);
+    }
+
     /**
      * 送信するURLに対して本文を指定してリクエストを送信し、その結果を取得する。
      * 
@@ -148,14 +264,25 @@ public class WebsiteRequester {
         connection.setConnectTimeout(this.connectTimeoutMillisecond);
         connection.setReadTimeout(this.requestTimeoutMillisecond);
         connection.setRequestMethod(this.method.getID().toUpperCase());
-        StringObject contentType = new StringObject(this.contentType);
-        if (contentType.clone().lower().toString().contains("charset") == false) {
+        StringObject contentType = new StringObject();
+        StringObject charset = new StringObject();
+        for (String part: StringObject.newInstance(this.contentType).split(";")) {
+            if (part.trim().startsWith("charset=")) {
+                charset.append(part);
+                charset.trim();
+                charset.replace("charset=", "");
+                continue;
+            }
             if (contentType.length() > 0) {
                 contentType.append("; ");
             }
-            contentType.append("charset=");
-            contentType.append(this.charsetName);
+            contentType.append(part);
         }
+        if (charset.length() == 0) {
+            charset.append(this.charsetName);
+        }
+        contentType.append("; charset=");
+        contentType.append(charset);
         connection.addRequestProperty("Content-Type", contentType.toString());
         connection.setDoInput(true);
         StringObject bodyStringObject = new StringObject(body);
@@ -206,15 +333,21 @@ public class WebsiteRequester {
      * @return
      * @throws IOException
      */
-    public Response request(Map<String, String> requestParameters) throws IOException {
+    public Response request(Map<String, Object> requestParameters) throws IOException {
+        if (StringObject.newInstance(this.contentType).toString().contains("multipart/form-data")) {
+            return this.multipartRequest(requestParameters);
+        }
         StringObject parameters = new StringObject();
         for (String key: requestParameters.keySet()) {
-            if (parameters.length() > 0) {
-                parameters.append("&");
+            Object parameter = requestParameters.get(key);
+            if (parameter instanceof String) {
+                if (parameters.length() > 0) {
+                    parameters.append("&");
+                }
+                parameters.append(URLEncoder.encode(key, "UTF-8"));
+                parameters.append("=");
+                parameters.append(URLEncoder.encode((String) parameter, "UTF-8"));
             }
-            parameters.append(URLEncoder.encode(key, "UTF-8"));
-            parameters.append("=");
-            parameters.append(URLEncoder.encode(requestParameters.get(key), "UTF-8"));
         }
         switch (this.method) {
             case GET:
@@ -283,6 +416,56 @@ public class WebsiteRequester {
          */
         public static Method enumOf(String id) {
             return IdentifiableEnum.enumOf(id, Method.class);
+        }
+    }
+
+    /**
+     * 送信ファイルのクラス。
+     */
+    public static class SendableFile extends com.hirohiro716.scent.filesystem.File {
+
+        /**
+         * コンストラクタ。<br>
+         * 指定されたパスとContent-Typeで新しいインスタンスを作成する。
+         * 
+         * @param location
+         * @param contentType "image/jpeg"、"image/png"、"text/csv"、"application/pdf"など。
+         */
+        public SendableFile(String location, String contentType) {
+            super(location);
+            this.contentType = contentType;
+        }
+
+        /**
+         * コンストラクタ。
+         * 指定されたファイルのURIとContent-Typeで新しいインスタンスを作成する。
+         * 
+         * @param uri
+         * @param contentType "image/jpeg"、"image/png"、"text/csv"、"application/pdf"など。
+         */
+        public SendableFile(URI uri, String contentType) {
+            super(uri);
+            this.contentType = contentType;
+        }
+
+        private String contentType;
+
+        /**
+         * ファイルのContent-Typeを取得する。
+         * 
+         * @return
+         */
+        public String getContentType() {
+            return this.contentType;
+        }
+
+        /**
+         * ファイルのContent-Typeを設定する。
+         * 
+         * @param contentType "image/jpeg"、"image/png"、"text/csv"、"application/pdf"など。
+         */
+        public void setContentType(String contentType) {
+            this.contentType = contentType;
         }
     }
 
