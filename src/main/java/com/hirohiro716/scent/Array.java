@@ -1,6 +1,7 @@
 package com.hirohiro716.scent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -127,5 +128,65 @@ public class Array<T> implements Iterable<T> {
                 return value;
             }
         };
+    }
+
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param value 値を要素として含んだインスタンスを生成する。
+     * @return 新しいインスタンス。
+     */
+    public static <T> Array<T> newInstance(T value) {
+        return new Array<>(value);
+    }
+
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param value 配列の要素を含んだインスタンスを生成する。
+     * @return 新しいインスタンス。
+     */
+    public static <T> Array<T> newInstance(T[] values) {
+        return new Array<>(values);
+    }
+
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param value コレクションの要素を含んだインスタンスを生成する。
+     * @return 新しいインスタンス。
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> Array<T> newInstance(T[]... values) {
+        List<T> allValues = new ArrayList<>();
+        for (T[] array: values) {
+            allValues.addAll(Arrays.asList(array));
+        }
+        return new Array<>(allValues);
+    }
+    
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param value コレクションの要素を含んだインスタンスを生成する。
+     * @return 新しいインスタンス。
+     */
+    public static <T> Array<T> newInstance(Collection<T> values) {
+        return new Array<>(values);
+    }
+
+    /**
+     * このメソッドはコンストラクタの呼び出しと同じで、新しいインスタンスを作成する。
+     * 
+     * @param value コレクションの要素を含んだインスタンスを生成する。
+     * @return 新しいインスタンス。
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> Array<T> newInstance(Collection<T>... values) {
+        List<T> allValues = new ArrayList<>();
+        for (Collection<T> collection: values) {
+            allValues.addAll(collection);
+        }
+        return new Array<>(allValues);
     }
 }

@@ -1,5 +1,7 @@
 package com.hirohiro716.scent.datetime;
 
+import java.util.Date;
+
 import com.hirohiro716.scent.StringObject;
 
 /**
@@ -16,6 +18,17 @@ public class Span {
     public Span(Datetime startDatetime, Datetime endDatetime) {
         this.startDatetime = startDatetime;
         this.endDatetime =  endDatetime;
+    }
+    
+    /**
+     * コンストラクタ。
+     * 
+     * @param startDate
+     * @param endDate
+     */
+    public Span(Date startDate, Date endDate) {
+        this.startDatetime = new Datetime(startDate);
+        this.endDatetime = new Datetime(endDate);
     }
     
     Datetime startDatetime;
