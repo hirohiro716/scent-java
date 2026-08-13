@@ -279,7 +279,22 @@ public class DatePicker extends TextField {
             try {
                 datetime.modifyMonth(StringObject.newInstance(values[0]).toInteger());
                 datetime.modifyDay(StringObject.newInstance(values[1]).toInteger());
-                return datetime;
+                Datetime lastYearsDate = datetime.clone();
+                lastYearsDate.addYear(-1);
+                Datetime nextYearsDate = datetime.clone();
+                nextYearsDate.addYear(1);
+                long limit = (long) 1000 * 60 * 60 * 24 * 90;
+                Datetime nearyDate = datetime;
+                for (Datetime date: new Datetime[] {lastYearsDate, nextYearsDate}) {
+                    long span = Math.abs(date.getAllMilliSecond() - Datetime.newInstance().getAllMilliSecond());
+                    if (Math.abs(nearyDate.getAllMilliSecond() - Datetime.newInstance().getAllMilliSecond()) > span) {
+                        if (span < limit) {
+                            nearyDate = date;
+                            break;
+                        }
+                    }
+                }
+                return nearyDate;
             } catch (Exception exception) {
             }
             break;
