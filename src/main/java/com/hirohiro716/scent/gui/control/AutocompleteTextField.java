@@ -84,8 +84,8 @@ public class AutocompleteTextField extends TextField {
             }
         });
         this.addKeyPressedEventHandler(new KeyPressedEventHandler());
-        this.KeyTypedEventHandler = new KeyTypedEventHandler();
-        this.addKeyTypedEventHandler(this.KeyTypedEventHandler);
+        this.keyTypedEventHandler = new KeyTypedEventHandler();
+        this.addKeyTypedEventHandler(this.keyTypedEventHandler);
         // Measures that the pop-up remains displayed for some reason
         this.listView.addMouseMovedEventHandler(new EventHandler<MouseEvent>() {
 
@@ -128,7 +128,7 @@ public class AutocompleteTextField extends TextField {
         this.setListItems(listItems);
     }
     
-    private KeyTypedEventHandler KeyTypedEventHandler;
+    private KeyTypedEventHandler keyTypedEventHandler;
 
     @Override
     public void setEditable(boolean isEditable) {
@@ -164,14 +164,14 @@ public class AutocompleteTextField extends TextField {
                     
                     @Override
                     public void keyPressed(java.awt.event.KeyEvent event) {
-                        if (event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && textField.KeyTypedEventHandler.isDisabled() == false) {
+                        if (event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && textField.keyTypedEventHandler.isDisabled() == false) {
                             this.isPressed = true;
                         }
                     }
 
                     @Override
                     public void keyReleased(java.awt.event.KeyEvent event) {
-                        if (event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && textField.KeyTypedEventHandler.isDisabled() == false && this.isPressed) {
+                        if (event.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && textField.keyTypedEventHandler.isDisabled() == false && this.isPressed) {
                             eventHandler.executeWhenControlEnabled(new ActionEvent(textField, event));
                         }
                         this.isPressed = false;
@@ -365,7 +365,7 @@ public class AutocompleteTextField extends TextField {
                 switch (event.getKeyCode()) {
                 case ENTER:
                     if (control.listView.getSelectedItem() != null) {
-                        control.KeyTypedEventHandler.setDisabled(true);
+                        control.keyTypedEventHandler.setDisabled(true);
                         control.setText(control.listView.getSelectedItem());
                         control.listView.clearSelection();
                     }
@@ -483,7 +483,7 @@ public class AutocompleteTextField extends TextField {
         protected void handle(KeyEvent event) {
             AutocompleteTextField control = AutocompleteTextField.this;
             control.pressedKeyCode = event.getKeyCode();
-            control.KeyTypedEventHandler.setDisabled(false);
+            control.keyTypedEventHandler.setDisabled(false);
             if (event.isShiftDown() || event.isControlDown() || event.isAltDown()) {
                 return;
             }
