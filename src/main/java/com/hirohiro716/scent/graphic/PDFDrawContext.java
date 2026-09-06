@@ -525,7 +525,7 @@ public class PDFDrawContext extends DrawContext<PDFDrawContext.PDFCreator> {
          */
         public void clearStrokeDashArray(PDFCreator pdfCreator) {
             try {
-                this.classPDPageContentStream.getMethod("setLineDashPattern", float[].class, float.class).invoke(this.pdPageContentStream, null, 0);
+                this.classPDPageContentStream.getMethod("setLineDashPattern", float[].class, float.class).invoke(this.pdPageContentStream, new float[] {}, 0);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
