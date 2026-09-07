@@ -3,11 +3,15 @@ package com.hirohiro716.scent.gui.control;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.hirohiro716.scent.RoundNumber;
+import com.hirohiro716.scent.StringObject;
 import com.hirohiro716.scent.gui.HorizontalAlignment;
 import com.hirohiro716.scent.gui.event.ActionEvent;
 import com.hirohiro716.scent.gui.event.EventHandler;
@@ -27,7 +31,70 @@ public class TextField extends TextInputControl {
     protected TextField(JTextField innerInstance) {
         super(innerInstance);
         this.addLimitByRegex(Pattern.compile("(\n|\r)"), true);
+        this.addActionEventHandler(new EventHandler<ActionEvent>() {
+
+            @Override
+            protected void handle(ActionEvent event) {
+                TextField textField = TextField.this;
+                if (textField.isFormulaEvaluatable() == false) {
+                    return;
+                }
+                String formula = StringObject.newInstance(textField.getText()).toString();
+                if (formula.matches("^[0-9.+\\-*/ ]{3,}$") == false) {
+                    return;
+                }
+                StringObject operators = StringObject.newInstance(formula).extract("[+\\-*/]");
+                String[] stringValues = StringObject.newInstance(formula).split("[+\\-*/]");
+                if (operators.length() == 0 || operators.length() != stringValues.length - 1) {
+                    return;
+                }
+                List<Double> values = new ArrayList<>();
+                for (String stringValue: stringValues) {
+                    Double value = StringObject.newInstance(stringValue).replace(" ", "").toDouble();
+                    if (value == null) {
+                        return;
+                    }
+                    values.add(value);
+                }
+                for (Integer index = 0; index < operators.length(); index++) {
+                    String operator = operators.clone().extract(index, index + 1).toString();
+                    Double result = null;
+                    switch (operator) {
+                        case "*":
+                            result = values.get(index) * values.get(index + 1);
+                            break;
+                        case "/":
+                            result = values.get(index) / values.get(index + 1);
+                            break;
+                    }
+                    if (result != null) {
+                        values.set(index, result);
+                        values.remove(index + 1);
+                        StringObject originalOperators = operators.clone();
+                        operators.set(originalOperators.clone().extract(0, index));
+                        operators.append(originalOperators.clone().extract(index + 1));
+                        index--;
+                    }
+                }
+                double result = values.get(0);
+                for (Integer index = 0; index < operators.length(); index++) {
+                    String operator = operators.clone().extract(index, index + 1).toString();
+                    switch (operator) {
+                        case "+":
+                            result += values.get(index + 1);
+                            break;
+                        case "-":
+                            result -= values.get(index + 1);
+                            break;
+                    }
+                }
+                textField.setText(StringObject.newInstance(textField.formulaRoundNumber.calculate(result, textField.formulaRoundingDigit)).removeMeaninglessDecimalPoint().toString());
+                textField.isFormulaEvaluated = true;
+            }
+        });
     }
+
+    private boolean isFormulaEvaluated = false;
     
     /**
      * コンストラクタ。<br>
@@ -79,6 +146,66 @@ public class TextField extends TextInputControl {
             break;
         }
     }
+
+    private boolean isFormulaEvaluatable = false;
+
+    /**
+     * このコントロールで計算式の評価が可能な場合はtrueを返す。
+     * 
+     * @return
+     */
+    public boolean isFormulaEvaluatable() {
+        return this.isFormulaEvaluatable;
+    }
+    
+    /**
+     * このコントロールで計算式の評価を可能にする場合はtrueをセットする。初期値はfalse。
+     * 
+     * @param isFormulaEvaluatable
+     */
+    public void setFormulaEvaluatable(boolean isFormulaEvaluatable) {
+        this.isFormulaEvaluatable = isFormulaEvaluatable;
+    }
+    
+    private RoundNumber formulaRoundNumber = RoundNumber.ROUND;
+
+    /**
+     * このコントロールで計算式の評価に使用する端数処理の列挙型を取得する。
+     * 
+     * @return
+     */
+    public RoundNumber getFormulaRoundNumber() {
+        return this.formulaRoundNumber;
+    }
+    
+    /**
+     * このコントロールで計算式の評価に使用する端数処理の列挙型をセットする。初期値は四捨五入。
+     * 
+     * @param roundNumber
+     */
+    public void setFormulaRoundNumber(RoundNumber roundNumber) {
+        this.formulaRoundNumber = roundNumber;
+    }
+    
+    private int formulaRoundingDigit = 0;
+
+    /**
+     * このコントロールで計算式の評価に使用する端数処理の桁数を取得する。
+     * 
+     * @return
+     */
+    public int getFormulaRoundingDigit() {
+        return this.formulaRoundingDigit;
+    }
+
+    /**
+     * このコントロールで計算式の評価に使用する端数処理の桁数をセットする。初期値は0。
+     * 
+     * @param digit
+     */
+    public void setFormulaRoundingDigit(int digit) {
+        this.formulaRoundingDigit = digit;
+    }
     
     /**
      * このテキストフィールドでEnterキーが押された際のイベントハンドラを追加する。
@@ -99,13 +226,16 @@ public class TextField extends TextInputControl {
                     public void keyPressed(KeyEvent event) {
                         if (event.getKeyCode() == KeyEvent.VK_ENTER) {
                             this.isPressed = true;
+                            textField.isFormulaEvaluated = false;
                         }
                     }
 
                     @Override
                     public void keyReleased(KeyEvent event) {
                         if (event.getKeyCode() == KeyEvent.VK_ENTER && this.isPressed) {
-                            eventHandler.executeWhenControlEnabled(new ActionEvent(textField, event));
+                            if (textField.isFormulaEvaluated == false) {
+                                eventHandler.executeWhenControlEnabled(new ActionEvent(textField, event));
+                            }
                         }
                         this.isPressed = false;
                     }
