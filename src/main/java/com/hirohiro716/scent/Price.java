@@ -131,7 +131,7 @@ public class Price {
         return new Price(roundNumber, amount);
     }
 
-    private static final int LENGTH = 10;
+    private static final int LENGTH = 9;
     
     /**
      * 価格の最大文字数を取得する。
