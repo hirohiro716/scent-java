@@ -83,7 +83,7 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
     private Class<?> classWebDriver = this.loadClass("org.openqa.selenium.WebDriver");
     
     private Object webDriver;
-    
+
     /**
      * 指定されたタイプのWEBドライバーを作成する。
      * 
@@ -100,6 +100,8 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         case CHROME:
             optionConstructor = new Constructor("org.openqa.selenium.chrome.ChromeOptions");
             options = optionConstructor.newInstance();
+            Method chromeParentOptionsMethod = new Method(this.loadClass("org.openqa.selenium.MutableCapabilities"), options);
+            chromeParentOptionsMethod.invoke("setCapability", "pageLoadStrategy", "eager");
             Method chromeOptionsMethod = new Method(this.loadClass("org.openqa.selenium.chrome.ChromeOptions"), options);
             chromeOptionsMethod.setParameterTypes(String[].class);
             chromeOptionsMethod.invoke("addArguments", (Object) new String[] {"--password-store=basic"});
@@ -115,6 +117,8 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
         case FIREFOX:
             optionConstructor = new Constructor("org.openqa.selenium.firefox.FirefoxOptions");
             options = optionConstructor.newInstance();
+            Method firefoxParentOptionsMethod = new Method(this.loadClass("org.openqa.selenium.MutableCapabilities"), options);
+            firefoxParentOptionsMethod.invoke("setCapability", "pageLoadStrategy", "eager");
             Method firefoxOptionsMethod = new Method(this.loadClass("org.openqa.selenium.firefox.FirefoxOptions"), options);
             firefoxOptionsMethod.setParameterTypes(String.class, boolean.class);
             firefoxOptionsMethod.invoke("addPreference", "pdfjs.disabled", true);
@@ -124,16 +128,20 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
             webDriver = webDriverConstructor.newInstance(options);
             break;
         case EDGE:
+            optionConstructor = new Constructor("org.openqa.selenium.edge.EdgeOptions");
+            options = optionConstructor.newInstance();
+            Method edgeParentOptionsMethod = new Method(this.loadClass("org.openqa.selenium.MutableCapabilities"), options);
+            edgeParentOptionsMethod.invoke("setCapability", "pageLoadStrategy", "eager");
             webDriverConstructor = new Constructor("org.openqa.selenium.edge.EdgeDriver");
-            webDriver = webDriverConstructor.newInstance();
-            break;
-        case OPERA:
-            webDriverConstructor = new Constructor("org.openqa.selenium.opera.OperaDriver");
-            webDriver = webDriverConstructor.newInstance();
+            webDriver = webDriverConstructor.newInstance(options);
             break;
         case SAFARI:
+            optionConstructor = new Constructor("org.openqa.selenium.safari.SafariOptions");
+            options = optionConstructor.newInstance();
+            Method safariParentOptionsMethod = new Method(this.loadClass("org.openqa.selenium.MutableCapabilities"), options);
+            safariParentOptionsMethod.invoke("setCapability", "pageLoadStrategy", "eager");
             webDriverConstructor = new Constructor("org.openqa.selenium.safari.SafariDriver");
-            webDriver = webDriverConstructor.newInstance();
+            webDriver = webDriverConstructor.newInstance(options);
             break;
         }
         return webDriver;
@@ -669,10 +677,6 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
          */
         FIREFOX("gecko", "Mozilla Firefox", "webdriver.gecko.driver"),
         /**
-         * Opera。
-         */
-        OPERA("opera", "Opera", "webdriver.opera.driver"),
-        /**
          * Microsoft Edge。
          */
         EDGE("edge", "Microsoft Edge", "webdriver.edge.driver"),
@@ -737,9 +741,6 @@ public class ModernWebBrowser extends WebBrowser<ModernWebBrowser.Element> {
             }
             if (absolutePath.toString().toLowerCase().indexOf("gecko") > -1) {
                 return Type.FIREFOX;
-            }
-            if (absolutePath.toString().toLowerCase().indexOf("opera") > -1) {
-                return Type.OPERA;
             }
             if (absolutePath.toString().toLowerCase().indexOf("edge") > -1) {
                 return Type.EDGE;
